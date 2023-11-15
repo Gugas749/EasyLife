@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Easy Life</string>
+    <string name="app_slogan">Life is Easier</string>
+
+    <!-- General -->
+    <string name="general_continue">Continue</string>
+    <string name="general_cancel">Cancel</string>
+
+    <!-- Register Password Dialog -->
+    <string name="register_dialog_password_prompt_password_1">Password</string>
+    <string name="register_dialog_password_prompt_password_2">Confirm the Password</string>
+    <string name="register_dialog_password_action_register">Setup a Password</string>
+    <string name="register_dialog_password_invalid_password_no_equal">Your Passwords dosent match</string>
+    <string name="register_dialog_password_invalid_password_to_short">Password must be more than 4 characters</string>
+
+    <!-- Register Biometrics Dialog -->
+    <string name="register_dialog_biometric_action_register">Do you want to activate biometric login?</string>
+    <string name="register_dialog_faceId_action_register">Do you want to activate Face ID login?</string>
+
+    <!-- Painel -->
+    <string name="painelAc_bottomNavigationView_Home">Home</string>
+    <string name="painelAc_bottomNavigationView_Add">Add</string>
+    <string name="painelAc_bottomNavigationView_Graffics">Spends</string>
+
+    <!-- Tutorial Fragments -->
+    <string name="tutorialFrag_skip">Skip</string>
+    <string name="tutorialFrag_Welcome_Title">Welcome!!</string>
+    <string name="tutorialFrag_Welcome_Text">Welcome to Easy Life</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

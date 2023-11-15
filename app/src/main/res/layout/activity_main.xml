@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activitys.MainActivity"
+    android:background="?attr/colorPrimary"
+    android:id="@+id/constraintLayout_MainAc">
+
+    <!-- SPLASH -->
+    <FrameLayout
+        android:id="@+id/frameLayout_SplashAuxAndFragmentsTutorial_MainAc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="10sp"
+        android:background="?attr/colorControlNormal"/>
+    <ImageView
+        android:id="@+id/imageView_aux1_MainActivity"
+        android:layout_width="10sp"
+        android:layout_height="10sp"
+        android:background="@drawable/rounded_exclude_top_left" />
+      <!-- -->
+
+    <!-- TOP NAVIGATION -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-20sp"
+        app:cardCornerRadius="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:layout_gravity="end"
+            android:layout_marginTop="35sp"
+            android:layout_marginRight="20sp"
+            android:layout_marginBottom="20sp"
+            android:src="@drawable/hamburguer_menu" />
+
+    </androidx.cardview.widget.CardView>
+    <!--                -->
+
+    <!-- BOTTOm NAVIGATION -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView_painel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-15sp"
+        android:paddingTop="5sp"
+        app:itemRippleColor="?attr/colorControlNormal"
+        app:itemActiveIndicatorStyle="@null"
+        android:background="@drawable/rounded_exclude_bottom"
+        app:menu="@menu/bottom_navigation_view_painel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    <!--                -->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Light -->
+    <color name="primaryLight">#6A6ECF</color>
+    <color name="secondaryLight">#8D93E3</color>
+    <color name="highlightedTextLight">#C480F7</color>
+    <color name="textLight">#F493FB</color>
+    <!---->
+
+    <!-- Dark -->
+    <color name="primaryDark">#313866</color>
+    <color name="secondaryDark">#504099</color>
+    <color name="highlightedTextDark">#974EC3</color>
+    <color name="textDark">#FE7BE5</color>
+    <!---->
+
+    <!-- Extras -->
+    <color name="extra1">#4F85B3</color>
+    <color name="extra2">#65B9A1</color>
+    <color name="extra3">#D88176</color>
+    <color name="extra4">#EBB764</color>
+    <color name="extra5">#2E2E2E</color>
+    <color name="extra6">#EBEBEB</color>
+    <!---->
+</resources>
