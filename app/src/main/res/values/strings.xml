@@ -5,6 +5,8 @@
     <!-- General -->
     <string name="general_continue">Continue</string>
     <string name="general_cancel">Cancel</string>
+    <string name="general_next">Next</string>
+    <string name="general_previous">Previous</string>
 
     <!-- Register Password Dialog -->
     <string name="register_dialog_password_prompt_password_1">Password</string>

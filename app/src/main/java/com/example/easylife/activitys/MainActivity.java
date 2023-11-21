@@ -13,13 +13,21 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 
+import com.example.easylife.R;
 import com.example.easylife.databinding.ActivityMainBinding;
+import com.example.easylife.fragments.register.RegisterFragment;
+import com.example.easylife.fragments.tutorial.TutorialAddFragment;
+import com.example.easylife.fragments.tutorial.TutorialEditFragment;
+import com.example.easylife.fragments.tutorial.TutorialEndFragment;
+import com.example.easylife.fragments.tutorial.TutorialShowFragment;
+import com.example.easylife.fragments.tutorial.TutorialWelcomeFragment;
 import com.example.easylife.scripts.CustomAlertDialogFragmentUseable;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private long sessionTime;
+    private boolean seenTutorial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         SharedPreferences prefs = getSharedPreferences("Perf_User", MODE_PRIVATE);
-        boolean seenTutorial = prefs.getBoolean("seenTutorial", false);
+        seenTutorial = prefs.getBoolean("seenTutorial", false);
 
         if(seenTutorial){
             sessionTime = System.currentTimeMillis();
@@ -43,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }.start(); // TODO: ACABAR ISTO
         } else{
-            //binding.frameLayoutSplashAuxAndFragmentsTutorialMainAc.setBackground();
+            inFragment();
+            binding.frameLayoutSplashAuxAndFragmentsTutorialMainAc.setBackground(null);
+            tutorialChangeFragments(0, false);
         }
     }
 
@@ -51,11 +61,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if(getSession()){ // SESSION STILL AVALIABLE
+        if(seenTutorial){
+            if(getSession()){ // SESSION STILL AVALIABLE
 
-        }else{// SESSION NOT AVALIABLE
-            CustomAlertDialogFragmentUseable customAlertDialogFragmentUseable = new CustomAlertDialogFragmentUseable();
-            customAlertDialogFragmentUseable.showDialog(getSupportFragmentManager(), this, 1);
+            }else{// SESSION NOT AVALIABLE
+                CustomAlertDialogFragmentUseable customAlertDialogFragmentUseable = new CustomAlertDialogFragmentUseable();
+                customAlertDialogFragmentUseable.showDialog(getSupportFragmentManager(), this, 1);
+            }
         }
     }
     private boolean getSession(){
@@ -69,6 +81,43 @@ public class MainActivity extends AppCompatActivity {
             output = true;
         }
         return output;
+    }
+    private void inFragment(){
+        binding.imageViewAux1MainActivity.setVisibility(View.INVISIBLE);
+        binding.bottomNavigationViewPainel.setVisibility(View.INVISIBLE);
+        binding.cardViewTopNavigationMainAc.setVisibility(View.INVISIBLE);
+
+        binding.imageViewAux1MainActivity.setEnabled(false);
+        binding.bottomNavigationViewPainel.setEnabled(false);
+        binding.cardViewTopNavigationMainAc.setEnabled(false);
+    }
+    private void outFragment(){
+        binding.imageViewAux1MainActivity.setVisibility(View.VISIBLE);
+        binding.bottomNavigationViewPainel.setVisibility(View.VISIBLE);
+        binding.cardViewTopNavigationMainAc.setVisibility(View.VISIBLE);
+
+        binding.imageViewAux1MainActivity.setEnabled(true);
+        binding.bottomNavigationViewPainel.setEnabled(true);
+        binding.cardViewTopNavigationMainAc.setEnabled(true);
+    }
+    public void tutorialChangeFragments(int selected, boolean fromNextFragment){
+        switch (selected){
+            case 0:
+                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_SplashAuxAndFragmentsTutorial_MainAc, new TutorialWelcomeFragment(this, fromNextFragment)).commit();
+                break;
+            case 1:
+                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_SplashAuxAndFragmentsTutorial_MainAc, new TutorialAddFragment(this, fromNextFragment)).commit();
+                break;
+            case 2:
+                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_SplashAuxAndFragmentsTutorial_MainAc, new TutorialShowFragment(this, fromNextFragment)).commit();
+                break;
+            case 3:
+                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_SplashAuxAndFragmentsTutorial_MainAc, new TutorialEditFragment(this, fromNextFragment)).commit();
+                break;
+            case 4:
+                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_SplashAuxAndFragmentsTutorial_MainAc, new TutorialEndFragment(this, fromNextFragment)).commit();
+                break;
+        }
     }
     //----------------------------------------------
 

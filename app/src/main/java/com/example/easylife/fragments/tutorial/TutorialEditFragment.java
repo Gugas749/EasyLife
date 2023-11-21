@@ -1,66 +1,149 @@
 package com.example.easylife.fragments.tutorial;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.easylife.R;
+import com.example.easylife.activitys.MainActivity;
+import com.example.easylife.databinding.FragmentTutorialEditBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TutorialEditFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class TutorialEditFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentTutorialEditBinding binding;
+    private MainActivity parent;
+    private boolean fromNextFragment;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public TutorialEditFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TutorialEditFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TutorialEditFragment newInstance(String param1, String param2) {
-        TutorialEditFragment fragment = new TutorialEditFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public TutorialEditFragment(MainActivity parent, boolean fromNextFragment) {
+        this.parent = parent;
+        this.fromNextFragment = fromNextFragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tutorial_edit, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentTutorialEditBinding.inflate(inflater);
+
+        CardView oldCardView;
+        if(fromNextFragment){
+            oldCardView = binding.cardViewTutorialFragIndicator5FragTutorialEdit;
+        }else{
+            oldCardView = binding.cardViewTutorialFragIndicator3FragTutorialEdit;
+        }
+        fragIndicatorScaleDownAnimation(oldCardView);
+        colorChangeFadeOutAnimation(oldCardView);
+        fragIndicatorScaleUpAnimation(binding.cardViewTutorialFragIndicator4FragTutorialEdit);
+        colorChangeFadeInAnimation(binding.cardViewTutorialFragIndicator4FragTutorialEdit);
+
+        setupButtonNext();
+        setupButtonPrevious();
+
+        return binding.getRoot();
+    }
+
+    private void setupButtonNext(){
+        binding.textViewNextFragTutorialEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                parent.tutorialChangeFragments(5, false);
+            }
+        });
+    }
+    private void setupButtonPrevious(){
+        binding.textViewPreviousFragTutorialEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                parent.tutorialChangeFragments(3, true);
+            }
+        });
+    }
+    //-------------------------ANIMATION------------------
+    private void colorChangeFadeOutAnimation(CardView cardView){
+        TypedValue typedValue = new TypedValue();
+        getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorControlNormal, typedValue, true);
+        int color = typedValue.data;
+        int initialColor = color;
+
+        typedValue = new TypedValue();
+        getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorSecondary, typedValue, true);
+        color = typedValue.data;
+        int finalColor = color;
+
+        ObjectAnimator colorAnimator = ObjectAnimator.ofObject(cardView, "cardBackgroundColor", new ArgbEvaluator(), initialColor, finalColor);
+
+        colorAnimator.setDuration(1000);
+        colorAnimator.start();
+
+    }
+    private void colorChangeFadeInAnimation(CardView cardView){
+        TypedValue typedValue = new TypedValue();
+        getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorSecondary, typedValue, true);
+        int color = typedValue.data;
+        int initialColor = color;
+
+        typedValue = new TypedValue();
+        getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorControlNormal, typedValue, true);
+        color = typedValue.data;
+        int finalColor = color;
+
+        ObjectAnimator colorAnimator = ObjectAnimator.ofObject(cardView, "cardBackgroundColor", new ArgbEvaluator(), initialColor, finalColor);
+
+        colorAnimator.setDuration(1000);
+        colorAnimator.start();
+
+    }
+    private void fragIndicatorScaleDownAnimation(CardView cardView){
+        int initialWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 25, getResources().getDisplayMetrics());
+        int finalWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 7, getResources().getDisplayMetrics());
+
+        ValueAnimator animator = ValueAnimator.ofInt(initialWidth, finalWidth);
+
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                // Get the animated value and set it as the new width
+                int animatedValue = (int) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams params = cardView.getLayoutParams();
+                params.width = animatedValue;
+                cardView.setLayoutParams(params);
+            }
+        });
+
+        animator.setDuration(1000);
+        animator.start();
+    }
+    private void fragIndicatorScaleUpAnimation(CardView cardView){
+        int initialWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 7, getResources().getDisplayMetrics());
+        int finalWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 25, getResources().getDisplayMetrics());
+
+        ValueAnimator animator = ValueAnimator.ofInt(initialWidth, finalWidth);
+
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                // Get the animated value and set it as the new width
+                int animatedValue = (int) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams params = cardView.getLayoutParams();
+                params.width = animatedValue;
+                cardView.setLayoutParams(params);
+            }
+        });
+
+        animator.setDuration(1000);
+        animator.start();
     }
 }

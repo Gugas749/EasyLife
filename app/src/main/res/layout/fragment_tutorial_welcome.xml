@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.tutorial.TutorialWelcomeFragment">
 
     <!--    -->
@@ -13,10 +14,60 @@
         android:layout_margin="15sp"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="?attr/textAppearanceBodyLarge"
+        android:textColor="?attr/textAppearanceBodyMedium"
         android:text="@string/tutorialFrag_skip"/>
 
+    <TextView
+        android:id="@+id/textView_next_FragTutotialWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="20sp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="?attr/textAppearanceBodyMedium"
+        android:text="@string/general_next"/>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20sp"
+        android:layout_gravity="bottom|center">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView_tutorialFragIndicator_1_FragTutorialWelcome"
+            android:layout_width="25sp"
+            android:layout_height="7sp"
+            android:layout_marginRight="5sp"
+            app:cardCornerRadius="90sp"
+            app:cardBackgroundColor="?attr/colorControlNormal"/>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView_tutorialFragIndicator_2_FragTutorialWelcome"
+            android:layout_width="7sp"
+            android:layout_height="7sp"
+            android:layout_marginRight="5sp"
+            app:cardCornerRadius="90sp"
+            app:cardBackgroundColor="?attr/colorSecondary"/>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView_tutorialFragIndicator_3_FragTutorialWelcome"
+            android:layout_width="7sp"
+            android:layout_height="7sp"
+            android:layout_marginRight="5sp"
+            app:cardCornerRadius="90sp"
+            app:cardBackgroundColor="?attr/colorSecondary"/>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView_tutorialFragIndicator_4_FragTutorialWelcome"
+            android:layout_width="7sp"
+            android:layout_height="7sp"
+            android:layout_marginRight="5sp"
+            app:cardCornerRadius="90sp"
+            app:cardBackgroundColor="?attr/colorSecondary"/>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView_tutorialFragIndicator_5_FragTutorialWelcome"
+            android:layout_width="7sp"
+            android:layout_height="7sp"
+            app:cardCornerRadius="90sp"
+            app:cardBackgroundColor="?attr/colorSecondary"/>
+    </LinearLayout>
     <!--    -->
 
     <ImageView
@@ -26,11 +77,13 @@
         android:layout_gravity="center"
         android:layout_width="100sp"
         android:layout_height="100sp"
+        android:tint="?attr/colorControlNormal"
         android:src="@drawable/welcome_icon"/>
     <TextView
         android:layout_gravity="center"
         android:textSize="40sp"
         android:text="@string/tutorialFrag_Welcome_Title"
+        android:textColor="?attr/textAppearanceBodyMedium"
         android:fontFamily="@font/coiny_regular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -39,6 +92,7 @@
         android:layout_gravity="center"
         android:textSize="30sp"
         android:text="@string/tutorialFrag_Welcome_Text"
+        android:textColor="?attr/textAppearanceBodyMedium"
         android:fontFamily="@font/dosis_regular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

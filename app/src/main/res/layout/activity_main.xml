@@ -20,11 +20,11 @@
         android:layout_width="10sp"
         android:layout_height="10sp"
         android:background="@drawable/rounded_exclude_top_left" />
-      <!-- -->
+    <!-- -->
 
     <!-- TOP NAVIGATION -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/cardView_topNavigation_MainAc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="-20sp"

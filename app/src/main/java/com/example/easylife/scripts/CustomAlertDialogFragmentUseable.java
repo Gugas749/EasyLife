@@ -11,21 +11,20 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.easylife.R;
 import com.example.easylife.fragments.alertDialogFragments.AlertDialogRestartSessionFaceIDFragment;
 
-
 public class CustomAlertDialogFragmentUseable {
+
     public void showDialog(FragmentManager fragmentManager, Context context, int mode) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         LayoutInflater inflater = LayoutInflater.from(context);
         View dialogView = inflater.inflate(R.layout.custom_alert_dialog_fragments_accepted, null);
         builder.setView(dialogView);
 
-        FrameLayout fragmentContainer = dialogView.findViewById(R.id.fragment_container);
-
-        switch (mode){
+        switch (mode) {
             case 1:
+                // Use getChildFragmentManager() if calling from within a fragment
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 AlertDialogRestartSessionFaceIDFragment fragment = new AlertDialogRestartSessionFaceIDFragment();
-                transaction.replace(R.id.fragment_container, fragment);
+                transaction.replace(R.id.customAlertDialogFrag_fragment_container, fragment);
                 transaction.commit();
                 break;
         }
