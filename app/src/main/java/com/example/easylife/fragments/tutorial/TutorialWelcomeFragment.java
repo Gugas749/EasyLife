@@ -49,16 +49,13 @@ public class TutorialWelcomeFragment extends Fragment {
 
         waveAnimation();
         setupNextFragment();
+        animacaoDoTiago();
+        setupSkipButton();
 
         return binding.getRoot();
     }
 
-    private void waveAnimation(){
-        ObjectAnimator waveAnimation = ObjectAnimator.ofFloat(binding.imageViewWavingFragTutotialWelcome, "rotation", 0f, 20f, 0f, -20f, 0f);
-        waveAnimation.setRepeatCount(ObjectAnimator.INFINITE);
-        waveAnimation.setDuration(2000);
-        waveAnimation.start();
-    }
+
     private void setupNextFragment(){
         binding.textViewNextFragTutotialWelcome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +65,12 @@ public class TutorialWelcomeFragment extends Fragment {
         });
     }
     //-------------------------ANIMATION------------------
+    private void waveAnimation(){
+        ObjectAnimator waveAnimation = ObjectAnimator.ofFloat(binding.imageViewWavingFragTutotialWelcome, "rotation", 0f, 20f, 0f, -20f, 0f);
+        waveAnimation.setRepeatCount(ObjectAnimator.INFINITE);
+        waveAnimation.setDuration(2000);
+        waveAnimation.start();
+    }
     private void fadeOutTextViewPrevious(){
         Animation fadeOut = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
         binding.textViewNextFragTutotialWelcome.startAnimation(fadeOut);
@@ -162,5 +165,23 @@ public class TutorialWelcomeFragment extends Fragment {
 
         animator.setDuration(1000);
         animator.start();
+    }
+    private void animacaoDoTiago(){
+        binding.imageViewWavingFragTutotialWelcome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ObjectAnimator rotateAnimation = ObjectAnimator.ofFloat(binding.imageViewWavingFragTutotialWelcome, "rotation", 0f, 360f);
+                rotateAnimation.setDuration(1000); // Adjust the duration as needed
+                rotateAnimation.start();
+            }
+        });
+    }
+    private void setupSkipButton(){
+        binding.textViewSkipFragTutorialWelcome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                parent.tutorialChangeFragments(4, false);
+            }
+        });
     }
 }

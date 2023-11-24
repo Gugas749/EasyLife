@@ -53,6 +53,7 @@ public class TutorialShowFragment extends Fragment {
 
         setupButtonNext();
         setupButtonPrevious();
+        setupSkipButton();
 
         return binding.getRoot();
     }
@@ -147,5 +148,13 @@ public class TutorialShowFragment extends Fragment {
 
         animator.setDuration(1000);
         animator.start();
+    }
+    private void setupSkipButton(){
+        binding.textViewSkipFragTutorialShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                parent.tutorialChangeFragments(4, false);
+            }
+        });
     }
 }

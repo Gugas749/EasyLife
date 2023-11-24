@@ -3,14 +3,13 @@ package com.example.easylife.fragments.register;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.easylife.databinding.FragmentRegisterDialogFaceIDBinding;
 
 public class RegisterDialogFaceIDFragment extends Fragment {
@@ -35,6 +34,14 @@ public class RegisterDialogFaceIDFragment extends Fragment {
         binding.butConfirmRegisterFaceIDFrag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               /* if (getContext().checkSelfPermission(this, Manifest.permission.USE_BIOMETRIC)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    showBiometricPrompt();
+                } else {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.USE_BIOMETRIC},
+                            1);
+                }*/
                 buttonReturn(true);
             }
         });

@@ -17,9 +17,12 @@
         <activity
             android:name=".activitys.MainActivity"
             android:theme="@style/Theme.EasyLife"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".activitys.SplashActivity"
+            android:theme="@style/Theme.EasyLife"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

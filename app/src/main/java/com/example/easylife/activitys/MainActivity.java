@@ -1,31 +1,36 @@
 package com.example.easylife.activitys;
 
-import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.biometric.BiometricPrompt;
+import androidx.fragment.app.FragmentManager;
 
 import android.animation.AnimatorSet;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.widget.Toast;
 
 import com.example.easylife.R;
 import com.example.easylife.databinding.ActivityMainBinding;
-import com.example.easylife.fragments.register.RegisterFragment;
 import com.example.easylife.fragments.tutorial.TutorialAddFragment;
 import com.example.easylife.fragments.tutorial.TutorialEditFragment;
 import com.example.easylife.fragments.tutorial.TutorialEndFragment;
 import com.example.easylife.fragments.tutorial.TutorialShowFragment;
 import com.example.easylife.fragments.tutorial.TutorialWelcomeFragment;
-import com.example.easylife.scripts.CustomAlertDialogFragmentUseable;
+import com.example.easylife.scripts.CustomAlertDialogFragment;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+
+    private Executor executor = Executors.newSingleThreadExecutor();
     private long sessionTime;
     private boolean seenTutorial;
 
@@ -49,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onFinish() {
                     startFragAnimations();
                 }
-            }.start(); // TODO: ACABAR ISTO
+            }.start();
         } else{
             inFragment();
             binding.frameLayoutSplashAuxAndFragmentsTutorialMainAc.setBackground(null);
@@ -65,15 +70,14 @@ public class MainActivity extends AppCompatActivity {
             if(getSession()){ // SESSION STILL AVALIABLE
 
             }else{// SESSION NOT AVALIABLE
-                CustomAlertDialogFragmentUseable customAlertDialogFragmentUseable = new CustomAlertDialogFragmentUseable();
-                customAlertDialogFragmentUseable.showDialog(getSupportFragmentManager(), this, 1);
+                showBiometricPrompt();
             }
         }
     }
     private boolean getSession(){
         boolean output = false;
         long currentTimeInMillis = System.currentTimeMillis();
-        long fiveMinutesInMillis = 5 * 60 * 1000;
+        long fiveMinutesInMillis = 2 * 60 * 1000;
         if (currentTimeInMillis - sessionTime >= fiveMinutesInMillis) {
             output = false;
         } else {
@@ -103,21 +107,87 @@ public class MainActivity extends AppCompatActivity {
     public void tutorialChangeFragments(int selected, boolean fromNextFragment){
         switch (selected){
             case 0:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_SplashAuxAndFragmentsTutorial_MainAc, new TutorialWelcomeFragment(this, fromNextFragment)).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_SplashAuxAndFragmentsTutorial_MainAc, new TutorialWelcomeFragment(this, fromNextFragment))
+                        .addToBackStack(null)
+                        .commit();
                 break;
             case 1:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_SplashAuxAndFragmentsTutorial_MainAc, new TutorialAddFragment(this, fromNextFragment)).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_SplashAuxAndFragmentsTutorial_MainAc, new TutorialAddFragment(this, fromNextFragment))
+                        .addToBackStack(null)
+                        .commit();
                 break;
             case 2:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_SplashAuxAndFragmentsTutorial_MainAc, new TutorialShowFragment(this, fromNextFragment)).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_SplashAuxAndFragmentsTutorial_MainAc, new TutorialShowFragment(this, fromNextFragment))
+                        .addToBackStack(null)
+                        .commit();
                 break;
             case 3:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_SplashAuxAndFragmentsTutorial_MainAc, new TutorialEditFragment(this, fromNextFragment)).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_SplashAuxAndFragmentsTutorial_MainAc, new TutorialEditFragment(this, fromNextFragment))
+                        .addToBackStack(null)
+                        .commit();
                 break;
             case 4:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_SplashAuxAndFragmentsTutorial_MainAc, new TutorialEndFragment(this, fromNextFragment)).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_SplashAuxAndFragmentsTutorial_MainAc, new TutorialEndFragment(this, fromNextFragment))
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case 5:
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                binding.frameLayoutSplashAuxAndFragmentsTutorialMainAc.setVisibility(View.INVISIBLE);
+                binding.frameLayoutSplashAuxAndFragmentsTutorialMainAc.setEnabled(false);
+
+                SharedPreferences sharedPreferences = getSharedPreferences("Perf_User", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("seenTutorial", true);
+                editor.apply();
+
+                outFragment();
                 break;
         }
+    }
+    //----------------------------------------------
+
+    //----------BIOMETRICS----------------
+    private void showBiometricPrompt() {
+        BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Face ID Login")
+                .setSubtitle("Place your face in front of the camera")
+                .setNegativeButtonText("Cancel")
+                .build();
+
+        BiometricPrompt biometricPrompt = new BiometricPrompt(this, executor,
+                new BiometricPrompt.AuthenticationCallback() {
+                    @Override
+                    public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                        super.onAuthenticationError(errorCode, errString);
+                    }
+
+                    @Override
+                    public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                        super.onAuthenticationSucceeded(result);
+                        // Implement your logic for a successful login
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+                        super.onAuthenticationFailed();
+                        CustomAlertDialogFragment customDialogFragment = new CustomAlertDialogFragment();
+                        customDialogFragment.show(getSupportFragmentManager(), "custom_dialog");
+                    }
+                });
+
+        biometricPrompt.authenticate(promptInfo);
     }
     //----------------------------------------------
 

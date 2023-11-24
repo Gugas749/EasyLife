@@ -51,6 +51,7 @@ public class TutorialEditFragment extends Fragment {
 
         setupButtonNext();
         setupButtonPrevious();
+        setupSkipButton();
 
         return binding.getRoot();
     }
@@ -59,7 +60,7 @@ public class TutorialEditFragment extends Fragment {
         binding.textViewNextFragTutorialEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                parent.tutorialChangeFragments(5, false);
+                parent.tutorialChangeFragments(4, false);
             }
         });
     }
@@ -67,7 +68,7 @@ public class TutorialEditFragment extends Fragment {
         binding.textViewPreviousFragTutorialEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                parent.tutorialChangeFragments(3, true);
+                parent.tutorialChangeFragments(2, true);
             }
         });
     }
@@ -145,5 +146,13 @@ public class TutorialEditFragment extends Fragment {
 
         animator.setDuration(1000);
         animator.start();
+    }
+    private void setupSkipButton(){
+        binding.textViewSkipFragTutorialEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                parent.tutorialChangeFragments(4, false);
+            }
+        });
     }
 }

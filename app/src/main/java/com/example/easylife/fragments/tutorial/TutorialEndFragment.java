@@ -6,12 +6,14 @@ import android.animation.ValueAnimator;
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
+import android.animation.AnimatorSet;
 import androidx.fragment.app.Fragment;
 
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.example.easylife.R;
 import com.example.easylife.activitys.MainActivity;
@@ -43,6 +45,7 @@ public class TutorialEndFragment extends Fragment {
         fragIndicatorScaleUpAnimation(binding.cardViewTutorialFragIndicator5FragTutorialEnd);
         colorChangeFadeInAnimation(binding.cardViewTutorialFragIndicator5FragTutorialEnd);
 
+        jumpingAnimation();
         setupButtonFinish();
         setupButtonPrevious();
 
@@ -53,7 +56,7 @@ public class TutorialEndFragment extends Fragment {
         binding.textViewNextFragTutorialEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //finish
+                parent.tutorialChangeFragments(5, false);
             }
         });
     }
@@ -61,7 +64,7 @@ public class TutorialEndFragment extends Fragment {
         binding.textViewPreviousFragTutorialEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                parent.tutorialChangeFragments(4, true);
+                parent.tutorialChangeFragments(3, true);
             }
         });
     }
@@ -139,5 +142,23 @@ public class TutorialEndFragment extends Fragment {
 
         animator.setDuration(1000);
         animator.start();
+    }
+    private void jumpingAnimation() {
+        float jumpHeight = 40f;
+        long duration = 800;
+
+        ValueAnimator jumpAnimator = ValueAnimator.ofFloat(0f, -jumpHeight, 0f);
+        jumpAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+        jumpAnimator.setDuration(duration);
+        jumpAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        jumpAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float animatedValue = (float) animation.getAnimatedValue();
+                binding.imageViewFinishFlagFragTutotialEnd.setTranslationY(animatedValue);
+            }
+        });
+
+        jumpAnimator.start();
     }
 }

@@ -19,6 +19,7 @@
         android:id="@+id/imageView_aux1_MainActivity"
         android:layout_width="10sp"
         android:layout_height="10sp"
+        android:elevation="10sp"
         android:background="@drawable/rounded_exclude_top_left" />
     <!-- -->
 

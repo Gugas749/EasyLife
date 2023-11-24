@@ -7,6 +7,7 @@
     <string name="general_cancel">Cancel</string>
     <string name="general_next">Next</string>
     <string name="general_previous">Previous</string>
+    <string name="general_finish">Finish</string>
 
     <!-- Register Password Dialog -->
     <string name="register_dialog_password_prompt_password_1">Password</string>
@@ -19,6 +20,9 @@
     <string name="register_dialog_biometric_action_register">Do you want to activate biometric login?</string>
     <string name="register_dialog_faceId_action_register">Do you want to activate Face ID login?</string>
 
+    <!-- Alert Dialog Fragments -->
+    <string name="alertDialog_FragmentRestartSession_FaceID_Title">Face ID</string>
+
     <!-- Painel -->
     <string name="painelAc_bottomNavigationView_Home">Home</string>
     <string name="painelAc_bottomNavigationView_Add">Add</string>
@@ -26,8 +30,10 @@
 
     <!-- Tutorial Fragments -->
     <string name="tutorialFrag_skip">Skip</string>
-    <string name="tutorialFrag_Welcome_Title">Welcome!!</string>
+    <string name="tutorialFrag_Welcome_Title">Hello!!</string>
     <string name="tutorialFrag_Welcome_Text">Welcome to Easy Life</string>
+    <string name="tutorialFrag_End_Title">End!!</string>
+    <string name="tutorialFrag_End_Text">Looks like you reached the End, so from now on enjoy the App!! Bye!!</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

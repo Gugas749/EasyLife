@@ -3,12 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/transparent"
     tools:context=".fragments.alertDialogFragments.AlertDialogRestartSessionFaceIDFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:layout_width="70sp"
+        android:layout_height="70sp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/biometric_faceid"/>
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_marginTop="70sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="17sp"
+        android:text="@string/alertDialog_FragmentRestartSession_FaceID_Title"/>
 
 </FrameLayout>

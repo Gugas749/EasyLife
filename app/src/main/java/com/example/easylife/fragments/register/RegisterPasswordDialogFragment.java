@@ -61,7 +61,8 @@ public class RegisterPasswordDialogFragment extends Fragment {
                 if(passswordText.length() >= 4){
 
                 } else {
-                    binding.editTextPasswordRegisterPasswordDialogFrag.setError(String.valueOf(R.string.register_dialog_password_invalid_password_to_short));
+                    String aux = getResources().getString(R.string.register_dialog_password_invalid_password_to_short);
+                    binding.editTextPasswordRegisterPasswordDialogFrag.setError(getString(R.string.register_dialog_password_invalid_password_to_short));
                 }
             }
         });
@@ -74,7 +75,7 @@ public class RegisterPasswordDialogFragment extends Fragment {
                 if(passswordText.equals(confirmPassswordText)){
 
                 } else {
-                    binding.editTextConfirmPasswordRegisterPasswordDialogFrag.setError(String.valueOf(R.string.register_dialog_password_invalid_password_no_equal));
+                    binding.editTextConfirmPasswordRegisterPasswordDialogFrag.setError(getString(R.string.register_dialog_password_invalid_password_no_equal));
                 }
             }
         });
@@ -90,10 +91,10 @@ public class RegisterPasswordDialogFragment extends Fragment {
                     if(passswordText.equals(confirmPassswordText)){
                         new LocalDatabaseInsetTask().execute();
                     } else {
-                        binding.editTextConfirmPasswordRegisterPasswordDialogFrag.setError(String.valueOf(R.string.register_dialog_password_invalid_password_no_equal));
+                        binding.editTextConfirmPasswordRegisterPasswordDialogFrag.setError(getString(R.string.register_dialog_password_invalid_password_no_equal));
                     }
                 } else {
-                    binding.editTextPasswordRegisterPasswordDialogFrag.setError(String.valueOf(R.string.register_dialog_password_invalid_password_to_short));
+                    binding.editTextPasswordRegisterPasswordDialogFrag.setError(getString(R.string.register_dialog_password_invalid_password_to_short));
                 }
             }
         });
