@@ -22,12 +22,16 @@ import com.example.easylife.databinding.FragmentTutorialEndBinding;
 public class TutorialEndFragment extends Fragment {
 
     private FragmentTutorialEndBinding binding;
-    private MainActivity parent;
-    private boolean fromNextFragment;
+    private final MainActivity parent;
+    private final boolean fromNextFragment;
+    private final boolean skipped;
+    private final int skippedFromWhere;
 
-    public TutorialEndFragment(MainActivity parent, boolean fromNextFragment) {
+    public TutorialEndFragment(MainActivity parent, boolean fromNextFragment, boolean skipped, int skippedFromWhere) {
         this.parent = parent;
         this.fromNextFragment = fromNextFragment;
+        this.skipped = skipped;
+        this.skippedFromWhere = skippedFromWhere;
     }
 
     @Override
@@ -40,8 +44,26 @@ public class TutorialEndFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentTutorialEndBinding.inflate(inflater);
 
-        fragIndicatorScaleDownAnimation(binding.cardViewTutorialFragIndicator4FragTutorialEnd);
-        colorChangeFadeOutAnimation(binding.cardViewTutorialFragIndicator4FragTutorialEnd);
+        if(skipped){
+            switch (skippedFromWhere){
+                case 0:
+                    fragIndicatorScaleDownAnimation(binding.cardViewTutorialFragIndicator1FragTutorialEnd);
+                    break;
+                case 1:
+                    fragIndicatorScaleDownAnimation(binding.cardViewTutorialFragIndicator2FragTutorialEnd);
+                    break;
+                case 2:
+                    fragIndicatorScaleDownAnimation(binding.cardViewTutorialFragIndicator3FragTutorialEnd);
+                    break;
+                case 3:
+                    fragIndicatorScaleDownAnimation(binding.cardViewTutorialFragIndicator4FragTutorialEnd);
+                    break;
+            }
+            colorChangeFadeOutAnimation(binding.cardViewTutorialFragIndicator4FragTutorialEnd);
+        }else{
+            fragIndicatorScaleDownAnimation(binding.cardViewTutorialFragIndicator4FragTutorialEnd);
+            colorChangeFadeOutAnimation(binding.cardViewTutorialFragIndicator4FragTutorialEnd);
+        }
         fragIndicatorScaleUpAnimation(binding.cardViewTutorialFragIndicator5FragTutorialEnd);
         colorChangeFadeInAnimation(binding.cardViewTutorialFragIndicator5FragTutorialEnd);
 
@@ -56,7 +78,7 @@ public class TutorialEndFragment extends Fragment {
         binding.textViewNextFragTutorialEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                parent.tutorialChangeFragments(5, false);
+                parent.tutorialChangeFragments(5, false, false, 4);
             }
         });
     }
@@ -64,7 +86,7 @@ public class TutorialEndFragment extends Fragment {
         binding.textViewPreviousFragTutorialEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                parent.tutorialChangeFragments(3, true);
+                parent.tutorialChangeFragments(3, true, false,4);
             }
         });
     }

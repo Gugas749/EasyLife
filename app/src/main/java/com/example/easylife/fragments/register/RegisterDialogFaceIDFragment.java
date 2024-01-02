@@ -15,7 +15,7 @@ import com.example.easylife.databinding.FragmentRegisterDialogFaceIDBinding;
 public class RegisterDialogFaceIDFragment extends Fragment {
 
     private FragmentRegisterDialogFaceIDBinding binding;
-    private RegisterFragment parent;
+    private final RegisterFragment parent;
 
     public RegisterDialogFaceIDFragment(RegisterFragment parent) {
         this.parent = parent;

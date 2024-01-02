@@ -28,9 +28,10 @@ import com.example.easylife.scripts.BiometricChecker;
 
 public class RegisterFragment extends Fragment {
 
-    private SplashActivity parent;
+    private final SplashActivity parent;
     private FragmentRegisterBinding binding;
     private int currentDialogFragment = 0;
+    private RegisterDialogAccountFragment registerDialogAccountFragment;
     private RegisterPasswordDialogFragment registerPasswordDialogFragment;
     private RegisterDialogBiometricFragment registerDialogBiometricFragment;
     private RegisterDialogFaceIDFragment registerDialogFaceIDFragment;
@@ -69,6 +70,7 @@ public class RegisterFragment extends Fragment {
         });
     }
     private void setupDialogFragments(){
+        registerDialogAccountFragment = new RegisterDialogAccountFragment(this);
         registerPasswordDialogFragment = new RegisterPasswordDialogFragment(this);
         registerDialogBiometricFragment = new RegisterDialogBiometricFragment(this);
         registerDialogFaceIDFragment = new RegisterDialogFaceIDFragment(this);
@@ -78,13 +80,22 @@ public class RegisterFragment extends Fragment {
             case 0:
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container_Dialog_RegisterFrag, registerPasswordDialogFragment);
+                fragmentTransaction.replace(R.id.fragment_container_Dialog_RegisterFrag, registerDialogAccountFragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
                 currentDialogFragment++;
                 break;
 
             case 1:
+                fragmentManager = requireActivity().getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container_Dialog_RegisterFrag, registerPasswordDialogFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                currentDialogFragment++;
+                break;
+
+            case 2:
                 BiometricChecker biometricChecker = new BiometricChecker(getContext());
 
                 if(biometricChecker.isBiometricSupported()){
@@ -105,7 +116,7 @@ public class RegisterFragment extends Fragment {
                 }
                 break;
 
-            case 2:
+            case 3:
                 biometricChecker = new BiometricChecker(getContext());
 
                 if(biometricChecker.isFaceIdSupported()){
@@ -120,7 +131,7 @@ public class RegisterFragment extends Fragment {
                 }
                 break;
 
-            case 3:
+            case 4:
                 finishedRegister();
                 break;
         }

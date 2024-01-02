@@ -8,13 +8,20 @@
     <string name="general_next">Next</string>
     <string name="general_previous">Previous</string>
     <string name="general_finish">Finish</string>
+    <string name="general_ok">Ok</string>
+
+    <!-- Register Account Dialog -->
+    <string name="register_dialog_account_text">Create your Account</string>
+    <string name="register_dialog_account_email_prompt">Email</string>
+    <string name="register_dialog_account_email_code_prompt">Code</string>
+    <string name="register_dialog_account_email_code_wrong">Something is wrong</string>
 
     <!-- Register Password Dialog -->
-    <string name="register_dialog_password_prompt_password_1">Password</string>
-    <string name="register_dialog_password_prompt_password_2">Confirm the Password</string>
-    <string name="register_dialog_password_action_register">Setup a Password</string>
-    <string name="register_dialog_password_invalid_password_no_equal">Your Passwords dosent match</string>
-    <string name="register_dialog_password_invalid_password_to_short">Password must be more than 4 characters</string>
+    <string name="register_dialog_password_prompt_password_1">Pin Code</string>
+    <string name="register_dialog_password_prompt_password_2">Confirm the Pin Code</string>
+    <string name="register_dialog_password_action_register">Setup a Pin Code</string>
+    <string name="register_dialog_password_invalid_password_no_equal">Your Pin Codes dont match</string>
+    <string name="register_dialog_password_invalid_password_to_short">Pin Code must be more than 4 characters</string>
 
     <!-- Register Biometrics Dialog -->
     <string name="register_dialog_biometric_action_register">Do you want to activate biometric login?</string>
@@ -22,11 +29,19 @@
 
     <!-- Alert Dialog Fragments -->
     <string name="alertDialog_FragmentRestartSession_FaceID_Title">Face ID</string>
+    <string name="alertDialog_RestartSession_BiometricID_Title">Biometric ID</string>
+    <string name="alertDialog_RestartSession_BiometricID_Subtitle">Biometric ID</string>
+    <string name="alertDialog_Notify_EmailSend_Title">Email Send</string>
+    <string name="alertDialog_Notify_EmailSend_Description">A Email has been send to the Email inserted has a way to verify it, please insert the code provided in the Email on the respective spot.</string>
 
-    <!-- Painel -->
-    <string name="painelAc_bottomNavigationView_Home">Home</string>
-    <string name="painelAc_bottomNavigationView_Add">Add</string>
-    <string name="painelAc_bottomNavigationView_Graffics">Spends</string>
+    <!-- Main AC -->
+    <string name="mainAc_bottomNavigationView_Home">Home</string>
+    <string name="mainAc_bottomNavigationView_Add">Add</string>
+    <string name="mainAc_bottomNavigationView_Graffics">Spends</string>
+    <string name="mainAc_sideBar_Share">Share</string>
+    <string name="mainAc_sideBar_RateUs">Rate Us</string>
+    <string name="mainAc_sideBar_Backups">Backups</string>
+    <string name="mainAc_sideBar_Configs">Settings</string>
 
     <!-- Tutorial Fragments -->
     <string name="tutorialFrag_skip">Skip</string>
@@ -34,6 +49,8 @@
     <string name="tutorialFrag_Welcome_Text">Welcome to Easy Life</string>
     <string name="tutorialFrag_End_Title">End!!</string>
     <string name="tutorialFrag_End_Text">Looks like you reached the End, so from now on enjoy the App!! Bye!!</string>
+
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

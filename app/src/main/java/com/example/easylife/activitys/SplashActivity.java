@@ -1,29 +1,41 @@
 package com.example.easylife.activitys;
 
-import androidx.annotation.ColorInt;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.Manifest;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.provider.MediaStore;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
+
+import androidx.annotation.ColorInt;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.example.easylife.R;
 import com.example.easylife.databinding.ActivitySplashBinding;
 import com.example.easylife.fragments.register.RegisterFragment;
+import com.example.easylife.scripts.ocr.TextRecognitionUtil;
 
 public class SplashActivity extends AppCompatActivity {
-
-    ActivitySplashBinding binding;
-    Boolean isLogged;
+    private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
+    private static final int REQUEST_IMAGE_CAPTURE = 101;
+    private ActivitySplashBinding binding;
+    private Boolean isLogged;
+    private Boolean inScan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +51,8 @@ public class SplashActivity extends AppCompatActivity {
         }else{
             binding.butScanSplashAc.setVisibility(View.INVISIBLE);
         }
+        inScan = false;
+        setupScanButton();
 
         new CountDownTimer(1500, 1000) {
             public void onTick(long millisUntilFinished) {
@@ -46,19 +60,18 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
-                iniciateAnimation();
+                if(!inScan){
+                    initAnimation();
+                }
             }
         }.start();
     }
 
     //------------------SETUPS----------------------
-    private void setupScanButton(){
-
-    }
-    private void iniciateRegisterFragment(){
+    private void initRegisterFragment(){
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_splashAc, new RegisterFragment(this)).commit();
     }
-    private void iniciateAnimation(){
+    private void initAnimation(){
         snapLogoAnimation();
         fadeOutTextViews();
         if(isLogged){
@@ -87,9 +100,11 @@ public class SplashActivity extends AppCompatActivity {
                         if(isLogged){
                             Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                             startActivity(intent);
-                            finish();
+                            if(!inScan){
+                                finish();
+                            }
                         }else{
-                            iniciateRegisterFragment();
+                            initRegisterFragment();
                         }
                     }
                 }.start();
@@ -238,6 +253,49 @@ public class SplashActivity extends AppCompatActivity {
         animatorSet.setDuration(1000);
         animatorSet2.start();
         animatorSet.start();
+    }
+    //----------------------------------------------
+
+    //----------------SCAN BUTTON--------------------
+    private void setupScanButton(){
+        binding.butScanSplashAc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(SplashActivity.this, Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(SplashActivity.this,
+                            new String[]{Manifest.permission.CAMERA},
+                            CAMERA_PERMISSION_REQUEST_CODE);
+                } else {
+                    inScan = true;
+                    dispatchTakePictureIntent();
+                }
+            }
+        });
+    }
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            if (extras != null) {
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                String detectedText = TextRecognitionUtil.extractTextFromBitmap(imageBitmap, this);
+
+                // Agora, 'detectedText' contém o texto detectado na imagem
+                // Faça o que precisar com o texto (por exemplo, exiba em um TextView)
+                // ...
+                Log.i("LOG_texto", "TEXTO: "+detectedText);
+                Toast.makeText(this, detectedText, Toast.LENGTH_LONG).show();
+            }
+        }
     }
     //----------------------------------------------
 }

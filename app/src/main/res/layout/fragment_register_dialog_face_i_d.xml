@@ -64,15 +64,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <com.google.android.material.button.MaterialButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/butCancel_RegisterFaceIDFrag"
             android:layout_below="@+id/butConfirm_RegisterFaceIDFrag"
             android:layout_marginTop="5sp"
             android:layout_marginLeft="20sp"
             android:layout_marginRight="20sp"
             android:layout_marginBottom="15sp"
-            style="@style/SecondaryButton"
-            android:text="@string/general_cancel" />
+            android:textSize="16sp"
+            android:textColor="?attr/textAppearanceBodySmall"
+            android:text="@string/general_cancel"
+            android:background="@drawable/round_button_secondary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </RelativeLayout>
 

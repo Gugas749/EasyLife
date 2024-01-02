@@ -16,7 +16,7 @@ import com.example.easylife.databinding.FragmentRegisterDialogBiometricBinding;
 public class RegisterDialogBiometricFragment extends Fragment {
 
     private FragmentRegisterDialogBiometricBinding binding;
-    private RegisterFragment parent;
+    private final RegisterFragment parent;
 
     public RegisterDialogBiometricFragment(RegisterFragment parent) {
         this.parent = parent;

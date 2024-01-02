@@ -3,21 +3,27 @@ package com.example.easylife.scripts;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.example.easylife.R;
-import com.example.easylife.fragments.alertDialogFragments.AlertDialogRestartSessionFaceIDFragment;
-import android.view.LayoutInflater;
 import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
+import com.example.easylife.R;
+import com.example.easylife.fragments.alertDialogFragments.AlertDialogNotifyFragment;
 
+public class CustomAlertDialogFragment extends DialogFragment implements AlertDialogNotifyFragment.ContinueButtonClick {
+    private Fragment customFragment;
 
+    // Constructor to set the custom fragment
+    public CustomAlertDialogFragment() {
 
-public class CustomAlertDialogFragment extends DialogFragment {
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -28,10 +34,22 @@ public class CustomAlertDialogFragment extends DialogFragment {
             getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         }
 
-        getChildFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container_custom_alertDialog, new AlertDialogRestartSessionFaceIDFragment())
-                .commit();
+        // Replace the fragment with the custom fragment provided
+        if (customFragment != null) {
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container_custom_alertDialog, customFragment)
+                    .commit();
+        }
 
         return view;
+    }
+
+    @Override
+    public void onContinueButtonClicked() {
+        this.dismiss();
+    }
+
+    public void setCustomFragment(Fragment customFragment){
+        this.customFragment = customFragment;
     }
 }

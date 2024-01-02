@@ -25,7 +25,7 @@ public class RegisterPasswordDialogFragment extends Fragment {
     private LocalDataBase databaseLocal;
     private UserInfosDao userInfosDao;
     private FragmentRegisterPasswordDialogBinding binding;
-    private RegisterFragment parent;
+    private final RegisterFragment parent;
 
     public RegisterPasswordDialogFragment(RegisterFragment parent) {
         this.parent = parent;
@@ -58,11 +58,13 @@ public class RegisterPasswordDialogFragment extends Fragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 String passswordText = binding.editTextPasswordRegisterPasswordDialogFrag.getText().toString();
-                if(passswordText.length() >= 4){
+                if(passswordText.length() >= 1){
+                    if(passswordText.length() >= 4){
 
-                } else {
-                    String aux = getResources().getString(R.string.register_dialog_password_invalid_password_to_short);
-                    binding.editTextPasswordRegisterPasswordDialogFrag.setError(getString(R.string.register_dialog_password_invalid_password_to_short));
+                    } else {
+                        String aux = getResources().getString(R.string.register_dialog_password_invalid_password_to_short);
+                        binding.editTextPasswordRegisterPasswordDialogFrag.setError(getString(R.string.register_dialog_password_invalid_password_to_short));
+                    }
                 }
             }
         });
@@ -71,11 +73,14 @@ public class RegisterPasswordDialogFragment extends Fragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 String passswordText = binding.editTextPasswordRegisterPasswordDialogFrag.getText().toString();
                 String confirmPassswordText = binding.editTextConfirmPasswordRegisterPasswordDialogFrag.getText().toString();
+                if(passswordText.length() >= 4){
+                    if(confirmPassswordText.length() >= 1){
+                        if(passswordText.equals(confirmPassswordText)){
 
-                if(passswordText.equals(confirmPassswordText)){
-
-                } else {
-                    binding.editTextConfirmPasswordRegisterPasswordDialogFrag.setError(getString(R.string.register_dialog_password_invalid_password_no_equal));
+                        } else {
+                            binding.editTextConfirmPasswordRegisterPasswordDialogFrag.setError(getString(R.string.register_dialog_password_invalid_password_no_equal));
+                        }
+                    }
                 }
             }
         });

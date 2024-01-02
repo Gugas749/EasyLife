@@ -20,7 +20,8 @@
         android:layout_width="10sp"
         android:layout_height="10sp"
         android:elevation="10sp"
-        android:background="@drawable/rounded_exclude_top_left" />
+        android:background="@drawable/rounded_exclude_top_left"
+        tools:ignore="MissingConstraints" />
     <!-- -->
 
     <!-- TOP NAVIGATION -->
@@ -46,7 +47,7 @@
     </androidx.cardview.widget.CardView>
     <!--                -->
 
-    <!-- BOTTOm NAVIGATION -->
+    <!-- BOTTOM NAVIGATION -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView_painel"
         android:layout_width="match_parent"
@@ -60,6 +61,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+    <!--                -->
+
+    <!-- SIDE MENU -->
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="@dimen/_10sdp"
+        android:id="@+id/drawerLayout_MainAc_SideMenu">
+        <com.google.android.material.navigation.NavigationView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:menu="@menu/mainac_sidemenu"
+            android:background="?attr/colorControlNormal"
+            android:id="@+id/navigationView_MainAc_SideMenu"
+            android:layout_gravity="end"/>
+    </androidx.drawerlayout.widget.DrawerLayout>
     <!--                -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

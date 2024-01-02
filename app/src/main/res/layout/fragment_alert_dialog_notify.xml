@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.alertDialogFragments.AlertDialogNotifyFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView_title_AlertDialogFragment_Notify"
+            android:gravity="center_horizontal"
+            android:textSize="24sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TITLE"/>
+
+        <TextView
+            android:id="@+id/textView_description_AlertDialogFragment_Notify"
+            android:layout_below="@+id/textView_title_AlertDialogFragment_Notify"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="15sp"
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_Ok_AlertDialogFragment_Notify"
+            android:layout_below="@+id/textView_description_AlertDialogFragment_Notify"
+            android:layout_marginTop="15sp"
+            android:layout_marginLeft="20sp"
+            android:layout_marginRight="20sp"
+            android:textSize="16sp"
+            android:text="@string/general_continue"
+            android:textColor="?attr/textAppearanceBodySmall"
+            android:background="@drawable/round_button_principal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</FrameLayout>

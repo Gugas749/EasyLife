@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.register.RegisterPasswordDialogFragment">
+    tools:context=".fragments.register.RegisterDialogAccountFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textView_title_RegisterPasswordDialogFrag"
+            android:id="@+id/textView_title_RegisterAccountDialogFrag"
             android:gravity="center_horizontal"
             android:textSize="32sp"
             android:fontFamily="@font/coiny_regular"
@@ -19,26 +19,26 @@
             android:text="@string/app_name"/>
 
         <TextView
-            android:id="@+id/textView_appSlogan_RegisterPasswordDialogFrag"
-            android:layout_below="@+id/textView_title_RegisterPasswordDialogFrag"
+            android:id="@+id/textView_appSlogan_RegisterAccountDialogFrag"
+            android:layout_below="@+id/textView_title_RegisterAccountDialogFrag"
             android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/app_slogan"/>
 
         <TextView
-            android:id="@+id/textView_title2_RegisterPasswordDialogFrag"
-            android:layout_below="@+id/textView_appSlogan_RegisterPasswordDialogFrag"
+            android:id="@+id/textView_title2_RegisterAccountDialogFrag"
+            android:layout_below="@+id/textView_appSlogan_RegisterAccountDialogFrag"
             android:gravity="center_horizontal"
             android:layout_marginTop="15sp"
             android:textSize="18sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/register_dialog_password_action_register"/>
+            android:text="@string/register_dialog_account_text"/>
 
         <EditText
-            android:id="@+id/editText_Password_RegisterPasswordDialogFrag"
-            android:layout_below="@+id/textView_title2_RegisterPasswordDialogFrag"
+            android:id="@+id/editText_Email_RegisterAccountDialogFrag"
+            android:layout_below="@+id/textView_title2_RegisterAccountDialogFrag"
             android:gravity="center_horizontal"
             android:layout_marginTop="15sp"
             android:textSize="18sp"
@@ -46,23 +46,23 @@
             android:maxLines="1"
             android:layout_marginLeft="20sp"
             android:layout_marginRight="20sp"
-            android:inputType="numberPassword"
-            android:hint="@string/register_dialog_password_prompt_password_1"
+            android:hint="@string/register_dialog_account_email_prompt"
             android:background="@drawable/round_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textCursorDrawable="@null"/>
 
         <EditText
-            android:id="@+id/editText_ConfirmPassword_RegisterPasswordDialogFrag"
-            android:layout_below="@+id/editText_Password_RegisterPasswordDialogFrag"
+            android:id="@+id/editText_EmailCode_RegisterAccountDialogFrag"
+            android:layout_below="@+id/editText_Email_RegisterAccountDialogFrag"
             android:gravity="center_horizontal"
             android:layout_marginTop="15sp"
             android:textSize="18sp"
             android:padding="5sp"
             android:maxLines="1"
-            android:inputType="numberPassword"
-            android:hint="@string/register_dialog_password_prompt_password_2"
+            android:inputType="number"
+            android:visibility="gone"
+            android:hint="@string/register_dialog_account_email_code_prompt"
             android:layout_marginLeft="20sp"
             android:layout_marginRight="20sp"
             android:background="@drawable/round_edit_text"
@@ -71,8 +71,8 @@
             android:textCursorDrawable="@null"/>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/butContinue_RegisterPasswordFrag"
-            android:layout_below="@+id/editText_ConfirmPassword_RegisterPasswordDialogFrag"
+            android:id="@+id/butContinue_RegisterAccountDialogFrag"
+            android:layout_below="@+id/editText_EmailCode_RegisterAccountDialogFrag"
             android:layout_marginTop="15sp"
             android:layout_marginLeft="20sp"
             android:layout_marginRight="20sp"
@@ -85,5 +85,6 @@
             android:layout_height="wrap_content" />
 
     </RelativeLayout>
+
 
 </FrameLayout>

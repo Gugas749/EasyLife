@@ -22,8 +22,8 @@ import com.example.easylife.databinding.FragmentTutorialAddBinding;
 public class TutorialAddFragment extends Fragment {
 
     private FragmentTutorialAddBinding binding;
-    private MainActivity parent;
-    private boolean fromNextFragment;
+    private final MainActivity parent;
+    private final boolean fromNextFragment;
 
     public TutorialAddFragment(MainActivity parent, boolean fromNextFragment) {
         this.parent = parent;
@@ -62,7 +62,7 @@ public class TutorialAddFragment extends Fragment {
         binding.textViewPreviousFragTutorialAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                parent.tutorialChangeFragments(0, true);
+                parent.tutorialChangeFragments(0, true, false,0);
             }
         });
     }
@@ -70,7 +70,7 @@ public class TutorialAddFragment extends Fragment {
         binding.textViewNextFragTutorialAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                parent.tutorialChangeFragments(2, false);
+                parent.tutorialChangeFragments(2, false, false,0);
             }
         });
     }
@@ -175,7 +175,7 @@ public class TutorialAddFragment extends Fragment {
         binding.textViewSkipFragTutorialAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                parent.tutorialChangeFragments(4, false);
+                parent.tutorialChangeFragments(4, false, true,1);
             }
         });
     }

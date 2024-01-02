@@ -22,8 +22,8 @@ import com.example.easylife.databinding.FragmentTutorialWelcomeBinding;
 public class TutorialWelcomeFragment extends Fragment {
 
     private FragmentTutorialWelcomeBinding binding;
-    private MainActivity parent;
-    private boolean fromAddTutorialFrag;
+    private final MainActivity parent;
+    private final boolean fromAddTutorialFrag;
 
     public TutorialWelcomeFragment(MainActivity parent, boolean fromAddTutorialFrag) {
         this.parent = parent;
@@ -60,7 +60,7 @@ public class TutorialWelcomeFragment extends Fragment {
         binding.textViewNextFragTutotialWelcome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                parent.tutorialChangeFragments(1, false);
+                parent.tutorialChangeFragments(1, false, false,0);
             }
         });
     }
@@ -180,7 +180,7 @@ public class TutorialWelcomeFragment extends Fragment {
         binding.textViewSkipFragTutorialWelcome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                parent.tutorialChangeFragments(4, false);
+                parent.tutorialChangeFragments(4, false, true, 0);
             }
         });
     }

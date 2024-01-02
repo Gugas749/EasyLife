@@ -1,19 +1,20 @@
 package com.example.easylife.activitys;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricPrompt;
 import androidx.fragment.app.FragmentManager;
-
+import androidx.drawerlayout.widget.DrawerLayout;
 import android.animation.AnimatorSet;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.Toast;
-
 import com.example.easylife.R;
 import com.example.easylife.databinding.ActivityMainBinding;
 import com.example.easylife.fragments.tutorial.TutorialAddFragment;
@@ -21,16 +22,17 @@ import com.example.easylife.fragments.tutorial.TutorialEditFragment;
 import com.example.easylife.fragments.tutorial.TutorialEndFragment;
 import com.example.easylife.fragments.tutorial.TutorialShowFragment;
 import com.example.easylife.fragments.tutorial.TutorialWelcomeFragment;
-import com.example.easylife.scripts.CustomAlertDialogFragment;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
-
     private ActivityMainBinding binding;
-
-    private Executor executor = Executors.newSingleThreadExecutor();
+    private DrawerLayout drawerLayoutSideMenu;
+    private NavigationView navigationViewSideMenu;
+    private ActionBarDrawerToggle drawerToggleSideMenu;
+    private final Executor executor = Executors.newSingleThreadExecutor();
     private long sessionTime;
     private boolean seenTutorial;
 
@@ -52,15 +54,24 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 public void onFinish() {
+                    showBiometricPrompt();
                     startFragAnimations();
                 }
             }.start();
         } else{
             inFragment();
+            setupSideMenu();
+
             binding.frameLayoutSplashAuxAndFragmentsTutorialMainAc.setBackground(null);
-            tutorialChangeFragments(0, false);
+            tutorialChangeFragments(0, false, false, 0);
         }
     }
+
+    //-----------------FUNCTIONS--------------------
+    private void setupSideMenuButton(){
+        //TODO: isto
+    }
+    //----------------------------------------------
 
     //-----------------FUNCTIONS---------------------
     @Override
@@ -104,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomNavigationViewPainel.setEnabled(true);
         binding.cardViewTopNavigationMainAc.setEnabled(true);
     }
-    public void tutorialChangeFragments(int selected, boolean fromNextFragment){
+    public void tutorialChangeFragments(int selected, boolean fromNextFragment, boolean skipped, int skippedFromWhere){
         switch (selected){
             case 0:
                 getSupportFragmentManager()
@@ -137,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
             case 4:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frameLayout_SplashAuxAndFragmentsTutorial_MainAc, new TutorialEndFragment(this, fromNextFragment))
+                        .replace(R.id.frameLayout_SplashAuxAndFragmentsTutorial_MainAc, new TutorialEndFragment(this, fromNextFragment, skipped, skippedFromWhere))
                         .addToBackStack(null)
                         .commit();
                 break;
@@ -161,9 +172,9 @@ public class MainActivity extends AppCompatActivity {
     //----------BIOMETRICS----------------
     private void showBiometricPrompt() {
         BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
-                .setTitle("Face ID Login")
-                .setSubtitle("Place your face in front of the camera")
-                .setNegativeButtonText("Cancel")
+                .setTitle(getResources().getString(R.string.alertDialog_RestartSession_BiometricID_Title))
+                .setSubtitle(getResources().getString(R.string.alertDialog_RestartSession_BiometricID_Subtitle))
+                .setNegativeButtonText(getResources().getString(R.string.general_cancel))
                 .build();
 
         BiometricPrompt biometricPrompt = new BiometricPrompt(this, executor,
@@ -171,23 +182,61 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
                         super.onAuthenticationError(errorCode, errString);
+                        //tituy
                     }
 
                     @Override
                     public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                         super.onAuthenticationSucceeded(result);
-                        // Implement your logic for a successful login
+                        //validou
+                        sessionTime = System.currentTimeMillis();
                     }
 
                     @Override
                     public void onAuthenticationFailed() {
                         super.onAuthenticationFailed();
-                        CustomAlertDialogFragment customDialogFragment = new CustomAlertDialogFragment();
-                        customDialogFragment.show(getSupportFragmentManager(), "custom_dialog");
+                        //face ou pin
                     }
                 });
 
         biometricPrompt.authenticate(promptInfo);
+    }
+    //----------------------------------------------
+
+    //----------SIDE MENU----------------
+    private void setupSideMenu(){
+        //-------------menu---------------------
+        drawerLayoutSideMenu = findViewById(R.id.drawerLayout_MainAc_SideMenu);
+        navigationViewSideMenu = findViewById(R.id.navigationView_MainAc_SideMenu);
+        drawerToggleSideMenu = new ActionBarDrawerToggle(this,drawerLayoutSideMenu,R.string.general_continue,R.string.general_cancel);
+        drawerLayoutSideMenu.addDrawerListener(drawerToggleSideMenu);
+        drawerToggleSideMenu.syncState();
+        //-----------------------------------------
+
+        navigationViewSideMenu.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+               /* switch (item.getItemId())
+                {
+                    case R.id.:
+                    {
+                        Intent intent = new Intent(ActivityPainel.this, YaaClubActivity.class);
+                        startActivity(intent);
+                        break;
+                    }
+                }*/
+                return true;
+            }
+        });
+        navigationViewSideMenu.bringToFront();
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        if(drawerToggleSideMenu.onOptionsItemSelected(item))
+        {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
     //----------------------------------------------
 

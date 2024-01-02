@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/club"
+            android:icon="@drawable/finish_flag"
+            android:title="">
+        </item>
+        <item android:id="@+id/menu_counts"
+            android:icon="@drawable/finish_flag"
+            android:title="">
+        </item>
+    </group>
+    <item android:title="">
+        <menu>
+            <group  android:checkableBehavior="single">
+                <item android:id="@+id/mainAc_SideBar_Share"
+                    android:icon="@drawable/share_image"
+                    android:title="@string/mainAc_sideBar_Share">
+                </item>
+                <item android:id="@+id/mainAc_SideBar_RateUs"
+                    android:icon="@drawable/rateus_image"
+                    android:title="@string/mainAc_sideBar_RateUs">
+                </item>
+            </group>
+        </menu>
+    </item>
+    <item android:title="">
+        <menu>
+            <group  android:checkableBehavior="single">
+                <item android:id="@+id/mainAc_SideBar_Backups"
+                    android:icon="@drawable/backup_image"
+                    android:title="@string/mainAc_sideBar_Backups">
+                </item>
+                <item android:id="@+id/mainAc_SideBar_Configs"
+                    android:icon="@drawable/setting_image"
+                    android:title="@string/mainAc_sideBar_Configs">
+                </item>
+            </group>
+        </menu>
+    </item>
+</menu>
