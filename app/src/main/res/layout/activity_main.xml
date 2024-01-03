@@ -1,82 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activitys.MainActivity"
     android:background="?attr/colorPrimary"
-    android:id="@+id/constraintLayout_MainAc">
+    android:id="@+id/drawerLayout_MainAc_SideMenu">
 
-    <!-- SPLASH -->
-    <FrameLayout
-        android:id="@+id/frameLayout_SplashAuxAndFragmentsTutorial_MainAc"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:elevation="10sp"
-        android:background="?attr/colorControlNormal"/>
-    <ImageView
-        android:id="@+id/imageView_aux1_MainActivity"
-        android:layout_width="10sp"
-        android:layout_height="10sp"
-        android:elevation="10sp"
-        android:background="@drawable/rounded_exclude_top_left"
-        tools:ignore="MissingConstraints" />
-    <!-- -->
-
-    <!-- TOP NAVIGATION -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView_topNavigation_MainAc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-20sp"
-        app:cardCornerRadius="25sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
+        android:id="@+id/constraintLayout_MainAc">
+        <!-- SPLASH -->
+        <FrameLayout
+            android:id="@+id/frameLayout_SplashAuxAndFragmentsTutorial_MainAc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="10sp" />
         <ImageView
-            android:layout_width="35sp"
-            android:layout_height="35sp"
-            android:layout_gravity="end"
-            android:layout_marginTop="35sp"
-            android:layout_marginRight="20sp"
-            android:layout_marginBottom="20sp"
-            android:src="@drawable/hamburguer_menu" />
+            android:id="@+id/imageView_aux1_MainActivity"
+            android:layout_width="10sp"
+            android:layout_height="10sp"
+            android:elevation="10sp"
+            android:background="@drawable/rounded_exclude_top_left"
+            tools:ignore="MissingConstraints" />
+        <!-- -->
 
-    </androidx.cardview.widget.CardView>
-    <!--                -->
+        <!-- TOP NAVIGATION -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView_topNavigation_MainAc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-20sp"
+            app:cardCornerRadius="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <!-- BOTTOM NAVIGATION -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView_painel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="-15sp"
-        android:paddingTop="5sp"
-        app:itemRippleColor="?attr/colorControlNormal"
-        app:itemActiveIndicatorStyle="@null"
-        android:background="@drawable/rounded_exclude_bottom"
-        app:menu="@menu/bottom_navigation_view_painel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-    <!--                -->
+            <ImageView
+                android:id="@+id/imageView_buttonSideMenu_MainAC"
+                android:layout_width="45sp"
+                android:layout_height="45sp"
+                android:layout_gravity="end"
+                android:layout_marginTop="35sp"
+                android:layout_marginRight="20sp"
+                android:layout_marginBottom="20sp"
+                android:padding="5sp"
+                android:src="@drawable/hamburguer_menu" />
+
+        </androidx.cardview.widget.CardView>
+        <!--                -->
+
+        <!-- FRAGMENT CONTAINER -->
+        <FrameLayout
+            android:id="@+id/frameLayout_fragmentContainer_MainAC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView_MainAC"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView_topNavigation_MainAc" />
+        <!--                -->
+
+        <!-- BOTTOM NAVIGATION -->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView_MainAC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-15sp"
+            android:paddingTop="5sp"
+            app:itemRippleColor="?attr/colorControlNormal"
+            app:itemActiveIndicatorStyle="@null"
+            android:background="@drawable/rounded_exclude_bottom"
+            app:menu="@menu/bottom_navigation_view_painel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+        <!--                -->
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- SIDE MENU -->
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:layout_width="match_parent"
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:elevation="@dimen/_10sdp"
-        android:id="@+id/drawerLayout_MainAc_SideMenu">
-        <com.google.android.material.navigation.NavigationView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:menu="@menu/mainac_sidemenu"
-            android:background="?attr/colorControlNormal"
-            android:id="@+id/navigationView_MainAc_SideMenu"
-            android:layout_gravity="end"/>
-    </androidx.drawerlayout.widget.DrawerLayout>
+        app:menu="@menu/mainac_sidemenu"
+        android:background="?attr/colorControlNormal"
+        android:id="@+id/navigationView_MainAc_SideMenu"
+        android:layout_gravity="end"/>
     <!--                -->
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

@@ -4,24 +4,35 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricPrompt;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.drawerlayout.widget.DrawerLayout;
 import android.animation.AnimatorSet;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
+
 import com.example.easylife.R;
 import com.example.easylife.databinding.ActivityMainBinding;
+import com.example.easylife.fragments.mainactivityfragments.MainACAddViewFragment;
+import com.example.easylife.fragments.mainactivityfragments.MainACMainViewFragment;
+import com.example.easylife.fragments.mainactivityfragments.MainACOverviewViewFragment;
 import com.example.easylife.fragments.tutorial.TutorialAddFragment;
 import com.example.easylife.fragments.tutorial.TutorialEditFragment;
 import com.example.easylife.fragments.tutorial.TutorialEndFragment;
 import com.example.easylife.fragments.tutorial.TutorialShowFragment;
 import com.example.easylife.fragments.tutorial.TutorialWelcomeFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.concurrent.Executor;
@@ -54,22 +65,47 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 public void onFinish() {
-                    showBiometricPrompt();
+                    init();
                     startFragAnimations();
                 }
             }.start();
         } else{
             inFragment();
-            setupSideMenu();
 
             binding.frameLayoutSplashAuxAndFragmentsTutorialMainAc.setBackground(null);
             tutorialChangeFragments(0, false, false, 0);
         }
     }
 
-    //-----------------FUNCTIONS--------------------
-    private void setupSideMenuButton(){
-        //TODO: isto
+    //-----------------SETUPS--------------------
+    private void init(){
+        //TODO: nao esquecer de tirar o bioprompt do inicio ou trocar para o total
+        showBiometricPrompt();
+        setupBottomNavigation();
+        changeFragmentFromMainFragmentContainer(1);
+        setupSideMenu();
+    }
+    private void setupBottomNavigation() {
+        binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Home).setChecked(true);
+
+        binding.bottomNavigationViewMainAC.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == binding.bottomNavigationViewMainAC.getSelectedItemId()) {
+                    return true;
+                }
+
+                if (item.getItemId() == R.id.menu_bottomNavigation_painel_Graffics) {
+                    changeFragmentFromMainFragmentContainer(0);
+                } else if (item.getItemId() == R.id.menu_bottomNavigation_painel_Home) {
+                    changeFragmentFromMainFragmentContainer(1);
+                } else if (item.getItemId() == R.id.menu_bottomNavigation_painel_Add) {
+                    changeFragmentFromMainFragmentContainer(2);
+                }
+
+                return true;
+            }
+        });
     }
     //----------------------------------------------
 
@@ -99,20 +135,20 @@ public class MainActivity extends AppCompatActivity {
     }
     private void inFragment(){
         binding.imageViewAux1MainActivity.setVisibility(View.INVISIBLE);
-        binding.bottomNavigationViewPainel.setVisibility(View.INVISIBLE);
+        binding.bottomNavigationViewMainAC.setVisibility(View.INVISIBLE);
         binding.cardViewTopNavigationMainAc.setVisibility(View.INVISIBLE);
 
         binding.imageViewAux1MainActivity.setEnabled(false);
-        binding.bottomNavigationViewPainel.setEnabled(false);
+        binding.bottomNavigationViewMainAC.setEnabled(false);
         binding.cardViewTopNavigationMainAc.setEnabled(false);
     }
     private void outFragment(){
         binding.imageViewAux1MainActivity.setVisibility(View.VISIBLE);
-        binding.bottomNavigationViewPainel.setVisibility(View.VISIBLE);
+        binding.bottomNavigationViewMainAC.setVisibility(View.VISIBLE);
         binding.cardViewTopNavigationMainAc.setVisibility(View.VISIBLE);
 
         binding.imageViewAux1MainActivity.setEnabled(true);
-        binding.bottomNavigationViewPainel.setEnabled(true);
+        binding.bottomNavigationViewMainAC.setEnabled(true);
         binding.cardViewTopNavigationMainAc.setEnabled(true);
     }
     public void tutorialChangeFragments(int selected, boolean fromNextFragment, boolean skipped, int skippedFromWhere){
@@ -167,6 +203,92 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
+    private void changeFragmentFromMainFragmentContainer(int selected){
+        switch (selected){
+            case 0:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_fragmentContainer_MainAC, new MainACOverviewViewFragment())
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case 1:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_fragmentContainer_MainAC, new MainACMainViewFragment())
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case 2:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_fragmentContainer_MainAC, new MainACAddViewFragment())
+                        .addToBackStack(null)
+                        .commit();
+                break;
+        }
+    }
+    private void showShareBottomSheet() {
+        View bottomSheetView = getLayoutInflater().inflate(R.layout.bottomsheetview_share_menu, null);
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(bottomSheetView);
+        String mensage = getApplicationContext().getString(R.string.bottomSheetView_shareMenu_sharingText);
+
+        ImageView shareFacebookButton = bottomSheetView.findViewById(R.id.bottomSheetView_button_Facebook_MainAC);
+        ImageView shareTwitterButton = bottomSheetView.findViewById(R.id.bottomSheetView_button_Twitter_MainAC);
+        ImageView shareWhatsappButton = bottomSheetView.findViewById(R.id.bottomSheetView_button_WhatsappIcon_MainAC);
+
+        shareFacebookButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.setPackage("com.facebook.katana");
+
+                intent.putExtra(Intent.EXTRA_TEXT, mensage);
+
+                try {
+                    startActivity(intent);
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Facebook is not installed.", Toast.LENGTH_SHORT).show();
+                }
+                bottomSheetDialog.dismiss();
+            }
+        });
+        shareTwitterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.setPackage("com.twitter.android");
+                intent.putExtra(Intent.EXTRA_TEXT, mensage);
+                try {
+                    startActivity(intent);
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Twitter is not installed.", Toast.LENGTH_SHORT).show();
+                }
+                bottomSheetDialog.dismiss();
+            }
+        });
+        shareWhatsappButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle sharing via Email
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.setPackage("com.whatsapp");
+                intent.putExtra(Intent.EXTRA_TEXT, mensage);
+
+                try {
+                    startActivity(intent);
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "WhatsApp is not installed.", Toast.LENGTH_SHORT).show();
+                }
+                bottomSheetDialog.dismiss();
+            }
+        });
+        bottomSheetDialog.show();
+    }
     //----------------------------------------------
 
     //----------BIOMETRICS----------------
@@ -213,30 +335,27 @@ public class MainActivity extends AppCompatActivity {
         drawerToggleSideMenu.syncState();
         //-----------------------------------------
 
+        binding.imageViewButtonSideMenuMainAC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!drawerLayoutSideMenu.isDrawerOpen(GravityCompat.END)){
+                    drawerLayoutSideMenu.openDrawer(GravityCompat.END);
+                }
+            }
+        });
+
         navigationViewSideMenu.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-               /* switch (item.getItemId())
-                {
-                    case R.id.:
-                    {
-                        Intent intent = new Intent(ActivityPainel.this, YaaClubActivity.class);
-                        startActivity(intent);
-                        break;
-                    }
-                }*/
+                if (item.getItemId() == R.id.mainAc_SideBar_Share) {
+                    item.setEnabled(false);
+                    showShareBottomSheet();
+                    item.setEnabled(true);
+                }
                 return true;
             }
         });
         navigationViewSideMenu.bringToFront();
-    }
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item){
-        if(drawerToggleSideMenu.onOptionsItemSelected(item))
-        {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
     //----------------------------------------------
 

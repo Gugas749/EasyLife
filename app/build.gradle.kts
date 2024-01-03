@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.easylife"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -37,7 +37,6 @@ android {
 dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
-    implementation("com.google.android.material:material:1.11.0-alpha03")
     implementation("com.intuit.sdp:sdp-android:1.0.6")
     implementation("com.intuit.ssp:ssp-android:1.0.6")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -51,6 +50,7 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:2.6.0")
     implementation("androidx.room:room-common:2.6.0")
     implementation("androidx.room:room-runtime:2.6.0")
+    implementation("androidx.room:room-ktx:2.6.0")
 
     //MAIL SENDING
     implementation("com.sun.mail:android-mail:1.6.6")
@@ -58,4 +58,7 @@ dependencies {
 
     //OCR
     implementation("com.google.android.gms:play-services-vision:20.1.3")
+
+    //PIE CHART
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }

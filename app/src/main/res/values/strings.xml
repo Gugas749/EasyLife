@@ -50,7 +50,9 @@
     <string name="tutorialFrag_End_Title">End!!</string>
     <string name="tutorialFrag_End_Text">Looks like you reached the End, so from now on enjoy the App!! Bye!!</string>
 
-
+    <!-- Share Menu -->
+    <string name="bottomSheetView_shareMenu_title">Where do you want to share?</string>
+    <string name="bottomSheetView_shareMenu_sharingText">Check out this app!!!!</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
