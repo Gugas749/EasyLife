@@ -1,8 +1,11 @@
 package com.example.easylife.database;
 
+import androidx.fragment.app.Fragment;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
+import java.util.List;
 
 @Entity(tableName = "User_Infos")
 public class UserInfosEntity {

@@ -22,10 +22,13 @@ public class RectangleWithPieChartInTheLeftAndTextInTheRightFragment extends Fra
 
     private FragmentRectangleWithPieChartInTheLeftAndTextInTheRightBinding binding;
     private int color1, color2, color3, color4;
-    private String title;
+    private String title, valueText1, valueText2, valueText3, valueText4;
     private float value1, value2, value3, value4;
 
-    public RectangleWithPieChartInTheLeftAndTextInTheRightFragment(int color1, int color2, int color3, int color4, String title, float value1, float value2, float value3, float value4) {
+    public RectangleWithPieChartInTheLeftAndTextInTheRightFragment(int color1, int color2, int color3, int color4,
+                                                                   String title,
+                                                                   float value1, float value2, float value3, float value4,
+                                                                   String valueText1, String valueText2, String valueText3, String valueText4) {
         this.color1 = color1;
         this.color2 = color2;
         this.color3 = color3;
@@ -35,6 +38,10 @@ public class RectangleWithPieChartInTheLeftAndTextInTheRightFragment extends Fra
         this.value2 = value2;
         this.value3 = value3;
         this.value4 = value4;
+        this.valueText1 = valueText1;
+        this.valueText2 = valueText2;
+        this.valueText3 = valueText3;
+        this.valueText4 = valueText4;
     }
 
     @Override
@@ -59,6 +66,10 @@ public class RectangleWithPieChartInTheLeftAndTextInTheRightFragment extends Fra
         binding.linerLayoutPieChartPercentage3FragRectangleWithChartInTheLeftAndTextInTheRight.setVisibility(View.INVISIBLE);
         binding.linerLayoutPieChartPercentage4FragRectangleWithChartInTheLeftAndTextInTheRight.setVisibility(View.INVISIBLE);
         binding.textViewNameOfChartFragRectangleWithChartInTheLeftAndTextInTheRight.setText(title.trim());
+        binding.textViewPercentageText1FragRectangleWithChartInTheLeftAndTextInTheRight.setText(valueText1.trim());
+        binding.textViewPercentageText2FragRectangleWithChartInTheLeftAndTextInTheRight.setText(valueText2.trim());
+        binding.textViewPercentageText3FragRectangleWithChartInTheLeftAndTextInTheRight.setText(valueText3.trim());
+        binding.textViewPercentageText4FragRectangleWithChartInTheLeftAndTextInTheRight.setText(valueText4.trim());
     }
 
     public void loadChart(){

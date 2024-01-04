@@ -14,7 +14,7 @@
         android:id="@+id/constraintLayout_MainAc">
         <!-- SPLASH -->
         <FrameLayout
-            android:id="@+id/frameLayout_SplashAuxAndFragmentsTutorial_MainAc"
+            android:id="@+id/frameLayout_fullScreenFragmentContainer_MainAc"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:elevation="10sp" />
@@ -39,6 +39,16 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                android:id="@+id/imageView_buttonEditLayoutMainView_MainAC"
+                android:layout_width="45sp"
+                android:layout_height="45sp"
+                android:layout_gravity="start"
+                android:layout_marginTop="35sp"
+                android:layout_marginLeft="20sp"
+                android:layout_marginBottom="20sp"
+                android:padding="5sp"
+                android:src="@drawable/grid_icon" />
+            <ImageView
                 android:id="@+id/imageView_buttonSideMenu_MainAC"
                 android:layout_width="45sp"
                 android:layout_height="45sp"
@@ -52,16 +62,32 @@
         </androidx.cardview.widget.CardView>
         <!--                -->
 
+        <!-- GUIDELINES -->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_top_MainAC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.11" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_bottom_MainAC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.91" />
+        <!-- ... -->
+
         <!-- FRAGMENT CONTAINER -->
         <FrameLayout
             android:id="@+id/frameLayout_fragmentContainer_MainAC"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView_MainAC"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView_topNavigation_MainAc" />
-        <!--                -->
+            app:layout_constraintTop_toBottomOf="@+id/guideline_top_MainAC"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom_MainAC" />
+        <!-- ... -->
 
         <!-- BOTTOM NAVIGATION -->
         <com.google.android.material.bottomnavigation.BottomNavigationView

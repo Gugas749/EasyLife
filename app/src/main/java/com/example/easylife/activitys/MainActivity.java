@@ -5,11 +5,13 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.drawerlayout.widget.DrawerLayout;
 import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -24,8 +26,10 @@ import android.widget.Toast;
 import com.example.easylife.R;
 import com.example.easylife.databinding.ActivityMainBinding;
 import com.example.easylife.fragments.mainactivityfragments.MainACAddViewFragment;
+import com.example.easylife.fragments.mainactivityfragments.MainACMainViewEditLayoutFragment;
 import com.example.easylife.fragments.mainactivityfragments.MainACMainViewFragment;
 import com.example.easylife.fragments.mainactivityfragments.MainACOverviewViewFragment;
+import com.example.easylife.fragments.mainviewpiecharts.BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment;
 import com.example.easylife.fragments.tutorial.TutorialAddFragment;
 import com.example.easylife.fragments.tutorial.TutorialEditFragment;
 import com.example.easylife.fragments.tutorial.TutorialEndFragment;
@@ -35,10 +39,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainACMainViewEditLayoutFragment.OnFragMainACMainViewEditLayoutExitClick {
     private ActivityMainBinding binding;
     private DrawerLayout drawerLayoutSideMenu;
     private NavigationView navigationViewSideMenu;
@@ -46,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private final Executor executor = Executors.newSingleThreadExecutor();
     private long sessionTime;
     private boolean seenTutorial;
+    private MainActivity THIS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,18 +79,20 @@ public class MainActivity extends AppCompatActivity {
         } else{
             inFragment();
 
-            binding.frameLayoutSplashAuxAndFragmentsTutorialMainAc.setBackground(null);
+            binding.frameLayoutFullScreenFragmentContainerMainAc.setBackground(null);
             tutorialChangeFragments(0, false, false, 0);
         }
     }
 
     //-----------------SETUPS--------------------
     private void init(){
-        //TODO: nao esquecer de tirar o bioprompt do inicio ou trocar para o total
-        showBiometricPrompt();
+        //TODO: adicionar session prompt total
+        THIS = this;
+
         setupBottomNavigation();
         changeFragmentFromMainFragmentContainer(1);
         setupSideMenu();
+        setupEditMainViewLayoutButton();
     }
     private void setupBottomNavigation() {
         binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Home).setChecked(true);
@@ -104,6 +113,35 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 return true;
+            }
+        });
+    }
+    private void setupEditMainViewLayoutButton(){
+        binding.imageViewButtonEditLayoutMainViewMainAC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                scaleUpAnimtion();
+                new CountDownTimer(1200, 1000) {
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    public void onFinish() {
+                        inFragment();
+
+                        binding.frameLayoutFullScreenFragmentContainerMainAc.setBackground(null);
+                        binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.VISIBLE);
+                        binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(true);
+
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frameLayout_fullScreenFragmentContainer_MainAc, new MainACMainViewEditLayoutFragment(THIS))
+                                .addToBackStack(null)
+                                .commit();
+                        scaleDownAnimtion();
+                    }
+                }.start();
             }
         });
     }
@@ -191,8 +229,8 @@ public class MainActivity extends AppCompatActivity {
             case 5:
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                binding.frameLayoutSplashAuxAndFragmentsTutorialMainAc.setVisibility(View.INVISIBLE);
-                binding.frameLayoutSplashAuxAndFragmentsTutorialMainAc.setEnabled(false);
+                binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.INVISIBLE);
+                binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(false);
 
                 SharedPreferences sharedPreferences = getSharedPreferences("Perf_User", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -213,9 +251,36 @@ public class MainActivity extends AppCompatActivity {
                         .commit();
                 break;
             case 1:
+                int[] idsLinesSplitted = { };
+                int[]getIdsLinesTogether = { 12, 45 };
+
+                List<Fragment> listFragmentLinesSplitted = new ArrayList<>();
+                List<Fragment> listFragmentLinesTogether = new ArrayList<>();
+
+                BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment fragment = new BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment(
+                        Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW,
+                        "Coisinhas",
+                        10f, 25f, 55f, 10f,
+                        "maças", "blueberrys", "maças berdes", "bananas");
+
+                listFragmentLinesTogether.add(fragment);
+
+                BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment fragment2 = new BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment(
+                        Color.MAGENTA, Color.CYAN, Color.GRAY, Color.WHITE,
+                        "A toa",
+                        10f, 25f, 55f, 10f,
+                        "ya", "blya", "blyet", "suka");
+
+                listFragmentLinesTogether.add(fragment2);
+
+                MainACMainViewFragment mainACMainViewFragment = new MainACMainViewFragment(false, true,
+                        0, 2,
+                        idsLinesSplitted, getIdsLinesTogether,
+                        listFragmentLinesSplitted, listFragmentLinesTogether);
+
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frameLayout_fragmentContainer_MainAC, new MainACMainViewFragment())
+                        .replace(R.id.frameLayout_fragmentContainer_MainAC, mainACMainViewFragment)
                         .addToBackStack(null)
                         .commit();
                 break;
@@ -421,18 +486,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }*/
     private void startFragAnimations(){
-        binding.frameLayoutSplashAuxAndFragmentsTutorialMainAc.setVisibility(View.INVISIBLE);
-        binding.frameLayoutSplashAuxAndFragmentsTutorialMainAc.setEnabled(false);
+        binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.INVISIBLE);
+        binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(false);
         scaleDownAnimtion();
-        new CountDownTimer(500, 1000) {
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            public void onFinish() {
-                binding.imageViewAux1MainActivity.setVisibility(View.INVISIBLE);
-            }
-        }.start();
     }
     private void scaleDownAnimtion(){
         float startScale = 200.0f;
@@ -448,18 +504,51 @@ public class MainActivity extends AppCompatActivity {
         scaleAnimation.setDuration(1500);
 
         binding.imageViewAux1MainActivity.startAnimation(scaleAnimation);
+
+        new CountDownTimer(500, 1000) {
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            public void onFinish() {
+                binding.imageViewAux1MainActivity.setVisibility(View.INVISIBLE);
+            }
+        }.start();
     }
     private void scaleUpAnimtion(){
-       // ObjectAnimator scaleAnimatorX = ObjectAnimator.ofFloat(binding.cardviewAuxiliarLoginFrag, "scaleX", 1f, 18f);
-       // ObjectAnimator scaleAnimatorY = ObjectAnimator.ofFloat(binding.cardviewAuxiliarLoginFrag, "scaleY", 1f, 18f);
+        float startScale = 1.0f;
+        float endScale = 200.0f;
 
-       // binding.cardviewAuxiliarLoginFrag.setPivotX(binding.cardviewAuxiliarLoginFrag.getWidth() / 2);
-       // binding.cardviewAuxiliarLoginFrag.setPivotY(binding.cardviewAuxiliarLoginFrag.getHeight() / 2);
+        ScaleAnimation scaleAnimation = new ScaleAnimation(
+                startScale, endScale,
+                startScale, endScale,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f
+        );
 
-        AnimatorSet animatorSet = new AnimatorSet();
-      //  animatorSet.playTogether(scaleAnimatorX, scaleAnimatorY);
-        animatorSet.setDuration(1000);
-        animatorSet.start();
+        scaleAnimation.setDuration(1500);
+
+        binding.imageViewAux1MainActivity.startAnimation(scaleAnimation);
     }
     //----------------------------------------------
+    @Override
+    public void OnFragMainACMainViewEditLayoutExitClick() {
+        scaleUpAnimtion();
+        new CountDownTimer(1200, 1000) {
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            public void onFinish() {
+                binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.INVISIBLE);
+                binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(false);
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+                outFragment();
+                scaleDownAnimtion();
+            }
+        }.start();
+    }
 }

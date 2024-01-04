@@ -3,12 +3,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.mainviewpiecharts.RectangleWithPieChartFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10sp"
+        android:layout_marginLeft="10sp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="30sp"
+        app:cardBackgroundColor="?attr/colorSecondary">
+        <RelativeLayout
+            android:layout_width="180sp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/textView_NameOfChart_FragRectangleWithPieChart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_marginTop="7sp"
+                android:layout_marginRight="15sp"
+                android:layout_marginLeft="15sp"
+                android:textColor="?attr/textAppearanceBodyMedium"
+                android:text="NAME OF THE CHART"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-5sp"
+                android:layout_below="@+id/textView_NameOfChart_FragRectangleWithPieChart">
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart_FragRectangleWithPieChart"
+                    android:layout_width="85sp"
+                    android:layout_height="85sp"
+                    android:layout_marginBottom="10sp"
+                    android:layout_gravity="center_horizontal"/>
+            </FrameLayout>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
 </FrameLayout>

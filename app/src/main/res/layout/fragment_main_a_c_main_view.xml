@@ -6,9 +6,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.mainactivityfragments.MainACMainViewFragment">
 
-    <FrameLayout
-        android:id="@+id/frameLayout_fragmentContainer_FragMainACMainView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:id="@+id/linear_layout_parent_FragMainACMainView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
+        <!-- FrameLayout 1 (20%) -->
+        <FrameLayout
+            android:id="@+id/frameLayout_line1_FragMainACMainView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <!-- FrameLayout 2 (20%) -->
+        <FrameLayout
+            android:id="@+id/frameLayout_line2_FragMainACMainView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <!-- FrameLayout 3 (20%) -->
+        <FrameLayout
+            android:id="@+id/frameLayout_line3_FragMainACMainView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <!-- FrameLayout 4 (20%) -->
+        <FrameLayout
+            android:id="@+id/frameLayout_line4_FragMainACMainView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <!-- FrameLayout 5 (20%) -->
+        <FrameLayout
+            android:id="@+id/frameLayout_line5_FragMainACMainView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
 </FrameLayout>
