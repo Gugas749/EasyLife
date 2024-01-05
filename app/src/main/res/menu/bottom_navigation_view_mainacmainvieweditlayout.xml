@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_bottomNavigation_addType1_MainACMainViewEditLayout"
+        android:title=""
+        android:icon="@drawable/graffics_image" />
+    <item
+        android:id="@+id/menu_bottomNavigation_addType2_MainACMainViewEditLayout"
+        android:title=""
+        android:icon="@drawable/graffics_image" />
+    <item
+        android:id="@+id/menu_bottomNavigation_addType3_MainACMainViewEditLayout"
+        android:title=""
+        android:icon="@drawable/graffics_image" />
+</menu>

@@ -11,11 +11,6 @@
         android:layout_height="match_parent"
         android:background="?attr/colorPrimary">
         <!-- SPLASH -->
-        <FrameLayout
-            android:id="@+id/frameLayout_SplashAuxAndFragmentsTutorial_MainAc"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="10sp" />
         <ImageView
             android:id="@+id/imageView_aux1_MainActivity"
             android:layout_width="10sp"
@@ -47,6 +42,14 @@
                 android:padding="10sp"
                 android:src="@drawable/cancel_icon" />
             <ImageView
+                android:id="@+id/imageView_buttonHowToUse_FragMainACMainViewEditLayout"
+                android:layout_width="45sp"
+                android:layout_height="45sp"
+                android:layout_marginTop="10sp"
+                android:layout_gravity="center"
+                android:padding="7sp"
+                android:src="@drawable/questionmark_icon" />
+            <ImageView
                 android:id="@+id/imageView_buttonConfirm_FragMainACMainViewEditLayout"
                 android:layout_width="45sp"
                 android:layout_height="45sp"
@@ -77,106 +80,16 @@
         <!-- ... -->
 
         <!-- FRAGMENT CONTAINER -->
-        <RelativeLayout
+        <FrameLayout
+            android:id="@+id/framelayout_gridDragNDrop_FragMainACMainViewEditLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/guideline_top"
             app:layout_constraintBottom_toTopOf="@+id/guideline_bottom">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <FrameLayout
-                    android:id="@+id/frameTestttttttttt"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <FrameLayout
-                            android:id="@+id/test"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"/>
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"/>
-                    </LinearLayout>
-                </FrameLayout>
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"/>
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"/>
-                    </LinearLayout>
-                </FrameLayout>
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"/>
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"/>
-                    </LinearLayout>
-                </FrameLayout>
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"/>
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"/>
-                    </LinearLayout>
-                </FrameLayout>
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"/>
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"/>
-                    </LinearLayout>
-                </FrameLayout>
-            </LinearLayout>
-        </RelativeLayout>
+
+        </FrameLayout>
         <!-- ... -->
 
         <!-- BOTTOM NAVIGATION -->
@@ -189,6 +102,7 @@
             app:itemRippleColor="?attr/colorControlNormal"
             app:itemActiveIndicatorStyle="@null"
             android:background="@drawable/rounded_exclude_bottom"
+            app:menu="@menu/bottom_navigation_view_mainacmainvieweditlayout"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

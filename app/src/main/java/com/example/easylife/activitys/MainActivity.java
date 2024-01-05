@@ -194,35 +194,35 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             case 0:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frameLayout_SplashAuxAndFragmentsTutorial_MainAc, new TutorialWelcomeFragment(this, fromNextFragment))
+                        .replace(R.id.frameLayout_fullScreenFragmentContainer_MainAc, new TutorialWelcomeFragment(this, fromNextFragment))
                         .addToBackStack(null)
                         .commit();
                 break;
             case 1:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frameLayout_SplashAuxAndFragmentsTutorial_MainAc, new TutorialAddFragment(this, fromNextFragment))
+                        .replace(R.id.frameLayout_fullScreenFragmentContainer_MainAc, new TutorialAddFragment(this, fromNextFragment))
                         .addToBackStack(null)
                         .commit();
                 break;
             case 2:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frameLayout_SplashAuxAndFragmentsTutorial_MainAc, new TutorialShowFragment(this, fromNextFragment))
+                        .replace(R.id.frameLayout_fullScreenFragmentContainer_MainAc, new TutorialShowFragment(this, fromNextFragment))
                         .addToBackStack(null)
                         .commit();
                 break;
             case 3:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frameLayout_SplashAuxAndFragmentsTutorial_MainAc, new TutorialEditFragment(this, fromNextFragment))
+                        .replace(R.id.frameLayout_fullScreenFragmentContainer_MainAc, new TutorialEditFragment(this, fromNextFragment))
                         .addToBackStack(null)
                         .commit();
                 break;
             case 4:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frameLayout_SplashAuxAndFragmentsTutorial_MainAc, new TutorialEndFragment(this, fromNextFragment, skipped, skippedFromWhere))
+                        .replace(R.id.frameLayout_fullScreenFragmentContainer_MainAc, new TutorialEndFragment(this, fromNextFragment, skipped, skippedFromWhere))
                         .addToBackStack(null)
                         .commit();
                 break;

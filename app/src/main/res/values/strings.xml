@@ -42,6 +42,7 @@
     <string name="mainAc_sideBar_RateUs">Rate Us</string>
     <string name="mainAc_sideBar_Backups">Backups</string>
     <string name="mainAc_sideBar_Configs">Settings</string>
+    <string name="mainAc_FragMainView_Toast_noSpace_Text">You dont have space to put this object in</string>
 
     <!-- Tutorial Fragments -->
     <string name="tutorialFrag_skip">Skip</string>
