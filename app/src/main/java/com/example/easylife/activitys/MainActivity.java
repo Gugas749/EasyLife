@@ -543,10 +543,6 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     //----------------------------------------------
     @Override
     public void OnFragMainACMainViewEditLayoutExitClick(Boolean Changed, List<DraggableCardViewEntity> draggableCardViewObjectList) {
-        if(Changed){
-            mainACMainViewFragment.updateData(draggableCardViewObjectList);
-        }
-
         scaleUpAnimtion();
         new CountDownTimer(1200, 1000) {
             public void onTick(long millisUntilFinished) {
@@ -559,6 +555,10 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+                if(Changed){
+                    mainACMainViewFragment.updateData(draggableCardViewObjectList);
+                }
 
                 outFragment();
                 scaleDownAnimtion();

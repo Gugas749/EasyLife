@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.alertDialogFragments.AlertDialogQuestionFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView_title_AlertDialogFragment_Question"
+            android:gravity="center_horizontal"
+            android:textSize="24sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TITLE"/>
+
+        <TextView
+            android:id="@+id/textView_description_AlertDialogFragment_Question"
+            android:layout_below="@+id/textView_title_AlertDialogFragment_Question"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="15sp"
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15sp"
+            android:layout_below="@+id/textView_description_AlertDialogFragment_Question">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_Cancel_AlertDialogFragment_Question"
+                android:layout_marginLeft="30sp"
+                android:layout_marginRight="5sp"
+                android:layout_gravity="left"
+                android:textSize="16sp"
+                android:paddingTop="15sp"
+                android:paddingBottom="15sp"
+                android:paddingLeft="30sp"
+                android:paddingRight="30sp"
+                android:text="@string/general_cancel"
+                android:textColor="?attr/textAppearanceBodySmall"
+                android:background="@drawable/round_button_principal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_Confirm_AlertDialogFragment_Question"
+                android:layout_marginRight="30sp"
+                android:layout_marginLeft="5sp"
+                android:layout_gravity="right"
+                android:textSize="16sp"
+                android:paddingTop="15sp"
+                android:paddingBottom="15sp"
+                android:paddingLeft="30sp"
+                android:paddingRight="30sp"
+                android:text="@string/general_continue"
+                android:textColor="?attr/textAppearanceBodySmall"
+                android:background="@drawable/round_button_principal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

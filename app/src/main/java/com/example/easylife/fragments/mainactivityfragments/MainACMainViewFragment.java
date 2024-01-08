@@ -12,10 +12,12 @@ import android.widget.LinearLayout;
 import com.example.easylife.database.DraggableCardViewEntity;
 import com.example.easylife.databinding.FragmentMainACMainViewBinding;
 import com.example.easylife.fragments.mainviewpiecharts.BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment;
+import com.example.easylife.fragments.mainviewpiecharts.RectangleWithPieChartFragment;
 import com.example.easylife.fragments.mainviewpiecharts.RectangleWithPieChartInTheLeftAndTextInTheRightFragment;
 import com.example.easylife.fragments.mainviewpiecharts.RectangleWithPieChartInTheRightAndTextInTheLeftFragment;
 import com.example.easylife.scripts.mainvieweditlayout_things.DraggableCardViewObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainACMainViewFragment extends Fragment {
@@ -43,6 +45,8 @@ public class MainACMainViewFragment extends Fragment {
         return binding.getRoot();
     }
     private void processData(){
+        List<String> linesUsed = new ArrayList<>();
+        linesUsed.add("5");
         for (int i = 0; i < draggableCardViewObjectsList.size(); i++) {
             DraggableCardViewEntity selectedObject = draggableCardViewObjectsList.get(i);
 
@@ -149,7 +153,71 @@ public class MainACMainViewFragment extends Fragment {
                             .commit();
                     break;
                 case "1":
-                    //divideFrameLayout();
+                    frameLayout1 = null;
+                    fragment = new Fragment();
+                    Fragment brotherFragment = new Fragment();
+                    DraggableCardViewEntity brother = null;
+
+                    for (int j = 0; j < linesUsed.size(); j++) {
+                        if(!linesUsed.get(j).equals(String.valueOf(selectedObject.getPosition()))){
+                            int possibleBrother = 0;
+
+                            switch (selectedObject.getPosition()){
+                                case 0:
+                                    frameLayout1 = binding.frameLayoutLine1FragMainACMainView;
+                                    possibleBrother = 5;
+                                    linesUsed.add("0");
+                                    break;
+                                case 1:
+                                    frameLayout1 = binding.frameLayoutLine2FragMainACMainView;
+                                    possibleBrother = 6;
+                                    linesUsed.add("1");
+                                    break;
+                                case 2:
+                                    frameLayout1 = binding.frameLayoutLine3FragMainACMainView;
+                                    possibleBrother = 7;
+                                    linesUsed.add("2");
+                                    break;
+                                case 3:
+                                    frameLayout1 = binding.frameLayoutLine4FragMainACMainView;
+                                    possibleBrother = 8;
+                                    linesUsed.add("3");
+                                    break;
+                                case 4:
+                                    frameLayout1 = binding.frameLayoutLine5FragMainACMainView;
+                                    possibleBrother = 9;
+                                    linesUsed.add("4");
+                                    break;
+                            }
+
+                            for (int k = 0; k < draggableCardViewObjectsList.size(); k++) {
+                                if(draggableCardViewObjectsList.get(k).getPosition() == possibleBrother){
+                                    brother = draggableCardViewObjectsList.get(k);
+                                    break;
+                                }
+                            }
+
+                            RectangleWithPieChartFragment frag1 = new RectangleWithPieChartFragment();
+                            frag1.setInfos(selectedObject.getValue1Color(), selectedObject.getValue2Color(),
+                                    selectedObject.getValue3Color(), selectedObject.getValue4Color(),
+                                    selectedObject.getChartName(),
+                                    selectedObject.getValue1Percentage(), selectedObject.getValue2Percentage(),
+                                    selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage());
+                            fragment = frag1;
+
+                            if(brother != null){
+                                RectangleWithPieChartFragment frag2 = new RectangleWithPieChartFragment();
+                                frag2.setInfos(brother.getValue1Color(), brother.getValue2Color(),
+                                        brother.getValue3Color(), brother.getValue4Color(),
+                                        brother.getChartName(),
+                                        brother.getValue1Percentage(), brother.getValue2Percentage(),
+                                        brother.getValue3Percentage(), brother.getValue4Percentage());
+                                brotherFragment = frag2;
+                            }
+
+                            //divideFrameLayout(frameLayout1, fragment, brotherFragment);
+                        }
+                    }
                     break;
             }
         }
@@ -208,11 +276,13 @@ public class MainACMainViewFragment extends Fragment {
                 .addToBackStack(null)
                 .commit();
 
-        getChildFragmentManager()
-                .beginTransaction()
-                .replace(child2.getId(), frag2)
-                .addToBackStack(null)
-                .commit();
+        if(child2 != null){
+            getChildFragmentManager()
+                    .beginTransaction()
+                    .replace(child2.getId(), frag2)
+                    .addToBackStack(null)
+                    .commit();
+        }
     }
     private void combineFrameLayouts(FrameLayout frameLayout1, FrameLayout frameLayout2, Fragment fragment) {
         // Define o novo peso para frameLayout1 (40%)

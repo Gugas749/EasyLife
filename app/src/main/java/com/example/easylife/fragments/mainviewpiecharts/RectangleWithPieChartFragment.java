@@ -25,7 +25,13 @@ public class RectangleWithPieChartFragment extends Fragment {
     private String title;
     private float value1, value2, value3, value4;
 
-    public RectangleWithPieChartFragment(int color1, int color2, int color3, int color4, String title, float value1, float value2, float value3, float value4) {
+    public RectangleWithPieChartFragment() {
+
+    }
+
+    public void setInfos(int color1, int color2, int color3, int color4,
+                         String title,
+                         float value1, float value2, float value3, float value4){
         this.color1 = color1;
         this.color2 = color2;
         this.color3 = color3;

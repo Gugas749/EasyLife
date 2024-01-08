@@ -28,8 +28,7 @@ public class AlertDialogNotifyFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentAlertDialogNotifyBinding.inflate(inflater);
 
         binding.textViewTitleAlertDialogFragmentNotify.setText(title);

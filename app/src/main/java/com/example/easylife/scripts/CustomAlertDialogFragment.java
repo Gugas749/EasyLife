@@ -15,13 +15,23 @@ import androidx.fragment.app.Fragment;
 
 import com.example.easylife.R;
 import com.example.easylife.fragments.alertDialogFragments.AlertDialogNotifyFragment;
+import com.example.easylife.fragments.alertDialogFragments.AlertDialogQuestionFragment;
 
-public class CustomAlertDialogFragment extends DialogFragment implements AlertDialogNotifyFragment.ContinueButtonClick {
+public class CustomAlertDialogFragment extends DialogFragment implements AlertDialogNotifyFragment.ContinueButtonClick, AlertDialogQuestionFragment.CancelButtonClick, AlertDialogQuestionFragment.ConfirmButtonClick {
     private Fragment customFragment;
+    private ConfirmButtonClickAlertDialogQuestionFrag listenner;
+
+    public interface ConfirmButtonClickAlertDialogQuestionFrag{
+        void onConfirmButtonClicked();
+    }
 
     // Constructor to set the custom fragment
     public CustomAlertDialogFragment() {
 
+    }
+
+    public void setConfirmListenner(ConfirmButtonClickAlertDialogQuestionFrag listenner){
+        this.listenner = listenner;
     }
 
     @Nullable
@@ -51,5 +61,16 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
 
     public void setCustomFragment(Fragment customFragment){
         this.customFragment = customFragment;
+    }
+
+    @Override
+    public void onCancelButtonClicked() {
+        this.dismiss();
+    }
+
+    @Override
+    public void onConfirmButtonClicked() {
+        listenner.onConfirmButtonClicked();
+        this.dismiss();
     }
 }

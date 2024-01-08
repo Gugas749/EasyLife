@@ -1,9 +1,11 @@
 package com.example.easylife.scripts.mainvieweditlayout_things;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,17 +21,26 @@ public class DraggableCardView extends FrameLayout {
     private List<DraggableCardView> draggableCardViews;
     private List<Point> predefinedPositions;
     private OnCardViewDropListener dropListener;
+    private OnCardViewSwipeRightListener swipeRightListener;
     private Point lastPosition;
     private int ID;
+    private GestureDetector gestureDetector;
     public interface OnCardViewDropListener {
         void onCardViewDrop(DraggableCardView cardView, Point point, Point lastPosition);
+    }
+    public interface OnCardViewSwipeRightListener {
+        void onCardViewSwipeRight(DraggableCardView cardView);
     }
     public void setOnCardViewDragListener(OnCardViewDropListener listener) {
         this.dropListener = listener;
     }
+    public void setOnCardViewSwipeRightListener(OnCardViewSwipeRightListener listener) {
+        this.swipeRightListener = listener;
+    }
     public DraggableCardView(Context context) {
         super(context);
         init();
+        setupGestureDetector(context);
     }
     public DraggableCardView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -88,6 +99,8 @@ public class DraggableCardView extends FrameLayout {
     }
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        gestureDetector.onTouchEvent(event);
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 setAlpha(DRAGGING_ALPHA);
@@ -144,6 +157,20 @@ public class DraggableCardView extends FrameLayout {
 
         setDesiredSize(); // Set the desired size after each movement
         return true;
+    }
+    private void setupGestureDetector(Context context) {
+        gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                // Check if the swipe is to the right
+                if (e2.getX() - e1.getX() > MIN_DISTANCE_THRESHOLD && Math.abs(velocityX) > Math.abs(velocityY)) {
+                    // Show an AlertDialog
+                    swipeRightListener.onCardViewSwipeRight(DraggableCardView.this);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
     private boolean isOverlapping(float x, float y) {
         Rect currentBounds = new Rect((int) x, (int) y, (int) (x + getWidth()), (int) (y + getHeight()));
