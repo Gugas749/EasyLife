@@ -49,6 +49,7 @@ public class RegisterDialogAccountFragment extends Fragment {
         binding.butContinueRegisterAccountDialogFrag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                binding.butContinueRegisterAccountDialogFrag.setEnabled(false);
                 if (binding.editTextEmailCodeRegisterAccountDialogFrag.getVisibility() == View.GONE) {
                     String email = binding.editTextEmailRegisterAccountDialogFrag.getText().toString().trim();
                     if (isValidEmail(email)) {
@@ -65,6 +66,7 @@ public class RegisterDialogAccountFragment extends Fragment {
                         binding.editTextEmailCodeRegisterAccountDialogFrag.setError(getString(R.string.register_dialog_account_email_code_wrong));
                     }
                 }
+                binding.butContinueRegisterAccountDialogFrag.setEnabled(true);
             }
         });
     }

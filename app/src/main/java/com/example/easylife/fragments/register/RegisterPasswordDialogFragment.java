@@ -89,17 +89,21 @@ public class RegisterPasswordDialogFragment extends Fragment {
         binding.butContinueRegisterPasswordFrag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                binding.butContinueRegisterPasswordFrag.setEnabled(false);
                 String passswordText = binding.editTextPasswordRegisterPasswordDialogFrag.getText().toString();
                 String confirmPassswordText = binding.editTextConfirmPasswordRegisterPasswordDialogFrag.getText().toString();
 
                 if(passswordText.length() >= 4){
                     if(passswordText.equals(confirmPassswordText)){
                         new LocalDatabaseInsetTask().execute();
+                        binding.butContinueRegisterPasswordFrag.setEnabled(true);
                     } else {
                         binding.editTextConfirmPasswordRegisterPasswordDialogFrag.setError(getString(R.string.register_dialog_password_invalid_password_no_equal));
+                        binding.butContinueRegisterPasswordFrag.setEnabled(true);
                     }
                 } else {
                     binding.editTextPasswordRegisterPasswordDialogFrag.setError(getString(R.string.register_dialog_password_invalid_password_to_short));
+                    binding.butContinueRegisterPasswordFrag.setEnabled(true);
                 }
             }
         });

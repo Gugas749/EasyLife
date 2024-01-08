@@ -6,9 +6,11 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-@Database(entities = {UserInfosEntity.class}, version = 2)
+@Database(entities = {UserInfosEntity.class, SettingsEntity.class, DraggableCardViewEntity.class}, version = 2)
 public abstract class LocalDataBase extends RoomDatabase {
     public abstract UserInfosDao userInfosDao();
+    public abstract SettingsDao settingsDao();
+    public abstract DraggableCardViewDao draggableCardViewDao();
     public static LocalDataBase INSTANCE;
     public static LocalDataBase getInstance(Context context){
         if(INSTANCE==null)

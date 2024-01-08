@@ -10,15 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/colorPrimary">
-        <!-- SPLASH -->
-        <ImageView
-            android:id="@+id/imageView_aux1_MainActivity"
-            android:layout_width="10sp"
-            android:layout_height="10sp"
-            android:elevation="10sp"
-            android:background="@drawable/rounded_exclude_top_left"
-            tools:ignore="MissingConstraints" />
-        <!-- -->
 
         <!-- TOP NAVIGATION -->
         <androidx.cardview.widget.CardView
@@ -48,7 +39,7 @@
                 android:layout_marginTop="10sp"
                 android:layout_gravity="center"
                 android:padding="7sp"
-                android:src="@drawable/questionmark_icon" />
+                android:src="@drawable/questionpoint_icon" />
             <ImageView
                 android:id="@+id/imageView_buttonConfirm_FragMainACMainViewEditLayout"
                 android:layout_width="45sp"
@@ -65,14 +56,14 @@
 
         <!-- GUIDELINES -->
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_top"
+            android:id="@+id/guideline_top_MainACMainViewEditLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.11" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_bottom"
+            android:id="@+id/guideline_bottom_MainACMainViewEditLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -86,8 +77,8 @@
             android:layout_height="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/guideline_top"
-            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom">
+            app:layout_constraintTop_toBottomOf="@+id/guideline_top_MainACMainViewEditLayout"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom_MainACMainViewEditLayout">
 
         </FrameLayout>
         <!-- ... -->

@@ -78,6 +78,7 @@ public class TutorialEndFragment extends Fragment {
         binding.textViewNextFragTutorialEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                binding.textViewNextFragTutorialEnd.setEnabled(false);
                 parent.tutorialChangeFragments(5, false, false, 4);
             }
         });

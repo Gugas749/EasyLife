@@ -25,10 +25,14 @@ public class RectangleWithPieChartInTheLeftAndTextInTheRightFragment extends Fra
     private String title, valueText1, valueText2, valueText3, valueText4;
     private float value1, value2, value3, value4;
 
-    public RectangleWithPieChartInTheLeftAndTextInTheRightFragment(int color1, int color2, int color3, int color4,
-                                                                   String title,
-                                                                   float value1, float value2, float value3, float value4,
-                                                                   String valueText1, String valueText2, String valueText3, String valueText4) {
+    public RectangleWithPieChartInTheLeftAndTextInTheRightFragment() {
+
+    }
+
+    public void setInfos(int color1, int color2, int color3, int color4,
+                         String title,
+                         float value1, float value2, float value3, float value4,
+                         String valueText1, String valueText2, String valueText3, String valueText4){
         this.color1 = color1;
         this.color2 = color2;
         this.color3 = color3;

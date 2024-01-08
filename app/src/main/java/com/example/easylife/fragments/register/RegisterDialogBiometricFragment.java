@@ -35,6 +35,7 @@ public class RegisterDialogBiometricFragment extends Fragment {
         binding.butConfirmRegisterBiometricFrag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                binding.butConfirmRegisterBiometricFrag.setEnabled(false);
                 buttonReturn(true);
             }
         });

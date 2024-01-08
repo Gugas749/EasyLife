@@ -42,7 +42,12 @@
     <string name="mainAc_sideBar_RateUs">Rate Us</string>
     <string name="mainAc_sideBar_Backups">Backups</string>
     <string name="mainAc_sideBar_Configs">Settings</string>
-    <string name="mainAc_FragMainView_Toast_noSpace_Text">You dont have space to put this object in</string>
+    <string name="mainAc_FragMainViewEditLayout_Toast_noSpace_Text">You dont have space to put this object in</string>
+    <string name="mainAc_FragMainView_Example_ChartName_Text">Your Chart Name</string>
+    <string name="mainAc_FragMainView_Example_Percentage1_Text">Percentage 1</string>
+    <string name="mainAc_FragMainView_Example_Percentage2_Text">Percentage 2</string>
+    <string name="mainAc_FragMainView_Example_Percentage3_Text">Percentage 3</string>
+    <string name="mainAc_FragMainView_Example_Percentage4_Text">Percentage 4</string>
 
     <!-- Tutorial Fragments -->
     <string name="tutorialFrag_skip">Skip</string>

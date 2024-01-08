@@ -42,6 +42,7 @@ public class RegisterDialogFaceIDFragment extends Fragment {
                             new String[]{Manifest.permission.USE_BIOMETRIC},
                             1);
                 }*/
+                binding.butConfirmRegisterFaceIDFrag.setEnabled(false);
                 buttonReturn(true);
             }
         });

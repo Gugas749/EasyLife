@@ -1,27 +1,34 @@
 package com.example.easylife.fragments.mainactivityfragments;
 
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.room.Room;
 
+import android.os.CountDownTimer;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.easylife.R;
+import com.example.easylife.database.DraggableCardViewDao;
+import com.example.easylife.database.DraggableCardViewEntity;
+import com.example.easylife.database.LocalDataBase;
 import com.example.easylife.databinding.FragmentMainACMainViewEditLayoutBinding;
-import com.example.easylife.fragments.mainviewpiecharts.RectangleWithPieChartFragment;
-import com.example.easylife.scripts.DraggableCardView;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.easylife.scripts.mainvieweditlayout_things.DraggableCardView;
+import com.example.easylife.scripts.mainvieweditlayout_things.DraggableCardViewObject;
 import com.google.android.material.color.MaterialColors;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -35,13 +42,19 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
     private List<Point> usedPositions = new ArrayList<>();
     private FragmentMainACMainViewEditLayoutBinding binding;
     private OnFragMainACMainViewEditLayoutExitClick onExitClickListenner;
+    private List<DraggableCardViewEntity> draggableCardViewObjectList = new ArrayList<>();
+    private DraggableCardViewDao draggableCardViewDao;
+    private LocalDataBase database;
+    private int objectsIDs = 0;
+    private int mainCardViewColor;
 
     public interface OnFragMainACMainViewEditLayoutExitClick {
-        void OnFragMainACMainViewEditLayoutExitClick();
+        void OnFragMainACMainViewEditLayoutExitClick(Boolean changed, List<DraggableCardViewEntity> draggableCardViewObjectList);
     }
 
-    public MainACMainViewEditLayoutFragment(OnFragMainACMainViewEditLayoutExitClick onExitClickListenner) {
+    public MainACMainViewEditLayoutFragment(OnFragMainACMainViewEditLayoutExitClick onExitClickListenner, List<DraggableCardViewEntity> list) {
         this.onExitClickListenner = onExitClickListenner;
+        this.draggableCardViewObjectList = list;
     }
 
     @Override
@@ -53,22 +66,57 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMainACMainViewEditLayoutBinding.inflate(inflater);
-
-        draggableCardView = new DraggableCardView(getContext());
-        draggableCardViews = new ArrayList<>();
+        disableEverything();
+        init();
 
         setupConfirmButton();
         setupExitButton();
         setupBottomNavigation();
+        setupHowToUseButton();
+        setupLocalDataBase();
+
+        initPostLoad();
 
         return binding.getRoot();
     }
 
+    //------------------------------------SETUPS-------------------------------
+    private void init(){
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = getContext().getTheme();
+        theme.resolveAttribute(com.google.android.material.R.attr.colorSecondary, typedValue, true);
+        mainCardViewColor = typedValue.data;
+        draggableCardView = new DraggableCardView(getContext());
+        draggableCardViews = new ArrayList<>();
+    }
+    private void initPostLoad(){
+        new CountDownTimer(1300, 1000) {
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            public void onFinish() {
+                int width2 = (int) (binding.framelayoutGridDragNDropFragMainACMainViewEditLayout.getWidth() * 0.5f);
+                int height2 = (int) (binding.framelayoutGridDragNDropFragMainACMainViewEditLayout.getHeight() * 0.2f);
+                predefinedPositions = setPredefinedPositions(width2, height2);
+                if(draggableCardViewObjectList.size() > 0){
+                    loadUsedPoint();
+                    loadObjectsFromList();
+                }
+
+                enableEverything();
+            }
+        }.start();
+    }
+    private void setupLocalDataBase(){
+        database = Room.databaseBuilder(getContext(), LocalDataBase.class, "EasyLifeLocalDB").build();
+        draggableCardViewDao = database.draggableCardViewDao();
+    }
     private void setupExitButton(){
         binding.imageViewButtonExitFragMainACMainViewEditLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onExitClickListenner.OnFragMainACMainViewEditLayoutExitClick();
+                onExitClickListenner.OnFragMainACMainViewEditLayoutExitClick(false, draggableCardViewObjectList);
             }
         });
     }
@@ -76,7 +124,9 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
         binding.imageViewButtonConfirmFragMainACMainViewEditLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //TODO: adicionar alertDialog
+                new LocalDatabaseDeleteAllTask().execute();
+                new LocalDatabaseInsetTask().execute();
             }
         });
     }
@@ -106,10 +156,38 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
             }
         });
     }
+    private void setupHowToUseButton(){
+        binding.imageViewButtonHowToUseFragMainACMainViewEditLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: fazer o how to use
+            }
+        });
+    }
+    private void enableEverything(){
+        binding.imageViewButtonExitFragMainACMainViewEditLayout.setEnabled(true);
+        binding.imageViewButtonHowToUseFragMainACMainViewEditLayout.setEnabled(true);
+        binding.imageViewButtonConfirmFragMainACMainViewEditLayout.setEnabled(true);
+
+        binding.framelayoutGridDragNDropFragMainACMainViewEditLayout.setEnabled(true);
+
+        binding.bottomNavigationViewFragMainACMainViewEditLayout.setEnabled(true);
+    }
+    private void disableEverything(){
+        binding.imageViewButtonExitFragMainACMainViewEditLayout.setEnabled(false);
+        binding.imageViewButtonHowToUseFragMainACMainViewEditLayout.setEnabled(false);
+        binding.imageViewButtonConfirmFragMainACMainViewEditLayout.setEnabled(false);
+
+        binding.framelayoutGridDragNDropFragMainACMainViewEditLayout.setEnabled(false);
+
+        binding.bottomNavigationViewFragMainACMainViewEditLayout.setEnabled(false);
+    }
+    //--------------------------------------------------------------------------
+
+    //----------------------------DRAG N DROP RELATED---------------------------
     private void addCardView(float widhtPercentage, float heightPercentage, String Tag){
         int width2 = (int) (binding.framelayoutGridDragNDropFragMainACMainViewEditLayout.getWidth() * 0.5f);
         int height2 = (int) (binding.framelayoutGridDragNDropFragMainACMainViewEditLayout.getHeight() * 0.2f);
-        predefinedPositions = setPredefinedPositions(width2, height2);
         Point positionDesocupied = new Point();
         Boolean spaceDesocupied = false;
 
@@ -120,7 +198,7 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
                     Point point = predefinedPositions.get(i);
                     if(!draggableCardView.isPositionOccupied(point)){
                         if(usedPositions.size() > 0){
-                            if(!extraOcupationTest(point)){
+                            if(!extraOcupationTest(point, "1")){
                                 //desocupado
                                 spaceDesocupied = true;
                                 positionDesocupied = predefinedPositions.get(i);;
@@ -143,7 +221,7 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
                     Point point = predefinedPositions.get(i);
                     if(!draggableCardView.isPositionOccupied(point)){
                         if(usedPositions.size() > 0){
-                            if(!extraOcupationTest(point)){
+                            if(!extraOcupationTest(point, "2")){
                                 //desocupado
                                 spaceDesocupied = true;
                                 positionDesocupied = predefinedPositions.get(i);;
@@ -185,7 +263,7 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
                                         break;
                                 }
 
-                                if(extraOcupationTest(point)){
+                                if(extraOcupationTest(point, "1")){
                                     extraTest = false;
                                     break;
                                 }
@@ -221,7 +299,7 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
                                         break;
                                 }
 
-                                if(extraOcupationTest(point)){
+                                if(extraOcupationTest(point, "1")){
                                     extraTest = false;
                                     break;
                                 }
@@ -257,7 +335,7 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
                                         break;
                                 }
 
-                                if(extraOcupationTest(point)){
+                                if(extraOcupationTest(point, "1")){
                                     extraTest = false;
                                     break;
                                 }
@@ -293,7 +371,7 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
                                         break;
                                 }
 
-                                if(extraOcupationTest(point)){
+                                if(extraOcupationTest(point, "1")){
                                     extraTest = false;
                                     break;
                                 }
@@ -318,6 +396,7 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
         }
 
         if(spaceDesocupied){
+            objectsIDs++;
             draggableCardView = new DraggableCardView(getContext());
 
             int width = (int) (binding.framelayoutGridDragNDropFragMainACMainViewEditLayout.getWidth() * widhtPercentage);
@@ -335,7 +414,7 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
             draggableCardView.addView(cardView);
             draggableCardView.setTag(Tag);
             draggableCardView.setPredefinedPositions(width2, height2);
-
+            draggableCardView.setID(objectsIDs);
             draggableCardViews.add(draggableCardView);
             draggableCardView.setDraggableCardViews(draggableCardViews);
             draggableCardView.setOnCardViewDragListener(this);
@@ -350,18 +429,54 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
 
             MotionEvent upEvent = MotionEvent.obtain(0, 0, MotionEvent.ACTION_UP, positionDesocupied.x, positionDesocupied.y, 0);
             draggableCardView.dispatchTouchEvent(upEvent);
+
+            addToTheList(positionDesocupied, Tag, objectsIDs, "1");
         }else{
-            Toast.makeText(getContext(), getString(R.string.mainAc_FragMainView_Toast_noSpace_Text), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.mainAc_FragMainViewEditLayout_Toast_noSpace_Text), Toast.LENGTH_SHORT).show();
         }
     }
-    private Boolean extraOcupationTest(Point point){
+    private Boolean extraOcupationTest(Point point, String tag){
         Boolean ocupied = false;
 
-        for (int i = 0; i < usedPositions.size(); i++) {
-            if(usedPositions.get(i).equals(point)){
-                ocupied = true;
+        switch (tag){
+            case "1":
+                for (int i = 0; i < usedPositions.size(); i++) {
+                    if(usedPositions.get(i).equals(point)){
+                        ocupied = true;
+                        break;
+                    }
+                }
                 break;
-            }
+            case "2":
+                Boolean aux1 = false;
+                Boolean aux2 = false;
+                int positionOnPredefinedList = 0;
+
+                for (int j = 0; j < predefinedPositions.size(); j++) {
+                    if(predefinedPositions.get(j).equals(point)){
+                        positionOnPredefinedList = j;
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < usedPositions.size(); i++) {
+                    if(usedPositions.get(i).equals(point)){
+                        aux1 = true;
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < usedPositions.size(); i++) {
+                    if(usedPositions.get(i).equals(predefinedPositions.get(positionOnPredefinedList + 5))){
+                        aux2 = true;
+                        break;
+                    }
+                }
+
+                if(aux1 || aux2){
+                    ocupied = true;
+                }
+                break;
         }
 
         return ocupied;
@@ -485,5 +600,197 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
                 }
             }
         }
+
+        //TODO: adicionar opçao do style
+        updateFromTheList(currentPosition, cardView.getID(), "1");
     }
+    //--------------------------------------------------------------------------
+    private void addToTheList(Point point, String type, int ID, String style){
+        for (int i = 0; i < predefinedPositions.size(); i++) {
+            if(predefinedPositions.get(i).equals(point)){
+                DraggableCardViewEntity object = new DraggableCardViewEntity(i, type, getString(R.string.mainAc_FragMainView_Example_ChartName_Text), style);
+                object.setInfos(25, 25, 25, 25,
+                        getString(R.string.mainAc_FragMainView_Example_Percentage1_Text), getString(R.string.mainAc_FragMainView_Example_Percentage2_Text),
+                        getString(R.string.mainAc_FragMainView_Example_Percentage3_Text), getString(R.string.mainAc_FragMainView_Example_Percentage4_Text),
+                        getResources().getColor(R.color.highlightedTextDark), getResources().getColor(R.color.textDark),
+                        getResources().getColor(R.color.highlightedTextLight), getResources().getColor(R.color.textLight));
+                object.setId(ID);
+                draggableCardViewObjectList.add(object);
+                break;
+            }
+        }
+    }
+    private void updateFromTheList(Point point, int ID, String style){
+        for (int i = 0; i < draggableCardViewObjectList.size(); i++) {
+            if(draggableCardViewObjectList.get(i).getId() == ID){
+                DraggableCardViewEntity object = draggableCardViewObjectList.get(i);
+                for (int j = 0; j < predefinedPositions.size(); j++) {
+                    if(predefinedPositions.get(j).equals(point)){
+                        draggableCardViewObjectList.remove(object);
+                        object.setPosition(j);
+                        object.setStyle(style);
+                        draggableCardViewObjectList.add(object);
+                        Log.i("Mudou", "Mudou : "+j);
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    //----------------------------LOAD OLD SCHEME---------------------------
+    private void loadUsedPoint(){
+        if(draggableCardViewObjectList.size() > 0){
+            for (int i = 0; i < draggableCardViewObjectList.size(); i++) {
+                DraggableCardViewEntity object = draggableCardViewObjectList.get(i);
+
+                switch (object.getType()){
+                    case "3":
+                        switch (object.getPosition()){
+                            case 0:
+                                usedPositions.add(predefinedPositions.get(0));
+                                usedPositions.add(predefinedPositions.get(1));
+                                usedPositions.add(predefinedPositions.get(5));
+                                usedPositions.add(predefinedPositions.get(6));
+                                break;
+                            case 1:
+                                usedPositions.add(predefinedPositions.get(1));
+                                usedPositions.add(predefinedPositions.get(2));
+                                usedPositions.add(predefinedPositions.get(6));
+                                usedPositions.add(predefinedPositions.get(7));
+                                break;
+                            case 2:
+                                usedPositions.add(predefinedPositions.get(2));
+                                usedPositions.add(predefinedPositions.get(3));
+                                usedPositions.add(predefinedPositions.get(7));
+                                usedPositions.add(predefinedPositions.get(8));
+                                break;
+                            case 3:
+                                usedPositions.add(predefinedPositions.get(3));
+                                usedPositions.add(predefinedPositions.get(4));
+                                usedPositions.add(predefinedPositions.get(8));
+                                usedPositions.add(predefinedPositions.get(9));
+                                break;
+                        }
+                        break;
+                    case "2":
+                        switch (object.getPosition()){
+                            case 0:
+                                usedPositions.add(predefinedPositions.get(0));
+                                usedPositions.add(predefinedPositions.get(5));
+                                break;
+                            case 1:
+                                usedPositions.add(predefinedPositions.get(1));
+                                usedPositions.add(predefinedPositions.get(6));
+                                break;
+                            case 2:
+                                usedPositions.add(predefinedPositions.get(2));
+                                usedPositions.add(predefinedPositions.get(7));
+                                break;
+                            case 3:
+                                usedPositions.add(predefinedPositions.get(3));
+                                usedPositions.add(predefinedPositions.get(8));
+                                break;
+                            case 4:
+                                usedPositions.add(predefinedPositions.get(4));
+                                usedPositions.add(predefinedPositions.get(9));
+                                break;
+                        }
+                        break;
+                    case "1":
+                        usedPositions.add(predefinedPositions.get(object.getPosition()));
+                        break;
+                }
+            }
+        }
+    }
+    private void loadObjectsFromList(){
+        if(draggableCardViewObjectList.size() > 0){
+            int width2 = (int) (binding.framelayoutGridDragNDropFragMainACMainViewEditLayout.getWidth() * 0.5f);
+            int height2 = (int) (binding.framelayoutGridDragNDropFragMainACMainViewEditLayout.getHeight() * 0.2f);
+            for (int i = 0; i < draggableCardViewObjectList.size(); i++) {
+                objectsIDs++;
+                DraggableCardViewEntity object = draggableCardViewObjectList.get(i);
+
+                float percentageWidth = 0.0f;
+                float percentageHeiht = 0.0f;
+
+                switch (object.getType()){
+                    case "3":
+                        percentageWidth = 0.98f;
+                        percentageHeiht = 0.395f;
+                        break;
+                    case "2":
+                        percentageWidth = 0.98f;
+                        percentageHeiht = 0.195f;
+                        break;
+                    case "1":
+                        percentageWidth = 0.495f;
+                        percentageHeiht = 0.195f;
+                        break;
+                }
+
+                Point position = predefinedPositions.get(object.getPosition());
+
+                draggableCardView = new DraggableCardView(getContext());
+
+                int width = (int) (binding.framelayoutGridDragNDropFragMainACMainViewEditLayout.getWidth() * percentageWidth);
+                int height = (int) (binding.framelayoutGridDragNDropFragMainACMainViewEditLayout.getHeight() * percentageHeiht);
+
+                CardView cardView = new CardView(getContext());
+                cardView.setLayoutParams(new ViewGroup.LayoutParams(width, height));
+                float cornerRadius = 35;
+                cardView.setRadius(cornerRadius);
+                cardView.setCardBackgroundColor(mainCardViewColor);
+
+                draggableCardView.setTag(object.getType());
+                draggableCardView.setPredefinedPositions(width2, height2);
+                draggableCardView.setID(object.getId());
+                draggableCardView.setDraggableCardViews(draggableCardViews);
+                draggableCardView.setOnCardViewDragListener(this);
+                draggableCardView.setLastPosition(position);
+                draggableCardView.setInitialPosition(position.x, position.y);
+
+                draggableCardView.addView(cardView);
+                draggableCardViews.add(draggableCardView);
+                binding.framelayoutGridDragNDropFragMainACMainViewEditLayout.addView(draggableCardView);
+
+                MotionEvent downEvent = MotionEvent.obtain(0, 0, MotionEvent.ACTION_DOWN, position.x, position.y, 0);
+                draggableCardView.dispatchTouchEvent(downEvent);
+
+                MotionEvent upEvent = MotionEvent.obtain(0, 0, MotionEvent.ACTION_UP, position.x, position.y, 0);
+                draggableCardView.dispatchTouchEvent(upEvent);
+            }
+        }
+    }
+    //--------------------------------------------------------------------------
+
+    //----------------------------DATABASE FUNCTIONS---------------------------
+    private class LocalDatabaseInsetTask extends AsyncTask<Void, Void, List<DraggableCardViewEntity>> {
+        @Override
+        protected List<DraggableCardViewEntity> doInBackground(Void... voids) {
+            draggableCardViewDao.insertList(draggableCardViewObjectList);
+
+            return draggableCardViewObjectList;
+        }
+
+        @Override
+        protected void onPostExecute(List<DraggableCardViewEntity> list) {
+            onExitClickListenner.OnFragMainACMainViewEditLayoutExitClick(true, list);
+        }
+    }
+    private class LocalDatabaseDeleteAllTask extends AsyncTask<Void, Void, List<DraggableCardViewEntity>> {
+        @Override
+        protected List<DraggableCardViewEntity> doInBackground(Void... voids) {
+            draggableCardViewDao.clearAllEntries();
+            return draggableCardViewObjectList;
+        }
+
+        @Override
+        protected void onPostExecute(List<DraggableCardViewEntity> Classes) {
+
+        }
+    }
+    //--------------------------------------------------------------------------
 }

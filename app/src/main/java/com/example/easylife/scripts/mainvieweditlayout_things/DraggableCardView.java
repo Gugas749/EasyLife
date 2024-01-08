@@ -1,4 +1,4 @@
-package com.example.easylife.scripts;
+package com.example.easylife.scripts.mainvieweditlayout_things;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -20,6 +20,7 @@ public class DraggableCardView extends FrameLayout {
     private List<Point> predefinedPositions;
     private OnCardViewDropListener dropListener;
     private Point lastPosition;
+    private int ID;
     public interface OnCardViewDropListener {
         void onCardViewDrop(DraggableCardView cardView, Point point, Point lastPosition);
     }
@@ -30,35 +31,34 @@ public class DraggableCardView extends FrameLayout {
         super(context);
         init();
     }
-
     public DraggableCardView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
-
     public DraggableCardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
-
     private void init() {
         draggableCardViews = new ArrayList<>();
         predefinedPositions = new ArrayList<>();;
     }
-
+    public void setID(int id){
+        this.ID = id;
+    }
+    public int getID(){
+        return ID;
+    }
     public void setDraggableCardViews(List<DraggableCardView> draggableCardViews) {
         this.draggableCardViews = draggableCardViews;
     }
-
     public void setLastPosition(Point lastPosition){
         this.lastPosition = lastPosition;
     }
-
     public void setInitialPosition(float x, float y) {
         setX(x);
         setY(y);
     }
-
     public void setPredefinedPositions(int width, int height){
         int column1X = 0;
         int column2X = width;
@@ -83,7 +83,9 @@ public class DraggableCardView extends FrameLayout {
             predefinedPositions.add(point);
         }
     }
-
+    public List<Point> getPredefinedPositions(){
+        return predefinedPositions;
+    }
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
@@ -143,7 +145,6 @@ public class DraggableCardView extends FrameLayout {
         setDesiredSize(); // Set the desired size after each movement
         return true;
     }
-
     private boolean isOverlapping(float x, float y) {
         Rect currentBounds = new Rect((int) x, (int) y, (int) (x + getWidth()), (int) (y + getHeight()));
         for (DraggableCardView otherView : draggableCardViews) {
@@ -157,7 +158,6 @@ public class DraggableCardView extends FrameLayout {
         }
         return false; // No overlap
     }
-
     private void setDesiredSize() {
         float desiredWidthPercentage = 0.1f;
         float desiredHeightPercentage = 0.1f;
@@ -186,7 +186,6 @@ public class DraggableCardView extends FrameLayout {
         layoutParams.height = desiredHeight;
         setLayoutParams(layoutParams);
     }
-
     private void onDrop() {
         // Get the current position of the DraggableCardView
         float currentX = getX();
@@ -215,7 +214,6 @@ public class DraggableCardView extends FrameLayout {
             handleDropAtNonPredefinedPosition();
         }
     }
-
     public boolean isPositionOccupied(Point position) {
         for (DraggableCardView otherView : draggableCardViews) {
             if (otherView != this) {
@@ -227,12 +225,10 @@ public class DraggableCardView extends FrameLayout {
         }
         return false; // Position is not occupied
     }
-
     private float calculateDistance(float x1, float y1, float x2, float y2) {
         // Calculate the Euclidean distance between two points
         return (float) Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
-
     private void handleDropAtClosestPosition(Point closestPosition) {
         // Handle the drop when the current position is closest to a predefined position
         // You can add your custom logic here
@@ -243,7 +239,6 @@ public class DraggableCardView extends FrameLayout {
         animate().x(targetX).y(targetY).setDuration(200).start();
         dropListener.onCardViewDrop(this, closestPosition, lastPosition);
     }
-
     private void handleDropAtNonPredefinedPosition() {
         // Handle the drop when the current position is not close to any predefined position
         // You can add your custom logic here

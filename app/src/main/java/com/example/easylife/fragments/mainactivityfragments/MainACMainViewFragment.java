@@ -8,30 +8,23 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.view.Gravity;
 import android.widget.LinearLayout;
+
+import com.example.easylife.database.DraggableCardViewEntity;
 import com.example.easylife.databinding.FragmentMainACMainViewBinding;
+import com.example.easylife.fragments.mainviewpiecharts.BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment;
+import com.example.easylife.fragments.mainviewpiecharts.RectangleWithPieChartInTheLeftAndTextInTheRightFragment;
+import com.example.easylife.fragments.mainviewpiecharts.RectangleWithPieChartInTheRightAndTextInTheLeftFragment;
+import com.example.easylife.scripts.mainvieweditlayout_things.DraggableCardViewObject;
 
 import java.util.List;
 
 public class MainACMainViewFragment extends Fragment {
 
     private FragmentMainACMainViewBinding binding;
-    private Boolean linesSplitted, linesTogether;
-    private int quantLinesSplitted, quantLinesTogether;
-    private int[] idsLinesSplitted, getIdsLinesTogether;
-    private List<Fragment> listFragmentLinesSplitted, listFragmentLinesTogether;
+    private List<DraggableCardViewEntity> draggableCardViewObjectsList;
 
-    public MainACMainViewFragment(Boolean linesSplitted, Boolean linesTogether,
-                                  int quantLinesSplitted, int quantLinesTogether,
-                                  int[] idsLinesSplitted, int[] getIdsLinesTogether,
-                                  List<Fragment> listFragmentLinesSplitted, List<Fragment> listFragmentLinesTogether) {
-        this.linesSplitted = linesSplitted;
-        this.linesTogether = linesTogether;
-        this.quantLinesSplitted = quantLinesSplitted;
-        this.quantLinesTogether = quantLinesTogether;
-        this.idsLinesSplitted = idsLinesSplitted;
-        this.getIdsLinesTogether = getIdsLinesTogether;
-        this.listFragmentLinesSplitted = listFragmentLinesSplitted;
-        this.listFragmentLinesTogether = listFragmentLinesTogether;
+    public MainACMainViewFragment(List<DraggableCardViewEntity> draggableCardViewObjectsList) {
+        this.draggableCardViewObjectsList = draggableCardViewObjectsList;
     }
 
     @Override
@@ -50,35 +43,120 @@ public class MainACMainViewFragment extends Fragment {
         return binding.getRoot();
     }
     private void processData(){
-        if(linesTogether){
-            for(int i = 0; i < quantLinesTogether; i++){
-                FrameLayout frameLayout1 = null, frameLayout2 = null;
+        for (int i = 0; i < draggableCardViewObjectsList.size(); i++) {
+            DraggableCardViewEntity selectedObject = draggableCardViewObjectsList.get(i);
 
-                switch (getIdsLinesTogether[i]){
-                    case 12:
-                        frameLayout1 = binding.frameLayoutLine1FragMainACMainView;
-                        frameLayout2 = binding.frameLayoutLine2FragMainACMainView;
-                        break;
-                    case 23:
-                        frameLayout1 = binding.frameLayoutLine2FragMainACMainView;
-                        frameLayout2 = binding.frameLayoutLine3FragMainACMainView;
-                        break;
-                    case 34:
-                        frameLayout1 = binding.frameLayoutLine3FragMainACMainView;
-                        frameLayout2 = binding.frameLayoutLine4FragMainACMainView;
-                        break;
-                    case 45:
-                        frameLayout1 = binding.frameLayoutLine4FragMainACMainView;
-                        frameLayout2 = binding.frameLayoutLine5FragMainACMainView;
-                        break;
-                }
+            switch (selectedObject.getType()){
+                case "3":
+                    FrameLayout frameLayout1 = null, frameLayout2 = null;
+                    Fragment fragment = new Fragment();
+                    switch (selectedObject.getPosition()){
+                        case 0:
+                            frameLayout1 = binding.frameLayoutLine1FragMainACMainView;
+                            frameLayout2 = binding.frameLayoutLine2FragMainACMainView;
+                            break;
+                        case 1:
+                            frameLayout1 = binding.frameLayoutLine2FragMainACMainView;
+                            frameLayout2 = binding.frameLayoutLine3FragMainACMainView;
+                            break;
+                        case 2:
+                            frameLayout1 = binding.frameLayoutLine3FragMainACMainView;
+                            frameLayout2 = binding.frameLayoutLine4FragMainACMainView;
+                            break;
+                        case 3:
+                            frameLayout1 = binding.frameLayoutLine4FragMainACMainView;
+                            frameLayout2 = binding.frameLayoutLine5FragMainACMainView;
+                            break;
+                    }
 
-                combineFrameLayouts(frameLayout1, frameLayout2, listFragmentLinesTogether.get(i));
+                    switch (selectedObject.getStyle()){
+                        case "1":
+                            BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment fragStyle1 = new BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment();
+                            fragStyle1.setInfos(selectedObject.getValue1Color(), selectedObject.getValue2Color(),
+                                    selectedObject.getValue3Color(), selectedObject.getValue4Color(),
+                                    selectedObject.getChartName(),
+                                    selectedObject.getValue1Percentage(), selectedObject.getValue2Percentage(),
+                                    selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage(),
+                                    selectedObject.getValue1Text(), selectedObject.getValue2Text(),
+                                    selectedObject.getValue3Text(), selectedObject.getValue4Text());
+                            fragment = fragStyle1;
+                            break;
+                        case "2":
+                            BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment fragStyle2 = new BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment();
+                            fragStyle2.setInfos(selectedObject.getValue1Color(), selectedObject.getValue2Color(),
+                                    selectedObject.getValue3Color(), selectedObject.getValue4Color(),
+                                    selectedObject.getChartName(),
+                                    selectedObject.getValue1Percentage(), selectedObject.getValue2Percentage(),
+                                    selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage(),
+                                    selectedObject.getValue1Text(), selectedObject.getValue2Text(),
+                                    selectedObject.getValue3Text(), selectedObject.getValue4Text());
+                            fragment = fragStyle2;
+                            break;
+                    }
+
+                    combineFrameLayouts(frameLayout1, frameLayout2, fragment);
+                    break;
+                case "2":
+                    frameLayout1 = null;
+                    fragment = new Fragment();
+                    switch (selectedObject.getPosition()){
+                        case 0:
+                            frameLayout1 = binding.frameLayoutLine1FragMainACMainView;
+                            break;
+                        case 1:
+                            frameLayout1 = binding.frameLayoutLine2FragMainACMainView;
+                            break;
+                        case 2:
+                            frameLayout1 = binding.frameLayoutLine3FragMainACMainView;
+                            break;
+                        case 3:
+                            frameLayout1 = binding.frameLayoutLine4FragMainACMainView;
+                            break;
+                        case 4:
+                            frameLayout1 = binding.frameLayoutLine5FragMainACMainView;
+                            break;
+                    }
+
+                    switch (selectedObject.getStyle()){
+                        case "1":
+                            RectangleWithPieChartInTheLeftAndTextInTheRightFragment fragStyle1 = new RectangleWithPieChartInTheLeftAndTextInTheRightFragment();
+                            fragStyle1.setInfos(selectedObject.getValue1Color(), selectedObject.getValue2Color(),
+                                    selectedObject.getValue3Color(), selectedObject.getValue4Color(),
+                                    selectedObject.getChartName(),
+                                    selectedObject.getValue1Percentage(), selectedObject.getValue2Percentage(),
+                                    selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage(),
+                                    selectedObject.getValue1Text(), selectedObject.getValue2Text(),
+                                    selectedObject.getValue3Text(), selectedObject.getValue4Text());
+                            fragment = fragStyle1;
+                            break;
+                        case "2":
+                            RectangleWithPieChartInTheRightAndTextInTheLeftFragment fragStyle2 = new RectangleWithPieChartInTheRightAndTextInTheLeftFragment();
+                            fragStyle2.setInfos(selectedObject.getValue1Color(), selectedObject.getValue2Color(),
+                                    selectedObject.getValue3Color(), selectedObject.getValue4Color(),
+                                    selectedObject.getChartName(),
+                                    selectedObject.getValue1Percentage(), selectedObject.getValue2Percentage(),
+                                    selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage(),
+                                    selectedObject.getValue1Text(), selectedObject.getValue2Text(),
+                                    selectedObject.getValue3Text(), selectedObject.getValue4Text());
+                            fragment = fragStyle2;
+                            break;
+                    }
+
+                    getChildFragmentManager()
+                            .beginTransaction()
+                            .replace(frameLayout1.getId(), fragment)
+                            .addToBackStack(null)
+                            .commit();
+                    break;
+                case "1":
+                    //divideFrameLayout();
+                    break;
             }
         }
-        if(linesSplitted){
-            //divideFrameLayout();
-        }
+    }
+    public void updateData(List<DraggableCardViewEntity> draggableCardViewObjectsList){
+        this.draggableCardViewObjectsList = draggableCardViewObjectsList;
+        processData();
     }
 
     //------------------------------FRAME LAYOUT RELATED-------------------------
