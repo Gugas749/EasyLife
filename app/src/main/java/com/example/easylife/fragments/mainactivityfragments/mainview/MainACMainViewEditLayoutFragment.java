@@ -1,15 +1,17 @@
-package com.example.easylife.fragments.mainactivityfragments;
+package com.example.easylife.fragments.mainactivityfragments.mainview;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.room.Room;
 
 import android.os.CountDownTimer;
@@ -20,6 +22,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.example.easylife.R;
@@ -27,18 +31,21 @@ import com.example.easylife.database.DraggableCardViewDao;
 import com.example.easylife.database.DraggableCardViewEntity;
 import com.example.easylife.database.LocalDataBase;
 import com.example.easylife.databinding.FragmentMainACMainViewEditLayoutBinding;
-import com.example.easylife.fragments.alertDialogFragments.AlertDialogNotifyFragment;
 import com.example.easylife.fragments.alertDialogFragments.AlertDialogQuestionFragment;
+import com.example.easylife.fragments.mainactivityfragments.mainview.editlayouthowtofrags.MainACMainViewEditLayoutHowToAddFragment;
+import com.example.easylife.fragments.mainactivityfragments.mainview.editlayouthowtofrags.MainACMainViewEditLayoutHowToDeleteFragment;
+import com.example.easylife.fragments.mainactivityfragments.mainview.editlayouthowtofrags.MainACMainViewEditLayoutHowToDragNDropFragment;
+import com.example.easylife.fragments.mainactivityfragments.mainview.editlayouthowtofrags.MainACMainViewEditLayoutHowToHomeFragment;
+import com.example.easylife.fragments.mainactivityfragments.mainview.editlayouthowtofrags.MainACMainViewEditLayoutHowToSaveFragment;
 import com.example.easylife.scripts.CustomAlertDialogFragment;
 import com.example.easylife.scripts.mainvieweditlayout_things.DraggableCardView;
-import com.example.easylife.scripts.mainvieweditlayout_things.DraggableCardViewObject;
 import com.google.android.material.color.MaterialColors;
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainACMainViewEditLayoutFragment extends Fragment implements DraggableCardView.OnCardViewDropListener, DraggableCardView.OnCardViewSwipeRightListener, CustomAlertDialogFragment.ConfirmButtonClickAlertDialogQuestionFrag {
+public class MainACMainViewEditLayoutFragment extends Fragment implements DraggableCardView.OnCardViewDropListener, DraggableCardView.OnCardViewSwipeRightListener, CustomAlertDialogFragment.ConfirmButtonClickAlertDialogQuestionFrag, CustomAlertDialogFragment.CancelButtonClickAlertDialogQuestionFrag {
     private DraggableCardView draggableCardView, swipedDraggableCardView;
     private List<DraggableCardView> draggableCardViews;
     private List<Point> predefinedPositions, usedPositions = new ArrayList<>();
@@ -120,7 +127,12 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
         binding.imageViewButtonExitFragMainACMainViewEditLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onExitClickListenner.OnFragMainACMainViewEditLayoutExitClick(false, draggableCardViewObjectList);
+                CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+                customAlertDialogFragment.setCancelListenner(THIS);
+                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Leave_Title), getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Leave_Description), customAlertDialogFragment, customAlertDialogFragment);
+                customAlertDialogFragment.setCustomFragment(fragment);
+                customAlertDialogFragment.setTag("Exit");
+                customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
             }
         });
     }
@@ -128,9 +140,12 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
         binding.imageViewButtonConfirmFragMainACMainViewEditLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: adicionar alertDialog
-                new LocalDatabaseDeleteAllTask().execute();
-                new LocalDatabaseInsetTask().execute();
+                CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+                customAlertDialogFragment.setConfirmListenner(THIS);
+                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Save_Title), getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Save_Description), customAlertDialogFragment, customAlertDialogFragment);
+                customAlertDialogFragment.setCustomFragment(fragment);
+                customAlertDialogFragment.setTag("Save");
+                customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
             }
         });
     }
@@ -164,8 +179,8 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
         binding.imageViewButtonHowToUseFragMainACMainViewEditLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: fazer o how to use
-                new LocalDatabaseDeleteAllTask().execute();
+                disableEverything();
+                runSwipeDownAnimation();
             }
         });
     }
@@ -199,7 +214,7 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
         switch (Tag){
             case "1":
                 //row 1 : 0 - 9
-                for (int i = 0; i < 9; i++) {
+                for (int i = 0; i <= 9; i++) {
                     Point point = predefinedPositions.get(i);
                     if(!draggableCardView.isPositionOccupied(point)){
                         if(usedPositions.size() > 0){
@@ -222,7 +237,7 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
                 break;
             case "2":
                 //row 1 : 0 - 4
-                for (int i = 0; i < 4; i++) {
+                for (int i = 0; i <= 4; i++) {
                     Point point = predefinedPositions.get(i);
                     if(!draggableCardView.isPositionOccupied(point)){
                         if(usedPositions.size() > 0){
@@ -625,6 +640,11 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
                 break;
             }
         }
+
+        for (int i = 0; i < usedPositions.size(); i++) {
+            Log.i("EL_logs", "Used: "+usedPositions.get(i));
+        }
+        Log.i("EL_logs", "END OF THE LOG -- Number of points: "+usedPositions.size());
     }
     private void updateFromTheList(Point point, int ID, String style){
         for (int i = 0; i < draggableCardViewObjectList.size(); i++) {
@@ -647,38 +667,86 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
         for (int i = 0; i < draggableCardViewObjectList.size(); i++) {
             DraggableCardViewEntity selectedObject = draggableCardViewObjectList.get(i);
             if(selectedObject.getId() == cardView.getID()){
+
                 switch (selectedObject.getType()){
                     case "3":
+                        int num1 = 0, num2 = 0, num3 = 0, num4 = 0;
+
                         switch (selectedObject.getPosition()){
                             case 0:
-                                usedPositions.remove(predefinedPositions.get(0));
-                                usedPositions.remove(predefinedPositions.get(1));
-                                usedPositions.remove(predefinedPositions.get(5));
-                                usedPositions.remove(predefinedPositions.get(6));
+                                num2 = 1;
+                                num3 = 5;
+                                num4 = 6;
                                 break;
                             case 1:
-                                usedPositions.remove(predefinedPositions.get(1));
-                                usedPositions.remove(predefinedPositions.get(2));
-                                usedPositions.remove(predefinedPositions.get(6));
-                                usedPositions.remove(predefinedPositions.get(7));
+                                num1 = 1;
+                                num2 = 2;
+                                num3 = 6;
+                                num4 = 7;
                                 break;
                             case 2:
-                                usedPositions.remove(predefinedPositions.get(2));
-                                usedPositions.remove(predefinedPositions.get(3));
-                                usedPositions.remove(predefinedPositions.get(7));
-                                usedPositions.remove(predefinedPositions.get(8));
+                                num1 = 2;
+                                num2 = 3;
+                                num3 = 7;
+                                num4 = 8;
                                 break;
                             case 3:
-                                usedPositions.remove(predefinedPositions.get(3));
-                                usedPositions.remove(predefinedPositions.get(4));
-                                usedPositions.remove(predefinedPositions.get(8));
-                                usedPositions.remove(predefinedPositions.get(9));
+                                num1 = 3;
+                                num2 = 4;
+                                num3 = 8;
+                                num4 = 9;
                                 break;
+                        }
+
+                        for (int j = 0; j < usedPositions.size(); j++) {
+                            if(usedPositions.get(j).equals(predefinedPositions.get(num1))
+                                    || usedPositions.get(j).equals(predefinedPositions.get(num2))
+                                    || usedPositions.get(j).equals(predefinedPositions.get(num3))
+                                    || usedPositions.get(j).equals(predefinedPositions.get(num4))){
+
+                                usedPositions.remove(j);
+                                j--;
+                            }else{
+                            }
                         }
                         break;
                     case "2":
+                        num1 = 0;
+                        num2 = 0;
+
+                        switch (selectedObject.getPosition()){
+                            case 0:
+                                num2 = 5;
+                                break;
+                            case 1:
+                                num1 = 1;
+                                num2 = 6;
+                                break;
+                            case 2:
+                                num1 = 2;
+                                num2 = 7;
+                                break;
+                            case 3:
+                                num1 = 3;
+                                num2 = 8;
+                                break;
+                            case 4:
+                                num1 = 4;
+                                num2 = 9;
+                                break;
+                        }
+
+                        for (int j = 0; j < usedPositions.size(); j++) {
+                            if(usedPositions.get(j).equals(predefinedPositions.get(num1))
+                                    || usedPositions.get(j).equals(predefinedPositions.get(num2))){
+
+                                usedPositions.remove(j);
+                                j--;
+                            }
+                        }
                         break;
                     case "1":
+                        usedPositions.remove(predefinedPositions.get(selectedObject.getPosition()));
                         break;
                 }
 
@@ -694,13 +762,34 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
         swipedDraggableCardView = cardView;
         CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
         customAlertDialogFragment.setConfirmListenner(THIS);
-        AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.alertDialog_Notify_EmailSend_Title), getString(R.string.alertDialog_Notify_EmailSend_Description), customAlertDialogFragment, customAlertDialogFragment);
+        AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Delete_Title), getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Delete_Description), customAlertDialogFragment, customAlertDialogFragment);
         customAlertDialogFragment.setCustomFragment(fragment);
+        customAlertDialogFragment.setTag("SwipeRight");
         customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
     }
     @Override
-    public void onConfirmButtonClicked() {
-        deleteCardView(swipedDraggableCardView);
+    public void onConfirmButtonClicked(String Tag) {
+        switch (Tag){
+            case "SwipeRight":
+                deleteCardView(swipedDraggableCardView);
+                break;
+            case "Exit":
+                new LocalDatabaseDeleteAllTask().execute();
+                new LocalDatabaseInsetTask().execute();
+                break;
+            case "Save":
+                new LocalDatabaseDeleteAllTask().execute();
+                new LocalDatabaseInsetTask().execute();
+                break;
+        }
+    }
+    @Override
+    public void onCancelButtonClicked(String Tag) {
+        switch (Tag){
+            case "Exit":
+                onExitClickListenner.OnFragMainACMainViewEditLayoutExitClick(false, draggableCardViewObjectList);
+                break;
+        }
     }
     //----------------------------LOAD OLD SCHEME---------------------------
     private void loadUsedPoint(){
@@ -857,4 +946,110 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
         }
     }
     //--------------------------------------------------------------------------
+
+    private void fadeInAnimation(ViewGroup view){
+        Animation fadeOut = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
+        view.startAnimation(fadeOut);
+
+        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+    }
+    public void changeHowToFragment(String Tag, Boolean fromNext){
+        switch (Tag){
+            case "goToHome":
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_fragmentContainer_FullScreen_FragMainACMainViewEditLayout, new MainACMainViewEditLayoutHowToHomeFragment(THIS, fromNext))
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case "goToAdd":
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_fragmentContainer_FullScreen_FragMainACMainViewEditLayout, new MainACMainViewEditLayoutHowToAddFragment(THIS, fromNext))
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case "goToDragNDrop":
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_fragmentContainer_FullScreen_FragMainACMainViewEditLayout, new MainACMainViewEditLayoutHowToDragNDropFragment(THIS, fromNext))
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case "goToDelete":
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_fragmentContainer_FullScreen_FragMainACMainViewEditLayout, new MainACMainViewEditLayoutHowToDeleteFragment(THIS, fromNext))
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case "goToSave":
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_fragmentContainer_FullScreen_FragMainACMainViewEditLayout, new MainACMainViewEditLayoutHowToSaveFragment(THIS))
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case "finish":
+                runSwipeUpAnimation();
+                break;
+        }
+    }
+    private void runSwipeDownAnimation() {
+        ViewGroup container1 = binding.constraintLayoutFragMainACMainViewEditLayout;
+        ViewGroup container2 = binding.frameLayoutFragmentContainerFullScreenFragMainACMainViewEditLayout;
+        ObjectAnimator translateYAnimator = ObjectAnimator.ofFloat(container1, "translationY", 0, container1.getHeight());
+        translateYAnimator.setDuration(500); // Set the duration of the animation in milliseconds
+
+        translateYAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                container1.setVisibility(View.GONE);
+                fadeInAnimation(container2);
+
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_fragmentContainer_FullScreen_FragMainACMainViewEditLayout, new MainACMainViewEditLayoutHowToHomeFragment(THIS, false))
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        translateYAnimator.start();
+    }
+    private void runSwipeUpAnimation() {
+        ViewGroup container1 = binding.constraintLayoutFragMainACMainViewEditLayout;
+        ViewGroup container2 = binding.frameLayoutFragmentContainerFullScreenFragMainACMainViewEditLayout;
+        ObjectAnimator translateYAnimator = ObjectAnimator.ofFloat(container1, "translationY", container1.getHeight(), 0);
+        translateYAnimator.setDuration(500); // Set the duration of the animation in milliseconds
+
+        translateYAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                container2.setVisibility(View.GONE);
+                container2.setEnabled(false);
+                fadeInAnimation(container1);
+                enableEverything();
+            }
+        });
+
+        translateYAnimator.start();
+    }
 }

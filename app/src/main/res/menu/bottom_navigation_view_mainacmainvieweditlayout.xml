@@ -3,13 +3,13 @@
     <item
         android:id="@+id/menu_bottomNavigation_addType1_MainACMainViewEditLayout"
         android:title=""
-        android:icon="@drawable/graffics_image" />
+        android:icon="@drawable/square_icon" />
     <item
         android:id="@+id/menu_bottomNavigation_addType2_MainACMainViewEditLayout"
         android:title=""
-        android:icon="@drawable/graffics_image" />
+        android:icon="@drawable/rectangle_icon" />
     <item
         android:id="@+id/menu_bottomNavigation_addType3_MainACMainViewEditLayout"
         android:title=""
-        android:icon="@drawable/graffics_image" />
+        android:icon="@drawable/big_rectangle_icon" />
 </menu>

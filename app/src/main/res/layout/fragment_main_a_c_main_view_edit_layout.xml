@@ -4,9 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.mainactivityfragments.MainACMainViewEditLayoutFragment">
+    android:background="?attr/colorPrimary"
+    tools:context=".fragments.mainactivityfragments.mainview.MainACMainViewEditLayoutFragment">
+
+    <FrameLayout
+        android:id="@+id/frameLayout_fragmentContainer_FullScreen_FragMainACMainViewEditLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="10sp"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout_FragMainACMainViewEditLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/colorPrimary">

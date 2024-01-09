@@ -19,19 +19,34 @@ import com.example.easylife.fragments.alertDialogFragments.AlertDialogQuestionFr
 
 public class CustomAlertDialogFragment extends DialogFragment implements AlertDialogNotifyFragment.ContinueButtonClick, AlertDialogQuestionFragment.CancelButtonClick, AlertDialogQuestionFragment.ConfirmButtonClick {
     private Fragment customFragment;
-    private ConfirmButtonClickAlertDialogQuestionFrag listenner;
+    private ConfirmButtonClickAlertDialogQuestionFrag confirmButtonClickAlertDialogQuestionFrag;
+    private CancelButtonClickAlertDialogQuestionFrag cancelButtonClickAlertDialogQuestionFrag;
+    private String Tag;
 
     public interface ConfirmButtonClickAlertDialogQuestionFrag{
-        void onConfirmButtonClicked();
+        void onConfirmButtonClicked(String Tag);
     }
+
+    public interface CancelButtonClickAlertDialogQuestionFrag{
+        void onCancelButtonClicked(String Tag);
+    }
+
 
     // Constructor to set the custom fragment
     public CustomAlertDialogFragment() {
 
     }
 
+    public void setTag(String Tag){
+        this.Tag = Tag;
+    }
+
     public void setConfirmListenner(ConfirmButtonClickAlertDialogQuestionFrag listenner){
-        this.listenner = listenner;
+        this.confirmButtonClickAlertDialogQuestionFrag = listenner;
+    }
+
+    public void setCancelListenner(CancelButtonClickAlertDialogQuestionFrag listenner){
+        this.cancelButtonClickAlertDialogQuestionFrag = listenner;
     }
 
     @Nullable
@@ -65,12 +80,13 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
 
     @Override
     public void onCancelButtonClicked() {
+        cancelButtonClickAlertDialogQuestionFrag.onCancelButtonClicked(Tag);
         this.dismiss();
     }
 
     @Override
     public void onConfirmButtonClicked() {
-        listenner.onConfirmButtonClicked();
+        confirmButtonClickAlertDialogQuestionFrag.onConfirmButtonClicked(Tag);
         this.dismiss();
     }
 }

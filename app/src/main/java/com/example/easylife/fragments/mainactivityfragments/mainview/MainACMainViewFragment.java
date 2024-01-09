@@ -1,4 +1,4 @@
-package com.example.easylife.fragments.mainactivityfragments;
+package com.example.easylife.fragments.mainactivityfragments.mainview;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -11,11 +11,10 @@ import android.widget.LinearLayout;
 
 import com.example.easylife.database.DraggableCardViewEntity;
 import com.example.easylife.databinding.FragmentMainACMainViewBinding;
-import com.example.easylife.fragments.mainviewpiecharts.BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment;
-import com.example.easylife.fragments.mainviewpiecharts.RectangleWithPieChartFragment;
-import com.example.easylife.fragments.mainviewpiecharts.RectangleWithPieChartInTheLeftAndTextInTheRightFragment;
-import com.example.easylife.fragments.mainviewpiecharts.RectangleWithPieChartInTheRightAndTextInTheLeftFragment;
-import com.example.easylife.scripts.mainvieweditlayout_things.DraggableCardViewObject;
+import com.example.easylife.fragments.mainactivityfragments.mainview.mainviewpiecharts.BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment;
+import com.example.easylife.fragments.mainactivityfragments.mainview.mainviewpiecharts.RectangleWithPieChartFragment;
+import com.example.easylife.fragments.mainactivityfragments.mainview.mainviewpiecharts.RectangleWithPieChartInTheLeftAndTextInTheRightFragment;
+import com.example.easylife.fragments.mainactivityfragments.mainview.mainviewpiecharts.RectangleWithPieChartInTheRightAndTextInTheLeftFragment;
 
 import java.util.ArrayList;
 import java.util.List;

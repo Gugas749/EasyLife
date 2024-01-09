@@ -3,12 +3,15 @@
     <string name="app_slogan">Life is Easier</string>
 
     <!-- General -->
+    <string name="general_confirm">Confirm</string>
     <string name="general_continue">Continue</string>
     <string name="general_cancel">Cancel</string>
     <string name="general_next">Next</string>
     <string name="general_previous">Previous</string>
     <string name="general_finish">Finish</string>
     <string name="general_ok">Ok</string>
+    <string name="general_yes">Yes</string>
+    <string name="general_no">No</string>
 
     <!-- Register Account Dialog -->
     <string name="register_dialog_account_text">Create your Account</string>
@@ -42,12 +45,46 @@
     <string name="mainAc_sideBar_RateUs">Rate Us</string>
     <string name="mainAc_sideBar_Backups">Backups</string>
     <string name="mainAc_sideBar_Configs">Settings</string>
-    <string name="mainAc_FragMainViewEditLayout_Toast_noSpace_Text">You dont have space to put this object in</string>
+    <!-- Main AC - Main View -->
     <string name="mainAc_FragMainView_Example_ChartName_Text">Your Chart Name</string>
     <string name="mainAc_FragMainView_Example_Percentage1_Text">Percentage 1</string>
     <string name="mainAc_FragMainView_Example_Percentage2_Text">Percentage 2</string>
     <string name="mainAc_FragMainView_Example_Percentage3_Text">Percentage 3</string>
     <string name="mainAc_FragMainView_Example_Percentage4_Text">Percentage 4</string>
+    <!-- Main AC - Main View - EditLayout -->
+    <string name="mainAc_FragMainViewEditLayout_Toast_noSpace_Text">You dont have space to put this object in</string>
+    <string name="mainAc_FragMainViewEditLayout_AlertDialog_Delete_Title">Remove Widget</string>
+    <string name="mainAc_FragMainViewEditLayout_AlertDialog_Delete_Description">Do you wish to remove this widget?</string>
+    <string name="mainAc_FragMainViewEditLayout_AlertDialog_Save_Title">Save</string>
+    <string name="mainAc_FragMainViewEditLayout_AlertDialog_Save_Description">Do you wish to save this widget layout?</string>
+    <string name="mainAc_FragMainViewEditLayout_AlertDialog_Leave_Title">Save Before Leaving</string>
+    <string name="mainAc_FragMainViewEditLayout_AlertDialog_Leave_Description">Do you wish to save this widget layout before leaving?</string>
+    <!-- Main AC - Main View - EditLayout - How To -->
+    <!-- Main AC - Main View - EditLayout - How To -  Home -->
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Home_Title">Hi!!</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Home_Text">This is How To Make Your Own Widget Layout!!</string>
+    <!-- Main AC - Main View - EditLayout - How To - Add -->
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Add_Title">Adding Widgets</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Add_Text_1">When adding Widgets you have 3 sizes of Widgets</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Add_Text_2">The Small one</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Add_Text_3">The Medium one</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Add_Text_4">And THE BIG ONE</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Add_Text_5">To add your Widgets you just need to click one of the buttons!</string>
+    <!-- Main AC - Main View - EditLayout - How To - Drag N Drop -->
+    <string name="mainAc_FragMainViewEditLayoutHowTo_DnD_Title">Moving Widgets</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_DnD_Text_1">After adding your Widgets you can move them around as you like!!</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_DnD_Text_2">Move it to a place and it will stay there!!</string>
+    <!-- Main AC - Main View - EditLayout - How To - Delete -->
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Delete_Title">Removing Widgets</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Delete_Text_1">To remove one of your Widgets you just need to do a Swipe to the right!! After a Pop-Up will appear to confirm if you want to remove the Widget</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Delete_PopUp_Title">Remove</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Delete_PopUp_Description">Remove Widget?</string>
+    <!-- Main AC - Main View - EditLayout - How To - Save -->
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Save_Title">Saving Widgets</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Save_Text_1">To save your Widgets you just need to click on the check mark button and confirm that you want to save in the Pop-Up</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Save_Text_2">Congratulations!! Now you know who to personalize your Widgets!!</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Save_PopUp_Title">Save</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Save_PopUp_Description">Save Widgets?</string>
 
     <!-- Tutorial Fragments -->
     <string name="tutorialFrag_skip">Skip</string>

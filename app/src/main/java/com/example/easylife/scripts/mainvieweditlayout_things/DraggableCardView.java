@@ -162,9 +162,7 @@ public class DraggableCardView extends FrameLayout {
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                // Check if the swipe is to the right
                 if (e2.getX() - e1.getX() > MIN_DISTANCE_THRESHOLD && Math.abs(velocityX) > Math.abs(velocityY)) {
-                    // Show an AlertDialog
                     swipeRightListener.onCardViewSwipeRight(DraggableCardView.this);
                     return true;
                 }

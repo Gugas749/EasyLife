@@ -1,4 +1,4 @@
-package com.example.easylife.fragments.mainviewpiecharts;
+package com.example.easylife.fragments.mainactivityfragments.mainview.mainviewpiecharts;
 
 import android.graphics.Color;
 import android.os.Bundle;
