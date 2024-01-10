@@ -78,7 +78,7 @@ public class RectangleWithPieChartInTheRightAndTextInTheLeftFragment extends Fra
     }
     public void loadChart(){
         PieChart pieChart = binding.pieChartFragRectangleWithChartInTheRightAndTextInTheLeft;
-
+        pieChart.setHighlightPerTapEnabled(false);
         int numValues = 0;
         List<PieEntry> entries = new ArrayList<>();
 

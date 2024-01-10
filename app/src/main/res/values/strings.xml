@@ -85,6 +85,19 @@
     <string name="mainAc_FragMainViewEditLayoutHowTo_Save_Text_2">Congratulations!! Now you know who to personalize your Widgets!!</string>
     <string name="mainAc_FragMainViewEditLayoutHowTo_Save_PopUp_Title">Save</string>
     <string name="mainAc_FragMainViewEditLayoutHowTo_Save_PopUp_Description">Save Widgets?</string>
+    <!-- Main AC - Overview View -->
+    <string name="mainAc_FragOverviewView_NoItemsToDisplay_Text">Hmm… Looks like you dont have any Spendings Accounts. You can create them by pressing the Plus Button Above!!</string>
+    <string name="mainAc_FragOverviewView_Example_Percentage1_Text">Percentage 1</string>
+    <string name="mainAc_FragOverviewView_Example_Percentage2_Text">Percentage 2</string>
+    <string name="mainAc_FragOverviewView_Example_Percentage3_Text">Percentage 3</string>
+    <string name="mainAc_FragOverviewView_Example_Percentage4_Text">Percentage 4</string>
+    <!-- Main AC - Overview View - Add Spendings Account -->
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_1_Text">Name Your Account!!</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_2_Text">Give Some Names To Your Percentages!!</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_3_Text">Give Some Colors To Your Percentages!!</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_editTextAccountName_Hint">Account Name</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_editTextPercentagesNames_Hint">Percentage Name</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_editTextPercentagesColors_Hint">Give Some Colors To Your Percentages!!</string>
 
     <!-- Tutorial Fragments -->
     <string name="tutorialFrag_skip">Skip</string>

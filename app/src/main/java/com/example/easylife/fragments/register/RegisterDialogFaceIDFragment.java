@@ -63,6 +63,6 @@ public class RegisterDialogFaceIDFragment extends Fragment {
         editor.putBoolean("faceIdLoginPermission", option);
         editor.apply();
 
-        parent.changeDialogFragments();
+        parent.changeDialogFragments("");
     }
 }

@@ -9,7 +9,7 @@ import android.widget.FrameLayout;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 
-import com.example.easylife.database.DraggableCardViewEntity;
+import com.example.easylife.database.entities.DraggableCardViewEntity;
 import com.example.easylife.databinding.FragmentMainACMainViewBinding;
 import com.example.easylife.fragments.mainactivityfragments.mainview.mainviewpiecharts.BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment;
 import com.example.easylife.fragments.mainactivityfragments.mainview.mainviewpiecharts.RectangleWithPieChartFragment;
@@ -44,8 +44,7 @@ public class MainACMainViewFragment extends Fragment {
         return binding.getRoot();
     }
     private void processData(){
-        List<String> linesUsed = new ArrayList<>();
-        linesUsed.add("5");
+        List<String> positionsUsed = new ArrayList<>();
         for (int i = 0; i < draggableCardViewObjectsList.size(); i++) {
             DraggableCardViewEntity selectedObject = draggableCardViewObjectsList.get(i);
 
@@ -155,67 +154,102 @@ public class MainACMainViewFragment extends Fragment {
                     frameLayout1 = null;
                     fragment = new Fragment();
                     Fragment brotherFragment = new Fragment();
+                    Boolean repeated = false;
                     DraggableCardViewEntity brother = null;
 
-                    for (int j = 0; j < linesUsed.size(); j++) {
-                        if(!linesUsed.get(j).equals(String.valueOf(selectedObject.getPosition()))){
-                            int possibleBrother = 0;
-
-                            switch (selectedObject.getPosition()){
-                                case 0:
-                                    frameLayout1 = binding.frameLayoutLine1FragMainACMainView;
-                                    possibleBrother = 5;
-                                    linesUsed.add("0");
-                                    break;
-                                case 1:
-                                    frameLayout1 = binding.frameLayoutLine2FragMainACMainView;
-                                    possibleBrother = 6;
-                                    linesUsed.add("1");
-                                    break;
-                                case 2:
-                                    frameLayout1 = binding.frameLayoutLine3FragMainACMainView;
-                                    possibleBrother = 7;
-                                    linesUsed.add("2");
-                                    break;
-                                case 3:
-                                    frameLayout1 = binding.frameLayoutLine4FragMainACMainView;
-                                    possibleBrother = 8;
-                                    linesUsed.add("3");
-                                    break;
-                                case 4:
-                                    frameLayout1 = binding.frameLayoutLine5FragMainACMainView;
-                                    possibleBrother = 9;
-                                    linesUsed.add("4");
-                                    break;
+                    if(positionsUsed.size() > 0){
+                        for (int j = 0; j < positionsUsed.size(); j++) {
+                            if(positionsUsed.get(j).equals(String.valueOf(selectedObject.getPosition()))){
+                                repeated = true;
+                                break;
                             }
-
-                            for (int k = 0; k < draggableCardViewObjectsList.size(); k++) {
-                                if(draggableCardViewObjectsList.get(k).getPosition() == possibleBrother){
-                                    brother = draggableCardViewObjectsList.get(k);
-                                    break;
-                                }
-                            }
-
-                            RectangleWithPieChartFragment frag1 = new RectangleWithPieChartFragment();
-                            frag1.setInfos(selectedObject.getValue1Color(), selectedObject.getValue2Color(),
-                                    selectedObject.getValue3Color(), selectedObject.getValue4Color(),
-                                    selectedObject.getChartName(),
-                                    selectedObject.getValue1Percentage(), selectedObject.getValue2Percentage(),
-                                    selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage());
-                            fragment = frag1;
-
-                            if(brother != null){
-                                RectangleWithPieChartFragment frag2 = new RectangleWithPieChartFragment();
-                                frag2.setInfos(brother.getValue1Color(), brother.getValue2Color(),
-                                        brother.getValue3Color(), brother.getValue4Color(),
-                                        brother.getChartName(),
-                                        brother.getValue1Percentage(), brother.getValue2Percentage(),
-                                        brother.getValue3Percentage(), brother.getValue4Percentage());
-                                brotherFragment = frag2;
-                            }
-
-                            //divideFrameLayout(frameLayout1, fragment, brotherFragment);
                         }
+                    }
+
+                    if(!repeated){
+                        int possibleBrother = 0;
+
+                        switch (selectedObject.getPosition()){
+                            case 0:
+                                frameLayout1 = binding.frameLayoutLine1FragMainACMainView;
+                                possibleBrother = 5;
+                                positionsUsed.add("0");
+                                break;
+                            case 1:
+                                frameLayout1 = binding.frameLayoutLine2FragMainACMainView;
+                                possibleBrother = 6;
+                                positionsUsed.add("1");
+                                break;
+                            case 2:
+                                frameLayout1 = binding.frameLayoutLine3FragMainACMainView;
+                                possibleBrother = 7;
+                                positionsUsed.add("2");
+                                break;
+                            case 3:
+                                frameLayout1 = binding.frameLayoutLine4FragMainACMainView;
+                                possibleBrother = 8;
+                                positionsUsed.add("3");
+                                break;
+                            case 4:
+                                frameLayout1 = binding.frameLayoutLine5FragMainACMainView;
+                                possibleBrother = 9;
+                                positionsUsed.add("4");
+                                break;
+                            case 5:
+                                frameLayout1 = binding.frameLayoutLine5FragMainACMainView;
+                                possibleBrother = 0;
+                                positionsUsed.add("5");
+                                break;
+                            case 6:
+                                frameLayout1 = binding.frameLayoutLine5FragMainACMainView;
+                                possibleBrother = 1;
+                                positionsUsed.add("6");
+                                break;
+                            case 7:
+                                frameLayout1 = binding.frameLayoutLine5FragMainACMainView;
+                                possibleBrother = 2;
+                                positionsUsed.add("7");
+                                break;
+                            case 8:
+                                frameLayout1 = binding.frameLayoutLine5FragMainACMainView;
+                                possibleBrother = 3;
+                                positionsUsed.add("8");
+                                break;
+                            case 9:
+                                frameLayout1 = binding.frameLayoutLine5FragMainACMainView;
+                                possibleBrother = 4;
+                                positionsUsed.add("9");
+                                break;
+                        }
+
+                        positionsUsed.add(String.valueOf(possibleBrother));
+
+                        for (int k = 0; k < draggableCardViewObjectsList.size(); k++) {
+                            if(draggableCardViewObjectsList.get(k).getPosition() == possibleBrother){
+                                brother = draggableCardViewObjectsList.get(k);
+                                break;
+                            }
+                        }
+
+                        RectangleWithPieChartFragment frag1 = new RectangleWithPieChartFragment();
+                        frag1.setInfos(selectedObject.getValue1Color(), selectedObject.getValue2Color(),
+                                selectedObject.getValue3Color(), selectedObject.getValue4Color(),
+                                selectedObject.getChartName(),
+                                selectedObject.getValue1Percentage(), selectedObject.getValue2Percentage(),
+                                selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage());
+                        fragment = frag1;
+
+                        if(brother != null){
+                            RectangleWithPieChartFragment frag2 = new RectangleWithPieChartFragment();
+                            frag2.setInfos(brother.getValue1Color(), brother.getValue2Color(),
+                                    brother.getValue3Color(), brother.getValue4Color(),
+                                    brother.getChartName(),
+                                    brother.getValue1Percentage(), brother.getValue2Percentage(),
+                                    brother.getValue3Percentage(), brother.getValue4Percentage());
+                            brotherFragment = frag2;
+                        }
+
+                        divideFrameLayout(frameLayout1, fragment, brotherFragment);
                     }
                     break;
             }
@@ -227,13 +261,6 @@ public class MainACMainViewFragment extends Fragment {
     }
 
     //------------------------------FRAME LAYOUT RELATED-------------------------
-    private void setFragmentNormal(FrameLayout frameLayout, Fragment fragment){
-        getChildFragmentManager()
-                .beginTransaction()
-                .replace(frameLayout.getId(), fragment)
-                .addToBackStack(null)
-                .commit();
-    }
     private void divideFrameLayout(FrameLayout parentFrameLayout, Fragment frag1, Fragment frag2) {
         //Cria um linear layout que e o adult que vai ser inserido no parent frame layout esse linear layout vai ser reponsavel por dividir esse frame layout em 50/50
         LinearLayout adult1 = new LinearLayout(parentFrameLayout.getContext());
@@ -269,14 +296,14 @@ public class MainACMainViewFragment extends Fragment {
         child2.setLayoutParams(params2);
         adult1.addView(child2);
 
-        getChildFragmentManager()
+        getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(child1.getId(), frag1)
                 .addToBackStack(null)
                 .commit();
 
-        if(child2 != null){
-            getChildFragmentManager()
+        if(frag2 != null){
+            getActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(child2.getId(), frag2)
                     .addToBackStack(null)

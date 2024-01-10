@@ -51,7 +51,7 @@ public class RegisterFragment extends Fragment {
         binding = FragmentRegisterBinding.inflate(inflater);
 
         setupDialogFragments();
-        changeDialogFragments();
+        changeDialogFragments("");
         startFragAnimations();
 
         return binding.getRoot();
@@ -75,7 +75,7 @@ public class RegisterFragment extends Fragment {
         registerDialogBiometricFragment = new RegisterDialogBiometricFragment(this);
         registerDialogFaceIDFragment = new RegisterDialogFaceIDFragment(this);
     }
-    public void changeDialogFragments(){
+    public void changeDialogFragments(String email){
         switch (currentDialogFragment){
             case 0:
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
@@ -87,6 +87,7 @@ public class RegisterFragment extends Fragment {
                 break;
 
             case 1:
+                registerPasswordDialogFragment.setEmail(email);
                 fragmentManager = requireActivity().getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_container_Dialog_RegisterFrag, registerPasswordDialogFragment);
@@ -109,7 +110,7 @@ public class RegisterFragment extends Fragment {
                     }
                     else{
                         currentDialogFragment++;
-                        changeDialogFragments();
+                        changeDialogFragments("");
                     }
                 }else{
                     finishedRegister();

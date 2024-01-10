@@ -56,6 +56,6 @@ public class RegisterDialogBiometricFragment extends Fragment {
         editor.putBoolean("biometricLoginPermission", option);
         editor.apply();
 
-        parent.changeDialogFragments();
+        parent.changeDialogFragments("");
     }
 }

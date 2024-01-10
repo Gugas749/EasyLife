@@ -1,11 +1,12 @@
-package com.example.easylife.database;
+package com.example.easylife.database.daos;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.example.easylife.scripts.mainvieweditlayout_things.DraggableCardView;
+import com.example.easylife.database.entities.DraggableCardViewEntity;
 
 import java.util.List;
 
@@ -19,6 +20,9 @@ public interface DraggableCardViewDao {
 
     @Update
     void update(DraggableCardViewEntity object);
+
+    @Delete
+    void delete(DraggableCardViewEntity entity);
 
     @Query("SELECT * FROM DraggableCardView_Objects")
     List<DraggableCardViewEntity> getObjects();

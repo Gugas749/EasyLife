@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.easylife.R;
 import com.example.easylife.databinding.FragmentBigRectangleWithPieChartInTheLeftAndTextInTheRightBinding;
@@ -56,16 +57,24 @@ public class BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment extends 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentBigRectangleWithPieChartInTheLeftAndTextInTheRightBinding.inflate(inflater);
 
         init();
         loadChart();
+        setupLongPress();
 
         return binding.getRoot();
     }
-
+    private void setupLongPress(){
+        binding.cardViewContainerBigRectangleStyle1.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(getContext(), "foi", Toast.LENGTH_LONG).show();
+                return false;
+            }
+        });
+    }
     private void init(){
         binding.linerLayoutPieChartPercentage1FragBigRectangleWithChartInTheLeftAndTextInTheRight.setVisibility(View.INVISIBLE);
         binding.linerLayoutPieChartPercentage2FragBigRectangleWithChartInTheLeftAndTextInTheRight.setVisibility(View.INVISIBLE);
@@ -79,7 +88,7 @@ public class BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment extends 
     }
     public void loadChart(){
         PieChart pieChart = binding.pieChartFragBigRectangleWithChartInTheLeftAndTextInTheRight;
-
+        pieChart.setHighlightPerTapEnabled(false);
         int numValues = 0;
         List<PieEntry> entries = new ArrayList<>();
 

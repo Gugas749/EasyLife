@@ -60,8 +60,9 @@ public class RegisterDialogAccountFragment extends Fragment {
                     }
                 }else{
                     if(codeEmail.equals(binding.editTextEmailCodeRegisterAccountDialogFrag.getText().toString())){
-                        //TODO: Registrar a conta
-                        parent.changeDialogFragments();
+                        //TODO: Registrar a conta online
+                        String email = binding.editTextEmailRegisterAccountDialogFrag.getText().toString().trim();
+                        parent.changeDialogFragments(email);
                     }else{
                         binding.editTextEmailCodeRegisterAccountDialogFrag.setError(getString(R.string.register_dialog_account_email_code_wrong));
                     }

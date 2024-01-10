@@ -65,7 +65,7 @@ public class RectangleWithPieChartFragment extends Fragment {
     }
     public void loadChart(){
         PieChart pieChart = binding.pieChartFragRectangleWithPieChart;
-
+        pieChart.setHighlightPerTapEnabled(false);
         int numValues = 0;
         List<PieEntry> entries = new ArrayList<>();
 

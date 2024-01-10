@@ -7,16 +7,14 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.room.Room;
 
-import android.renderscript.Sampler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.easylife.R;
 import com.example.easylife.database.LocalDataBase;
-import com.example.easylife.database.UserInfosDao;
-import com.example.easylife.database.UserInfosEntity;
+import com.example.easylife.database.daos.UserInfosDao;
+import com.example.easylife.database.entities.UserInfosEntity;
 import com.example.easylife.databinding.FragmentRegisterPasswordDialogBinding;
 
 import java.util.Locale;
@@ -26,11 +24,14 @@ public class RegisterPasswordDialogFragment extends Fragment {
     private UserInfosDao userInfosDao;
     private FragmentRegisterPasswordDialogBinding binding;
     private final RegisterFragment parent;
+    private String email;
 
     public RegisterPasswordDialogFragment(RegisterFragment parent) {
         this.parent = parent;
     }
-
+    public void setEmail(String email){
+        this.email = email;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -122,13 +123,14 @@ public class RegisterPasswordDialogFragment extends Fragment {
             String deviceLanguage = Locale.getDefault().getDisplayLanguage();
 
             UserInfosEntity infosEntity = new UserInfosEntity(0, password, theme, deviceLanguage);
+            infosEntity.setInfos("", email);//TODO: Firebase ID
             userInfosDao.insert(infosEntity);
             return infosEntity;
         }
 
         @Override
         protected void onPostExecute(UserInfosEntity infosEntity) {
-            parent.changeDialogFragments();
+            parent.changeDialogFragments("");
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.easylife.database;
+package com.example.easylife.database.entities;
 
 import androidx.fragment.app.Fragment;
 import androidx.room.ColumnInfo;

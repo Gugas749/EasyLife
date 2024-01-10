@@ -1,4 +1,4 @@
-package com.example.easylife.database;
+package com.example.easylife.database.entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "DraggableCardView_Objects")
 public class DraggableCardViewEntity {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")
     private int id;
     @ColumnInfo(name = "position")

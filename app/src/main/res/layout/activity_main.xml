@@ -17,6 +17,7 @@
             android:id="@+id/frameLayout_fullScreenFragmentContainer_MainAc"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="?attr/colorControlNormal"
             android:elevation="10sp" />
         <ImageView
             android:id="@+id/imageView_aux1_MainActivity"
@@ -39,7 +40,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/imageView_buttonEditLayoutMainView_MainAC"
+                android:id="@+id/imageView_buttonMultiFunctionMainView_MainAC"
                 android:layout_width="45sp"
                 android:layout_height="45sp"
                 android:layout_gravity="start"

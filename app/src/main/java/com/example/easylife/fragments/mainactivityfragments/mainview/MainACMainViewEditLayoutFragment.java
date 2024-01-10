@@ -27,8 +27,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.example.easylife.R;
-import com.example.easylife.database.DraggableCardViewDao;
-import com.example.easylife.database.DraggableCardViewEntity;
+import com.example.easylife.database.daos.DraggableCardViewDao;
+import com.example.easylife.database.entities.DraggableCardViewEntity;
 import com.example.easylife.database.LocalDataBase;
 import com.example.easylife.databinding.FragmentMainACMainViewEditLayoutBinding;
 import com.example.easylife.fragments.alertDialogFragments.AlertDialogQuestionFragment;
@@ -114,7 +114,7 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
                     loadObjectsFromList();
                 }
 
-                draggableCardViewObjectList = draggableCardViewEntityListLoadedFormDB;
+                draggableCardViewObjectList.addAll(draggableCardViewEntityListLoadedFormDB);
                 enableEverything();
             }
         }.start();
@@ -128,8 +128,8 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
             @Override
             public void onClick(View v) {
                 CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
-                customAlertDialogFragment.setCancelListenner(THIS);
-                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Leave_Title), getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Leave_Description), customAlertDialogFragment, customAlertDialogFragment);
+                customAlertDialogFragment.setCancelListenner(MainACMainViewEditLayoutFragment.this);
+                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Leave_Title), getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Leave_Description), customAlertDialogFragment, customAlertDialogFragment, "2");
                 customAlertDialogFragment.setCustomFragment(fragment);
                 customAlertDialogFragment.setTag("Exit");
                 customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
@@ -142,7 +142,7 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
             public void onClick(View v) {
                 CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
                 customAlertDialogFragment.setConfirmListenner(THIS);
-                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Save_Title), getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Save_Description), customAlertDialogFragment, customAlertDialogFragment);
+                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Save_Title), getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Save_Description), customAlertDialogFragment, customAlertDialogFragment, "1");
                 customAlertDialogFragment.setCustomFragment(fragment);
                 customAlertDialogFragment.setTag("Save");
                 customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
@@ -622,7 +622,6 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
             }
         }
 
-        //TODO: adicionar opçao do style
         updateFromTheList(currentPosition, cardView.getID(), "1");
     }
     //--------------------------------------------------------------------------
@@ -762,7 +761,7 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
         swipedDraggableCardView = cardView;
         CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
         customAlertDialogFragment.setConfirmListenner(THIS);
-        AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Delete_Title), getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Delete_Description), customAlertDialogFragment, customAlertDialogFragment);
+        AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Delete_Title), getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Delete_Description), customAlertDialogFragment, customAlertDialogFragment, "1");
         customAlertDialogFragment.setCustomFragment(fragment);
         customAlertDialogFragment.setTag("SwipeRight");
         customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
@@ -787,7 +786,7 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
     public void onCancelButtonClicked(String Tag) {
         switch (Tag){
             case "Exit":
-                onExitClickListenner.OnFragMainACMainViewEditLayoutExitClick(false, draggableCardViewObjectList);
+                onExitClickListenner.OnFragMainACMainViewEditLayoutExitClick(false, draggableCardViewEntityListLoadedFormDB);
                 break;
         }
     }
@@ -936,8 +935,12 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
     private class LocalDatabaseDeleteAllTask extends AsyncTask<Void, Void, List<DraggableCardViewEntity>> {
         @Override
         protected List<DraggableCardViewEntity> doInBackground(Void... voids) {
-            draggableCardViewDao.clearAllEntries();
-            return draggableCardViewObjectList;
+            if(draggableCardViewEntityListLoadedFormDB.size() >0){
+                for (int i = 0; i < draggableCardViewEntityListLoadedFormDB.size(); i++) {
+                    draggableCardViewDao.delete(draggableCardViewEntityListLoadedFormDB.get(i));
+                }
+            }
+            return draggableCardViewEntityListLoadedFormDB;
         }
 
         @Override
@@ -1007,6 +1010,14 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
                 break;
             case "finish":
                 runSwipeUpAnimation();
+                FragmentManager fragmentManager = getParentFragmentManager();
+                int containerId = binding.frameLayoutFragmentContainerFullScreenFragMainACMainViewEditLayout.getId();
+
+                for (Fragment fragment : fragmentManager.getFragments()) {
+                    if (fragment != null && fragment.getId() == containerId) {
+                        fragmentManager.beginTransaction().remove(fragment).commit();
+                    }
+                }
                 break;
         }
     }
@@ -1035,6 +1046,7 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
     }
     private void runSwipeUpAnimation() {
         ViewGroup container1 = binding.constraintLayoutFragMainACMainViewEditLayout;
+        container1.setVisibility(View.INVISIBLE);
         ViewGroup container2 = binding.frameLayoutFragmentContainerFullScreenFragMainACMainViewEditLayout;
         ObjectAnimator translateYAnimator = ObjectAnimator.ofFloat(container1, "translationY", container1.getHeight(), 0);
         translateYAnimator.setDuration(500); // Set the duration of the animation in milliseconds

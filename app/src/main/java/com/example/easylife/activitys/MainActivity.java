@@ -11,25 +11,32 @@ import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.easylife.R;
-import com.example.easylife.database.DraggableCardViewDao;
-import com.example.easylife.database.DraggableCardViewEntity;
+import com.example.easylife.database.daos.DraggableCardViewDao;
+import com.example.easylife.database.daos.SpendingsAccountsDao;
+import com.example.easylife.database.daos.UserInfosDao;
+import com.example.easylife.database.entities.DraggableCardViewEntity;
 import com.example.easylife.database.LocalDataBase;
+import com.example.easylife.database.entities.SpendingAccountsEntity;
+import com.example.easylife.database.entities.UserInfosEntity;
 import com.example.easylife.databinding.ActivityMainBinding;
 import com.example.easylife.fragments.mainactivityfragments.MainACAddViewFragment;
 import com.example.easylife.fragments.mainactivityfragments.mainview.MainACMainViewEditLayoutFragment;
 import com.example.easylife.fragments.mainactivityfragments.mainview.MainACMainViewFragment;
-import com.example.easylife.fragments.mainactivityfragments.MainACOverviewViewFragment;
+import com.example.easylife.fragments.mainactivityfragments.overview_view.MainACOverviewViewAddSpendingAccountFormFragment;
+import com.example.easylife.fragments.mainactivityfragments.overview_view.MainACOverviewViewFragment;
 import com.example.easylife.fragments.tutorial.TutorialAddFragment;
 import com.example.easylife.fragments.tutorial.TutorialEditFragment;
 import com.example.easylife.fragments.tutorial.TutorialEndFragment;
@@ -47,18 +54,29 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity implements MainACMainViewEditLayoutFragment.OnFragMainACMainViewEditLayoutExitClick {
+    //-------------------OTHERS---------------
     private ActivityMainBinding binding;
-    private DrawerLayout drawerLayoutSideMenu;
-    private NavigationView navigationViewSideMenu;
-    private ActionBarDrawerToggle drawerToggleSideMenu;
     private final Executor executor = Executors.newSingleThreadExecutor();
     private long sessionTime;
     private boolean seenTutorial;
+    private UserInfosEntity UserInfosEntity;
+    //-------------------SIDE MENU---------------
+    private DrawerLayout drawerLayoutSideMenu;
+    private NavigationView navigationViewSideMenu;
+    private ActionBarDrawerToggle drawerToggleSideMenu;
+    //-------------------ACTIVITIES AND FRAGMENTS---------------
     private MainActivity THIS;
     private MainACMainViewFragment mainACMainViewFragment;
-    private List<DraggableCardViewEntity> draggableCardViewObjectsList;
+    private MainACOverviewViewFragment mainACOverviewViewFragment;
+    private MainACAddViewFragment mainACAddViewFragment;
+    //-------------------LISTS---------------
+    private List<DraggableCardViewEntity> draggableCardViewObjectsList, exampleDraggableCardViewObjectsList;
+    private List<SpendingAccountsEntity> spendingAccountsEntitiesList;
+    //-------------------LOCAL DATABASE---------------
+    private LocalDataBase localDataBase;
     private DraggableCardViewDao draggableCardViewDao;
-    private LocalDataBase database;
+    private SpendingsAccountsDao spendingsAccountsDao;
+    private UserInfosDao userInfosDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,15 +112,24 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     private void init(){
         //TODO: adicionar session prompt total
         THIS = this;
+
         draggableCardViewObjectsList = new ArrayList<>();
+        spendingAccountsEntitiesList = new ArrayList<>();
+        exampleDraggableCardViewObjectsList = new ArrayList<>();
+
         mainACMainViewFragment = new MainACMainViewFragment(draggableCardViewObjectsList);
+        mainACOverviewViewFragment = new MainACOverviewViewFragment();
+        mainACAddViewFragment = new MainACAddViewFragment();
+
         setupBottomNavigation();
         changeFragmentFromMainFragmentContainer(1);
         setupSideMenu();
-        setupEditMainViewLayoutButton();
+        setupMultiFunctionButtonButton();
         setupLocalDataBase();
 
-        new LocalDatabaseGetAllTask().execute();
+        new LocalDatabaseGetAllDraggableCardViewsTask().execute();
+        new LocalDatabaseGetAllSpendingsAccountsTask().execute();
+        new LocalDatabaseGetUserInfosTask().execute();
     }
     private void setupBottomNavigation() {
         binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Home).setChecked(true);
@@ -126,11 +153,10 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             }
         });
     }
-    private void setupEditMainViewLayoutButton(){
-        binding.imageViewButtonEditLayoutMainViewMainAC.setOnClickListener(new View.OnClickListener() {
+    private void setupMultiFunctionButtonButton(){
+        binding.imageViewButtonMultiFunctionMainViewMainAC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 scaleUpAnimtion();
                 new CountDownTimer(1200, 1000) {
                     public void onTick(long millisUntilFinished) {
@@ -144,11 +170,20 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                         binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.VISIBLE);
                         binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(true);
 
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.frameLayout_fullScreenFragmentContainer_MainAc, new MainACMainViewEditLayoutFragment(THIS, draggableCardViewObjectsList))
-                                .addToBackStack(null)
-                                .commit();
+                        Object tag = binding.imageViewButtonMultiFunctionMainViewMainAC.getTag();
+                        if (tag.equals("0")) {
+                            getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.frameLayout_fullScreenFragmentContainer_MainAc, new MainACOverviewViewAddSpendingAccountFormFragment(UserInfosEntity))
+                                    .addToBackStack(null)
+                                    .commit();
+                        } else if (tag.equals("1")) {
+                            getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.frameLayout_fullScreenFragmentContainer_MainAc, new MainACMainViewEditLayoutFragment(THIS, draggableCardViewObjectsList))
+                                    .addToBackStack(null)
+                                    .commit();
+                        }
                         scaleDownAnimtion();
                     }
                 }.start();
@@ -156,8 +191,10 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         });
     }
     private void setupLocalDataBase(){
-        database = Room.databaseBuilder(getApplicationContext(), LocalDataBase.class, "EasyLifeLocalDB").build();
-        draggableCardViewDao = database.draggableCardViewDao();
+        localDataBase = Room.databaseBuilder(getApplicationContext(), LocalDataBase.class, "EasyLifeLocalDB").build();
+        draggableCardViewDao = localDataBase.draggableCardViewDao();
+        spendingsAccountsDao = localDataBase.spendingsAccountsDao();
+        userInfosDao = localDataBase.userInfosDao();
     }
     //----------------------------------------------
 
@@ -190,16 +227,20 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
 
         binding.bottomNavigationViewMainAC.setVisibility(View.INVISIBLE);
 
+        binding.frameLayoutFragmentContainerMainAC.setVisibility(View.INVISIBLE);
+
         binding.cardViewTopNavigationMainAc.setVisibility(View.INVISIBLE);
-        binding.imageViewButtonEditLayoutMainViewMainAC.setVisibility(View.INVISIBLE);
+        binding.imageViewButtonMultiFunctionMainViewMainAC.setVisibility(View.INVISIBLE);
         binding.imageViewButtonSideMenuMainAC.setVisibility(View.INVISIBLE);
 
         binding.imageViewAux1MainActivity.setEnabled(false);
 
         binding.bottomNavigationViewMainAC.setEnabled(false);
 
+        binding.frameLayoutFragmentContainerMainAC.setEnabled(false);
+
         binding.cardViewTopNavigationMainAc.setEnabled(false);
-        binding.imageViewButtonEditLayoutMainViewMainAC.setEnabled(false);
+        binding.imageViewButtonMultiFunctionMainViewMainAC.setEnabled(false);
         binding.imageViewButtonSideMenuMainAC.setEnabled(false);
     }
     private void outFragment(){
@@ -207,16 +248,20 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
 
         binding.bottomNavigationViewMainAC.setVisibility(View.VISIBLE);
 
+        binding.frameLayoutFragmentContainerMainAC.setVisibility(View.VISIBLE);
+
         binding.cardViewTopNavigationMainAc.setVisibility(View.VISIBLE);
-        binding.imageViewButtonEditLayoutMainViewMainAC.setVisibility(View.VISIBLE);
+        binding.imageViewButtonMultiFunctionMainViewMainAC.setVisibility(View.VISIBLE);
         binding.imageViewButtonSideMenuMainAC.setVisibility(View.VISIBLE);
 
         binding.imageViewAux1MainActivity.setEnabled(true);
 
         binding.bottomNavigationViewMainAC.setEnabled(true);
 
+        binding.frameLayoutFragmentContainerMainAC.setEnabled(true);
+
         binding.cardViewTopNavigationMainAc.setEnabled(true);
-        binding.imageViewButtonEditLayoutMainViewMainAC.setEnabled(true);
+        binding.imageViewButtonMultiFunctionMainViewMainAC.setEnabled(true);
         binding.imageViewButtonSideMenuMainAC.setEnabled(true);
     }
     public void tutorialChangeFragments(int selected, boolean fromNextFragment, boolean skipped, int skippedFromWhere){
@@ -257,26 +302,36 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                         .commit();
                 break;
             case 5:
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.INVISIBLE);
-                binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(false);
+                scaleUpAnimtion();
+                new CountDownTimer(1500, 1000) {
+                    public void onTick(long millisUntilFinished) {
 
-                SharedPreferences sharedPreferences = getSharedPreferences("Perf_User", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("seenTutorial", true);
-                editor.apply();
+                    }
 
-                outFragment();
+                    public void onFinish() {
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.GONE);
+                        binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(false);
+
+                        SharedPreferences sharedPreferences = getSharedPreferences("Perf_User", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putBoolean("seenTutorial", true);
+                        editor.apply();
+
+                        outFragment();
+                    }
+                }.start();
                 break;
         }
     }
     private void changeFragmentFromMainFragmentContainer(int selected){
+        changeMultiFunctionButtonFunction(selected);
         switch (selected){
             case 0:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frameLayout_fragmentContainer_MainAC, new MainACOverviewViewFragment())
+                        .replace(R.id.frameLayout_fragmentContainer_MainAC, mainACOverviewViewFragment)
                         .addToBackStack(null)
                         .commit();
                 break;
@@ -290,7 +345,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             case 2:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frameLayout_fragmentContainer_MainAC, new MainACAddViewFragment())
+                        .replace(R.id.frameLayout_fragmentContainer_MainAC, mainACAddViewFragment)
                         .addToBackStack(null)
                         .commit();
                 break;
@@ -356,6 +411,111 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             }
         });
         bottomSheetDialog.show();
+    }
+    private void changeMultiFunctionButtonFunction(int selected){
+        fadeOutAnimation(binding.imageViewButtonMultiFunctionMainViewMainAC);
+        Boolean dontFadeIn = false;
+        switch (selected){
+            case 0:
+                binding.imageViewButtonMultiFunctionMainViewMainAC.setImageDrawable(getDrawable(R.drawable.add));
+                binding.imageViewButtonMultiFunctionMainViewMainAC.setTag("0");
+                break;
+            case 1:
+                binding.imageViewButtonMultiFunctionMainViewMainAC.setImageDrawable(getDrawable(R.drawable.grid_icon));
+                binding.imageViewButtonMultiFunctionMainViewMainAC.setTag("1");
+                break;
+            case 2:
+                dontFadeIn = true;
+                break;
+        }
+        if(dontFadeIn){
+            binding.imageViewButtonMultiFunctionMainViewMainAC.setVisibility(View.GONE);
+        }else{
+            binding.imageViewButtonMultiFunctionMainViewMainAC.setVisibility(View.INVISIBLE);
+            fadeInAnimation(binding.imageViewButtonMultiFunctionMainViewMainAC);
+        }
+    }
+    //----------------------------------------------
+
+    //----------EXAMPLE LIST----------------
+    private List<DraggableCardViewEntity> loadExampleDraggableCardViewList(){
+        List<DraggableCardViewEntity> list = new ArrayList<>();
+        int width2 = (int) (binding.frameLayoutFragmentContainerMainAC.getWidth() * 0.5f);
+        int height2 = (int) (binding.frameLayoutFragmentContainerMainAC.getHeight() * 0.2f);
+        List<Point> predefinedPositions = setPredefinedPositions(width2, height2);
+        int id = 0;
+        for (int j = 0; j <= 5; j++) {
+            Point point = new Point();
+            String type = "";
+            String style = "1";
+
+            switch (j){
+                case 1:
+                    point = predefinedPositions.get(0);
+                    type = "2";
+                    break;
+                case 2:
+                    point = predefinedPositions.get(1);
+                    type = "1";
+                    break;
+                case 3:
+                    point = predefinedPositions.get(6);
+                    type = "1";
+                    break;
+                case 4:
+                    point = predefinedPositions.get(2);
+                    type = "2";
+                    style = "2";
+                    break;
+                case 5:
+                    point = predefinedPositions.get(3);
+                    type = "3";
+                    break;
+            }
+
+            for (int i = 0; i < predefinedPositions.size(); i++) {
+                if(predefinedPositions.get(i).equals(point)){
+                    DraggableCardViewEntity object = new DraggableCardViewEntity(i, type, getString(R.string.mainAc_FragMainView_Example_ChartName_Text), style);
+                    object.setInfos(25, 25, 25, 25,
+                            getString(R.string.mainAc_FragMainView_Example_Percentage1_Text), getString(R.string.mainAc_FragMainView_Example_Percentage2_Text),
+                            getString(R.string.mainAc_FragMainView_Example_Percentage3_Text), getString(R.string.mainAc_FragMainView_Example_Percentage4_Text),
+                            getResources().getColor(R.color.highlightedTextDark), getResources().getColor(R.color.textDark),
+                            getResources().getColor(R.color.highlightedTextLight), getResources().getColor(R.color.textLight));
+                    object.setId(id);
+                    list.add(object);
+                    break;
+                }
+            }
+        }
+        return list;
+    }
+    private List<Point> setPredefinedPositions(int width, int height){
+        List<Point> predefinedPositions = new ArrayList<>();
+
+        int column1X = 0;
+        int column2X = width;
+
+        int RowY = 0;
+        int RowY2 = 0;
+
+        for(int i = 0; i < 10; i++){
+            Point point = new Point();
+            if(i < 5){
+                point.x = column1X;
+                point.y = RowY;
+
+                RowY +=height;
+            }else{
+                point.x = column2X;
+                point.y = RowY2;
+
+                RowY2+=height;
+            }
+
+            predefinedPositions.add(point);
+        }
+
+        return predefinedPositions;
     }
     //----------------------------------------------
 
@@ -428,66 +588,6 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     //----------------------------------------------
 
     //----------------ANIMATIONS--------------------
-  /*  private void startFragAnimations(){
-        binding.cardviewDialogLoginFrag.setVisibility(View.INVISIBLE);
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = getContext().getTheme();
-        theme.resolveAttribute(android.R.attr.colorControlNormal, typedValue, true);
-        @ColorInt int color = typedValue.data;
-        binding.frameLayoutFragRegister.setBackgroundColor(color);
-        scaleDownAnimtion();
-        new CountDownTimer(500, 1000) {
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            public void onFinish() {
-                fadeInRegisterDialog();
-            }
-        }.start();
-    }
-    private void fadeInRegisterDialog(){
-        Animation fadeOut = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
-        binding.cardviewDialogLoginFrag.startAnimation(fadeOut);
-
-        fadeOut.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                binding.cardviewDialogLoginFrag.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-    }
-    private void fadeOutRegisterDialog(){
-        Animation fadeOut = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
-        binding.cardviewDialogLoginFrag.startAnimation(fadeOut);
-
-        fadeOut.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                binding.cardviewDialogLoginFrag.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-    }*/
     private void startFragAnimations(){
         binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.INVISIBLE);
         binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(false);
@@ -533,33 +633,76 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
 
         binding.imageViewAux1MainActivity.startAnimation(scaleAnimation);
     }
+    private void fadeInAnimation(View view){
+        Animation fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        view.startAnimation(fadeOut);
+
+        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+    }
+    private void fadeOutAnimation(View view){
+        Animation fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
+        view.startAnimation(fadeOut);
+
+        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+    }
     //----------------------------------------------
+
+    //----------------LISTENNERS--------------------
     @Override
-    public void OnFragMainACMainViewEditLayoutExitClick(Boolean Changed, List<DraggableCardViewEntity> draggableCardViewObjectList) {
+    public void OnFragMainACMainViewEditLayoutExitClick(Boolean Changed, List<DraggableCardViewEntity> listReturned) {
         scaleUpAnimtion();
-        new CountDownTimer(1200, 1000) {
+        new CountDownTimer(1500, 1000) {
             public void onTick(long millisUntilFinished) {
 
             }
 
             public void onFinish() {
-                binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.INVISIBLE);
-                binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(false);
-
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-                if(Changed){
-                    mainACMainViewFragment.updateData(draggableCardViewObjectList);
-                }
-
+                mainACMainViewFragment = new MainACMainViewFragment(listReturned);
+                changeFragmentFromMainFragmentContainer(1);
                 outFragment();
                 scaleDownAnimtion();
+                binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.INVISIBLE);
+                binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(false);
             }
         }.start();
     }
+    //----------------------------------------------
 
-    private class LocalDatabaseGetAllTask extends AsyncTask<Void, Void, List<DraggableCardViewEntity>> {
+    //----------------DATABASE OPERATIONS--------------------
+    private class LocalDatabaseGetAllDraggableCardViewsTask extends AsyncTask<Void, Void, List<DraggableCardViewEntity>> {
         @Override
         protected List<DraggableCardViewEntity> doInBackground(Void... voids) {
             draggableCardViewObjectsList = draggableCardViewDao.getObjects();
@@ -570,7 +713,12 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                     return Integer.compare(obj1.getId(), obj2.getId());
                 }
             });
-            return draggableCardViewObjectsList;
+            if(draggableCardViewObjectsList.size() > 0){
+                return draggableCardViewObjectsList;
+            }else{
+                exampleDraggableCardViewObjectsList = loadExampleDraggableCardViewList();
+                return exampleDraggableCardViewObjectsList;
+            }
         }
 
         @Override
@@ -578,4 +726,31 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             mainACMainViewFragment.updateData(draggableCardViewEntityList);
         }
     }
+    private class LocalDatabaseGetAllSpendingsAccountsTask extends AsyncTask<Void, Void, List<SpendingAccountsEntity>> {
+        @Override
+        protected List<SpendingAccountsEntity> doInBackground(Void... voids) {
+            spendingAccountsEntitiesList = spendingsAccountsDao.getSpendingsAccounts();
+            return spendingAccountsEntitiesList;
+        }
+
+        @Override
+        protected void onPostExecute(List<SpendingAccountsEntity> spendingAccountsEntitiesList) {
+            mainACOverviewViewFragment.updateData(spendingAccountsEntitiesList);
+        }
+    }
+    private class LocalDatabaseGetUserInfosTask extends AsyncTask<Void, Void, UserInfosEntity> {
+        @Override
+        protected UserInfosEntity doInBackground(Void... voids) {
+            List<UserInfosEntity> userInfosEntityList = userInfosDao.getUserInfos();
+            UserInfosEntity userInfosEntity = userInfosEntityList.get(0);;
+
+            return userInfosEntity;
+        }
+
+        @Override
+        protected void onPostExecute(UserInfosEntity userInfos) {
+            UserInfosEntity = userInfos;
+        }
+    }
+    //----------------------------------------------
 }

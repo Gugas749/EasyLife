@@ -23,13 +23,14 @@ public class AlertDialogQuestionFragment extends Fragment {
         void onCancelButtonClicked();
     }
     private FragmentAlertDialogQuestionBinding binding;
-    private String title, description;
+    private String title, description, Style;
 
-    public AlertDialogQuestionFragment(String title, String description, ConfirmButtonClick listenner, CancelButtonClick cancelListenner) {
+    public AlertDialogQuestionFragment(String title, String description, ConfirmButtonClick listenner, CancelButtonClick cancelListenner, String Style) {
         this.title = title;
         this.description = description;
         this.listenner = listenner;
         this.cancelListenner = cancelListenner;
+        this.Style = Style;
     }
 
     @Override
@@ -44,6 +45,13 @@ public class AlertDialogQuestionFragment extends Fragment {
 
         binding.textViewTitleAlertDialogFragmentQuestion.setText(title);
         binding.textViewDescriptionAlertDialogFragmentQuestion.setText(description);
+
+        switch (Style){
+            case "2":
+                binding.buttonCancelAlertDialogFragmentQuestion.setText(getString(R.string.general_no));
+                binding.buttonConfirmAlertDialogFragmentQuestion.setText(getString(R.string.general_yes));
+                break;
+        }
 
         binding.buttonConfirmAlertDialogFragmentQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
