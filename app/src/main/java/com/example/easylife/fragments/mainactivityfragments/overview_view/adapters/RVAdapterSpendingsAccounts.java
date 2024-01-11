@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,6 +41,7 @@ public class RVAdapterSpendingsAccounts extends RecyclerView.Adapter<RVAdapterSp
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         final SpendingAccountsEntity SelectedAccount = accounts.get(position);
+        holder.accountNameTextView.setText(SelectedAccount.getAccountTitle());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,10 +58,11 @@ public class RVAdapterSpendingsAccounts extends RecyclerView.Adapter<RVAdapterSp
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
+        TextView accountNameTextView;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            accountNameTextView = itemView.findViewById(R.id.textView_accountNameHolder_rvRowSpendingsAccounts_MainACOverview);
         }
     }
 }

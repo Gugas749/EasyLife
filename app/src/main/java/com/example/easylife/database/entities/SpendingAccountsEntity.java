@@ -17,7 +17,7 @@ public class SpendingAccountsEntity {
     @ColumnInfo(name = "id")
     private long id;
     @ColumnInfo(name = "idUserFirebase")
-    private float idUserFirebase;
+    private String idUserFirebase;
     @ColumnInfo(name = "emailUser")
     private String emailUser;
     @ColumnInfo(name = "accountTitle")
@@ -32,8 +32,7 @@ public class SpendingAccountsEntity {
 
     }
 
-    public void setInfos(long id, float idUserFirebase, String emailUser, String accountTitle, List<SpendsEntity> spendsList, List<String> percentagesNamesList, List<String> percentagesColorList) {
-        this.id = id;
+    public void setInfos(String idUserFirebase, String emailUser, String accountTitle, List<SpendsEntity> spendsList, List<String> percentagesNamesList, List<String> percentagesColorList) {
         this.idUserFirebase = idUserFirebase;
         this.emailUser = emailUser;
         this.accountTitle = accountTitle;
@@ -50,11 +49,11 @@ public class SpendingAccountsEntity {
         this.id = id;
     }
 
-    public float getIdUserFirebase() {
+    public String getIdUserFirebase() {
         return idUserFirebase;
     }
 
-    public void setIdUserFirebase(float idUserFirebase) {
+    public void setIdUserFirebase(String idUserFirebase) {
         this.idUserFirebase = idUserFirebase;
     }
 

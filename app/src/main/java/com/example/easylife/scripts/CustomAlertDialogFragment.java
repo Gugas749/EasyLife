@@ -7,38 +7,52 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.example.easylife.R;
+import com.example.easylife.fragments.alertDialogFragments.AlertDialogColorPickerFragment;
 import com.example.easylife.fragments.alertDialogFragments.AlertDialogNotifyFragment;
 import com.example.easylife.fragments.alertDialogFragments.AlertDialogQuestionFragment;
 
-public class CustomAlertDialogFragment extends DialogFragment implements AlertDialogNotifyFragment.ContinueButtonClick, AlertDialogQuestionFragment.CancelButtonClick, AlertDialogQuestionFragment.ConfirmButtonClick {
+public class CustomAlertDialogFragment extends DialogFragment implements AlertDialogNotifyFragment.ContinueButtonClick, AlertDialogQuestionFragment.CancelButtonClick, AlertDialogQuestionFragment.ConfirmButtonClick, AlertDialogColorPickerFragment.ConfirmButtonClickColorPicker, AlertDialogColorPickerFragment.CancelButtonClickColorPicker {
     private Fragment customFragment;
     private ConfirmButtonClickAlertDialogQuestionFrag confirmButtonClickAlertDialogQuestionFrag;
     private CancelButtonClickAlertDialogQuestionFrag cancelButtonClickAlertDialogQuestionFrag;
+    private ConfirmButtonClickAlertDialogColorPickerFrag confirmButtonClickAlertDialogColorPickerFrag;
     private String Tag;
+    private int backgroundColor = 0;
 
     public interface ConfirmButtonClickAlertDialogQuestionFrag{
         void onConfirmButtonClicked(String Tag);
+    }
+
+    public interface CancelButtonClickAlertDialogColorPickerFrag{
+        void onCancelButtonClicked();
     }
 
     public interface CancelButtonClickAlertDialogQuestionFrag{
         void onCancelButtonClicked(String Tag);
     }
 
-
-    // Constructor to set the custom fragment
+    public interface ConfirmButtonClickAlertDialogColorPickerFrag{
+        void onConfirmButtonClicked(int color, int position, String name);
+    }
     public CustomAlertDialogFragment() {
 
     }
 
     public void setTag(String Tag){
         this.Tag = Tag;
+    }
+
+    public void setBackgroundColor(int color){
+        backgroundColor = color;
     }
 
     public void setConfirmListenner(ConfirmButtonClickAlertDialogQuestionFrag listenner){
@@ -49,11 +63,20 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
         this.cancelButtonClickAlertDialogQuestionFrag = listenner;
     }
 
+    public void setConfirmColorPickerListenner(ConfirmButtonClickAlertDialogColorPickerFrag listenner){
+        this.confirmButtonClickAlertDialogColorPickerFrag = listenner;
+    }
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_container_layout_alertd_dialog, container, false);
+        CardView parent = view.findViewById(R.id.linearLayout_parent_custom_alertDialog);
 
+        if(backgroundColor != 0){
+            parent.setCardBackgroundColor(backgroundColor);
+        }
         if (getDialog() != null && getDialog().getWindow() != null) {
             getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -87,6 +110,17 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
     @Override
     public void onConfirmButtonClicked() {
         confirmButtonClickAlertDialogQuestionFrag.onConfirmButtonClicked(Tag);
+        this.dismiss();
+    }
+
+    @Override
+    public void onConfirmButtonClickedColorPicker(int color, int position, String name) {
+        confirmButtonClickAlertDialogColorPickerFrag.onConfirmButtonClicked(color, position, name);
+        this.dismiss();
+    }
+
+    @Override
+    public void onCancelButtonClickedColorPicker() {
         this.dismiss();
     }
 }

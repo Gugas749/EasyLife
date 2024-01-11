@@ -53,7 +53,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class MainActivity extends AppCompatActivity implements MainACMainViewEditLayoutFragment.OnFragMainACMainViewEditLayoutExitClick {
+public class MainActivity extends AppCompatActivity implements MainACMainViewEditLayoutFragment.OnFragMainACMainViewEditLayoutExitClick, MainACOverviewViewAddSpendingAccountFormFragment.ExitButtonClickFragMainACOverviewViewAddSpendingsForm {
     //-------------------OTHERS---------------
     private ActivityMainBinding binding;
     private final Executor executor = Executors.newSingleThreadExecutor();
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     private MainACOverviewViewFragment mainACOverviewViewFragment;
     private MainACAddViewFragment mainACAddViewFragment;
     //-------------------LISTS---------------
-    private List<DraggableCardViewEntity> draggableCardViewObjectsList, exampleDraggableCardViewObjectsList;
+    private List<DraggableCardViewEntity> draggableCardViewObjectsList;
     private List<SpendingAccountsEntity> spendingAccountsEntitiesList;
     //-------------------LOCAL DATABASE---------------
     private LocalDataBase localDataBase;
@@ -115,7 +115,6 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
 
         draggableCardViewObjectsList = new ArrayList<>();
         spendingAccountsEntitiesList = new ArrayList<>();
-        exampleDraggableCardViewObjectsList = new ArrayList<>();
 
         mainACMainViewFragment = new MainACMainViewFragment(draggableCardViewObjectsList);
         mainACOverviewViewFragment = new MainACOverviewViewFragment();
@@ -172,9 +171,11 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
 
                         Object tag = binding.imageViewButtonMultiFunctionMainViewMainAC.getTag();
                         if (tag.equals("0")) {
+                            MainACOverviewViewAddSpendingAccountFormFragment fragment = new MainACOverviewViewAddSpendingAccountFormFragment(UserInfosEntity);
+                            fragment.setExitListenner(THIS);
                             getSupportFragmentManager()
                                     .beginTransaction()
-                                    .replace(R.id.frameLayout_fullScreenFragmentContainer_MainAc, new MainACOverviewViewAddSpendingAccountFormFragment(UserInfosEntity))
+                                    .replace(R.id.frameLayout_fullScreenFragmentContainer_MainAc, fragment)
                                     .addToBackStack(null)
                                     .commit();
                         } else if (tag.equals("1")) {
@@ -311,15 +312,16 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                     public void onFinish() {
                         FragmentManager fragmentManager = getSupportFragmentManager();
                         fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                        binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.GONE);
-                        binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(false);
 
                         SharedPreferences sharedPreferences = getSharedPreferences("Perf_User", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putBoolean("seenTutorial", true);
                         editor.apply();
-
+                        init();
                         outFragment();
+                        scaleDownAnimtion();
+                        binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.INVISIBLE);
+                        binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(false);
                     }
                 }.start();
                 break;
@@ -444,30 +446,30 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         int height2 = (int) (binding.frameLayoutFragmentContainerMainAC.getHeight() * 0.2f);
         List<Point> predefinedPositions = setPredefinedPositions(width2, height2);
         int id = 0;
-        for (int j = 0; j <= 5; j++) {
+        for (int j = 0; j < 5; j++) {
             Point point = new Point();
             String type = "";
             String style = "1";
 
             switch (j){
-                case 1:
+                case 0:
                     point = predefinedPositions.get(0);
                     type = "2";
                     break;
-                case 2:
+                case 1:
                     point = predefinedPositions.get(1);
                     type = "1";
                     break;
-                case 3:
+                case 2:
                     point = predefinedPositions.get(6);
                     type = "1";
                     break;
-                case 4:
+                case 3:
                     point = predefinedPositions.get(2);
                     type = "2";
                     style = "2";
                     break;
-                case 5:
+                case 4:
                     point = predefinedPositions.get(3);
                     type = "3";
                     break;
@@ -690,8 +692,36 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-                mainACMainViewFragment = new MainACMainViewFragment(listReturned);
+                if(Changed){
+                    mainACMainViewFragment = new MainACMainViewFragment(listReturned);
+                }else{
+                    mainACMainViewFragment = new MainACMainViewFragment(draggableCardViewObjectsList);
+                }
                 changeFragmentFromMainFragmentContainer(1);
+                outFragment();
+                scaleDownAnimtion();
+                binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.INVISIBLE);
+                binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(false);
+            }
+        }.start();
+    }
+    @Override
+    public void onExitButtonClickFragMainACOverviewViewAddSpendingsForm(Boolean Changed, SpendingAccountsEntity returned) {
+        scaleUpAnimtion();
+        new CountDownTimer(1500, 1000) {
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            public void onFinish() {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                mainACOverviewViewFragment = new MainACOverviewViewFragment();
+                if(Changed){
+                    spendingAccountsEntitiesList.add(returned);
+                }
+                mainACOverviewViewFragment.updateData(spendingAccountsEntitiesList);
+                changeFragmentFromMainFragmentContainer(0);
                 outFragment();
                 scaleDownAnimtion();
                 binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.INVISIBLE);
@@ -706,6 +736,9 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         @Override
         protected List<DraggableCardViewEntity> doInBackground(Void... voids) {
             draggableCardViewObjectsList = draggableCardViewDao.getObjects();
+            if(draggableCardViewObjectsList.size() < 1){
+                draggableCardViewObjectsList = loadExampleDraggableCardViewList();
+            }
             Collections.sort(draggableCardViewObjectsList, new Comparator<DraggableCardViewEntity>() {
                 @Override
                 public int compare(DraggableCardViewEntity obj1, DraggableCardViewEntity obj2) {
@@ -713,12 +746,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                     return Integer.compare(obj1.getId(), obj2.getId());
                 }
             });
-            if(draggableCardViewObjectsList.size() > 0){
-                return draggableCardViewObjectsList;
-            }else{
-                exampleDraggableCardViewObjectsList = loadExampleDraggableCardViewList();
-                return exampleDraggableCardViewObjectsList;
-            }
+            return draggableCardViewObjectsList;
         }
 
         @Override

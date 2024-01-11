@@ -1,5 +1,6 @@
 package com.example.easylife.fragments.mainactivityfragments.overview_view;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,10 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.easylife.database.entities.DraggableCardViewEntity;
 import com.example.easylife.database.entities.SpendingAccountsEntity;
 import com.example.easylife.databinding.FragmentMainACOverviewViewBinding;
 import com.example.easylife.fragments.mainactivityfragments.overview_view.adapters.RVAdapterSpendingsAccounts;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MainACOverviewViewFragment extends Fragment {

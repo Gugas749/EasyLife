@@ -63,4 +63,7 @@ dependencies {
 
     //PIE CHART
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    //PIE CHART
+    implementation("com.github.Mohammad3125:KavehColorPicker:v1.0.0")
 }

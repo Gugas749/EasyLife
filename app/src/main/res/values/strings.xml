@@ -93,11 +93,12 @@
     <string name="mainAc_FragOverviewView_Example_Percentage4_Text">Percentage 4</string>
     <!-- Main AC - Overview View - Add Spendings Account -->
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_1_Text">Name Your Account!!</string>
-    <string name="mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_2_Text">Give Some Names To Your Percentages!!</string>
-    <string name="mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_3_Text">Give Some Colors To Your Percentages!!</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_2_Text">Give Some Names To Your Percentages!! Also Give Them Some Colors By Clicking Them!!</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_editTextAccountName_Hint">Account Name</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_editTextPercentagesNames_Hint">Percentage Name</string>
-    <string name="mainAc_FragOverviewViewAddSpendingsAccount_editTextPercentagesColors_Hint">Give Some Colors To Your Percentages!!</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_MissingInputs_Text">Hmm… Looks like theres some empty spots</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_SaveBeforeLeaving_Text">Do you wish to save this account before leaving?</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_Save_Text">Do you wish to save this account layout?</string>
 
     <!-- Tutorial Fragments -->
     <string name="tutorialFrag_skip">Skip</string>

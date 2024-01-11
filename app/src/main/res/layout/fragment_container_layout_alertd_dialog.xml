@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/round_corners_alert_dialog"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linearLayout_parent_custom_alertDialog"
+    app:cardCornerRadius="30sp"
+    app:cardBackgroundColor="?attr/colorControlNormal"
     android:minWidth="150dp"
-    android:orientation="vertical"
-    android:padding="24dp">
+    android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/fragment_container_custom_alertDialog"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:padding="24dp"/>
 
-</LinearLayout>
+</androidx.cardview.widget.CardView>
