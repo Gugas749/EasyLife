@@ -22,6 +22,10 @@ public class SpendingAccountsEntity {
     private String emailUser;
     @ColumnInfo(name = "accountTitle")
     private String accountTitle;
+    @ColumnInfo(name = "isSubAccount")
+    private boolean isSubAccount;
+    //@ColumnInfo(name = "subAccountsList")
+    //private List<SpendingAccountsEntity> subAccountsList;
     @ColumnInfo(name = "spendsList")
     private List<SpendsEntity> spendsList;
     @ColumnInfo(name = "percentagesNamesList")
@@ -96,4 +100,20 @@ public class SpendingAccountsEntity {
     public void setPercentagesColorList(List<String> percentagesColorList) {
         this.percentagesColorList = percentagesColorList;
     }
+
+    public boolean isSubAccount() {
+        return isSubAccount;
+    }
+
+    public void setSubAccount(boolean subAccount) {
+        isSubAccount = subAccount;
+    }
+
+    /*public List<SpendingAccountsEntity> getSubAccountsList() {
+        return subAccountsList;
+    }
+
+    public void setSubAccountsList(List<SpendingAccountsEntity> subAccountsList) {
+        this.subAccountsList = subAccountsList;
+    }*/
 }

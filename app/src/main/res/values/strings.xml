@@ -24,11 +24,14 @@
     <string name="register_dialog_password_prompt_password_2">Confirm the Pin Code</string>
     <string name="register_dialog_password_action_register">Setup a Pin Code</string>
     <string name="register_dialog_password_invalid_password_no_equal">Your Pin Codes dont match</string>
-    <string name="register_dialog_password_invalid_password_to_short">Pin Code must be more than 4 characters</string>
+    <string name="register_dialog_password_invalid_password_to_short">Pin Code must have 4 characters</string>
 
     <!-- Register Biometrics Dialog -->
     <string name="register_dialog_biometric_action_register">Do you want to activate biometric login?</string>
     <string name="register_dialog_faceId_action_register">Do you want to activate Face ID login?</string>
+
+    <!-- Authentication Fragment -->
+    <string name="authFragment_wrongPinCode_Toast_Text">The Pin Code inserted is incorrect!!</string>
 
     <!-- Alert Dialog Fragments -->
     <string name="alertDialog_FragmentRestartSession_FaceID_Title">Face ID</string>
@@ -36,6 +39,17 @@
     <string name="alertDialog_RestartSession_BiometricID_Subtitle">Biometric ID</string>
     <string name="alertDialog_Notify_EmailSend_Title">Email Send</string>
     <string name="alertDialog_Notify_EmailSend_Description">A Email has been send to the Email inserted has a way to verify it, please insert the code provided in the Email on the respective spot.</string>
+    <!-- Alert Dialog Fragments - LongPressMainViewObjects -->
+    <string name="alertDialog_LongPressMainViewObjects_TextView_Styles_Text">Widget Style</string>
+    <string name="alertDialog_LongPressMainViewObjects_TextView_SpendingsAccounts_Text">Connected Spendings Account</string>
+    <string name="alertDialog_LongPressMainViewObjects_TextView_SpendingsSubAccounts_Text">Connected Spendings Sub Account</string>
+    <string name="alertDialog_LongPressMainViewObjects_spinner_WidgetStyle_ItemText">Style</string>
+    <string name="alertDialog_LongPressMainViewObjects_spinner_WidgetStyle_StarterText">Select a Style</string>
+    <string name="alertDialog_LongPressMainViewObjects_spinner_SpendingsAccounts_StarterText">Select a Account</string>
+    <string name="alertDialog_LongPressMainViewObjects_spinner_SpendingsSubAccounts_StarterText">Select a SubAccount</string>
+    <string name="alertDialog_LongPressMainViewObjects_Toast_SelectStyle">Please select a Style</string>
+    <string name="alertDialog_LongPressMainViewObjects_Toast_SelectAccount">Please select a Account</string>
+    <string name="alertDialog_LongPressMainViewObjects_Toast_SelectSubAccount">Please select a Sub Account</string>
 
     <!-- Main AC -->
     <string name="mainAc_bottomNavigationView_Home">Home</string>
@@ -51,6 +65,10 @@
     <string name="mainAc_FragMainView_Example_Percentage2_Text">Percentage 2</string>
     <string name="mainAc_FragMainView_Example_Percentage3_Text">Percentage 3</string>
     <string name="mainAc_FragMainView_Example_Percentage4_Text">Percentage 4</string>
+    <string name="mainAc_FragMainView_Example_Percentage5_Text">Percentage 5</string>
+    <string name="mainAc_FragMainView_Example_Percentage6_Text">Percentage 6</string>
+    <string name="mainAc_FragMainView_Example_Percentage7_Text">Percentage 7</string>
+    <string name="mainAc_FragMainView_Example_Percentage8_Text">Percentage 8</string>
     <!-- Main AC - Main View - EditLayout -->
     <string name="mainAc_FragMainViewEditLayout_Toast_noSpace_Text">You dont have space to put this object in</string>
     <string name="mainAc_FragMainViewEditLayout_AlertDialog_Delete_Title">Remove Widget</string>

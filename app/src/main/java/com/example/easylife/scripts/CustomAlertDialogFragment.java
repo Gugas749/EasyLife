@@ -16,15 +16,24 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.example.easylife.R;
+import com.example.easylife.database.entities.DraggableCardViewEntity;
 import com.example.easylife.fragments.alertDialogFragments.AlertDialogColorPickerFragment;
+import com.example.easylife.fragments.alertDialogFragments.AlertDialogLongPressMainViewObjectsFragment;
 import com.example.easylife.fragments.alertDialogFragments.AlertDialogNotifyFragment;
 import com.example.easylife.fragments.alertDialogFragments.AlertDialogQuestionFragment;
 
-public class CustomAlertDialogFragment extends DialogFragment implements AlertDialogNotifyFragment.ContinueButtonClick, AlertDialogQuestionFragment.CancelButtonClick, AlertDialogQuestionFragment.ConfirmButtonClick, AlertDialogColorPickerFragment.ConfirmButtonClickColorPicker, AlertDialogColorPickerFragment.CancelButtonClickColorPicker {
+public class CustomAlertDialogFragment extends DialogFragment implements AlertDialogNotifyFragment.ContinueButtonClick,
+        AlertDialogQuestionFragment.CancelButtonClick,
+        AlertDialogQuestionFragment.ConfirmButtonClick,
+        AlertDialogColorPickerFragment.ConfirmButtonClickColorPicker,
+        AlertDialogColorPickerFragment.CancelButtonClickColorPicker,
+        AlertDialogLongPressMainViewObjectsFragment.CancelButtonClickAlertDialogLongPressMainViewObjectsFrag,
+        AlertDialogLongPressMainViewObjectsFragment.ConfirmButtonClickAlertDialogLongPressMainViewObjectsFrag {
     private Fragment customFragment;
     private ConfirmButtonClickAlertDialogQuestionFrag confirmButtonClickAlertDialogQuestionFrag;
     private CancelButtonClickAlertDialogQuestionFrag cancelButtonClickAlertDialogQuestionFrag;
     private ConfirmButtonClickAlertDialogColorPickerFrag confirmButtonClickAlertDialogColorPickerFrag;
+    private ConfirmButtonClickAlertDialogLongPressMainViewObjects confirmButtonClickAlertDialogLongPressMainViewObjectsListenner;
     private String Tag;
     private int backgroundColor = 0;
 
@@ -42,6 +51,10 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
 
     public interface ConfirmButtonClickAlertDialogColorPickerFrag{
         void onConfirmButtonClicked(int color, int position, String name);
+    }
+
+    public interface ConfirmButtonClickAlertDialogLongPressMainViewObjects{
+        void onConfirmButtonClickAlertDialogLongPressMainViewObjects(DraggableCardViewEntity object);
     }
     public CustomAlertDialogFragment() {
 
@@ -65,6 +78,10 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
 
     public void setConfirmColorPickerListenner(ConfirmButtonClickAlertDialogColorPickerFrag listenner){
         this.confirmButtonClickAlertDialogColorPickerFrag = listenner;
+    }
+
+    public void setConfirmButtonClickAlertDialogLongPressMainViewObjects(ConfirmButtonClickAlertDialogLongPressMainViewObjects listenner){
+        this.confirmButtonClickAlertDialogLongPressMainViewObjectsListenner = listenner;
     }
 
 
@@ -121,6 +138,16 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
 
     @Override
     public void onCancelButtonClickedColorPicker() {
+        this.dismiss();
+    }
+    @Override
+    public void onCancelButtonClickAlertDialogLongPressMainViewObjectsFrag() {
+        this.dismiss();
+    }
+
+    @Override
+    public void onConfirmButtonClickAlertDialogLongPressMainViewObjectsFrag(DraggableCardViewEntity object) {
+        confirmButtonClickAlertDialogLongPressMainViewObjectsListenner.onConfirmButtonClickAlertDialogLongPressMainViewObjects(object);
         this.dismiss();
     }
 }

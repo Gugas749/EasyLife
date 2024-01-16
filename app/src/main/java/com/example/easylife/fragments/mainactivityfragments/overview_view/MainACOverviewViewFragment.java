@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.easylife.activitys.MainActivity;
 import com.example.easylife.database.entities.DraggableCardViewEntity;
 import com.example.easylife.database.entities.SpendingAccountsEntity;
 import com.example.easylife.databinding.FragmentMainACOverviewViewBinding;
@@ -20,14 +21,23 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class MainACOverviewViewFragment extends Fragment {
+public class MainACOverviewViewFragment extends Fragment implements RVAdapterSpendingsAccounts.SpendingsAccountItemClick {
     private FragmentMainACOverviewViewBinding binding;
     private List<SpendingAccountsEntity> accountsEntityList;
     private RVAdapterSpendingsAccounts adapter;
-    public MainACOverviewViewFragment() {
+    private MainActivity parent;
+    private SpendingsAccountItemClickFragMainACOverviewView listenner;
+    public interface SpendingsAccountItemClickFragMainACOverviewView{
+        void onSpendingsAccountItemClickFragMainACOverviewView(SpendingAccountsEntity account);
     }
-    public void setInfos(){
+    public void setSpendingsAccountItemClickFragMainACOverviewViewListenner(SpendingsAccountItemClickFragMainACOverviewView listenner){
+        this.listenner = listenner;
+    }
+    public MainACOverviewViewFragment() {
 
+    }
+    public void setParent(MainActivity parent){
+        this.parent = parent;
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +58,7 @@ public class MainACOverviewViewFragment extends Fragment {
     }
     private void init(){
         adapter = new RVAdapterSpendingsAccounts(getContext(), accountsEntityList);
+        adapter.setSpendingsAccountItemListenner(this);
     }
     private void loadRecyclerView(){
         if(accountsEntityList.size() > 0){
@@ -59,5 +70,10 @@ public class MainACOverviewViewFragment extends Fragment {
             binding.textViewNoItemsToDisplayFragMainACOverviewView.setVisibility(View.VISIBLE);
             binding.rvSpendingsAccountsFragMainACOverviewView.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onSpendingsAccountItemClick(SpendingAccountsEntity account) {
+        listenner.onSpendingsAccountItemClickFragMainACOverviewView(account);
     }
 }

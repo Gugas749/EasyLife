@@ -94,7 +94,7 @@ public class RegisterPasswordDialogFragment extends Fragment {
                 String passswordText = binding.editTextPasswordRegisterPasswordDialogFrag.getText().toString();
                 String confirmPassswordText = binding.editTextConfirmPasswordRegisterPasswordDialogFrag.getText().toString();
 
-                if(passswordText.length() >= 4){
+                if(passswordText.length() == 4){
                     if(passswordText.equals(confirmPassswordText)){
                         new LocalDatabaseInsetTask().execute();
                         binding.butContinueRegisterPasswordFrag.setEnabled(true);

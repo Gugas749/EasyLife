@@ -19,6 +19,10 @@ public class RVAdapterSpendingsAccounts extends RecyclerView.Adapter<RVAdapterSp
 
     private final Context context;
     private List<SpendingAccountsEntity> accounts;
+    private SpendingsAccountItemClick listenner;
+    public interface SpendingsAccountItemClick{
+        void onSpendingsAccountItemClick(SpendingAccountsEntity account);
+    }
 
 
     public RVAdapterSpendingsAccounts(Context context, List<SpendingAccountsEntity> accounts) {
@@ -28,6 +32,9 @@ public class RVAdapterSpendingsAccounts extends RecyclerView.Adapter<RVAdapterSp
     public void updateData(List<SpendingAccountsEntity> accounts){
         this.accounts = accounts;
         notifyDataSetChanged();
+    }
+    public void setSpendingsAccountItemListenner(SpendingsAccountItemClick listenner){
+        this.listenner = listenner;
     }
     @NonNull
     @Override
@@ -46,7 +53,7 @@ public class RVAdapterSpendingsAccounts extends RecyclerView.Adapter<RVAdapterSp
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "SHÉ MA NENGUE CLICOU SHÉ", Toast.LENGTH_LONG).show();
+                listenner.onSpendingsAccountItemClick(SelectedAccount);
             }
         });
     }

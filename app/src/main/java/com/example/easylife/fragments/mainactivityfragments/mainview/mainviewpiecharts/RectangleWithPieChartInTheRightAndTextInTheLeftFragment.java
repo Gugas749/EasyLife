@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.easylife.R;
+import com.example.easylife.database.entities.DraggableCardViewEntity;
+import com.example.easylife.database.entities.SpendingAccountsEntity;
 import com.example.easylife.databinding.FragmentRectangleWithPieChartInTheRightAndTextInTheLeftBinding;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -20,11 +22,25 @@ import java.util.List;
 
 public class RectangleWithPieChartInTheRightAndTextInTheLeftFragment extends Fragment {
 
+    private LongPressFragRectangleWithPieChartInTheRightAndTextInTheLeft Listenner;
+    public interface LongPressFragRectangleWithPieChartInTheRightAndTextInTheLeft{
+        void onLongPressFragRectangleWithPieChartInTheRightAndTextInTheLeft(DraggableCardViewEntity object, List<SpendingAccountsEntity> spendingAccountsEntityList);
+    }
+    public void setListenner(LongPressFragRectangleWithPieChartInTheRightAndTextInTheLeft Listenner){
+        this.Listenner = Listenner;
+    }
     private FragmentRectangleWithPieChartInTheRightAndTextInTheLeftBinding binding;
     private int color1, color2, color3, color4;
     private String title, valueText1, valueText2, valueText3, valueText4;
     private float value1, value2, value3, value4;
-
+    private DraggableCardViewEntity thisObject;
+    public void setObject(DraggableCardViewEntity thisObject){
+        this.thisObject = thisObject;
+    }
+    private List<SpendingAccountsEntity> spendingAccountsEntityList;
+    public void setAccountsList(List<SpendingAccountsEntity> spendingAccountsEntityList){
+        this.spendingAccountsEntityList = spendingAccountsEntityList;
+    }
     public RectangleWithPieChartInTheRightAndTextInTheLeftFragment() {
 
     }
@@ -61,10 +77,19 @@ public class RectangleWithPieChartInTheRightAndTextInTheLeftFragment extends Fra
 
         init();
         loadChart();
+        setupLongPress();
 
         return binding.getRoot();
     }
-
+    private void setupLongPress(){
+        binding.cardViewContainerRectangleStyle2.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Listenner.onLongPressFragRectangleWithPieChartInTheRightAndTextInTheLeft(thisObject, spendingAccountsEntityList);
+                return false;
+            }
+        });
+    }
     private void init(){
         binding.linerLayoutPieChartPercentage1FragRectangleWithChartInTheRightAndTextInTheLeft.setVisibility(View.INVISIBLE);
         binding.linerLayoutPieChartPercentage2FragRectangleWithChartInTheRightAndTextInTheLeft.setVisibility(View.INVISIBLE);

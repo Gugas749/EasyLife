@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.easylife.R;
+import com.example.easylife.database.entities.DraggableCardViewEntity;
+import com.example.easylife.database.entities.SpendingAccountsEntity;
 import com.example.easylife.databinding.FragmentRectangleWithPieChartBinding;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -19,12 +21,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RectangleWithPieChartFragment extends Fragment {
-
+    private LongPressFragRectangleWithPieChart Listenner;
+    public interface LongPressFragRectangleWithPieChart{
+        void onLongPressFragRectangleWithPieChart(DraggableCardViewEntity object, List<SpendingAccountsEntity> spendingAccountsEntityList);
+    }
+    public void setListenner(LongPressFragRectangleWithPieChart Listenner){
+        this.Listenner = Listenner;
+    }
     private FragmentRectangleWithPieChartBinding binding;
     private int color1, color2, color3, color4;
     private String title;
     private float value1, value2, value3, value4;
-
+    private DraggableCardViewEntity thisObject;
+    public void setObject(DraggableCardViewEntity thisObject){
+        this.thisObject = thisObject;
+    }
+    private List<SpendingAccountsEntity> spendingAccountsEntityList;
+    public void setAccountsList(List<SpendingAccountsEntity> spendingAccountsEntityList){
+        this.spendingAccountsEntityList = spendingAccountsEntityList;
+    }
     public RectangleWithPieChartFragment() {
 
     }
@@ -56,10 +71,19 @@ public class RectangleWithPieChartFragment extends Fragment {
 
         init();
         loadChart();
+        setupLongPress();
 
         return binding.getRoot();
     }
-
+    private void setupLongPress(){
+        binding.cardViewContainerSmallRectangleStyle1.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Listenner.onLongPressFragRectangleWithPieChart(thisObject, spendingAccountsEntityList);
+                return false;
+            }
+        });
+    }
     private void init(){
         binding.textViewNameOfChartFragRectangleWithPieChart.setText(title.trim());
     }

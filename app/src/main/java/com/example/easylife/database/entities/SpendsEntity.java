@@ -16,14 +16,18 @@ public class SpendsEntity {
     private String where;
     @ColumnInfo(name = "when")
     private String when;
+
+    @ColumnInfo(name = "isPartOf")
+    private String isPartOf;
     public SpendsEntity() {
 
     }
 
-    public void setInfos(float amount, String where, String when){
+    public void setInfos(float amount, String where, String when, String isPartOf){
         this.amount = amount;
         this.where = where;
         this.when = when;
+        this.isPartOf = isPartOf;
     }
     public int getId() {
         return id;
@@ -48,5 +52,13 @@ public class SpendsEntity {
     }
     public void setWhen(String when) {
         this.when = when;
+    }
+
+    public String getIsPartOf() {
+        return isPartOf;
+    }
+
+    public void setIsPartOf(String isPartOf) {
+        this.isPartOf = isPartOf;
     }
 }

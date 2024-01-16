@@ -1,5 +1,6 @@
 package com.example.easylife.fragments.mainactivityfragments.mainview;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,24 +9,53 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.view.Gravity;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.example.easylife.R;
+import com.example.easylife.activitys.MainActivity;
 import com.example.easylife.database.entities.DraggableCardViewEntity;
+import com.example.easylife.database.entities.SpendingAccountsEntity;
 import com.example.easylife.databinding.FragmentMainACMainViewBinding;
+import com.example.easylife.fragments.alertDialogFragments.AlertDialogLongPressMainViewObjectsFragment;
+import com.example.easylife.fragments.alertDialogFragments.AlertDialogQuestionFragment;
 import com.example.easylife.fragments.mainactivityfragments.mainview.mainviewpiecharts.BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment;
 import com.example.easylife.fragments.mainactivityfragments.mainview.mainviewpiecharts.RectangleWithPieChartFragment;
 import com.example.easylife.fragments.mainactivityfragments.mainview.mainviewpiecharts.RectangleWithPieChartInTheLeftAndTextInTheRightFragment;
 import com.example.easylife.fragments.mainactivityfragments.mainview.mainviewpiecharts.RectangleWithPieChartInTheRightAndTextInTheLeftFragment;
+import com.example.easylife.scripts.CustomAlertDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainACMainViewFragment extends Fragment {
+public class MainACMainViewFragment extends Fragment implements CustomAlertDialogFragment.ConfirmButtonClickAlertDialogLongPressMainViewObjects
+        , BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment.LongPressFragBigRectangleWithPieChartInTheLeftAndTextInTheRight
+        , RectangleWithPieChartFragment.LongPressFragRectangleWithPieChart
+        , RectangleWithPieChartInTheLeftAndTextInTheRightFragment.LongPressFragRectangleWithPieChartInTheLeftAndTextInTheRight
+        , RectangleWithPieChartInTheRightAndTextInTheLeftFragment.LongPressFragRectangleWithPieChartInTheRightAndTextInTheLeft{
 
     private FragmentMainACMainViewBinding binding;
     private List<DraggableCardViewEntity> draggableCardViewObjectsList;
-
+    private MainACMainViewFragment THIS;
+    private MainActivity parent;
+    private List<SpendingAccountsEntity> spendingAccountsEntityList;
+    private ConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC confirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC;
+    public interface ConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC {
+        void onConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC(DraggableCardViewEntity object);
+    }
+    public void setConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainACListenner(ConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC confirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC){
+        this.confirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC = confirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC;
+    }
     public MainACMainViewFragment(List<DraggableCardViewEntity> draggableCardViewObjectsList) {
         this.draggableCardViewObjectsList = draggableCardViewObjectsList;
+        //TODO: adicionar subaccounts
+    }
+
+    public void setAccountsList(List<SpendingAccountsEntity> spendingAccountsEntityList){
+        this.spendingAccountsEntityList = spendingAccountsEntityList;
+    }
+
+    public void setParent(MainActivity parent){
+        this.parent = parent;
     }
 
     @Override
@@ -38,8 +68,8 @@ public class MainACMainViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMainACMainViewBinding.inflate(inflater);
 
+        THIS = this;
         processData();
-        //setFragmentNormal();
 
         return binding.getRoot();
     }
@@ -76,22 +106,42 @@ public class MainACMainViewFragment extends Fragment {
                             BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment fragStyle1 = new BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment();
                             fragStyle1.setInfos(selectedObject.getValue1Color(), selectedObject.getValue2Color(),
                                     selectedObject.getValue3Color(), selectedObject.getValue4Color(),
+                                    selectedObject.getValue5Color(), selectedObject.getValue6Color(),
+                                    selectedObject.getValue7Color(), selectedObject.getValue8Color(),
                                     selectedObject.getChartName(),
                                     selectedObject.getValue1Percentage(), selectedObject.getValue2Percentage(),
                                     selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage(),
+                                    selectedObject.getValue5Percentage(), selectedObject.getValue6Percentage(),
+                                    selectedObject.getValue7Percentage(), selectedObject.getValue8Percentage(),
                                     selectedObject.getValue1Text(), selectedObject.getValue2Text(),
-                                    selectedObject.getValue3Text(), selectedObject.getValue4Text());
+                                    selectedObject.getValue3Text(), selectedObject.getValue4Text(),
+                                    selectedObject.getValue5Text(), selectedObject.getValue6Text(),
+                                    selectedObject.getValue7Text(), selectedObject.getValue8Text());
+                            fragStyle1.setListenner(THIS);
+                            fragStyle1.setObject(selectedObject);
+                            //TODO: adicionar subaccounts
+                            fragStyle1.setAccountsList(spendingAccountsEntityList);
                             fragment = fragStyle1;
                             break;
                         case "2":
                             BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment fragStyle2 = new BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment();
                             fragStyle2.setInfos(selectedObject.getValue1Color(), selectedObject.getValue2Color(),
                                     selectedObject.getValue3Color(), selectedObject.getValue4Color(),
+                                    selectedObject.getValue5Color(), selectedObject.getValue6Color(),
+                                    selectedObject.getValue7Color(), selectedObject.getValue8Color(),
                                     selectedObject.getChartName(),
                                     selectedObject.getValue1Percentage(), selectedObject.getValue2Percentage(),
                                     selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage(),
+                                    selectedObject.getValue5Percentage(), selectedObject.getValue6Percentage(),
+                                    selectedObject.getValue7Percentage(), selectedObject.getValue8Percentage(),
                                     selectedObject.getValue1Text(), selectedObject.getValue2Text(),
-                                    selectedObject.getValue3Text(), selectedObject.getValue4Text());
+                                    selectedObject.getValue3Text(), selectedObject.getValue4Text(),
+                                    selectedObject.getValue5Text(), selectedObject.getValue6Text(),
+                                    selectedObject.getValue7Text(), selectedObject.getValue8Text());
+                            fragStyle2.setListenner(THIS);
+                            fragStyle2.setObject(selectedObject);
+                            //TODO: adicionar subaccounts
+                            fragStyle2.setAccountsList(spendingAccountsEntityList);
                             fragment = fragStyle2;
                             break;
                     }
@@ -129,6 +179,10 @@ public class MainACMainViewFragment extends Fragment {
                                     selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage(),
                                     selectedObject.getValue1Text(), selectedObject.getValue2Text(),
                                     selectedObject.getValue3Text(), selectedObject.getValue4Text());
+                            fragStyle1.setListenner(THIS);
+                            fragStyle1.setObject(selectedObject);
+                            //TODO: adicionar subaccounts
+                            fragStyle1.setAccountsList(spendingAccountsEntityList);
                             fragment = fragStyle1;
                             break;
                         case "2":
@@ -140,6 +194,10 @@ public class MainACMainViewFragment extends Fragment {
                                     selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage(),
                                     selectedObject.getValue1Text(), selectedObject.getValue2Text(),
                                     selectedObject.getValue3Text(), selectedObject.getValue4Text());
+                            fragStyle2.setListenner(THIS);
+                            fragStyle2.setObject(selectedObject);
+                            //TODO: adicionar subaccounts
+                            fragStyle2.setAccountsList(spendingAccountsEntityList);
                             fragment = fragStyle2;
                             break;
                     }
@@ -237,6 +295,10 @@ public class MainACMainViewFragment extends Fragment {
                                 selectedObject.getChartName(),
                                 selectedObject.getValue1Percentage(), selectedObject.getValue2Percentage(),
                                 selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage());
+                        frag1.setListenner(THIS);
+                        frag1.setObject(selectedObject);
+                        //TODO: adicionar subaccounts
+                        frag1.setAccountsList(spendingAccountsEntityList);
                         fragment = frag1;
 
                         if(brother != null){
@@ -246,6 +308,10 @@ public class MainACMainViewFragment extends Fragment {
                                     brother.getChartName(),
                                     brother.getValue1Percentage(), brother.getValue2Percentage(),
                                     brother.getValue3Percentage(), brother.getValue4Percentage());
+                            frag2.setListenner(THIS);
+                            frag2.setObject(selectedObject);
+                            //TODO: adicionar subaccounts
+                            frag2.setAccountsList(spendingAccountsEntityList);
                             brotherFragment = frag2;
                         }
 
@@ -258,6 +324,17 @@ public class MainACMainViewFragment extends Fragment {
     public void updateData(List<DraggableCardViewEntity> draggableCardViewObjectsList){
         this.draggableCardViewObjectsList = draggableCardViewObjectsList;
         processData();
+    }
+    private void onObjectLongPress(DraggableCardViewEntity object, List<SpendingAccountsEntity> spendingAccountsEntityList){
+        if(!parent.allDisable){
+            CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+            customAlertDialogFragment.setConfirmButtonClickAlertDialogLongPressMainViewObjects(THIS); //TODO: adicionar subaccounts
+            AlertDialogLongPressMainViewObjectsFragment fragment = new AlertDialogLongPressMainViewObjectsFragment(object, spendingAccountsEntityList);
+            customAlertDialogFragment.setCustomFragment(fragment);
+            customAlertDialogFragment.setTag("FragMainACMainView");
+            fragment.setListenners(customAlertDialogFragment, customAlertDialogFragment);
+            customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
+        }
     }
 
     //------------------------------FRAME LAYOUT RELATED-------------------------
@@ -332,6 +409,27 @@ public class MainACMainViewFragment extends Fragment {
                 .replace(frameLayout1.getId(), fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void onLongPressFragBigRectangleWithPieChartInTheLeftAndTextInTheRight(DraggableCardViewEntity object, List<SpendingAccountsEntity> spendingAccountsEntityList) {
+        onObjectLongPress(object, spendingAccountsEntityList);
+    }
+    @Override
+    public void onLongPressFragRectangleWithPieChart(DraggableCardViewEntity object, List<SpendingAccountsEntity> spendingAccountsEntityList) {
+        onObjectLongPress(object, spendingAccountsEntityList);
+    }
+    @Override
+    public void onLongPressFragRectangleWithPieChartInTheLeftAndTextInTheRight(DraggableCardViewEntity object, List<SpendingAccountsEntity> spendingAccountsEntityList) {
+        onObjectLongPress(object, spendingAccountsEntityList);
+    }
+    @Override
+    public void onLongPressFragRectangleWithPieChartInTheRightAndTextInTheLeft(DraggableCardViewEntity object, List<SpendingAccountsEntity> spendingAccountsEntityList) {
+        onObjectLongPress(object, spendingAccountsEntityList);
+    }
+    @Override
+    public void onConfirmButtonClickAlertDialogLongPressMainViewObjects(DraggableCardViewEntity object) {
+        confirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC.onConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC(object);
     }
     //---------------------------------------------------------------------------
 }
