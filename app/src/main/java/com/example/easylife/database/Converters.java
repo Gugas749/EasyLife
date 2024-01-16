@@ -23,7 +23,7 @@ public class Converters {
         return gson.toJson(list);
     }
 
-   /* @TypeConverter
+    @TypeConverter
     public static List<SpendingAccountsEntity> fromSpendingAccountsString(String value) {
         Type listType = new TypeToken<List<SpendingAccountsEntity>>() {}.getType();
         return new Gson().fromJson(value, listType);
@@ -33,7 +33,7 @@ public class Converters {
     public static String toSpendingAccountsString(List<SpendingAccountsEntity> list) {
         Gson gson = new Gson();
         return gson.toJson(list);
-    }*/
+    }
 
     @TypeConverter
     public static List<String> fromStringList(String value) {

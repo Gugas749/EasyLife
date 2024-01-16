@@ -3,7 +3,6 @@ package com.example.easylife.activitys;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.biometric.BiometricPrompt;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -38,9 +37,9 @@ import com.example.easylife.fragments.AuthenticationFragment;
 import com.example.easylife.fragments.mainactivityfragments.MainACAddViewFragment;
 import com.example.easylife.fragments.mainactivityfragments.mainview.MainACMainViewEditLayoutFragment;
 import com.example.easylife.fragments.mainactivityfragments.mainview.MainACMainViewFragment;
-import com.example.easylife.fragments.mainactivityfragments.overview_view.MainACOverviewViewAddSpendingAccountFormFragment;
+import com.example.easylife.fragments.mainactivityfragments.overview_view.add.MainACOverviewViewAddSpendingAccountFormFragment;
 import com.example.easylife.fragments.mainactivityfragments.overview_view.MainACOverviewViewFragment;
-import com.example.easylife.fragments.mainactivityfragments.overview_view.MainACOverviewViewSpendingAccountDetailsFormFragment;
+import com.example.easylife.fragments.mainactivityfragments.overview_view.details.MainACOverviewViewSpendingAccountDetailsFormFragment;
 import com.example.easylife.fragments.tutorial.TutorialAddFragment;
 import com.example.easylife.fragments.tutorial.TutorialEditFragment;
 import com.example.easylife.fragments.tutorial.TutorialEndFragment;
@@ -54,8 +53,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity implements MainACMainViewEditLayoutFragment.OnFragMainACMainViewEditLayoutExitClick,
         MainACOverviewViewAddSpendingAccountFormFragment.ExitButtonClickFragMainACOverviewViewAddSpendingsForm,
@@ -66,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     //-------------------OTHERS---------------
     private ActivityMainBinding binding;
     private long sessionTime;
-    public boolean seenTutorial, allDisable;
+    public boolean seenTutorial, allDisable = false;
     private UserInfosEntity UserInfosEntity;
     //-------------------SIDE MENU---------------
     private DrawerLayout drawerLayoutSideMenu;

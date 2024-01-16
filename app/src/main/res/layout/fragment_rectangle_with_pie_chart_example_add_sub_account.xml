@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.mainactivityfragments.overview_view.details.RectangleWithPieChartExampleAddSubAccountFragment">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView_container_RectangleStyle1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_81sdp"
+        android:layout_marginRight="10sp"
+        android:layout_marginLeft="10sp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="30sp"
+        android:alpha="0.8"
+        app:cardBackgroundColor="?attr/colorControlHighlight">
+        <ImageView
+            android:id="@+id/imageView_addSubAccount_FragRectangleWithPieChartExampleAddSubAccount"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/_30sdp"
+            android:src="@drawable/add"
+            android:alpha="0.7"
+            app:tint="?attr/textAppearanceBodySmall" />
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

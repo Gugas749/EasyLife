@@ -24,8 +24,8 @@ public class SpendingAccountsEntity {
     private String accountTitle;
     @ColumnInfo(name = "isSubAccount")
     private boolean isSubAccount;
-    //@ColumnInfo(name = "subAccountsList")
-    //private List<SpendingAccountsEntity> subAccountsList;
+    @ColumnInfo(name = "subAccountsList")
+    private List<SpendingAccountsEntity> subAccountsList;
     @ColumnInfo(name = "spendsList")
     private List<SpendsEntity> spendsList;
     @ColumnInfo(name = "percentagesNamesList")
@@ -109,11 +109,11 @@ public class SpendingAccountsEntity {
         isSubAccount = subAccount;
     }
 
-    /*public List<SpendingAccountsEntity> getSubAccountsList() {
+    public List<SpendingAccountsEntity> getSubAccountsList() {
         return subAccountsList;
     }
 
     public void setSubAccountsList(List<SpendingAccountsEntity> subAccountsList) {
         this.subAccountsList = subAccountsList;
-    }*/
+    }
 }

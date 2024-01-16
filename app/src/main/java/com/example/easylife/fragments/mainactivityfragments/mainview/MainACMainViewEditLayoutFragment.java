@@ -787,14 +787,16 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
     }
     @Override
     public void onCardViewSwipeRight(DraggableCardView cardView) {
-        swipedDraggableCardView = cardView;
-        CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
-        customAlertDialogFragment.setConfirmListenner(THIS);
-        customAlertDialogFragment.setCancelListenner(THIS);
-        AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Delete_Title), getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Delete_Description), customAlertDialogFragment, customAlertDialogFragment, "1");
-        customAlertDialogFragment.setCustomFragment(fragment);
-        customAlertDialogFragment.setTag("SwipeRight");
-        customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
+        if(!allDisable){
+            swipedDraggableCardView = cardView;
+            CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+            customAlertDialogFragment.setConfirmListenner(THIS);
+            customAlertDialogFragment.setCancelListenner(THIS);
+            AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Delete_Title), getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Delete_Description), customAlertDialogFragment, customAlertDialogFragment, "1");
+            customAlertDialogFragment.setCustomFragment(fragment);
+            customAlertDialogFragment.setTag("SwipeRight");
+            customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
+        }
     }
     @Override
     public void onConfirmButtonClicked(String Tag) {
@@ -810,6 +812,7 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
                 pfvFunciona();
                 break;
         }
+        enableEverything();
     }
     private void pfvFunciona(){
         DatabaseCallbackMainACMainViewEditLayout callback = new DatabaseCallbackMainACMainViewEditLayout() {
@@ -826,6 +829,9 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
         switch (Tag){
             case "Exit":
                 onExitClickListenner.OnFragMainACMainViewEditLayoutExitClick(false, draggableCardViewEntityListLoadedFormDB);
+                break;
+            default:
+                enableEverything();
                 break;
         }
     }

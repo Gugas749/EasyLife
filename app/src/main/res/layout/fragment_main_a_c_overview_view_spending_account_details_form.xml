@@ -5,8 +5,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/colorPrimary"
-    tools:context=".fragments.mainactivityfragments.overview_view.MainACOverviewViewSpendingAccountDetailsFormFragment">
+    tools:context=".fragments.mainactivityfragments.overview_view.details.MainACOverviewViewSpendingAccountDetailsFormFragment">
 
+    <FrameLayout
+        android:id="@+id/frameLayout_fullScreenFragmentContainer_FragMainACOverviewViewSpendingAccountDetailsForm"
+        android:layout_width="wrap_content"
+        android:elevation="10sp"
+        android:layout_height="match_parent"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -41,17 +46,6 @@
                 android:padding="7sp"
                 android:visibility="gone"
                 android:src="@drawable/questionpoint_icon" />
-            <ImageView
-                android:id="@+id/imageView_buttonConfirm_FragMainACOverviewViewSpendingAccountDetailsForm"
-                android:layout_width="45sp"
-                android:layout_height="45sp"
-                android:layout_gravity="end"
-                android:layout_marginTop="35sp"
-                android:layout_marginRight="20sp"
-                android:layout_marginBottom="20sp"
-                android:padding="5sp"
-                android:visibility="gone"
-                android:src="@drawable/confirm_icon" />
         </androidx.cardview.widget.CardView>
         <!--                -->
         <ScrollView
@@ -83,6 +77,7 @@
                     android:layout_marginRight="20sp"
                     android:layout_marginTop="10sp" />
                 <LinearLayout
+                    android:id="@+id/linearLayout_percentagesColorNamesValuesHolder_FragMainACOverviewViewSpendingAccountDetailsForm"
                     android:layout_below="@id/pieChart_FragMainACOverviewViewSpendingAccountDetailsForm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -306,6 +301,208 @@
                         </LinearLayout>
                     </RelativeLayout>
                 </LinearLayout>
+                <View
+                    android:id="@+id/view_separator_1_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_below="@+id/linearLayout_percentagesColorNamesValuesHolder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:background="?attr/colorControlNormal" />
+                <RelativeLayout
+                    android:id="@+id/relativeLayout_subAccount_1_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_below="@+id/view_separator_1_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/textView_subAccount_1_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15sp"
+                        android:layout_marginLeft="20sp"
+                        android:layout_marginRight="20sp"
+                        android:text="subaccount"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textAppearanceBodyMedium"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_14sdp"/>
+                    <FrameLayout
+                        android:id="@+id/frameLayout_subAccount_1_fragmentHolder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_below="@+id/textView_subAccount_1_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15sp"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/relativeLayout_subAccount_2_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_below="@+id/relativeLayout_subAccount_1_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/textView_subAccount_2_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15sp"
+                        android:layout_marginLeft="20sp"
+                        android:layout_marginRight="20sp"
+                        android:text="subaccount"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textAppearanceBodyMedium"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_14sdp"/>
+                    <FrameLayout
+                        android:id="@+id/frameLayout_subAccount_2_fragmentHolder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_below="@+id/textView_subAccount_2_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15sp"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/relativeLayout_subAccount_3_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_below="@+id/relativeLayout_subAccount_2_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/textView_subAccount_3_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15sp"
+                        android:layout_marginLeft="20sp"
+                        android:layout_marginRight="20sp"
+                        android:text="subaccount"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textAppearanceBodyMedium"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_14sdp"/>
+                    <FrameLayout
+                        android:id="@+id/frameLayout_subAccount_3_fragmentHolder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_below="@+id/textView_subAccount_3_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15sp"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/relativeLayout_subAccount_4_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_below="@+id/relativeLayout_subAccount_3_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/textView_subAccount_4_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15sp"
+                        android:layout_marginLeft="20sp"
+                        android:layout_marginRight="20sp"
+                        android:text="subaccount"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textAppearanceBodyMedium"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_14sdp"/>
+                    <FrameLayout
+                        android:id="@+id/frameLayout_subAccount_4_fragmentHolder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_below="@+id/textView_subAccount_4_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15sp"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/relativeLayout_subAccount_5_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_below="@+id/relativeLayout_subAccount_4_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/textView_subAccount_5_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15sp"
+                        android:layout_marginLeft="20sp"
+                        android:layout_marginRight="20sp"
+                        android:text="subaccount"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textAppearanceBodyMedium"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_14sdp"/>
+                    <FrameLayout
+                        android:id="@+id/frameLayout_subAccount_5_fragmentHolder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_below="@+id/textView_subAccount_5_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15sp"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/relativeLayout_subAccount_6_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_below="@+id/relativeLayout_subAccount_5_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/textView_subAccount_6_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15sp"
+                        android:layout_marginLeft="20sp"
+                        android:layout_marginRight="20sp"
+                        android:text="subaccount"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textAppearanceBodyMedium"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_14sdp"/>
+                    <FrameLayout
+                        android:id="@+id/frameLayout_subAccount_6_fragmentHolder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_below="@+id/textView_subAccount_6_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15sp"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/relativeLayout_subAccount_7_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_below="@+id/relativeLayout_subAccount_6_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/textView_subAccount_7_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15sp"
+                        android:layout_marginLeft="20sp"
+                        android:layout_marginRight="20sp"
+                        android:text="subaccount"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textAppearanceBodyMedium"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_14sdp"/>
+                    <FrameLayout
+                        android:id="@+id/frameLayout_subAccount_7_fragmentHolder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_below="@+id/textView_subAccount_7_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15sp"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/relativeLayout_subAccount_8_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_below="@+id/relativeLayout_subAccount_7_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="25sp">
+                    <TextView
+                        android:id="@+id/textView_subAccount_8_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15sp"
+                        android:layout_marginLeft="20sp"
+                        android:layout_marginRight="20sp"
+                        android:text="subaccount"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textAppearanceBodyMedium"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_14sdp"/>
+                    <FrameLayout
+                        android:id="@+id/frameLayout_subAccount_8_fragmentHolder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_below="@+id/textView_subAccount_8_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15sp"/>
+                </RelativeLayout>
             </RelativeLayout>
         </ScrollView>
     </RelativeLayout>

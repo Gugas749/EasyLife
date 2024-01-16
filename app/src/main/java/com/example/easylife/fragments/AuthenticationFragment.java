@@ -110,6 +110,33 @@ public class AuthenticationFragment extends Fragment {
         localDataBase = Room.databaseBuilder(parent, LocalDataBase.class, "EasyLifeLocalDB").build();
         userInfosDao = localDataBase.userInfosDao();
     }
+    private void enableDisableEverything(boolean enable){
+        if(enable){
+            binding.textViewNumPadNum1FragAuthentication.setEnabled(false);
+            binding.textViewNumPadNum2FragAuthentication.setEnabled(false);
+            binding.textViewNumPadNum3FragAuthentication.setEnabled(false);
+            binding.textViewNumPadNum4FragAuthentication.setEnabled(false);
+            binding.textViewNumPadNum5FragAuthentication.setEnabled(false);
+            binding.textViewNumPadNum6FragAuthentication.setEnabled(false);
+            binding.textViewNumPadNum7FragAuthentication.setEnabled(false);
+            binding.textViewNumPadNum8FragAuthentication.setEnabled(false);
+            binding.textViewNumPadNum9FragAuthentication.setEnabled(false);
+            binding.textViewNumPadNum0FragAuthentication.setEnabled(false);
+            binding.imageViewButtonDeleteAndBiometricPromptFragAuthentication.setEnabled(false);
+        }else{
+            binding.textViewNumPadNum1FragAuthentication.setEnabled(true);
+            binding.textViewNumPadNum2FragAuthentication.setEnabled(true);
+            binding.textViewNumPadNum3FragAuthentication.setEnabled(true);
+            binding.textViewNumPadNum4FragAuthentication.setEnabled(true);
+            binding.textViewNumPadNum5FragAuthentication.setEnabled(true);
+            binding.textViewNumPadNum6FragAuthentication.setEnabled(true);
+            binding.textViewNumPadNum7FragAuthentication.setEnabled(true);
+            binding.textViewNumPadNum8FragAuthentication.setEnabled(true);
+            binding.textViewNumPadNum9FragAuthentication.setEnabled(true);
+            binding.textViewNumPadNum0FragAuthentication.setEnabled(true);
+            binding.imageViewButtonDeleteAndBiometricPromptFragAuthentication.setEnabled(true);
+        }
+    }
     //----------NUM PAD RELATED----------------
     private void setupClickListennerNumPad(){
         View root = binding.getRoot();
@@ -122,7 +149,6 @@ public class AuthenticationFragment extends Fragment {
     private final View.OnClickListener commonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Log.i("EL_logs", ""+userInfos);
             if(inputedPinCode.length() < 4){
                 inputedPinCode = inputedPinCode+view.getTag();
                 pinCodeIndicatorScaleUp(inputedPinCode.length());
@@ -134,6 +160,7 @@ public class AuthenticationFragment extends Fragment {
                         }
 
                         public void onFinish() {
+                            enableDisableEverything(false);
                             if(inputedPinCode.equals(userInfos.Password)){
                                 listenner.onAuthenticationCompletedFragAuthentication();
                             }else{
@@ -142,6 +169,7 @@ public class AuthenticationFragment extends Fragment {
                                 changeImageDeleteAndBiometricPromptButton();
                                 inputedPinCode = "";
                                 Toast.makeText(getContext(), getString(R.string.authFragment_wrongPinCode_Toast_Text), Toast.LENGTH_SHORT).show();
+                                enableDisableEverything(true);
                             }
                         }
                     }.start();
@@ -156,6 +184,7 @@ public class AuthenticationFragment extends Fragment {
         binding.imageViewButtonDeleteAndBiometricPromptFragAuthentication.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                enableDisableEverything(false);
                 if(v.getTag().equals("biometric")){
                     showBiometricPrompt();
                 }else{
@@ -168,6 +197,7 @@ public class AuthenticationFragment extends Fragment {
                         }
                     }
                 }
+                enableDisableEverything(true);
             }
         });
     }

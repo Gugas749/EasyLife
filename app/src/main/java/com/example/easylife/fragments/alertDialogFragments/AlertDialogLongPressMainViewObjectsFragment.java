@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.room.Room;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,7 @@ public class AlertDialogLongPressMainViewObjectsFragment extends Fragment {
     private List<SpendingAccountsEntity> spendingAccountsEntityList;
     private CancelButtonClickAlertDialogLongPressMainViewObjectsFrag cancelListenner;
     private ConfirmButtonClickAlertDialogLongPressMainViewObjectsFrag confirmListenner;
-    private boolean hasStyles = false;
+    private boolean hasStyles = false, cantHoldSubAccounts = false;;
     public interface CancelButtonClickAlertDialogLongPressMainViewObjectsFrag{
         void onCancelButtonClickAlertDialogLongPressMainViewObjectsFrag();
     }
@@ -111,7 +112,9 @@ public class AlertDialogLongPressMainViewObjectsFragment extends Fragment {
         binding.spinnerSpendigsAccountsFragAlertDialogLongPressMainViewObjects.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener<Object>() {
             @Override
             public void onItemSelected(int i, @Nullable Object o, int i1, Object t1) {
-                loadSpinnerSubAccounts(i);
+                if(!cantHoldSubAccounts){
+                    loadSpinnerSubAccounts(i1);
+                }
             }
         });
     }
@@ -120,8 +123,6 @@ public class AlertDialogLongPressMainViewObjectsFragment extends Fragment {
         binding.cardViewSpinnerWidgetStyleHolderFragAlertDialogLongPressMainViewObjects.setVisibility(View.GONE);
     }
     private void processData(){
-        boolean cantHoldSubAccounts = false;
-
         switch (object.getType()){
             case "2":
                 hasStyles = true;
@@ -157,13 +158,15 @@ public class AlertDialogLongPressMainViewObjectsFragment extends Fragment {
         powerSpinner.setItems(items);
     }
     private void loadSpinnerSubAccounts(int SelectedAccount){
-        /*List<String> items = new ArrayList<>();
+        List<String> items = new ArrayList<>();
         List<SpendingAccountsEntity> subAcountsList = spendingAccountsEntityList.get(SelectedAccount).getSubAccountsList();
-        for (int i = 0; i < spendingAccountsEntityList.size(); i++) {
-            SpendingAccountsEntity selectedObject = subAcountsList.get(i);
-            items.add(selectedObject.getAccountTitle());
+        if(subAcountsList != null){
+            for (int i = 0; i < subAcountsList.size(); i++) {
+                SpendingAccountsEntity selectedObject = subAcountsList.get(i);
+                items.add(selectedObject.getAccountTitle());
+            }
         }
         PowerSpinnerView powerSpinner = binding.spinnerSpendigsSubAccountsFragAlertDialogLongPressMainViewObjects;
-        powerSpinner.setItems(items);*/
+        powerSpinner.setItems(items);
     }
 }

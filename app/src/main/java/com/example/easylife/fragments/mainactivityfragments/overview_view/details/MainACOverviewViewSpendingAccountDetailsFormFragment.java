@@ -1,6 +1,5 @@
-package com.example.easylife.fragments.mainactivityfragments.overview_view;
+package com.example.easylife.fragments.mainactivityfragments.overview_view.details;
 
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,10 +8,13 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import com.example.easylife.R;
 import com.example.easylife.database.entities.SpendingAccountsEntity;
 import com.example.easylife.database.entities.SpendsEntity;
 import com.example.easylife.databinding.FragmentMainACOverviewViewSpendingAccountDetailsFormBinding;
+import com.example.easylife.fragments.mainactivityfragments.overview_view.details.RectangleWithPieChartExampleAddSubAccountFragment;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -21,16 +23,18 @@ import com.github.mikephil.charting.data.PieEntry;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragment {
+public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragment implements RectangleWithPieChartExampleAddSubAccountFragment.ConfirmAlertDialogFragRectangleWithPieChartExampleAddSubAccount {
     private FragmentMainACOverviewViewSpendingAccountDetailsFormBinding binding;
     private SpendingAccountsEntity account;
     private ExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm listenner;
+
     public interface ExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm{
         void onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(SpendingAccountsEntity account);
     }
     public void setExitButtonClickFragMainACOverviewViewSpendingAccountDetailsFormListenner(ExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm listenner){
         this.listenner = listenner;
     }
+
     public MainACOverviewViewSpendingAccountDetailsFormFragment(SpendingAccountsEntity account) {
         this.account = account;
     }
@@ -45,10 +49,17 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMainACOverviewViewSpendingAccountDetailsFormBinding.inflate(inflater);
 
-        loadInfos();
+        init();
         setupExitButton();
 
         return binding.getRoot();
+    }
+    private void init(){
+        binding.textViewAccountNameFragMainACOverviewViewSpendingAccountDetailsForm.setText(account.getAccountTitle());
+
+        loadTextViews();
+        loadSubAccountsCardViews();
+        loadChart();
     }
     private void setupExitButton(){
         binding.imageViewButtonExitFragMainACOverviewViewSpendingAccountDetailsForm.setOnClickListener(new View.OnClickListener() {
@@ -58,18 +69,30 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
             }
         });
     }
-    private void loadInfos(){
-        binding.textViewAccountNameFragMainACOverviewViewSpendingAccountDetailsForm.setText(account.getAccountTitle());
+    private void loadTextViews(){
         List<String> percentagesNamesList = account.getPercentagesNamesList();
-        binding.textViewPercentageText12FragMainACOverviewViewSpendingAccountDetailsForm.setText(percentagesNamesList.get(0).trim());
-        binding.textViewPercentageText22FragMainACOverviewViewSpendingAccountDetailsForm.setText(percentagesNamesList.get(1).trim());
-        binding.textViewPercentageText32FragMainACOverviewViewSpendingAccountDetailsForm.setText(percentagesNamesList.get(2).trim());
-        binding.textViewPercentageText42FragMainACOverviewViewSpendingAccountDetailsForm.setText(percentagesNamesList.get(3).trim());
-        binding.textViewPercentageText52FragMainACOverviewViewSpendingAccountDetailsForm.setText(percentagesNamesList.get(4).trim());
-        binding.textViewPercentageText62FragMainACOverviewViewSpendingAccountDetailsForm.setText(percentagesNamesList.get(5).trim());
-        binding.textViewPercentageText72FragMainACOverviewViewSpendingAccountDetailsForm.setText(percentagesNamesList.get(6).trim());
-        binding.textViewPercentageText82FragMainACOverviewViewSpendingAccountDetailsForm.setText(percentagesNamesList.get(7).trim());
-        loadChart();
+        View root = binding.getRoot();
+        for (int i = 1; i <= percentagesNamesList.size(); i++) {
+            int textViewId = getResources().getIdentifier("textView_PercentageText" + i + "_2_FragMainACOverviewViewSpendingAccountDetailsForm", "id", requireActivity().getPackageName());
+            int textViewId2 = getResources().getIdentifier("textView_subAccount_" + i + "_Title_FragMainACOverviewViewSpendingAccountDetailsForm", "id", requireActivity().getPackageName());
+            TextView textView = root.findViewById(textViewId);
+            TextView textView2 = root.findViewById(textViewId2);
+            textView.setText(percentagesNamesList.get(i-1).trim());
+            textView2.setText(percentagesNamesList.get(i-1).trim());
+        }
+    }
+    private void loadSubAccountsCardViews(){
+        for (int i = 1; i <= 8; i++) {
+            int viewID = getResources().getIdentifier("frameLayout_subAccount_" + i + "_fragmentHolder_FragMainACOverviewViewSpendingAccountDetailsForm", "id", requireActivity().getPackageName());
+
+            RectangleWithPieChartExampleAddSubAccountFragment fragment = new RectangleWithPieChartExampleAddSubAccountFragment();
+            fragment.setConfirmAlertDialogFragRectangleWithPieChartExampleAddSubAccountListenner(this);
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(viewID, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
     }
     private void loadChart(){
         PieChart pieChart = binding.pieChartFragMainACOverviewViewSpendingAccountDetailsForm;
@@ -210,5 +233,42 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
         }
 
         return percentagesList;
+    }
+    private void enableDisableEverything(boolean enable){
+        if(enable){
+            binding.imageViewButtonExitFragMainACOverviewViewSpendingAccountDetailsForm.setEnabled(true);
+            binding.imageViewButtonHowToUseFragMainACOverviewViewSpendingAccountDetailsForm.setEnabled(true);
+
+            binding.frameLayoutSubAccount1FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
+            binding.frameLayoutSubAccount2FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
+            binding.frameLayoutSubAccount3FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
+            binding.frameLayoutSubAccount4FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
+            binding.frameLayoutSubAccount5FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
+            binding.frameLayoutSubAccount6FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
+            binding.frameLayoutSubAccount7FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
+            binding.frameLayoutSubAccount8FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
+        }else{
+            binding.imageViewButtonExitFragMainACOverviewViewSpendingAccountDetailsForm.setEnabled(false);
+            binding.imageViewButtonHowToUseFragMainACOverviewViewSpendingAccountDetailsForm.setEnabled(false);
+
+            binding.frameLayoutSubAccount1FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
+            binding.frameLayoutSubAccount2FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
+            binding.frameLayoutSubAccount3FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
+            binding.frameLayoutSubAccount4FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
+            binding.frameLayoutSubAccount5FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
+            binding.frameLayoutSubAccount6FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
+            binding.frameLayoutSubAccount7FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
+            binding.frameLayoutSubAccount8FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
+        }
+    }
+    @Override
+    public void onConfirmAlertDialogFragRectangleWithPieChartExampleAddSubAccount() {
+        enableDisableEverything(false);
+        MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFragment fragment = new MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFragment();
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frameLayout_fullScreenFragmentContainer_FragMainACOverviewViewSpendingAccountDetailsForm, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

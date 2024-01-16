@@ -1,4 +1,4 @@
-package com.example.easylife.fragments.mainactivityfragments.overview_view.adapters;
+package com.example.easylife.fragments.mainactivityfragments.overview_view.add;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -6,14 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easylife.R;
-import com.example.easylife.database.entities.SpendingAccountsEntity;
 
 import java.io.Serializable;
 import java.util.List;

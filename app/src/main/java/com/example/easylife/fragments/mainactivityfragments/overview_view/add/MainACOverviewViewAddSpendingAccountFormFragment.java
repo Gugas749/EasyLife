@@ -1,13 +1,11 @@
-package com.example.easylife.fragments.mainactivityfragments.overview_view;
+package com.example.easylife.fragments.mainactivityfragments.overview_view.add;
 
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.room.Room;
 
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,23 +14,16 @@ import android.widget.Toast;
 
 import com.example.easylife.R;
 import com.example.easylife.database.LocalDataBase;
-import com.example.easylife.database.daos.DraggableCardViewDao;
 import com.example.easylife.database.daos.SpendingsAccountsDao;
-import com.example.easylife.database.entities.DraggableCardViewEntity;
 import com.example.easylife.database.entities.SpendingAccountsEntity;
 import com.example.easylife.database.entities.SpendsEntity;
 import com.example.easylife.database.entities.UserInfosEntity;
 import com.example.easylife.databinding.FragmentMainACOverviewViewAddSpendingAccountFormBinding;
 import com.example.easylife.fragments.alertDialogFragments.AlertDialogColorPickerFragment;
 import com.example.easylife.fragments.alertDialogFragments.AlertDialogQuestionFragment;
-import com.example.easylife.fragments.mainactivityfragments.mainview.MainACMainViewEditLayoutFragment;
-import com.example.easylife.fragments.mainactivityfragments.overview_view.adapters.RVAdapterPercentagesNamesColors;
 import com.example.easylife.scripts.CustomAlertDialogFragment;
-import com.example.easylife.scripts.colorpicker.ColorPickerDialog;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class MainACOverviewViewAddSpendingAccountFormFragment extends Fragment implements CustomAlertDialogFragment.ConfirmButtonClickAlertDialogColorPickerFrag, RVAdapterPercentagesNamesColors.ItemClickedRVAdapterPercentagesNamesAndColors, CustomAlertDialogFragment.CancelButtonClickAlertDialogQuestionFrag, CustomAlertDialogFragment.ConfirmButtonClickAlertDialogQuestionFrag {
@@ -119,21 +110,25 @@ public class MainACOverviewViewAddSpendingAccountFormFragment extends Fragment i
             @Override
             public void onClick(View v) {
                 binding.buttonSubmitNameFragMainACOverviewViewAddSpendingAccountForm.setEnabled(false);
-                if(binding.editTextNamesPercentagesFragMainACOverviewViewAddSpendingAccountForm.length() > 0){
-                    Boolean repeated = false;
-                    for (int i = 0; i < percentagesNamesList.size(); i++) {
-                        if(percentagesNamesList.get(i).equals(binding.editTextNamesPercentagesFragMainACOverviewViewAddSpendingAccountForm.getText().toString().trim())){
-                            repeated = true;
-                            break;
+                if(percentagesNamesList.size() >= 8){
+                    Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_PecentageMaxCap_Text), Toast.LENGTH_LONG).show();
+                }else{
+                    if(binding.editTextNamesPercentagesFragMainACOverviewViewAddSpendingAccountForm.length() > 0){
+                        Boolean repeated = false;
+                        for (int i = 0; i < percentagesNamesList.size(); i++) {
+                            if(percentagesNamesList.get(i).equals(binding.editTextNamesPercentagesFragMainACOverviewViewAddSpendingAccountForm.getText().toString().trim())){
+                                repeated = true;
+                                break;
+                            }
                         }
-                    }
-                    if(!repeated){
-                        percentagesNamesList.add(binding.editTextNamesPercentagesFragMainACOverviewViewAddSpendingAccountForm.getText().toString().trim());
-                        percentagesColorsList.add(String.valueOf(getResources().getColor(R.color.extra1)));
+                        if(!repeated){
+                            percentagesNamesList.add(binding.editTextNamesPercentagesFragMainACOverviewViewAddSpendingAccountForm.getText().toString().trim());
+                            percentagesColorsList.add(String.valueOf(getResources().getColor(R.color.extra1)));
 
-                        loadRecyclerView();
-                    }else{
-                        //TODO: adicionar toast
+                            loadRecyclerView();
+                        }else{
+                            Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_RepeatedName_Text), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
                 binding.buttonSubmitNameFragMainACOverviewViewAddSpendingAccountForm.setEnabled(true);
