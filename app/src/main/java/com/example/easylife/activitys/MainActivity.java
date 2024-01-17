@@ -31,6 +31,7 @@ import com.example.easylife.database.entities.DraggableCardViewEntity;
 import com.example.easylife.database.LocalDataBase;
 import com.example.easylife.database.entities.SpendingAccountsEntity;
 import com.example.easylife.database.entities.SpendsEntity;
+import com.example.easylife.database.entities.SubSpendingAccountsEntity;
 import com.example.easylife.database.entities.UserInfosEntity;
 import com.example.easylife.databinding.ActivityMainBinding;
 import com.example.easylife.fragments.AuthenticationFragment;
@@ -121,7 +122,6 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
 
     //-----------------SETUPS--------------------
     private void init(){
-        //TODO: adicionar session prompt total
         THIS = this;
         draggableCardViewObjectsList = new ArrayList<>();
         spendingAccountsEntitiesList = new ArrayList<>();
@@ -321,7 +321,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                         .commit();
                 break;
             case 1:
-                //TODO: adicionar subaccounts
+                mainACOverviewViewFragment.setSpendingsAccountItemClickFragMainACOverviewViewListenner(THIS);
                 mainACMainViewFragment.setAccountsList(spendingAccountsEntitiesList);
                 mainACMainViewFragment.setConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainACListenner(THIS);
                 getSupportFragmentManager()
@@ -425,6 +425,9 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     }
     private void enableDisableAll(boolean bool){
         allDisable = bool;
+        if(mainACMainViewFragment != null){
+            mainACMainViewFragment.setParentALlDisbale(bool);
+        }
         if(bool){
             binding.imageViewButtonSideMenuMainAC.setEnabled(false);
             binding.imageViewButtonMultiFunctionMainViewMainAC.setEnabled(false);
@@ -469,6 +472,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             Point point = new Point();
             String type = "";
             String style = "1";
+            int position = 0;
 
             switch (j){
                 case 0:
@@ -478,19 +482,23 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 case 1:
                     point = predefinedPositions.get(1);
                     type = "1";
+                    position = 1;
                     break;
                 case 2:
                     point = predefinedPositions.get(6);
                     type = "1";
+                    position = 6;
                     break;
                 case 3:
                     point = predefinedPositions.get(2);
                     type = "2";
                     style = "2";
+                    position = 2;
                     break;
                 case 4:
                     point = predefinedPositions.get(3);
                     type = "3";
+                    position = 3;
                     break;
             }
 
@@ -501,6 +509,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                         percentage = 12.5f;
                     }
                     DraggableCardViewEntity object = new DraggableCardViewEntity(i, type, getString(R.string.mainAc_FragMainView_Example_ChartName_Text), style);
+                    object.setPosition(position);
                     object.setInfos("", "", percentage, percentage, percentage, percentage,
                             getString(R.string.mainAc_FragMainView_Example_Percentage1_Text), getString(R.string.mainAc_FragMainView_Example_Percentage2_Text),
                             getString(R.string.mainAc_FragMainView_Example_Percentage3_Text), getString(R.string.mainAc_FragMainView_Example_Percentage4_Text),
@@ -760,6 +769,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 mainACOverviewViewFragment = new MainACOverviewViewFragment();
+                mainACOverviewViewFragment.setSpendingsAccountItemClickFragMainACOverviewViewListenner(THIS);
                 if(Changed){
                     spendingAccountsEntitiesList.add(returned);
                 }
@@ -774,8 +784,8 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         }.start();
     }
     @Override
-    public void onConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC(DraggableCardViewEntity object) {
-        new LocalDatabaseUpdateDraggableObjectsTask(object).execute();
+    public void onConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC(DraggableCardViewEntity object, boolean canHoldMainAccount, int selectedSubAccountIndex) {
+        new LocalDatabaseUpdateDraggableObjectsTask(object, canHoldMainAccount, selectedSubAccountIndex).execute();
     }
     @Override
     public void onSpendingsAccountItemClickFragMainACOverviewView(SpendingAccountsEntity account) {
@@ -879,13 +889,14 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 if(draggableCardViewObjectsList.size() < 1){
                     draggableCardViewObjectsList = loadExampleDraggableCardViewList();
                     draggableCardViewDao.insertList(draggableCardViewObjectsList);
+                }else{
+                    Collections.sort(draggableCardViewObjectsList, new Comparator<DraggableCardViewEntity>() {
+                        @Override
+                        public int compare(DraggableCardViewEntity obj1, DraggableCardViewEntity obj2) {
+                            return Integer.compare(obj1.getId(), obj2.getId());
+                        }
+                    });
                 }
-                Collections.sort(draggableCardViewObjectsList, new Comparator<DraggableCardViewEntity>() {
-                    @Override
-                    public int compare(DraggableCardViewEntity obj1, DraggableCardViewEntity obj2) {
-                        return Integer.compare(obj1.getId(), obj2.getId());
-                    }
-                });
             } catch (Exception e) {
                 Log.e("DatabaseError", "Error fetching draggable card views", e);
             }
@@ -935,9 +946,13 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     }
     private class LocalDatabaseUpdateDraggableObjectsTask extends AsyncTask<Void, Void, DraggableCardViewEntity> {
         private DraggableCardViewEntity object;
+        private boolean canHoldMainAccount;
+        private int selectedSubAccountIndex;
 
-        public LocalDatabaseUpdateDraggableObjectsTask(DraggableCardViewEntity object) {
+        public LocalDatabaseUpdateDraggableObjectsTask(DraggableCardViewEntity object, boolean canHoldMainAccount, int selectedSubAccountIndex) {
             this.object = object;
+            this.canHoldMainAccount = canHoldMainAccount;
+            this.selectedSubAccountIndex = selectedSubAccountIndex;
         }
         @Override
         protected DraggableCardViewEntity doInBackground(Void... voids) {
@@ -948,9 +963,24 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                     break;
                 }
             }
-            List<String> percentagesNameList = selectedAccount.getPercentagesNamesList();
-            List<String> percentagesColorList = selectedAccount.getPercentagesColorList();
-            List<Float> percentagesList = calculateSpendPercentages(selectedAccount.getSpendsList(),percentagesNameList);
+
+            List<String> percentagesNameList = new ArrayList<>();
+            List<String> percentagesColorList = new ArrayList<>();
+            List<Float> percentagesList = new ArrayList<>();
+            String AccountName = "";
+
+            if(!canHoldMainAccount){
+                SubSpendingAccountsEntity subAccount = selectedAccount.getSubAccountsList().get(selectedSubAccountIndex);
+                AccountName = selectedAccount.getAccountTitle()+" - "+subAccount.getAccountTitle();
+                percentagesNameList = subAccount.getPercentagesNamesList();
+                percentagesColorList = subAccount.getPercentagesColorList();
+                percentagesList = calculateSpendPercentages(subAccount.getSpendsList(),percentagesNameList);
+            }else{
+                AccountName = selectedAccount.getAccountTitle();
+                percentagesNameList = selectedAccount.getPercentagesNamesList();
+                percentagesColorList = selectedAccount.getPercentagesColorList();
+                percentagesList = calculateSpendPercentages(selectedAccount.getSpendsList(),percentagesNameList);
+            }
 
             object = clearObject(object);
             boolean everythingIs0 = true;
@@ -970,7 +1000,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 }
             }
 
-            object.setChartName(selectedAccount.getAccountTitle());
+            object.setChartName(AccountName);
 
             for (int i = 0; i < percentagesColorList.size(); i++) {
                 int color = Integer.parseInt(percentagesColorList.get(i));

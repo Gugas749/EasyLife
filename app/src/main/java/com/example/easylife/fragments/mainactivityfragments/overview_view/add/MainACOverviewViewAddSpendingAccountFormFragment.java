@@ -26,7 +26,11 @@ import com.example.easylife.scripts.CustomAlertDialogFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainACOverviewViewAddSpendingAccountFormFragment extends Fragment implements CustomAlertDialogFragment.ConfirmButtonClickAlertDialogColorPickerFrag, RVAdapterPercentagesNamesColors.ItemClickedRVAdapterPercentagesNamesAndColors, CustomAlertDialogFragment.CancelButtonClickAlertDialogQuestionFrag, CustomAlertDialogFragment.ConfirmButtonClickAlertDialogQuestionFrag {
+public class MainACOverviewViewAddSpendingAccountFormFragment extends Fragment implements
+        CustomAlertDialogFragment.ConfirmButtonClickAlertDialogColorPickerFrag,
+        RVAdapterPercentagesNamesColors.ItemClickedRVAdapterPercentagesNamesAndColors,
+        CustomAlertDialogFragment.CancelButtonClickAlertDialogQuestionFrag,
+        CustomAlertDialogFragment.ConfirmButtonClickAlertDialogQuestionFrag {
 
     private FragmentMainACOverviewViewAddSpendingAccountFormBinding binding;
     private UserInfosEntity userInfos;
@@ -142,7 +146,7 @@ public class MainACOverviewViewAddSpendingAccountFormFragment extends Fragment i
         adapter.notifyDataSetChanged();
     }
     @Override
-    public void onConfirmButtonClicked(int color, int position, String name) {
+    public void onConfirmButtonClicked(int color, int position, String name, boolean justGetColor) {
         percentagesNamesList.remove(position);
         percentagesNamesList.add(position, name);
         percentagesColorsList.remove(position);

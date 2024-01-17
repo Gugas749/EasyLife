@@ -19,14 +19,15 @@ public class RectangleWithPieChartExampleAddSubAccountFragment extends Fragment 
     private FragmentRectangleWithPieChartExampleAddSubAccountBinding binding;
     private RectangleWithPieChartExampleAddSubAccountFragment THIS;
     private ConfirmAlertDialogFragRectangleWithPieChartExampleAddSubAccount listenner;
+    private int index = 0;
     public interface ConfirmAlertDialogFragRectangleWithPieChartExampleAddSubAccount{
-        void onConfirmAlertDialogFragRectangleWithPieChartExampleAddSubAccount();
+        void onConfirmAlertDialogFragRectangleWithPieChartExampleAddSubAccount(int index);
     }
     public void setConfirmAlertDialogFragRectangleWithPieChartExampleAddSubAccountListenner(ConfirmAlertDialogFragRectangleWithPieChartExampleAddSubAccount listenner){
         this.listenner = listenner;
     }
-    public RectangleWithPieChartExampleAddSubAccountFragment() {
-        // Required empty public constructor
+    public RectangleWithPieChartExampleAddSubAccountFragment(int index) {
+        this.index = index;
     }
 
     @Override
@@ -59,7 +60,7 @@ public class RectangleWithPieChartExampleAddSubAccountFragment extends Fragment 
     @Override
     public void onConfirmButtonClicked(String Tag) {
         if (Tag.equals("FragACOverviewViewSpendingAccountDetailsForm")){
-            listenner.onConfirmAlertDialogFragRectangleWithPieChartExampleAddSubAccount();
+            listenner.onConfirmAlertDialogFragRectangleWithPieChartExampleAddSubAccount(index);
         }
     }
 

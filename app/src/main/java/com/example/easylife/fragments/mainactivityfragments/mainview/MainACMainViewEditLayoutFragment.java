@@ -1074,6 +1074,7 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
     private void runSwipeDownAnimation() {
         ViewGroup container1 = binding.constraintLayoutFragMainACMainViewEditLayout;
         ViewGroup container2 = binding.frameLayoutFragmentContainerFullScreenFragMainACMainViewEditLayout;
+        container2.setVisibility(View.VISIBLE);
         ObjectAnimator translateYAnimator = ObjectAnimator.ofFloat(container1, "translationY", 0, container1.getHeight());
         translateYAnimator.setDuration(500); // Set the duration of the animation in milliseconds
 
@@ -1096,7 +1097,8 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
     }
     private void runSwipeUpAnimation() {
         ViewGroup container1 = binding.constraintLayoutFragMainACMainViewEditLayout;
-        container1.setVisibility(View.INVISIBLE);
+        container1.setVisibility(View.VISIBLE);
+        container1.setTranslationY(0);
         ViewGroup container2 = binding.frameLayoutFragmentContainerFullScreenFragMainACMainViewEditLayout;
         ObjectAnimator translateYAnimator = ObjectAnimator.ofFloat(container1, "translationY", container1.getHeight(), 0);
         translateYAnimator.setDuration(500); // Set the duration of the animation in milliseconds
@@ -1107,7 +1109,6 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
                 super.onAnimationEnd(animation);
                 container2.setVisibility(View.GONE);
                 container2.setEnabled(false);
-                fadeInAnimation(container1);
                 enableEverything();
             }
         });

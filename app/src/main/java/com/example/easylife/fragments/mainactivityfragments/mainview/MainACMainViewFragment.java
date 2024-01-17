@@ -37,10 +37,14 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
     private List<DraggableCardViewEntity> draggableCardViewObjectsList;
     private MainACMainViewFragment THIS;
     private MainActivity parent;
+    private boolean parentALlDisbale = false;
+    public void setParentALlDisbale(boolean parentALlDisbale){
+        this.parentALlDisbale = parentALlDisbale;
+    }
     private List<SpendingAccountsEntity> spendingAccountsEntityList;
     private ConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC confirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC;
     public interface ConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC {
-        void onConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC(DraggableCardViewEntity object);
+        void onConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC(DraggableCardViewEntity object, boolean canHoldMainAccount, int selectedSubAccountIndex);
     }
     public void setConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainACListenner(ConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC confirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC){
         this.confirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC = confirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC;
@@ -326,7 +330,7 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
         processData();
     }
     private void onObjectLongPress(DraggableCardViewEntity object, List<SpendingAccountsEntity> spendingAccountsEntityList){
-        if(!parent.allDisable){
+        if(!parentALlDisbale){
             CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
             customAlertDialogFragment.setConfirmButtonClickAlertDialogLongPressMainViewObjects(THIS); //TODO: adicionar subaccounts
             AlertDialogLongPressMainViewObjectsFragment fragment = new AlertDialogLongPressMainViewObjectsFragment(object, spendingAccountsEntityList);
@@ -428,8 +432,8 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
         onObjectLongPress(object, spendingAccountsEntityList);
     }
     @Override
-    public void onConfirmButtonClickAlertDialogLongPressMainViewObjects(DraggableCardViewEntity object) {
-        confirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC.onConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC(object);
+    public void onConfirmButtonClickAlertDialogLongPressMainViewObjects(DraggableCardViewEntity object, boolean canHoldMainAccount, int selectedSubAccountIndex) {
+        confirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC.onConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC(object, canHoldMainAccount, selectedSubAccountIndex);
     }
     //---------------------------------------------------------------------------
 }

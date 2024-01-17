@@ -22,8 +22,9 @@ public class AlertDialogColorPickerFragment extends Fragment {
     private CancelButtonClickColorPicker cancelListenner;
     private String name;
     private int position;
+    private boolean justGetColor;
     public interface ConfirmButtonClickColorPicker{
-        void onConfirmButtonClickedColorPicker(int color, int position, String name);
+        void onConfirmButtonClickedColorPicker(int color, int position, String name, boolean justGetColor);
     }
     public interface CancelButtonClickColorPicker{
         void onCancelButtonClickedColorPicker();
@@ -38,6 +39,9 @@ public class AlertDialogColorPickerFragment extends Fragment {
         this.cancelListenner = cancelListenner;
         this.position = position;
         this.name = name;
+    }
+    public void setJustGetColor(boolean justGetColor){
+        this.justGetColor=justGetColor;
     }
 
     @Override
@@ -56,7 +60,7 @@ public class AlertDialogColorPickerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 name = binding.editTextAccountNameFragAlertDialogColorPicker.getText().toString().trim();
-                listenner.onConfirmButtonClickedColorPicker(binding.colorPickerFragAlertDialogColorPicker.getColor(), position, name);
+                listenner.onConfirmButtonClickedColorPicker(binding.colorPickerFragAlertDialogColorPicker.getColor(), position, name, justGetColor);
             }
         });
 
@@ -66,6 +70,10 @@ public class AlertDialogColorPickerFragment extends Fragment {
                 cancelListenner.onCancelButtonClickedColorPicker();
             }
         });
+
+        if(justGetColor){
+            binding.editTextAccountNameFragAlertDialogColorPicker.setVisibility(View.GONE);
+        }
 
         return binding.getRoot();
     }

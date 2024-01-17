@@ -50,11 +50,11 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
     }
 
     public interface ConfirmButtonClickAlertDialogColorPickerFrag{
-        void onConfirmButtonClicked(int color, int position, String name);
+        void onConfirmButtonClicked(int color, int position, String name, boolean justGetColor);
     }
 
     public interface ConfirmButtonClickAlertDialogLongPressMainViewObjects{
-        void onConfirmButtonClickAlertDialogLongPressMainViewObjects(DraggableCardViewEntity object);
+        void onConfirmButtonClickAlertDialogLongPressMainViewObjects(DraggableCardViewEntity object, boolean canHoldMainAccount, int selectedSubAccountIndex);
     }
     public CustomAlertDialogFragment() {
 
@@ -131,8 +131,8 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
     }
 
     @Override
-    public void onConfirmButtonClickedColorPicker(int color, int position, String name) {
-        confirmButtonClickAlertDialogColorPickerFrag.onConfirmButtonClicked(color, position, name);
+    public void onConfirmButtonClickedColorPicker(int color, int position, String name, boolean justGetColor) {
+        confirmButtonClickAlertDialogColorPickerFrag.onConfirmButtonClicked(color, position, name, justGetColor);
         this.dismiss();
     }
 
@@ -146,8 +146,8 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
     }
 
     @Override
-    public void onConfirmButtonClickAlertDialogLongPressMainViewObjectsFrag(DraggableCardViewEntity object) {
-        confirmButtonClickAlertDialogLongPressMainViewObjectsListenner.onConfirmButtonClickAlertDialogLongPressMainViewObjects(object);
+    public void onConfirmButtonClickAlertDialogLongPressMainViewObjectsFrag(DraggableCardViewEntity object, boolean canHoldMainAccount, int selectedSubAccountIndex) {
+        confirmButtonClickAlertDialogLongPressMainViewObjectsListenner.onConfirmButtonClickAlertDialogLongPressMainViewObjects(object, canHoldMainAccount, selectedSubAccountIndex);
         this.dismiss();
     }
 }

@@ -20,6 +20,7 @@ import com.example.easylife.database.LocalDataBase;
 import com.example.easylife.database.daos.DraggableCardViewDao;
 import com.example.easylife.database.entities.DraggableCardViewEntity;
 import com.example.easylife.database.entities.SpendingAccountsEntity;
+import com.example.easylife.database.entities.SubSpendingAccountsEntity;
 import com.example.easylife.database.entities.UserInfosEntity;
 import com.example.easylife.databinding.FragmentAlertDialogLongPressMainViewObjectsBinding;
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener;
@@ -41,7 +42,7 @@ public class AlertDialogLongPressMainViewObjectsFragment extends Fragment {
         void onCancelButtonClickAlertDialogLongPressMainViewObjectsFrag();
     }
     public interface ConfirmButtonClickAlertDialogLongPressMainViewObjectsFrag{
-        void onConfirmButtonClickAlertDialogLongPressMainViewObjectsFrag(DraggableCardViewEntity object);
+        void onConfirmButtonClickAlertDialogLongPressMainViewObjectsFrag(DraggableCardViewEntity object, boolean canHoldMainAccount, int selectedSubAccountIndex);
     }
     public AlertDialogLongPressMainViewObjectsFragment(DraggableCardViewEntity object, List<SpendingAccountsEntity> spendingAccountsEntityList) {
         this.object = object;
@@ -90,7 +91,8 @@ public class AlertDialogLongPressMainViewObjectsFragment extends Fragment {
                             int style = binding.spinnerWidgetStyleFragAlertDialogLongPressMainViewObjects.getSelectedIndex()+1;
                             object.setStyle(String.valueOf(style));
                         }
-                        confirmListenner.onConfirmButtonClickAlertDialogLongPressMainViewObjectsFrag(object);
+                        int selectedSubAccountIndex = binding.spinnerSpendigsSubAccountsFragAlertDialogLongPressMainViewObjects.getSelectedIndex();
+                        confirmListenner.onConfirmButtonClickAlertDialogLongPressMainViewObjectsFrag(object, cantHoldSubAccounts, selectedSubAccountIndex);
                     }else{
                         Toast.makeText(getContext(), getString(R.string.alertDialog_LongPressMainViewObjects_Toast_SelectStyle), Toast.LENGTH_SHORT).show();
                     }
@@ -159,10 +161,10 @@ public class AlertDialogLongPressMainViewObjectsFragment extends Fragment {
     }
     private void loadSpinnerSubAccounts(int SelectedAccount){
         List<String> items = new ArrayList<>();
-        List<SpendingAccountsEntity> subAcountsList = spendingAccountsEntityList.get(SelectedAccount).getSubAccountsList();
+        List<SubSpendingAccountsEntity> subAcountsList = spendingAccountsEntityList.get(SelectedAccount).getSubAccountsList();
         if(subAcountsList != null){
             for (int i = 0; i < subAcountsList.size(); i++) {
-                SpendingAccountsEntity selectedObject = subAcountsList.get(i);
+                SubSpendingAccountsEntity selectedObject = subAcountsList.get(i);
                 items.add(selectedObject.getAccountTitle());
             }
         }

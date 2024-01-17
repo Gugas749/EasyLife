@@ -13,6 +13,7 @@
         android:elevation="10sp"
         android:layout_height="match_parent"/>
     <RelativeLayout
+        android:id="@+id/relativeLayout_parent_FragMainACOverviewViewSpendingAccountDetailsForm"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <!-- TOP NAVIGATION -->
@@ -31,9 +32,9 @@
                 android:layout_width="45sp"
                 android:layout_height="45sp"
                 android:layout_gravity="start"
-                android:layout_marginTop="35sp"
+                android:layout_marginTop="@dimen/_28sdp"
                 android:layout_marginLeft="20sp"
-                android:layout_marginBottom="20sp"
+                android:layout_marginBottom="@dimen/_14sdp"
                 android:padding="10sp"
                 android:rotation="180"
                 android:src="@drawable/arrow_icon" />
@@ -46,6 +47,16 @@
                 android:padding="7sp"
                 android:visibility="gone"
                 android:src="@drawable/questionpoint_icon" />
+            <ImageView
+                android:id="@+id/imageView_buttonActivateEdition_FragMainACOverviewViewSpendingAccountDetailsForm"
+                android:layout_width="45sp"
+                android:layout_height="45sp"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/_28sdp"
+                android:layout_marginRight="20sp"
+                android:layout_marginBottom="@dimen/_14sdp"
+                android:padding="7sp"
+                android:src="@drawable/edit_icon" />
         </androidx.cardview.widget.CardView>
         <!--                -->
         <ScrollView
@@ -55,21 +66,31 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/textView_AccountName_FragMainACOverviewViewSpendingAccountDetailsForm"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView_editText_AccountName_holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15sp"
                     android:layout_marginLeft="20sp"
                     android:layout_marginRight="20sp"
-                    android:text="@string/mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_1_Text"
-                    android:textStyle="bold"
-                    android:textColor="?attr/textAppearanceBodyMedium"
-                    android:textAlignment="center"
-                    android:textSize="20sp"/>
+                    app:cardCornerRadius="30sp"
+                    app:cardBackgroundColor="?attr/colorSecondary">
+                    <EditText
+                        android:id="@+id/editText_AccountName_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5sp"
+                        android:text="@string/mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_1_Text"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textAppearanceBodyMedium"
+                        android:textAlignment="center"
+                        android:textSize="20sp"
+                        android:inputType="text"
+                        android:background="@android:color/transparent" />
+                </androidx.cardview.widget.CardView>
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/pieChart_FragMainACOverviewViewSpendingAccountDetailsForm"
-                    android:layout_below="@+id/textView_AccountName_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_below="@+id/cardView_editText_AccountName_holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                     android:layout_width="match_parent"
                     android:layout_height="250sp"
                     android:layout_marginBottom="10sp"

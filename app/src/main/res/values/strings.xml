@@ -12,6 +12,8 @@
     <string name="general_ok">Ok</string>
     <string name="general_yes">Yes</string>
     <string name="general_no">No</string>
+    <string name="general_AlertDialog_Question_saveBeforeLeaving_text">Do you wish to save before leaving?</string>
+    <string name="general_AlertDialog_Question_save_text">Do you wish to save?</string>
 
     <!-- Register Account Dialog -->
     <string name="register_dialog_account_text">Create your Account</string>
@@ -124,6 +126,10 @@
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_AddSubAccount_Text">Do you wish to add a Sub Account?</string>
     <!-- Main AC - Overview View - Account Details - Add SubAccount -->
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_textView_editTextHelper_1_Text">Name of the Sub Account</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_textView_changeParentColor_Text">Color in the Main Account</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_textView_editTextHelper_2_Text">Name and color of the Percentages</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_Toast_PercentageCap_Text">Sorry you can only have 4 percentages in a Sub Account</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_textView_ChangeParentColor_Text">Click me to change the color!!</string>
 
     <!-- Tutorial Fragments -->
     <string name="tutorialFrag_skip">Skip</string>

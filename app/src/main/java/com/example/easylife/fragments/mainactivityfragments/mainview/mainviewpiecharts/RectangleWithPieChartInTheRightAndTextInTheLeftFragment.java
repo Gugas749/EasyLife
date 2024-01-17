@@ -33,6 +33,10 @@ public class RectangleWithPieChartInTheRightAndTextInTheLeftFragment extends Fra
     private int color1, color2, color3, color4;
     private String title, valueText1, valueText2, valueText3, valueText4;
     private float value1, value2, value3, value4;
+    private boolean disableFunctions = false;
+    public void setDisableFunctions(boolean disableFunctions){
+        this.disableFunctions = disableFunctions;
+    }
     private DraggableCardViewEntity thisObject;
     public void setObject(DraggableCardViewEntity thisObject){
         this.thisObject = thisObject;
@@ -85,7 +89,9 @@ public class RectangleWithPieChartInTheRightAndTextInTheLeftFragment extends Fra
         binding.cardViewContainerRectangleStyle2.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Listenner.onLongPressFragRectangleWithPieChartInTheRightAndTextInTheLeft(thisObject, spendingAccountsEntityList);
+                if(!disableFunctions){
+                    Listenner.onLongPressFragRectangleWithPieChartInTheRightAndTextInTheLeft(thisObject, spendingAccountsEntityList);
+                }
                 return false;
             }
         });

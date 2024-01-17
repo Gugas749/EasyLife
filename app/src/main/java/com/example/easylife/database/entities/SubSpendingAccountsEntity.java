@@ -11,32 +11,30 @@ import java.util.List;
 
 @Entity(tableName = "SpendingAccounts")
 @TypeConverters(Converters.class)
-public class SpendingAccountsEntity {
+public class SubSpendingAccountsEntity {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private long id;
-    @ColumnInfo(name = "idUserFirebase")
-    private String idUserFirebase;
-    @ColumnInfo(name = "emailUser")
-    private String emailUser;
+    @ColumnInfo(name = "parentID")
+    private long parentID;
+    @ColumnInfo(name = "positionInTheList")
+    private long positionInTheList;
     @ColumnInfo(name = "accountTitle")
     private String accountTitle;
-    @ColumnInfo(name = "subAccountsList")
-    private List<SubSpendingAccountsEntity> subAccountsList;
     @ColumnInfo(name = "spendsList")
     private List<SpendsEntity> spendsList;
     @ColumnInfo(name = "percentagesNamesList")
     private List<String> percentagesNamesList;
     @ColumnInfo(name = "percentagesColorList")
     private List<String> percentagesColorList;
-    public SpendingAccountsEntity() {
+    public SubSpendingAccountsEntity() {
 
     }
 
-    public void setInfos(String idUserFirebase, String emailUser, String accountTitle, List<SpendsEntity> spendsList, List<String> percentagesNamesList, List<String> percentagesColorList) {
-        this.idUserFirebase = idUserFirebase;
-        this.emailUser = emailUser;
+    public void setInfos(long parentID, long positionInTheList, String accountTitle, List<SpendsEntity> spendsList, List<String> percentagesNamesList, List<String> percentagesColorList) {
+        this.parentID = parentID;
+        this.positionInTheList = positionInTheList;
         this.accountTitle = accountTitle;
         this.spendsList = spendsList;
         this.percentagesNamesList = percentagesNamesList;
@@ -51,20 +49,12 @@ public class SpendingAccountsEntity {
         this.id = id;
     }
 
-    public String getIdUserFirebase() {
-        return idUserFirebase;
+    public long getParentID() {
+        return parentID;
     }
 
-    public void setIdUserFirebase(String idUserFirebase) {
-        this.idUserFirebase = idUserFirebase;
-    }
-
-    public String getEmailUser() {
-        return emailUser;
-    }
-
-    public void setEmailUser(String emailUser) {
-        this.emailUser = emailUser;
+    public void setParentID(long parentID) {
+        this.parentID = parentID;
     }
 
     public String getAccountTitle() {
@@ -99,11 +89,11 @@ public class SpendingAccountsEntity {
         this.percentagesColorList = percentagesColorList;
     }
 
-    public List<SubSpendingAccountsEntity> getSubAccountsList() {
-        return subAccountsList;
+    public long getPositionInTheList() {
+        return positionInTheList;
     }
 
-    public void setSubAccountsList(List<SubSpendingAccountsEntity> subAccountsList) {
-        this.subAccountsList = subAccountsList;
+    public void setPositionInTheList(long positionInTheList) {
+        this.positionInTheList = positionInTheList;
     }
 }

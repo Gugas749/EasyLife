@@ -160,16 +160,16 @@ public class AuthenticationFragment extends Fragment {
                         }
 
                         public void onFinish() {
-                            enableDisableEverything(false);
+                            enableDisableEverything(true);
                             if(inputedPinCode.equals(userInfos.Password)){
                                 listenner.onAuthenticationCompletedFragAuthentication();
                             }else{
+                                enableDisableEverything(false);
                                 shakeView(binding.relativeLayoutPinCodeIndicatorHolderFragAuthentication);
                                 clearPinCodeIndicator();
                                 changeImageDeleteAndBiometricPromptButton();
                                 inputedPinCode = "";
                                 Toast.makeText(getContext(), getString(R.string.authFragment_wrongPinCode_Toast_Text), Toast.LENGTH_SHORT).show();
-                                enableDisableEverything(true);
                             }
                         }
                     }.start();
@@ -184,7 +184,7 @@ public class AuthenticationFragment extends Fragment {
         binding.imageViewButtonDeleteAndBiometricPromptFragAuthentication.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                enableDisableEverything(false);
+                enableDisableEverything(true);
                 if(v.getTag().equals("biometric")){
                     showBiometricPrompt();
                 }else{
@@ -197,7 +197,7 @@ public class AuthenticationFragment extends Fragment {
                         }
                     }
                 }
-                enableDisableEverything(true);
+                enableDisableEverything(false);
             }
         });
     }
