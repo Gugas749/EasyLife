@@ -124,6 +124,12 @@
     <!-- Main AC - Overview View - Account Details -->
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_AddSubAccount_Title">Add Sub Account</string>
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_AddSubAccount_Text">Do you wish to add a Sub Account?</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_EditSubAccount_Title">Details Sub Account</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_EditSubAccount_Text">Do you wish to see the details of this Sub Account?</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_Button_DeleteAccount_Text">Delete Account</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_DeleteAccount_Text">Do you wish to Delete this Account?</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_Button_DeleteSubAccount_Text">Delete Sub Account</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_DeleteSubAccount_Text">Do you wish to Delete this Sub Account?</string>
     <!-- Main AC - Overview View - Account Details - Add SubAccount -->
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_textView_editTextHelper_1_Text">Name of the Sub Account</string>
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_textView_changeParentColor_Text">Color in the Main Account</string>

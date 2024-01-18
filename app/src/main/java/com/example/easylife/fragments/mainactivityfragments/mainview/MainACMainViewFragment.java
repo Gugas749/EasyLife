@@ -51,11 +51,14 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
     }
     public MainACMainViewFragment(List<DraggableCardViewEntity> draggableCardViewObjectsList) {
         this.draggableCardViewObjectsList = draggableCardViewObjectsList;
-        //TODO: adicionar subaccounts
     }
 
     public void setAccountsList(List<SpendingAccountsEntity> spendingAccountsEntityList){
         this.spendingAccountsEntityList = spendingAccountsEntityList;
+    }
+
+    public void setDraggableCardViewObjectsList(List<DraggableCardViewEntity> draggableCardViewObjectsList){
+        this.draggableCardViewObjectsList = draggableCardViewObjectsList;
     }
 
     public void setParent(MainActivity parent){
@@ -81,7 +84,7 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
         List<String> positionsUsed = new ArrayList<>();
         for (int i = 0; i < draggableCardViewObjectsList.size(); i++) {
             DraggableCardViewEntity selectedObject = draggableCardViewObjectsList.get(i);
-
+            String parentTag = "FragMainACMainView";
             switch (selectedObject.getType()){
                 case "3":
                     FrameLayout frameLayout1 = null, frameLayout2 = null;
@@ -123,7 +126,6 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
                                     selectedObject.getValue7Text(), selectedObject.getValue8Text());
                             fragStyle1.setListenner(THIS);
                             fragStyle1.setObject(selectedObject);
-                            //TODO: adicionar subaccounts
                             fragStyle1.setAccountsList(spendingAccountsEntityList);
                             fragment = fragStyle1;
                             break;
@@ -144,13 +146,14 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
                                     selectedObject.getValue7Text(), selectedObject.getValue8Text());
                             fragStyle2.setListenner(THIS);
                             fragStyle2.setObject(selectedObject);
-                            //TODO: adicionar subaccounts
                             fragStyle2.setAccountsList(spendingAccountsEntityList);
                             fragment = fragStyle2;
                             break;
                     }
 
-                    combineFrameLayouts(frameLayout1, frameLayout2, fragment);
+                    if(frameLayout1 != null && frameLayout2 != null){
+                        combineFrameLayouts(frameLayout1, frameLayout2, fragment);
+                    }
                     break;
                 case "2":
                     frameLayout1 = null;
@@ -182,10 +185,9 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
                                     selectedObject.getValue1Percentage(), selectedObject.getValue2Percentage(),
                                     selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage(),
                                     selectedObject.getValue1Text(), selectedObject.getValue2Text(),
-                                    selectedObject.getValue3Text(), selectedObject.getValue4Text());
+                                    selectedObject.getValue3Text(), selectedObject.getValue4Text(), parentTag);
                             fragStyle1.setListenner(THIS);
                             fragStyle1.setObject(selectedObject);
-                            //TODO: adicionar subaccounts
                             fragStyle1.setAccountsList(spendingAccountsEntityList);
                             fragment = fragStyle1;
                             break;
@@ -197,26 +199,27 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
                                     selectedObject.getValue1Percentage(), selectedObject.getValue2Percentage(),
                                     selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage(),
                                     selectedObject.getValue1Text(), selectedObject.getValue2Text(),
-                                    selectedObject.getValue3Text(), selectedObject.getValue4Text());
+                                    selectedObject.getValue3Text(), selectedObject.getValue4Text(), parentTag);
                             fragStyle2.setListenner(THIS);
                             fragStyle2.setObject(selectedObject);
-                            //TODO: adicionar subaccounts
                             fragStyle2.setAccountsList(spendingAccountsEntityList);
                             fragment = fragStyle2;
                             break;
                     }
 
-                    getChildFragmentManager()
-                            .beginTransaction()
-                            .replace(frameLayout1.getId(), fragment)
-                            .addToBackStack(null)
-                            .commit();
+                    if(frameLayout1 != null){
+                        getChildFragmentManager()
+                                .beginTransaction()
+                                .replace(frameLayout1.getId(), fragment)
+                                .addToBackStack(null)
+                                .commit();
+                    }
                     break;
                 case "1":
                     frameLayout1 = null;
                     fragment = new Fragment();
                     Fragment brotherFragment = new Fragment();
-                    Boolean repeated = false;
+                    boolean repeated = false;
                     DraggableCardViewEntity brother = null;
 
                     if(positionsUsed.size() > 0){
@@ -301,7 +304,6 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
                                 selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage());
                         frag1.setListenner(THIS);
                         frag1.setObject(selectedObject);
-                        //TODO: adicionar subaccounts
                         frag1.setAccountsList(spendingAccountsEntityList);
                         fragment = frag1;
 
@@ -313,8 +315,7 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
                                     brother.getValue1Percentage(), brother.getValue2Percentage(),
                                     brother.getValue3Percentage(), brother.getValue4Percentage());
                             frag2.setListenner(THIS);
-                            frag2.setObject(selectedObject);
-                            //TODO: adicionar subaccounts
+                            frag2.setObject(brother);
                             frag2.setAccountsList(spendingAccountsEntityList);
                             brotherFragment = frag2;
                         }
@@ -332,7 +333,7 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
     private void onObjectLongPress(DraggableCardViewEntity object, List<SpendingAccountsEntity> spendingAccountsEntityList){
         if(!parentALlDisbale){
             CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
-            customAlertDialogFragment.setConfirmButtonClickAlertDialogLongPressMainViewObjects(THIS); //TODO: adicionar subaccounts
+            customAlertDialogFragment.setConfirmButtonClickAlertDialogLongPressMainViewObjects(THIS);
             AlertDialogLongPressMainViewObjectsFragment fragment = new AlertDialogLongPressMainViewObjectsFragment(object, spendingAccountsEntityList);
             customAlertDialogFragment.setCustomFragment(fragment);
             customAlertDialogFragment.setTag("FragMainACMainView");
@@ -424,12 +425,16 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
         onObjectLongPress(object, spendingAccountsEntityList);
     }
     @Override
-    public void onLongPressFragRectangleWithPieChartInTheLeftAndTextInTheRight(DraggableCardViewEntity object, List<SpendingAccountsEntity> spendingAccountsEntityList) {
-        onObjectLongPress(object, spendingAccountsEntityList);
+    public void onLongPressFragRectangleWithPieChartInTheLeftAndTextInTheRight(DraggableCardViewEntity object, List<SpendingAccountsEntity> spendingAccountsEntityList, String parentTag) {
+        if(parentTag.equals("FragMainACMainView")){
+            onObjectLongPress(object, spendingAccountsEntityList);
+        }
     }
     @Override
-    public void onLongPressFragRectangleWithPieChartInTheRightAndTextInTheLeft(DraggableCardViewEntity object, List<SpendingAccountsEntity> spendingAccountsEntityList) {
-        onObjectLongPress(object, spendingAccountsEntityList);
+    public void onLongPressFragRectangleWithPieChartInTheRightAndTextInTheLeft(DraggableCardViewEntity object, List<SpendingAccountsEntity> spendingAccountsEntityList, String parentTag) {
+        if(parentTag.equals("FragMainACMainView")){
+            onObjectLongPress(object, spendingAccountsEntityList);
+        }
     }
     @Override
     public void onConfirmButtonClickAlertDialogLongPressMainViewObjects(DraggableCardViewEntity object, boolean canHoldMainAccount, int selectedSubAccountIndex) {

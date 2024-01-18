@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     //-------------------OTHERS---------------
     private ActivityMainBinding binding;
     private long sessionTime;
-    public boolean seenTutorial, allDisable = false;
+    public boolean seenTutorial, allDisable = false, updateMainViewInNextLoad = false;
     private UserInfosEntity UserInfosEntity;
     //-------------------SIDE MENU---------------
     private DrawerLayout drawerLayoutSideMenu;
@@ -314,6 +314,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         changeMultiFunctionButtonFunction(selected);
         switch (selected){
             case 0:
+                mainACOverviewViewFragment.setSpendingsAccountItemClickFragMainACOverviewViewListenner(THIS);
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frameLayout_fragmentContainer_MainAC, mainACOverviewViewFragment)
@@ -321,7 +322,9 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                         .commit();
                 break;
             case 1:
-                mainACOverviewViewFragment.setSpendingsAccountItemClickFragMainACOverviewViewListenner(THIS);
+                if(updateMainViewInNextLoad){
+                    mainACMainViewFragment = new MainACMainViewFragment(draggableCardViewObjectsList);
+                }
                 mainACMainViewFragment.setAccountsList(spendingAccountsEntitiesList);
                 mainACMainViewFragment.setConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainACListenner(THIS);
                 getSupportFragmentManager()
@@ -785,38 +788,40 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     }
     @Override
     public void onConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC(DraggableCardViewEntity object, boolean canHoldMainAccount, int selectedSubAccountIndex) {
-        new LocalDatabaseUpdateDraggableObjectsTask(object, canHoldMainAccount, selectedSubAccountIndex).execute();
+        new LocalDatabaseUpdateDraggableObjectsTask(object, object, canHoldMainAccount, selectedSubAccountIndex, false).execute();
     }
     @Override
     public void onSpendingsAccountItemClickFragMainACOverviewView(SpendingAccountsEntity account) {
-        scaleUpAnimtion();
-        enableDisableAll(true);
-        new CountDownTimer(1200, 1000) {
-            public void onTick(long millisUntilFinished) {
+        if(!allDisable){
+            scaleUpAnimtion();
+            enableDisableAll(true);
+            new CountDownTimer(1200, 1000) {
+                public void onTick(long millisUntilFinished) {
 
-            }
+                }
 
-            public void onFinish() {
-                inFragment();
+                public void onFinish() {
+                    inFragment();
 
-                binding.frameLayoutFullScreenFragmentContainerMainAc.setBackground(null);
-                binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.VISIBLE);
-                binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(true);
+                    binding.frameLayoutFullScreenFragmentContainerMainAc.setBackground(null);
+                    binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.VISIBLE);
+                    binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(true);
 
-                MainACOverviewViewSpendingAccountDetailsFormFragment fragment = new MainACOverviewViewSpendingAccountDetailsFormFragment(account);
-                fragment.setExitButtonClickFragMainACOverviewViewSpendingAccountDetailsFormListenner(THIS);
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.frameLayout_fullScreenFragmentContainer_MainAc, fragment)
-                        .addToBackStack(null)
-                        .commit();
+                    MainACOverviewViewSpendingAccountDetailsFormFragment fragment = new MainACOverviewViewSpendingAccountDetailsFormFragment(account);
+                    fragment.setExitButtonClickFragMainACOverviewViewSpendingAccountDetailsFormListenner(THIS);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frameLayout_fullScreenFragmentContainer_MainAc, fragment)
+                            .addToBackStack(null)
+                            .commit();
 
-                scaleDownAnimtion();
-            }
-        }.start();
+                    scaleDownAnimtion();
+                }
+            }.start();
+        }
     }
     @Override
-    public void onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(SpendingAccountsEntity account) {
+    public void onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(SpendingAccountsEntity account, boolean deleted) {
         scaleUpAnimtion();
         new CountDownTimer(1500, 1000) {
             public void onTick(long millisUntilFinished) {
@@ -827,13 +832,66 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-                for (int i = 0; i < spendingAccountsEntitiesList.size(); i++) {
-                    if(spendingAccountsEntitiesList.get(i).getId() == account.getId()){
-                        spendingAccountsEntitiesList.remove(spendingAccountsEntitiesList.get(i));
-                        spendingAccountsEntitiesList.add(i, account);
-                        break;
+                if(deleted){
+                    for (int i = 0; i < spendingAccountsEntitiesList.size(); i++) {
+                        if(spendingAccountsEntitiesList.get(i).getId() == account.getId()){
+                            spendingAccountsEntitiesList.remove(spendingAccountsEntitiesList.get(i));
+
+                            new LocalDatabaseJustDeleteSpendingAccountTask(account).execute();
+                            break;
+                        }
+                    }
+
+                    for (int i = 0; i < draggableCardViewObjectsList.size(); i++) {
+                        DraggableCardViewEntity selectedDraggable = draggableCardViewObjectsList.get(i);
+                        if(selectedDraggable.getAccountID().equals(String.valueOf(account.getId()))){
+                            DraggableCardViewEntity newObject = setObjectToExample(selectedDraggable);
+
+                            draggableCardViewObjectsList.remove(selectedDraggable);
+                            draggableCardViewObjectsList.add(i, newObject);
+
+                            new LocalDatabaseJustUpdateDraggableObjectTask(newObject).execute();
+                            break;
+                        }
+                    }
+                }else{
+                    for (int i = 0; i < spendingAccountsEntitiesList.size(); i++) {
+                        if(spendingAccountsEntitiesList.get(i).getId() == account.getId()){
+                            spendingAccountsEntitiesList.remove(spendingAccountsEntitiesList.get(i));
+                            spendingAccountsEntitiesList.add(i, account);
+                            break;
+                        }
+                    }
+
+                    for (int i = 0; i < draggableCardViewObjectsList.size(); i++) {
+                        DraggableCardViewEntity selected = draggableCardViewObjectsList.get(i);
+                        if(selected.getAccountID() != null && !selected.getAccountID().equals("")){
+                            DraggableCardViewEntity oldObject = selected;
+                            int id = Integer.parseInt(selected.getAccountID());
+                            if(id == account.getId()){
+                                boolean can = false;
+                                if(selected.getType().equals("3")){
+                                    can = true;
+                                }
+                                int subAccountIdIndex = 0;
+                                selected.setAccountID(String.valueOf(account.getId()));
+                                if(selected.getSubAccountID() != null && !selected.getAccountID().equals("")){
+                                    for (int j = 0; j < account.getSubAccountsList().size(); j++) {
+                                        SubSpendingAccountsEntity selectedSub = account.getSubAccountsList().get(j);
+                                        if(!selected.getSubAccountID().equals("")){
+                                            if(selectedSub.getId() == Integer.parseInt(selected.getSubAccountID())){
+                                                subAccountIdIndex = j;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                new LocalDatabaseUpdateDraggableObjectsTask(selected, oldObject, can, subAccountIdIndex, true).execute();
+                            }
+                        }
                     }
                 }
+
                 mainACOverviewViewFragment = new MainACOverviewViewFragment();
                 mainACOverviewViewFragment.updateData(spendingAccountsEntitiesList);
                 changeFragmentFromMainFragmentContainer(0);
@@ -946,13 +1004,17 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     }
     private class LocalDatabaseUpdateDraggableObjectsTask extends AsyncTask<Void, Void, DraggableCardViewEntity> {
         private DraggableCardViewEntity object;
+        private DraggableCardViewEntity oldObject;
         private boolean canHoldMainAccount;
         private int selectedSubAccountIndex;
+        private boolean justUpdate = false;
 
-        public LocalDatabaseUpdateDraggableObjectsTask(DraggableCardViewEntity object, boolean canHoldMainAccount, int selectedSubAccountIndex) {
+        public LocalDatabaseUpdateDraggableObjectsTask(DraggableCardViewEntity object,  DraggableCardViewEntity oldObject, boolean canHoldMainAccount, int selectedSubAccountIndex, boolean justUpdate) {
             this.object = object;
+            this.oldObject = oldObject;
             this.canHoldMainAccount = canHoldMainAccount;
             this.selectedSubAccountIndex = selectedSubAccountIndex;
+            this.justUpdate = justUpdate;
         }
         @Override
         protected DraggableCardViewEntity doInBackground(Void... voids) {
@@ -970,11 +1032,15 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             String AccountName = "";
 
             if(!canHoldMainAccount){
-                SubSpendingAccountsEntity subAccount = selectedAccount.getSubAccountsList().get(selectedSubAccountIndex);
-                AccountName = selectedAccount.getAccountTitle()+" - "+subAccount.getAccountTitle();
-                percentagesNameList = subAccount.getPercentagesNamesList();
-                percentagesColorList = subAccount.getPercentagesColorList();
-                percentagesList = calculateSpendPercentages(subAccount.getSpendsList(),percentagesNameList);
+                SubSpendingAccountsEntity subAccount = selectedAccount.getSubAccountsList().get(selectedSubAccountIndex);;
+                if(subAccount != null){
+                    AccountName = selectedAccount.getAccountTitle()+" - "+subAccount.getAccountTitle();
+                    percentagesNameList = subAccount.getPercentagesNamesList();
+                    percentagesColorList = subAccount.getPercentagesColorList();
+                    percentagesList = calculateSpendPercentages(subAccount.getSpendsList(),percentagesNameList);
+
+                    object.setSubAccountID(String.valueOf(subAccount.getId()));
+                }
             }else{
                 AccountName = selectedAccount.getAccountTitle();
                 percentagesNameList = selectedAccount.getPercentagesNamesList();
@@ -1050,6 +1116,11 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 }
             }
 
+            if(justUpdate){
+                draggableCardViewObjectsList.remove(oldObject);
+                draggableCardViewObjectsList.add(object);
+            }
+
             draggableCardViewDao.update(object);
 
             return object;
@@ -1058,7 +1129,49 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         @Override
         protected void onPostExecute(DraggableCardViewEntity object) {
             Log.i("DataBaseOperationsMainAC", "onPostExecute LocalDatabaseUpdateDraggableObjectsTask");
-            mainACMainViewFragment.updateData(draggableCardViewObjectsList);
+            if(!justUpdate){
+                mainACMainViewFragment.updateData(draggableCardViewObjectsList);
+            }else{
+                updateMainViewInNextLoad = true;
+            }
+        }
+    }
+    private class LocalDatabaseJustUpdateDraggableObjectTask extends AsyncTask<Void, Void, DraggableCardViewEntity> {
+        private DraggableCardViewEntity newObject;
+
+        public LocalDatabaseJustUpdateDraggableObjectTask(DraggableCardViewEntity newObject) {
+            this.newObject = newObject;
+        }
+        @Override
+        protected DraggableCardViewEntity doInBackground(Void... voids) {
+            draggableCardViewDao.update(newObject);
+
+            return newObject;
+        }
+
+        @Override
+        protected void onPostExecute(DraggableCardViewEntity object) {
+            Log.i("DataBaseOperationsMainAC", "onPostExecute LocalDatabaseJustUpdateDraggableObjectTask");
+            updateMainViewInNextLoad = true;
+        }
+    }
+    private class LocalDatabaseJustDeleteSpendingAccountTask extends AsyncTask<Void, Void, SpendingAccountsEntity> {
+        private SpendingAccountsEntity newObject;
+
+        public LocalDatabaseJustDeleteSpendingAccountTask(SpendingAccountsEntity newObject) {
+            this.newObject = newObject;
+        }
+        @Override
+        protected SpendingAccountsEntity doInBackground(Void... voids) {
+            spendingsAccountsDao.update(newObject);
+
+            return newObject;
+        }
+
+        @Override
+        protected void onPostExecute(SpendingAccountsEntity object) {
+            Log.i("DataBaseOperationsMainAC", "onPostExecute LocalDatabaseJustDeleteSpendingAccountTask");
+            updateMainViewInNextLoad = true;
         }
     }
     private DraggableCardViewEntity clearObject(DraggableCardViewEntity object){
@@ -1077,6 +1190,28 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         object.setValue4Text("");
         object.setValue4Color(0);
         object.setValue4Percentage(0.0f);
+
+        return object;
+    }
+    private DraggableCardViewEntity setObjectToExample(DraggableCardViewEntity object){
+        float percentage = 25;
+        if(object.getType().equals("3")){
+            percentage = 12.5f;
+        }
+
+        object.setChartName(getString(R.string.mainAc_FragMainView_Example_ChartName_Text));
+        object.setInfos("", "", percentage, percentage, percentage, percentage,
+                getString(R.string.mainAc_FragMainView_Example_Percentage1_Text), getString(R.string.mainAc_FragMainView_Example_Percentage2_Text),
+                getString(R.string.mainAc_FragMainView_Example_Percentage3_Text), getString(R.string.mainAc_FragMainView_Example_Percentage4_Text),
+                getResources().getColor(R.color.highlightedTextDark), getResources().getColor(R.color.textDark),
+                getResources().getColor(R.color.highlightedTextLight), getResources().getColor(R.color.textLight));
+        if(object.getType().equals("3")){
+            object.setInfosType3(percentage, percentage, percentage, percentage,
+                    getString(R.string.mainAc_FragMainView_Example_Percentage5_Text), getString(R.string.mainAc_FragMainView_Example_Percentage6_Text),
+                    getString(R.string.mainAc_FragMainView_Example_Percentage7_Text), getString(R.string.mainAc_FragMainView_Example_Percentage8_Text),
+                    getResources().getColor(R.color.highlightedTextDark), getResources().getColor(R.color.textDark),
+                    getResources().getColor(R.color.highlightedTextLight), getResources().getColor(R.color.textLight));
+        }
 
         return object;
     }

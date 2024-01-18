@@ -1,5 +1,7 @@
 package com.example.easylife.database;
 
+import android.view.View;
+
 import androidx.room.TypeConverter;
 
 import com.example.easylife.database.entities.SpendingAccountsEntity;

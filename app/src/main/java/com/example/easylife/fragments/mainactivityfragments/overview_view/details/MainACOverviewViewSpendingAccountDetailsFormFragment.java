@@ -4,11 +4,16 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.room.Room;
 
+import android.os.CountDownTimer;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,16 +22,27 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.easylife.R;
+import com.example.easylife.activitys.MainActivity;
+import com.example.easylife.database.LocalDataBase;
+import com.example.easylife.database.daos.DraggableCardViewDao;
+import com.example.easylife.database.daos.SpendingsAccountsDao;
+import com.example.easylife.database.entities.DraggableCardViewEntity;
 import com.example.easylife.database.entities.SpendingAccountsEntity;
 import com.example.easylife.database.entities.SpendsEntity;
 import com.example.easylife.database.entities.SubSpendingAccountsEntity;
 import com.example.easylife.databinding.FragmentMainACOverviewViewSpendingAccountDetailsFormBinding;
+import com.example.easylife.fragments.alertDialogFragments.AlertDialogColorPickerFragment;
+import com.example.easylife.fragments.alertDialogFragments.AlertDialogLongPressMainViewObjectsFragment;
+import com.example.easylife.fragments.alertDialogFragments.AlertDialogQuestionFragment;
 import com.example.easylife.fragments.mainactivityfragments.mainview.editlayouthowtofrags.MainACMainViewEditLayoutHowToHomeFragment;
 import com.example.easylife.fragments.mainactivityfragments.mainview.mainviewpiecharts.RectangleWithPieChartInTheLeftAndTextInTheRightFragment;
 import com.example.easylife.fragments.mainactivityfragments.mainview.mainviewpiecharts.RectangleWithPieChartInTheRightAndTextInTheLeftFragment;
+import com.example.easylife.fragments.mainactivityfragments.overview_view.MainACOverviewViewFragment;
 import com.example.easylife.fragments.mainactivityfragments.overview_view.details.RectangleWithPieChartExampleAddSubAccountFragment;
+import com.example.easylife.scripts.CustomAlertDialogFragment;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -38,16 +54,25 @@ import java.util.Random;
 
 public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragment implements
         RectangleWithPieChartExampleAddSubAccountFragment.ConfirmAlertDialogFragRectangleWithPieChartExampleAddSubAccount,
-        MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFragment.ExitFragMainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm {
+        MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFragment.ExitFragMainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm,
+        CustomAlertDialogFragment.ConfirmButtonClickAlertDialogColorPickerFrag,
+        CustomAlertDialogFragment.ConfirmButtonClickAlertDialogQuestionFrag,
+        CustomAlertDialogFragment.CancelButtonClickAlertDialogQuestionFrag,
+        RectangleWithPieChartInTheLeftAndTextInTheRightFragment.LongPressFragRectangleWithPieChartInTheLeftAndTextInTheRight,
+        RectangleWithPieChartInTheRightAndTextInTheLeftFragment.LongPressFragRectangleWithPieChartInTheRightAndTextInTheLeft,
+        MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetailsFragment.ExitFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails {
     private FragmentMainACOverviewViewSpendingAccountDetailsFormBinding binding;
     private SpendingAccountsEntity account;
     private MainACOverviewViewSpendingAccountDetailsFormFragment THIS;
-    private boolean isInEditMode = false;
+    private boolean isInEditMode = false, isDisable = false;
+    private LocalDataBase localDataBase;
+    private SpendingsAccountsDao spendingsAccountsDao;
+    private DraggableCardViewEntity objectSelectInLongPress;
     //---------------EXIT LISTENNER--------------------
     private ExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm listenner;
 
     public interface ExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm{
-        void onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(SpendingAccountsEntity account);
+        void onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(SpendingAccountsEntity account, boolean deleted);
     }
     public void setExitButtonClickFragMainACOverviewViewSpendingAccountDetailsFormListenner(ExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm listenner){
         this.listenner = listenner;
@@ -70,6 +95,9 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
         init(isInEditMode);
         setupExitButton();
         setupEditModeButton();
+        setupClickListennerTextViewsAux();
+        setupLocalDataBase();
+        setupDeleteAccountButton();
 
         return binding.getRoot();
     }
@@ -81,31 +109,50 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
         loadTextViews();
         loadSubAccountsCardViews(editModeAux);
         loadChart();
+    }
 
-        if(editModeAux){
-            TypedValue typedValue = new TypedValue();
-            getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorSecondary, typedValue, true);
-            int color = typedValue.data;
-            binding.cardViewEditTextAccountNameHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(color);
-            float defaultElevation = getResources().getDimension(androidx.cardview.R.dimen.cardview_default_elevation);
-            binding.cardViewEditTextAccountNameHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(defaultElevation);
-        }else{
-            binding.cardViewEditTextAccountNameHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(Color.TRANSPARENT);
-            binding.cardViewEditTextAccountNameHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(0);
-        }
+    //----------------------SETUPS---------------------
+    private void setupLocalDataBase(){
+        localDataBase = Room.databaseBuilder(getContext(), LocalDataBase.class, "EasyLifeLocalDB").build();
+        spendingsAccountsDao = localDataBase.spendingsAccountsDao();
     }
     private void setEditMode(boolean editMode){
         if(editMode){
+            TypedValue typedValue = new TypedValue();
+            getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorSecondary, typedValue, true);
+            int color = typedValue.data;
+            float defaultElevation = getResources().getDimension(androidx.cardview.R.dimen.cardview_default_elevation);
+
+            binding.cardViewEditTextAccountNameHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(color);
+            binding.cardViewEditTextAccountNameHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(defaultElevation);
+
+            binding.cardViewTextViewSubAccount1TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(color);
+            binding.cardViewTextViewSubAccount1TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(defaultElevation);
+            binding.cardViewTextViewSubAccount2TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(color);
+            binding.cardViewTextViewSubAccount2TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(defaultElevation);
+            binding.cardViewTextViewSubAccount3TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(color);
+            binding.cardViewTextViewSubAccount3TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(defaultElevation);
+            binding.cardViewTextViewSubAccount4TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(color);
+            binding.cardViewTextViewSubAccount4TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(defaultElevation);
+            binding.cardViewTextViewSubAccount5TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(color);
+            binding.cardViewTextViewSubAccount5TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(defaultElevation);
+            binding.cardViewTextViewSubAccount6TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(color);
+            binding.cardViewTextViewSubAccount6TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(defaultElevation);
+            binding.cardViewTextViewSubAccount7TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(color);
+            binding.cardViewTextViewSubAccount7TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(defaultElevation);
+            binding.cardViewTextViewSubAccount8TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(color);
+            binding.cardViewTextViewSubAccount8TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(defaultElevation);
+
             binding.editTextAccountNameFragMainACOverviewViewSpendingAccountDetailsForm.setEnabled(true);
 
-            binding.textViewSubAccount1TitleFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-            binding.textViewSubAccount2TitleFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-            binding.textViewSubAccount3TitleFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-            binding.textViewSubAccount4TitleFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-            binding.textViewSubAccount5TitleFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-            binding.textViewSubAccount6TitleFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-            binding.textViewSubAccount7TitleFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-            binding.textViewSubAccount8TitleFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
+            binding.cardViewTextViewSubAccount1TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
+            binding.cardViewTextViewSubAccount2TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
+            binding.cardViewTextViewSubAccount3TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
+            binding.cardViewTextViewSubAccount4TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
+            binding.cardViewTextViewSubAccount5TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
+            binding.cardViewTextViewSubAccount6TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
+            binding.cardViewTextViewSubAccount7TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
+            binding.cardViewTextViewSubAccount8TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
 
             binding.frameLayoutSubAccount1FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
             binding.frameLayoutSubAccount2FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
@@ -115,17 +162,39 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
             binding.frameLayoutSubAccount6FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
             binding.frameLayoutSubAccount7FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
             binding.frameLayoutSubAccount8FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
+
+            binding.buttonDeleteAccountFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
         }else{
+            binding.cardViewEditTextAccountNameHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(Color.TRANSPARENT);
+            binding.cardViewEditTextAccountNameHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(0);
+
+            binding.cardViewTextViewSubAccount1TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(Color.TRANSPARENT);
+            binding.cardViewTextViewSubAccount1TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(0);
+            binding.cardViewTextViewSubAccount2TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(Color.TRANSPARENT);
+            binding.cardViewTextViewSubAccount2TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(0);
+            binding.cardViewTextViewSubAccount3TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(Color.TRANSPARENT);
+            binding.cardViewTextViewSubAccount3TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(0);
+            binding.cardViewTextViewSubAccount4TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(Color.TRANSPARENT);
+            binding.cardViewTextViewSubAccount4TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(0);
+            binding.cardViewTextViewSubAccount5TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(Color.TRANSPARENT);
+            binding.cardViewTextViewSubAccount5TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(0);
+            binding.cardViewTextViewSubAccount6TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(Color.TRANSPARENT);
+            binding.cardViewTextViewSubAccount6TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(0);
+            binding.cardViewTextViewSubAccount7TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(Color.TRANSPARENT);
+            binding.cardViewTextViewSubAccount7TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(0);
+            binding.cardViewTextViewSubAccount8TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(Color.TRANSPARENT);
+            binding.cardViewTextViewSubAccount8TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(0);
+
             binding.editTextAccountNameFragMainACOverviewViewSpendingAccountDetailsForm.setEnabled(false);
 
-            binding.textViewSubAccount1TitleFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-            binding.textViewSubAccount2TitleFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-            binding.textViewSubAccount3TitleFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-            binding.textViewSubAccount4TitleFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-            binding.textViewSubAccount5TitleFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-            binding.textViewSubAccount6TitleFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-            binding.textViewSubAccount7TitleFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-            binding.textViewSubAccount8TitleFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
+            binding.cardViewTextViewSubAccount1TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
+            binding.cardViewTextViewSubAccount2TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
+            binding.cardViewTextViewSubAccount3TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
+            binding.cardViewTextViewSubAccount4TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
+            binding.cardViewTextViewSubAccount5TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
+            binding.cardViewTextViewSubAccount6TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
+            binding.cardViewTextViewSubAccount7TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
+            binding.cardViewTextViewSubAccount8TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
 
             binding.frameLayoutSubAccount1FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
             binding.frameLayoutSubAccount2FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
@@ -135,13 +204,33 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
             binding.frameLayoutSubAccount6FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
             binding.frameLayoutSubAccount7FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
             binding.frameLayoutSubAccount8FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
+
+            binding.buttonDeleteAccountFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
         }
+    }
+    private void setupDeleteAccountButton(){
+        binding.buttonDeleteAccountFragMainACOverviewViewSpendingAccountDetailsForm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isInEditMode){
+                    CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+                    customAlertDialogFragment.setCancelListenner(THIS);
+                    customAlertDialogFragment.setConfirmListenner(THIS);
+                    AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragOverviewViewSpendingAccountDetailsForm_Button_DeleteAccount_Text), getString(R.string.mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_DeleteAccount_Text), customAlertDialogFragment, customAlertDialogFragment, "1");
+                    customAlertDialogFragment.setCustomFragment(fragment);
+                    customAlertDialogFragment.setTag("FragMainACOverviewViewSpendingAccountDetailsForm_DeleteAccount");
+                    customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
+                }
+            }
+        });
     }
     private void setupEditModeButton(){
         binding.imageViewButtonActivateEditionFragMainACOverviewViewSpendingAccountDetailsForm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 binding.imageViewButtonActivateEditionFragMainACOverviewViewSpendingAccountDetailsForm.setEnabled(false);
+                String name = binding.editTextAccountNameFragMainACOverviewViewSpendingAccountDetailsForm.getText().toString().trim();
+                account.setAccountTitle(name);
                 if(binding.editTextAccountNameFragMainACOverviewViewSpendingAccountDetailsForm.isEnabled()){
                     isInEditMode = false;
                     init(false);
@@ -158,10 +247,46 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
         binding.imageViewButtonExitFragMainACOverviewViewSpendingAccountDetailsForm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listenner.onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(account);
+                String name = binding.editTextAccountNameFragMainACOverviewViewSpendingAccountDetailsForm.getText().toString().trim();
+                account.setAccountTitle(name);
+                new LocalDatabaseUpdateAccountTask(true).execute();
+                listenner.onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(account, false);
             }
         });
     }
+    private void setupClickListennerTextViewsAux(){
+        View root = binding.getRoot();
+        for (int i = 1; i <= 8; i++) {
+            int textViewId = getResources().getIdentifier("textView_subAccount_" + i + "_Title_FragMainACOverviewViewSpendingAccountDetailsForm", "id", requireActivity().getPackageName());
+            TextView textView = root.findViewById(textViewId);
+            textView.setTag(i);
+            textView.setOnClickListener(commonOnClickListener);
+        }
+    }
+    private final View.OnClickListener commonOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if(isInEditMode){
+                CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+                AlertDialogColorPickerFragment fragment = new AlertDialogColorPickerFragment();
+                int index = (int) view.getTag();
+                index--;
+                List<String> namesList = account.getPercentagesNamesList();
+                String name = namesList.get(index);
+                fragment.setInfos(customAlertDialogFragment, customAlertDialogFragment, index, name);
+                fragment.setPercentagesNames(namesList);
+                TypedValue typedValue = new TypedValue();
+                getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true);
+                int color = typedValue.data;
+                customAlertDialogFragment.setBackgroundColor(color);
+                customAlertDialogFragment.setCustomFragment(fragment);
+                customAlertDialogFragment.setConfirmColorPickerListenner(THIS);
+                customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
+            }
+        }
+    };
+    //---------------------------------------------------
+
     private void loadTextViews(){
         List<String> percentagesNamesList = account.getPercentagesNamesList();
         View root = binding.getRoot();
@@ -181,23 +306,34 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
             boolean isInList = false;
             SubSpendingAccountsEntity subAccount = null;
             int viewID = getResources().getIdentifier("frameLayout_subAccount_" + i + "_fragmentHolder_FragMainACOverviewViewSpendingAccountDetailsForm", "id", requireActivity().getPackageName());
+            int cardViewID = getResources().getIdentifier("cardView_textView_subAccount_" + i + "_Title_Holder_FragMainACOverviewViewSpendingAccountDetailsForm", "id", requireActivity().getPackageName());
             int textViewID = getResources().getIdentifier("textView_subAccount_" + i + "_Title_FragMainACOverviewViewSpendingAccountDetailsForm", "id", requireActivity().getPackageName());
-
+            String parentTag = "FragMainACOverviewViewSpendingAccountDetailsForm";
+            int auxPositionOnList = 0;
             if(subAccountsList != null){
                 for (int j = 0; j < subAccountsList.size(); j++) {
                     SubSpendingAccountsEntity selected = subAccountsList.get(j);
                     if(selected.getPositionInTheList() == i){
                         isInList = true;
                         subAccount = selected;
+                        auxPositionOnList = j;
                         break;
                     }
                 }
             }
+
             if(isInList){
                 FrameLayout frameLayout = root.findViewById(viewID);
+                CardView cardView = root.findViewById(cardViewID);
                 TextView textView = root.findViewById(textViewID);
                 frameLayout.setVisibility(View.VISIBLE);
-                textView.setVisibility(View.VISIBLE);
+                cardView.setVisibility(View.VISIBLE);
+
+                if(isInEditMode){
+                    cardView.setCardBackgroundColor(Color.TRANSPARENT);
+                    cardView.setCardElevation(0);
+                    textView.setEnabled(false);
+                }
 
                 Random random = new Random();
                 int style = random.nextInt(3 - 1) + 1;
@@ -223,6 +359,9 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
                 List<String> percentagesNames = subAccount.getPercentagesNamesList();
                 List<String> percentagesColors = subAccount.getPercentagesColorList();
 
+                DraggableCardViewEntity object = new DraggableCardViewEntity(0,"",subAccount.getAccountTitle(),"");
+                object.setSubAccountID(String.valueOf(auxPositionOnList));
+
                 switch (style){
                     case 1:
                         RectangleWithPieChartInTheLeftAndTextInTheRightFragment fragStyle1 = new RectangleWithPieChartInTheLeftAndTextInTheRightFragment();
@@ -232,8 +371,9 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
                                 valuesList.get(0),valuesList.get(1),
                                 valuesList.get(2), valuesList.get(3),
                                 percentagesNames.get(0), percentagesNames.get(1),
-                                percentagesNames.get(2), percentagesNames.get(3));
-                        fragStyle1.setDisableFunctions(true);
+                                percentagesNames.get(2), percentagesNames.get(3), parentTag);
+                        fragStyle1.setListenner(THIS);
+                        fragStyle1.setObject(object);
                         fragment = fragStyle1;
                         break;
                     case 2:
@@ -244,8 +384,9 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
                                 valuesList.get(0),valuesList.get(1),
                                 valuesList.get(2), valuesList.get(3),
                                 percentagesNames.get(0), percentagesNames.get(1),
-                                percentagesNames.get(2), percentagesNames.get(3));
-                        fragStyle2.setDisableFunctions(true);
+                                percentagesNames.get(2), percentagesNames.get(3), parentTag);
+                        fragStyle2.setListenner(THIS);
+                        fragStyle2.setObject(object);
                         fragment = fragStyle2;
                         break;
                 }
@@ -408,6 +549,7 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
     }
     private void enableDisableEverything(boolean enable){
         if(enable){
+            isDisable = false;
             binding.imageViewButtonExitFragMainACOverviewViewSpendingAccountDetailsForm.setEnabled(true);
             binding.imageViewButtonHowToUseFragMainACOverviewViewSpendingAccountDetailsForm.setEnabled(true);
 
@@ -420,6 +562,7 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
             binding.frameLayoutSubAccount7FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
             binding.frameLayoutSubAccount8FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
         }else{
+            isDisable = true;
             binding.imageViewButtonExitFragMainACOverviewViewSpendingAccountDetailsForm.setEnabled(false);
             binding.imageViewButtonHowToUseFragMainACOverviewViewSpendingAccountDetailsForm.setEnabled(false);
 
@@ -433,7 +576,18 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
             binding.frameLayoutSubAccount8FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
         }
     }
-    private void runSwipeDownAnimation(int index) {
+    private void onObjectLongPress(){
+        CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+        customAlertDialogFragment.setCancelListenner(THIS);
+        customAlertDialogFragment.setConfirmListenner(THIS);
+        AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_EditSubAccount_Title), getString(R.string.mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_EditSubAccount_Text), customAlertDialogFragment, customAlertDialogFragment, "1");
+        customAlertDialogFragment.setCustomFragment(fragment);
+        customAlertDialogFragment.setTag("FragMainACOverviewViewSpendingAccountDetailsForm_EditSubAccount");
+        customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
+    }
+
+    //----------------------ANIMATIONS---------------------
+    private void runSwipeDownAnimation(int index, String fragmentName, SubSpendingAccountsEntity selected) {
         ViewGroup container1 = binding.relativeLayoutParentFragMainACOverviewViewSpendingAccountDetailsForm;
         ViewGroup container2 = binding.frameLayoutFullScreenFragmentContainerFragMainACOverviewViewSpendingAccountDetailsForm;
         container2.setVisibility(View.VISIBLE);
@@ -446,15 +600,28 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
                 super.onAnimationEnd(animation);
                 container1.setVisibility(View.GONE);
                 fadeInAnimation(container2);
-                List<String> percentagesNamesList = account.getPercentagesNamesList();
-                String name = percentagesNamesList.get(index-1);
-                MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFragment fragment = new MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFragment(name, (index-1), account);
-                fragment.setExitListenner(THIS);
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.frameLayout_fullScreenFragmentContainer_FragMainACOverviewViewSpendingAccountDetailsForm, fragment, "MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFragment")
-                        .addToBackStack(null)
-                        .commit();
+                switch (fragmentName){
+                    case "MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFragment":
+                        List<String> percentagesNamesList = account.getPercentagesNamesList();
+                        String name = percentagesNamesList.get(index-1);
+                        MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFragment fragment = new MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFragment(name, (index-1), account, percentagesNamesList);
+                        fragment.setExitListenner(THIS);
+                        getActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frameLayout_fullScreenFragmentContainer_FragMainACOverviewViewSpendingAccountDetailsForm, fragment, "MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFragment")
+                                .addToBackStack(null)
+                                .commit();
+                        break;
+                    case "MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetailsFragment":
+                        MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetailsFragment fragment2 = new MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetailsFragment(selected);
+                        fragment2.setExitListenner(THIS);
+                        getActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frameLayout_fullScreenFragmentContainer_FragMainACOverviewViewSpendingAccountDetailsForm, fragment2, "MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetailsFragment")
+                                .addToBackStack(null)
+                                .commit();
+                        break;
+                }
             }
         });
 
@@ -476,6 +643,7 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
                 container2.setVisibility(View.GONE);
                 container2.setEnabled(false);
                 enableDisableEverything(true);
+                init(isInEditMode);
             }
         });
 
@@ -502,16 +670,19 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
             }
         });
     }
+    //---------------------------------------------------
+
+    //----------------------LISTENNERS---------------------
     @Override
     public void onConfirmAlertDialogFragRectangleWithPieChartExampleAddSubAccount(int index) {
         enableDisableEverything(false);
-        runSwipeDownAnimation(index);
+        SubSpendingAccountsEntity selected = null;
+        runSwipeDownAnimation(index, "MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFragment", selected);
     }
     @Override
     public void onExitFragMainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm(boolean save, SpendingAccountsEntity account) {
         if(save){
             this.account = account;
-            init(isInEditMode);
         }
         FragmentManager fragmentManager = getParentFragmentManager();
         Fragment fragmentB = fragmentManager.findFragmentByTag("MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFragment");
@@ -521,5 +692,94 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
                     .commit();
         }
         runSwipeUpAnimation();
+    }
+    @Override
+    public void onConfirmButtonClicked(int color, int position, String name, boolean justGetColor) {
+        account.getPercentagesNamesList().remove(position);
+        account.getPercentagesNamesList().add(position, name);
+        account.getPercentagesColorList().remove(position);
+        account.getPercentagesColorList().add(position, String.valueOf(color));
+
+        new LocalDatabaseUpdateAccountTask(false).execute();
+        enableDisableEverything(false);
+    }
+    @Override
+    public void onLongPressFragRectangleWithPieChartInTheLeftAndTextInTheRight(DraggableCardViewEntity object, List<SpendingAccountsEntity> spendingAccountsEntityList, String parentTag) {
+        if(parentTag.equals("FragMainACOverviewViewSpendingAccountDetailsForm") && !isDisable){
+            objectSelectInLongPress = object;
+            onObjectLongPress();
+        }
+    }
+    @Override
+    public void onLongPressFragRectangleWithPieChartInTheRightAndTextInTheLeft(DraggableCardViewEntity object, List<SpendingAccountsEntity> spendingAccountsEntityList, String parentTag) {
+        if(parentTag.equals("FragMainACOverviewViewSpendingAccountDetailsForm") && !isDisable){
+            objectSelectInLongPress = object;
+            onObjectLongPress();
+        }
+    }
+    @Override
+    public void onExitFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails(SubSpendingAccountsEntity subAccount, SubSpendingAccountsEntity oldSubAccount, boolean deleted) {
+        FragmentManager fragmentManager = getParentFragmentManager();
+        Fragment fragmentB = fragmentManager.findFragmentByTag("MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetailsFragment");
+        if (fragmentB != null && fragmentB.isAdded()) {
+            fragmentManager.beginTransaction()
+                    .remove(fragmentB)
+                    .commit();
+        }
+        runSwipeUpAnimation();
+        for (int i = 0; i < account.getSubAccountsList().size(); i++) {
+            SubSpendingAccountsEntity selected = account.getSubAccountsList().get(i);
+            if(selected.getAccountTitle().equals(oldSubAccount.getAccountTitle())){
+                account.getSubAccountsList().remove(selected);
+                if(!deleted){
+                    account.getSubAccountsList().add(i, subAccount);
+                }
+                new LocalDatabaseUpdateAccountTask(true).execute();
+                break;
+            }
+        }
+    }
+    @Override
+    public void onConfirmButtonClicked(String Tag) {
+        switch (Tag){
+            case "FragMainACOverviewViewSpendingAccountDetailsForm_EditSubAccount":
+                for (int i = 0; i < account.getSubAccountsList().size(); i++) {
+                    SubSpendingAccountsEntity selected = account.getSubAccountsList().get(i);
+                    if(selected.getAccountTitle().equals(objectSelectInLongPress.getChartName())){
+                        enableDisableEverything(false);
+                        runSwipeDownAnimation(0, "MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetailsFragment", selected);
+                        break;
+                    }
+                }
+                break;
+            case "FragMainACOverviewViewSpendingAccountDetailsForm_DeleteAccount":
+                listenner.onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(account, true);
+                break;
+        }
+    }
+    @Override
+    public void onCancelButtonClicked(String Tag) {
+
+    }
+    //---------------------------------------------------
+
+    private class LocalDatabaseUpdateAccountTask extends AsyncTask<Void, Void, SpendingAccountsEntity> {
+        private boolean dontSaveHere = false;
+        public LocalDatabaseUpdateAccountTask(boolean dontSaveHere){
+            this.dontSaveHere = dontSaveHere;
+        }
+        @Override
+        protected SpendingAccountsEntity doInBackground(Void... voids) {
+            spendingsAccountsDao.update(account);
+            return account;
+        }
+
+        @Override
+        protected void onPostExecute(SpendingAccountsEntity object) {
+            if(!dontSaveHere){
+                init(isInEditMode);
+                enableDisableEverything(true);
+            }
+        }
     }
 }

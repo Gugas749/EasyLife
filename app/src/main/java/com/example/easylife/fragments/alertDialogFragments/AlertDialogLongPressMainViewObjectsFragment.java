@@ -86,13 +86,29 @@ public class AlertDialogLongPressMainViewObjectsFragment extends Fragment {
                         alright = true;
                     }
                     if(alright){
-                        object.setAccountID(String.valueOf(spendingAccountsEntityList.get(selectedIndexSpinnerAccounts).getId()));
-                        if(hasStyles){
-                            int style = binding.spinnerWidgetStyleFragAlertDialogLongPressMainViewObjects.getSelectedIndex()+1;
-                            object.setStyle(String.valueOf(style));
+                        if(cantHoldSubAccounts){
+                            object.setAccountID(String.valueOf(spendingAccountsEntityList.get(selectedIndexSpinnerAccounts).getId()));
+                            object.setChartName(spendingAccountsEntityList.get(selectedIndexSpinnerAccounts).getAccountTitle());
+                            if(hasStyles){
+                                int style = binding.spinnerWidgetStyleFragAlertDialogLongPressMainViewObjects.getSelectedIndex()+1;
+                                object.setStyle(String.valueOf(style));
+                            }
+                            int selectedSubAccountIndex = binding.spinnerSpendigsSubAccountsFragAlertDialogLongPressMainViewObjects.getSelectedIndex();
+                            confirmListenner.onConfirmButtonClickAlertDialogLongPressMainViewObjectsFrag(object, cantHoldSubAccounts, selectedSubAccountIndex);
+                        }else{
+                            if(binding.spinnerSpendigsSubAccountsFragAlertDialogLongPressMainViewObjects.getSelectedIndex() >= 0){
+                                object.setAccountID(String.valueOf(spendingAccountsEntityList.get(selectedIndexSpinnerAccounts).getId()));
+                                object.setChartName(spendingAccountsEntityList.get(selectedIndexSpinnerAccounts).getAccountTitle());
+                                if(hasStyles){
+                                    int style = binding.spinnerWidgetStyleFragAlertDialogLongPressMainViewObjects.getSelectedIndex()+1;
+                                    object.setStyle(String.valueOf(style));
+                                }
+                                int selectedSubAccountIndex = binding.spinnerSpendigsSubAccountsFragAlertDialogLongPressMainViewObjects.getSelectedIndex();
+                                confirmListenner.onConfirmButtonClickAlertDialogLongPressMainViewObjectsFrag(object, cantHoldSubAccounts, selectedSubAccountIndex);
+                            }else{
+                                Toast.makeText(getContext(), getString(R.string.alertDialog_LongPressMainViewObjects_Toast_SelectSubAccount), Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        int selectedSubAccountIndex = binding.spinnerSpendigsSubAccountsFragAlertDialogLongPressMainViewObjects.getSelectedIndex();
-                        confirmListenner.onConfirmButtonClickAlertDialogLongPressMainViewObjectsFrag(object, cantHoldSubAccounts, selectedSubAccountIndex);
                     }else{
                         Toast.makeText(getContext(), getString(R.string.alertDialog_LongPressMainViewObjects_Toast_SelectStyle), Toast.LENGTH_SHORT).show();
                     }

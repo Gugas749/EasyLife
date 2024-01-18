@@ -7,9 +7,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.easylife.R;
 import com.example.easylife.databinding.FragmentAlertDialogColorPickerBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ir.kotlin.kavehcolorpicker.KavehColorAlphaSlider;
 import ir.kotlin.kavehcolorpicker.KavehColorPicker;
@@ -20,6 +24,10 @@ public class AlertDialogColorPickerFragment extends Fragment {
     private FragmentAlertDialogColorPickerBinding binding;
     private ConfirmButtonClickColorPicker listenner;
     private CancelButtonClickColorPicker cancelListenner;
+    private List<String> percentagesNames = new ArrayList<>();
+    public void setPercentagesNames(List<String> percentagesNames){
+        this.percentagesNames = percentagesNames;
+    }
     private String name;
     private int position;
     private boolean justGetColor;
@@ -59,8 +67,19 @@ public class AlertDialogColorPickerFragment extends Fragment {
         binding.buttonConfirmAlertDialogFragmentColorPicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                boolean repeated = false;
                 name = binding.editTextAccountNameFragAlertDialogColorPicker.getText().toString().trim();
-                listenner.onConfirmButtonClickedColorPicker(binding.colorPickerFragAlertDialogColorPicker.getColor(), position, name, justGetColor);
+                for (int i = 0; i < percentagesNames.size(); i++) {
+                    if(percentagesNames.get(i).equals(name)){
+                        repeated = true;
+                        break;
+                    }
+                }
+                if(repeated){
+                    Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_RepeatedName_Text), Toast.LENGTH_SHORT).show();
+                }else{
+                    listenner.onConfirmButtonClickedColorPicker(binding.colorPickerFragAlertDialogColorPicker.getColor(), position, name, justGetColor);
+                }
             }
         });
 

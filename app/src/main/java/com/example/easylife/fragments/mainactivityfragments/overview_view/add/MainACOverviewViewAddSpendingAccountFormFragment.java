@@ -159,6 +159,7 @@ public class MainACOverviewViewAddSpendingAccountFormFragment extends Fragment i
         CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
         AlertDialogColorPickerFragment fragment = new AlertDialogColorPickerFragment();
         fragment.setInfos(customAlertDialogFragment, customAlertDialogFragment, position, percentagesNamesList.get(position));
+        fragment.setPercentagesNames(percentagesNamesList);
         TypedValue typedValue = new TypedValue();
         getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true);
         int color = typedValue.data;

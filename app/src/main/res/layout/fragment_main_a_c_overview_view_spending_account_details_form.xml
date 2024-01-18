@@ -335,22 +335,31 @@
                     android:id="@+id/relativeLayout_subAccount_1_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                     android:layout_below="@+id/view_separator_1_FragMainACOverviewViewSpendingAccountDetailsForm"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:id="@+id/textView_subAccount_1_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="15sp">
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView_textView_subAccount_1_Title_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15sp"
                         android:layout_marginLeft="20sp"
                         android:layout_marginRight="20sp"
-                        android:text="subaccount"
-                        android:textStyle="bold"
-                        android:textColor="?attr/textAppearanceBodyMedium"
-                        android:textAlignment="center"
-                        android:textSize="@dimen/_14sdp"/>
+                        app:cardCornerRadius="30sp"
+                        app:cardBackgroundColor="?attr/colorSecondary">
+                        <TextView
+                            android:id="@+id/textView_subAccount_1_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="subaccount"
+                            android:padding="3sp"
+                            android:textStyle="bold"
+                            android:textColor="?attr/textAppearanceBodyMedium"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/_14sdp"/>
+                    </androidx.cardview.widget.CardView>
                     <FrameLayout
                         android:id="@+id/frameLayout_subAccount_1_fragmentHolder_FragMainACOverviewViewSpendingAccountDetailsForm"
-                        android:layout_below="@+id/textView_subAccount_1_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_below="@+id/cardView_textView_subAccount_1_Title_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15sp"/>
@@ -359,22 +368,30 @@
                     android:id="@+id/relativeLayout_subAccount_2_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                     android:layout_below="@+id/relativeLayout_subAccount_1_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:id="@+id/textView_subAccount_2_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="15sp">
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView_textView_subAccount_2_Title_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15sp"
                         android:layout_marginLeft="20sp"
                         android:layout_marginRight="20sp"
-                        android:text="subaccount"
-                        android:textStyle="bold"
-                        android:textColor="?attr/textAppearanceBodyMedium"
-                        android:textAlignment="center"
-                        android:textSize="@dimen/_14sdp"/>
+                        app:cardCornerRadius="30sp"
+                        app:cardBackgroundColor="?attr/colorSecondary">
+                        <TextView
+                            android:id="@+id/textView_subAccount_2_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="subaccount"
+                            android:padding="3sp"
+                            android:textStyle="bold"
+                            android:textColor="?attr/textAppearanceBodyMedium"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/_14sdp"/>
+                    </androidx.cardview.widget.CardView>
                     <FrameLayout
                         android:id="@+id/frameLayout_subAccount_2_fragmentHolder_FragMainACOverviewViewSpendingAccountDetailsForm"
-                        android:layout_below="@+id/textView_subAccount_2_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_below="@+id/cardView_textView_subAccount_2_Title_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15sp"/>
@@ -383,22 +400,30 @@
                     android:id="@+id/relativeLayout_subAccount_3_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                     android:layout_below="@+id/relativeLayout_subAccount_2_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:id="@+id/textView_subAccount_3_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="15sp">
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView_textView_subAccount_3_Title_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15sp"
                         android:layout_marginLeft="20sp"
                         android:layout_marginRight="20sp"
-                        android:text="subaccount"
-                        android:textStyle="bold"
-                        android:textColor="?attr/textAppearanceBodyMedium"
-                        android:textAlignment="center"
-                        android:textSize="@dimen/_14sdp"/>
+                        app:cardCornerRadius="30sp"
+                        app:cardBackgroundColor="?attr/colorSecondary">
+                        <TextView
+                            android:id="@+id/textView_subAccount_3_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="subaccount"
+                            android:padding="3sp"
+                            android:textStyle="bold"
+                            android:textColor="?attr/textAppearanceBodyMedium"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/_14sdp"/>
+                    </androidx.cardview.widget.CardView>
                     <FrameLayout
                         android:id="@+id/frameLayout_subAccount_3_fragmentHolder_FragMainACOverviewViewSpendingAccountDetailsForm"
-                        android:layout_below="@+id/textView_subAccount_3_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_below="@+id/cardView_textView_subAccount_3_Title_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15sp"/>
@@ -407,22 +432,30 @@
                     android:id="@+id/relativeLayout_subAccount_4_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                     android:layout_below="@+id/relativeLayout_subAccount_3_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:id="@+id/textView_subAccount_4_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="15sp">
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView_textView_subAccount_4_Title_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15sp"
                         android:layout_marginLeft="20sp"
                         android:layout_marginRight="20sp"
-                        android:text="subaccount"
-                        android:textStyle="bold"
-                        android:textColor="?attr/textAppearanceBodyMedium"
-                        android:textAlignment="center"
-                        android:textSize="@dimen/_14sdp"/>
+                        app:cardCornerRadius="30sp"
+                        app:cardBackgroundColor="?attr/colorSecondary">
+                        <TextView
+                            android:id="@+id/textView_subAccount_4_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="subaccount"
+                            android:padding="3sp"
+                            android:textStyle="bold"
+                            android:textColor="?attr/textAppearanceBodyMedium"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/_14sdp"/>
+                    </androidx.cardview.widget.CardView>
                     <FrameLayout
                         android:id="@+id/frameLayout_subAccount_4_fragmentHolder_FragMainACOverviewViewSpendingAccountDetailsForm"
-                        android:layout_below="@+id/textView_subAccount_4_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_below="@+id/cardView_textView_subAccount_4_Title_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15sp"/>
@@ -431,22 +464,30 @@
                     android:id="@+id/relativeLayout_subAccount_5_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                     android:layout_below="@+id/relativeLayout_subAccount_4_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:id="@+id/textView_subAccount_5_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="15sp">
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView_textView_subAccount_5_Title_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15sp"
                         android:layout_marginLeft="20sp"
                         android:layout_marginRight="20sp"
-                        android:text="subaccount"
-                        android:textStyle="bold"
-                        android:textColor="?attr/textAppearanceBodyMedium"
-                        android:textAlignment="center"
-                        android:textSize="@dimen/_14sdp"/>
+                        app:cardCornerRadius="30sp"
+                        app:cardBackgroundColor="?attr/colorSecondary">
+                        <TextView
+                            android:id="@+id/textView_subAccount_5_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="subaccount"
+                            android:padding="3sp"
+                            android:textStyle="bold"
+                            android:textColor="?attr/textAppearanceBodyMedium"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/_14sdp"/>
+                    </androidx.cardview.widget.CardView>
                     <FrameLayout
                         android:id="@+id/frameLayout_subAccount_5_fragmentHolder_FragMainACOverviewViewSpendingAccountDetailsForm"
-                        android:layout_below="@+id/textView_subAccount_5_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_below="@+id/cardView_textView_subAccount_5_Title_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15sp"/>
@@ -455,22 +496,30 @@
                     android:id="@+id/relativeLayout_subAccount_6_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                     android:layout_below="@+id/relativeLayout_subAccount_5_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:id="@+id/textView_subAccount_6_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="15sp">
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView_textView_subAccount_6_Title_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15sp"
                         android:layout_marginLeft="20sp"
                         android:layout_marginRight="20sp"
-                        android:text="subaccount"
-                        android:textStyle="bold"
-                        android:textColor="?attr/textAppearanceBodyMedium"
-                        android:textAlignment="center"
-                        android:textSize="@dimen/_14sdp"/>
+                        app:cardCornerRadius="30sp"
+                        app:cardBackgroundColor="?attr/colorSecondary">
+                        <TextView
+                            android:id="@+id/textView_subAccount_6_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="subaccount"
+                            android:padding="3sp"
+                            android:textStyle="bold"
+                            android:textColor="?attr/textAppearanceBodyMedium"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/_14sdp"/>
+                    </androidx.cardview.widget.CardView>
                     <FrameLayout
                         android:id="@+id/frameLayout_subAccount_6_fragmentHolder_FragMainACOverviewViewSpendingAccountDetailsForm"
-                        android:layout_below="@+id/textView_subAccount_6_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_below="@+id/cardView_textView_subAccount_6_Title_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15sp"/>
@@ -479,22 +528,30 @@
                     android:id="@+id/relativeLayout_subAccount_7_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                     android:layout_below="@+id/relativeLayout_subAccount_6_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:id="@+id/textView_subAccount_7_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="15sp">
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView_textView_subAccount_7_Title_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15sp"
                         android:layout_marginLeft="20sp"
                         android:layout_marginRight="20sp"
-                        android:text="subaccount"
-                        android:textStyle="bold"
-                        android:textColor="?attr/textAppearanceBodyMedium"
-                        android:textAlignment="center"
-                        android:textSize="@dimen/_14sdp"/>
+                        app:cardCornerRadius="30sp"
+                        app:cardBackgroundColor="?attr/colorSecondary">
+                        <TextView
+                            android:id="@+id/textView_subAccount_7_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="subaccount"
+                            android:padding="3sp"
+                            android:textStyle="bold"
+                            android:textColor="?attr/textAppearanceBodyMedium"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/_14sdp"/>
+                    </androidx.cardview.widget.CardView>
                     <FrameLayout
                         android:id="@+id/frameLayout_subAccount_7_fragmentHolder_FragMainACOverviewViewSpendingAccountDetailsForm"
-                        android:layout_below="@+id/textView_subAccount_7_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_below="@+id/cardView_textView_subAccount_7_Title_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15sp"/>
@@ -504,26 +561,46 @@
                     android:layout_below="@+id/relativeLayout_subAccount_7_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="25sp">
-                    <TextView
-                        android:id="@+id/textView_subAccount_8_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_marginBottom="15sp">
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView_textView_subAccount_8_Title_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15sp"
                         android:layout_marginLeft="20sp"
                         android:layout_marginRight="20sp"
-                        android:text="subaccount"
-                        android:textStyle="bold"
-                        android:textColor="?attr/textAppearanceBodyMedium"
-                        android:textAlignment="center"
-                        android:textSize="@dimen/_14sdp"/>
+                        app:cardCornerRadius="30sp"
+                        app:cardBackgroundColor="?attr/colorSecondary">
+                        <TextView
+                            android:id="@+id/textView_subAccount_8_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="subaccount"
+                            android:padding="3sp"
+                            android:textStyle="bold"
+                            android:textColor="?attr/textAppearanceBodyMedium"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/_14sdp"/>
+                    </androidx.cardview.widget.CardView>
                     <FrameLayout
                         android:id="@+id/frameLayout_subAccount_8_fragmentHolder_FragMainACOverviewViewSpendingAccountDetailsForm"
-                        android:layout_below="@+id/textView_subAccount_8_Title_FragMainACOverviewViewSpendingAccountDetailsForm"
+                        android:layout_below="@+id/cardView_textView_subAccount_8_Title_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15sp"/>
                 </RelativeLayout>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_deleteAccount_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_below="@+id/relativeLayout_subAccount_8_Holder_FragMainACOverviewViewSpendingAccountDetailsForm"
+                    android:layout_marginTop="15sp"
+                    android:layout_marginLeft="20sp"
+                    android:layout_marginRight="20sp"
+                    android:layout_marginBottom="15sp"
+                    android:textSize="16sp"
+                    android:text="@string/mainAc_FragOverviewViewSpendingAccountDetailsForm_Button_DeleteAccount_Text"
+                    android:textColor="?attr/textAppearanceBodySmall"
+                    android:background="@drawable/round_button_deleteandremove"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
         </ScrollView>
     </RelativeLayout>

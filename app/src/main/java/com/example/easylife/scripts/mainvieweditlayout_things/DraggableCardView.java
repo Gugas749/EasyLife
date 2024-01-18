@@ -23,7 +23,7 @@ public class DraggableCardView extends FrameLayout {
     private OnCardViewDropListener dropListener;
     private OnCardViewSwipeRightListener swipeRightListener;
     private Point lastPosition;
-    private int ID;
+    private String ID;
     private GestureDetector gestureDetector;
     public interface OnCardViewDropListener {
         void onCardViewDrop(DraggableCardView cardView, Point point, Point lastPosition);
@@ -54,10 +54,10 @@ public class DraggableCardView extends FrameLayout {
         draggableCardViews = new ArrayList<>();
         predefinedPositions = new ArrayList<>();;
     }
-    public void setID(int id){
+    public void setID(String id){
         this.ID = id;
     }
-    public int getID(){
+    public String getID(){
         return ID;
     }
     public void setDraggableCardViews(List<DraggableCardView> draggableCardViews) {

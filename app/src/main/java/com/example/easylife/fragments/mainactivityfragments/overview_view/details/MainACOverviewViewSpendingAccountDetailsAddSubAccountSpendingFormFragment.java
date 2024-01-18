@@ -41,6 +41,7 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
     private MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFragment THIS;
     private UserInfosEntity userInfos;
     private String SubAccountName = "";
+    private List<String> percentagesNamesFromParent = new ArrayList<>();
     private int positionOnList;
     private boolean allDisable = false;
     private RVAdapterPercentagesNamesColors adapter;
@@ -56,10 +57,11 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
         this.exitListenner = exitListenner;
     }
 
-    public MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFragment(String SubAccountName, int positionOnList, SpendingAccountsEntity account) {
+    public MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFragment(String SubAccountName, int positionOnList, SpendingAccountsEntity account, List<String> percentagesNamesFromParent) {
         this.SubAccountName = SubAccountName;
         this.positionOnList = positionOnList;
         this.account = account;
+        this.percentagesNamesFromParent = percentagesNamesFromParent;
     }
 
     @Override
@@ -228,7 +230,19 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
         if(Tag.equals("FragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm_SaveButton") || Tag.equals("FragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm_ExitButton")){
             String accountName = binding.editTextAccountNameFragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm.getText().toString().trim();
             if(!accountName.equals("") && percentagesNamesList.size() >= 2 && percentagesColorsList.size() >= 2){
-                new LocalDatabaseInsertTask().execute();
+                boolean repeated = false;
+                for (int i = 0; i < percentagesNamesFromParent.size(); i++) {
+                    if(percentagesNamesFromParent.get(i).equals(accountName)){
+                        repeated = true;
+                        break;
+                    }
+                }
+                if(!repeated){
+                    new LocalDatabaseInsertTask().execute();
+                }else{
+                    Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_RepeatedName_Text), Toast.LENGTH_SHORT).show();
+                    enableDisableEverything(true);
+                }
             }else{
                 Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_MissingInputs_Text), Toast.LENGTH_SHORT).show();
                 enableDisableEverything(true);

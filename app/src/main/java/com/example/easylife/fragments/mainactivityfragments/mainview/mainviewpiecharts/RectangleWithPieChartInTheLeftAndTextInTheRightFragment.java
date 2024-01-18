@@ -1,6 +1,5 @@
 package com.example.easylife.fragments.mainactivityfragments.mainview.mainviewpiecharts;
 
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -23,14 +22,14 @@ import java.util.List;
 public class RectangleWithPieChartInTheLeftAndTextInTheRightFragment extends Fragment {
     private LongPressFragRectangleWithPieChartInTheLeftAndTextInTheRight Listenner;
     public interface LongPressFragRectangleWithPieChartInTheLeftAndTextInTheRight{
-        void onLongPressFragRectangleWithPieChartInTheLeftAndTextInTheRight(DraggableCardViewEntity object, List<SpendingAccountsEntity> spendingAccountsEntityList);
+        void onLongPressFragRectangleWithPieChartInTheLeftAndTextInTheRight(DraggableCardViewEntity object, List<SpendingAccountsEntity> spendingAccountsEntityList, String parentTag);
     }
     public void setListenner(LongPressFragRectangleWithPieChartInTheLeftAndTextInTheRight Listenner){
         this.Listenner = Listenner;
     }
     private FragmentRectangleWithPieChartInTheLeftAndTextInTheRightBinding binding;
     private int color1, color2, color3, color4;
-    private String title, valueText1, valueText2, valueText3, valueText4;
+    private String title, valueText1, valueText2, valueText3, valueText4, parentTag;
     private float value1, value2, value3, value4;
     private DraggableCardViewEntity thisObject;
     private boolean disableFunctions = false;
@@ -51,7 +50,7 @@ public class RectangleWithPieChartInTheLeftAndTextInTheRightFragment extends Fra
     public void setInfos(int color1, int color2, int color3, int color4,
                          String title,
                          float value1, float value2, float value3, float value4,
-                         String valueText1, String valueText2, String valueText3, String valueText4){
+                         String valueText1, String valueText2, String valueText3, String valueText4, String parentTag){
         this.color1 = color1;
         this.color2 = color2;
         this.color3 = color3;
@@ -65,6 +64,7 @@ public class RectangleWithPieChartInTheLeftAndTextInTheRightFragment extends Fra
         this.valueText2 = valueText2;
         this.valueText3 = valueText3;
         this.valueText4 = valueText4;
+        this.parentTag = parentTag;
     }
 
     @Override
@@ -88,7 +88,7 @@ public class RectangleWithPieChartInTheLeftAndTextInTheRightFragment extends Fra
             @Override
             public boolean onLongClick(View v) {
                 if(!disableFunctions){
-                    Listenner.onLongPressFragRectangleWithPieChartInTheLeftAndTextInTheRight(thisObject, spendingAccountsEntityList);
+                    Listenner.onLongPressFragRectangleWithPieChartInTheLeftAndTextInTheRight(thisObject, spendingAccountsEntityList, parentTag);
                 }
                 return false;
             }

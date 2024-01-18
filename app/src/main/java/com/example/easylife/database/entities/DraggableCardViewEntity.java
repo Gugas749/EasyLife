@@ -1,15 +1,23 @@
 package com.example.easylife.database.entities;
 
+import android.view.View;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.example.easylife.database.Converters;
 
 @Entity(tableName = "DraggableCardView_Objects")
+@TypeConverters(Converters.class)
 public class DraggableCardViewEntity {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private int id;
+    @ColumnInfo(name = "parentView")
+    private String parentView;
     @ColumnInfo(name = "position")
     private int position;
     @ColumnInfo(name = "accountID")
@@ -354,5 +362,13 @@ public class DraggableCardViewEntity {
 
     public void setValue8Color(int value8Color) {
         this.value8Color = value8Color;
+    }
+
+    public String getParentView() {
+        return parentView;
+    }
+
+    public void setParentView(String parentView) {
+        this.parentView = parentView;
     }
 }
