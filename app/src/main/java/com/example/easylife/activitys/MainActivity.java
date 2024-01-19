@@ -35,12 +35,13 @@ import com.example.easylife.database.entities.SubSpendingAccountsEntity;
 import com.example.easylife.database.entities.UserInfosEntity;
 import com.example.easylife.databinding.ActivityMainBinding;
 import com.example.easylife.fragments.AuthenticationFragment;
-import com.example.easylife.fragments.mainactivityfragments.MainACAddViewFragment;
-import com.example.easylife.fragments.mainactivityfragments.mainview.MainACMainViewEditLayoutFragment;
-import com.example.easylife.fragments.mainactivityfragments.mainview.MainACMainViewFragment;
+import com.example.easylife.fragments.mainactivityfragments.spendings_view.MainACSpendingsViewAddSpendingsFragment;
+import com.example.easylife.fragments.mainactivityfragments.main_view.MainACMainViewEditLayoutFragment;
+import com.example.easylife.fragments.mainactivityfragments.main_view.MainACMainViewFragment;
 import com.example.easylife.fragments.mainactivityfragments.overview_view.add.MainACOverviewViewAddSpendingAccountFormFragment;
 import com.example.easylife.fragments.mainactivityfragments.overview_view.MainACOverviewViewFragment;
 import com.example.easylife.fragments.mainactivityfragments.overview_view.details.MainACOverviewViewSpendingAccountDetailsFormFragment;
+import com.example.easylife.fragments.mainactivityfragments.spendings_view.MainACSpendingsViewFragment;
 import com.example.easylife.fragments.tutorial.TutorialAddFragment;
 import com.example.easylife.fragments.tutorial.TutorialEditFragment;
 import com.example.easylife.fragments.tutorial.TutorialEndFragment;
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     private MainActivity THIS;
     private MainACMainViewFragment mainACMainViewFragment;
     private MainACOverviewViewFragment mainACOverviewViewFragment;
-    private MainACAddViewFragment mainACAddViewFragment;
+    private MainACSpendingsViewFragment mainACSpendingsViewFragment;
     //-------------------LISTS---------------
     private List<DraggableCardViewEntity> draggableCardViewObjectsList;
     private List<SpendingAccountsEntity> spendingAccountsEntitiesList;
@@ -131,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             public void onTaskCompleted(List<SpendingAccountsEntity> result) {
                 mainACMainViewFragment = new MainACMainViewFragment(draggableCardViewObjectsList);
                 mainACOverviewViewFragment = new MainACOverviewViewFragment();
-                mainACAddViewFragment = new MainACAddViewFragment();
+                mainACSpendingsViewFragment = new MainACSpendingsViewFragment();
 
                 mainACOverviewViewFragment.updateData(spendingAccountsEntitiesList);
                 mainACOverviewViewFragment.setSpendingsAccountItemClickFragMainACOverviewViewListenner(THIS);
@@ -152,7 +153,6 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     }
     private void setupBottomNavigation() {
         binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Home).setChecked(true);
-
         binding.bottomNavigationViewMainAC.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                         changeFragmentFromMainFragmentContainer(0);
                     } else if (item.getItemId() == R.id.menu_bottomNavigation_painel_Home) {
                         changeFragmentFromMainFragmentContainer(1);
-                    } else if (item.getItemId() == R.id.menu_bottomNavigation_painel_Add) {
+                    } else if (item.getItemId() == R.id.menu_bottomNavigation_painel_SpendingsView) {
                         changeFragmentFromMainFragmentContainer(2);
                     }
                 }
@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             case 2:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frameLayout_fragmentContainer_MainAC, mainACAddViewFragment)
+                        .replace(R.id.frameLayout_fragmentContainer_MainAC, mainACSpendingsViewFragment)
                         .addToBackStack(null)
                         .commit();
                 break;
@@ -919,7 +919,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
 
                 mainACMainViewFragment = new MainACMainViewFragment(draggableCardViewObjectsList);
                 mainACOverviewViewFragment = new MainACOverviewViewFragment();
-                mainACAddViewFragment = new MainACAddViewFragment();
+                mainACSpendingsViewFragment = new MainACSpendingsViewFragment();
 
                 mainACOverviewViewFragment.updateData(spendingAccountsEntitiesList);
                 mainACOverviewViewFragment.setSpendingsAccountItemClickFragMainACOverviewViewListenner(THIS);
@@ -1029,26 +1029,72 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             List<String> percentagesNameList = new ArrayList<>();
             List<String> percentagesColorList = new ArrayList<>();
             List<Float> percentagesList = new ArrayList<>();
-            String AccountName = "";
+            String AccountName = getString(R.string.mainAc_FragMainView_Example_ChartName_Text);
 
             if(!canHoldMainAccount){
-                SubSpendingAccountsEntity subAccount = selectedAccount.getSubAccountsList().get(selectedSubAccountIndex);;
-                if(subAccount != null){
-                    AccountName = selectedAccount.getAccountTitle()+" - "+subAccount.getAccountTitle();
-                    percentagesNameList = subAccount.getPercentagesNamesList();
-                    percentagesColorList = subAccount.getPercentagesColorList();
-                    percentagesList = calculateSpendPercentages(subAccount.getSpendsList(),percentagesNameList);
+                boolean didNotDelete = false;
+                for (int i = 0; i < selectedAccount.getSubAccountsList().size(); i++) {
+                    if(i == selectedSubAccountIndex){
+                        didNotDelete = true;
+                        break;
+                    }
+                }
+                if(didNotDelete){
+                    SubSpendingAccountsEntity subAccount = selectedAccount.getSubAccountsList().get(selectedSubAccountIndex);
+                    if(subAccount != null){
+                        AccountName = selectedAccount.getAccountTitle()+" - "+subAccount.getAccountTitle();
+                        percentagesNameList = subAccount.getPercentagesNamesList();
 
-                    object.setSubAccountID(String.valueOf(subAccount.getId()));
+                        while (percentagesNameList.size() < 4){
+                            percentagesNameList.add("+");
+                        }
+
+                        percentagesColorList = subAccount.getPercentagesColorList();
+
+                        while (percentagesColorList.size() < 4){
+                            percentagesColorList.add("-1");
+                        }
+
+                        List<String> namesList = subAccount.getPercentagesNamesList();
+                        for (int i = 0; i < namesList.size(); i++) {
+                            if(namesList.get(i).equals("+")){
+                                namesList.remove(i);
+                                i--;
+                            }
+                        }
+                        percentagesList = calculateSpendPercentages(subAccount.getSpendsList(),namesList);
+                        object = clearObject(object);
+                        object.setSubAccountID(String.valueOf(subAccount.getId()));
+                    }
+                }else{
+                    object = setObjectToExample(object);
                 }
             }else{
                 AccountName = selectedAccount.getAccountTitle();
                 percentagesNameList = selectedAccount.getPercentagesNamesList();
+
+                while (percentagesNameList.size() < 8){
+                    percentagesNameList.add("+");
+                }
+
                 percentagesColorList = selectedAccount.getPercentagesColorList();
-                percentagesList = calculateSpendPercentages(selectedAccount.getSpendsList(),percentagesNameList);
+
+                while (percentagesColorList.size() < 8){
+                    percentagesColorList.add("-1");
+                }
+
+                List<String> namesList = selectedAccount.getPercentagesNamesList();
+                for (int i = 0; i < namesList.size(); i++) {
+                    if(namesList.get(i).equals("+")){
+                        namesList.remove(i);
+                        i--;
+                    }
+                }
+                percentagesList = calculateSpendPercentages(selectedAccount.getSpendsList(),namesList);
+
+                object = clearObject(object);
             }
 
-            object = clearObject(object);
             boolean everythingIs0 = true;
 
             for (int i = 0; i < percentagesList.size(); i++) {
@@ -1068,7 +1114,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
 
             object.setChartName(AccountName);
 
-            for (int i = 0; i < percentagesColorList.size(); i++) {
+            for (int i = 0; i < percentagesNameList.size(); i++) {
                 int color = Integer.parseInt(percentagesColorList.get(i));
                 String text = percentagesNameList.get(i);
                 float percentage = percentagesList.get(i);
@@ -1163,7 +1209,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         }
         @Override
         protected SpendingAccountsEntity doInBackground(Void... voids) {
-            spendingsAccountsDao.update(newObject);
+            spendingsAccountsDao.delete(newObject);
 
             return newObject;
         }
@@ -1190,6 +1236,22 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         object.setValue4Text("");
         object.setValue4Color(0);
         object.setValue4Percentage(0.0f);
+
+        object.setValue5Text("");
+        object.setValue5Color(0);
+        object.setValue5Percentage(0.0f);
+
+        object.setValue6Text("");
+        object.setValue6Color(0);
+        object.setValue6Percentage(0.0f);
+
+        object.setValue7Text("");
+        object.setValue7Color(0);
+        object.setValue7Percentage(0.0f);
+
+        object.setValue8Text("");
+        object.setValue8Color(0);
+        object.setValue8Percentage(0.0f);
 
         return object;
     }

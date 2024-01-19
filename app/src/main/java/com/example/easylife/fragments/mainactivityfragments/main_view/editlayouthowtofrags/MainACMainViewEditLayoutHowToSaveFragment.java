@@ -1,14 +1,10 @@
-package com.example.easylife.fragments.mainactivityfragments.mainview.editlayouthowtofrags;
+package com.example.easylife.fragments.mainactivityfragments.main_view.editlayouthowtofrags;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-
 import android.os.CountDownTimer;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -19,22 +15,21 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+
 import com.example.easylife.R;
-import com.example.easylife.databinding.FragmentMainACMainViewEditLayoutHowToDeleteBinding;
-import com.example.easylife.databinding.FragmentMainACMainViewEditLayoutHowToDragNDropBinding;
-import com.example.easylife.fragments.mainactivityfragments.mainview.MainACMainViewEditLayoutFragment;
+import com.example.easylife.databinding.FragmentMainACMainViewEditLayoutHowToSaveBinding;
+import com.example.easylife.fragments.mainactivityfragments.main_view.MainACMainViewEditLayoutFragment;
 
-public class MainACMainViewEditLayoutHowToDeleteFragment extends Fragment {
+public class MainACMainViewEditLayoutHowToSaveFragment extends Fragment {
 
-    private FragmentMainACMainViewEditLayoutHowToDeleteBinding binding;
+    private FragmentMainACMainViewEditLayoutHowToSaveBinding binding;
     private MainACMainViewEditLayoutFragment parent;
     private String nextButtonState = "base";
-    private Boolean fromNext;
     private Boolean stopAnims = false, initialSaveAnimationIsFinished = false;
-
-    public MainACMainViewEditLayoutHowToDeleteFragment(MainACMainViewEditLayoutFragment parent, Boolean fromNext) {
+    public MainACMainViewEditLayoutHowToSaveFragment(MainACMainViewEditLayoutFragment parent) {
         this.parent = parent;
-        this.fromNext = fromNext;
     }
 
     @Override
@@ -45,29 +40,23 @@ public class MainACMainViewEditLayoutHowToDeleteFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentMainACMainViewEditLayoutHowToDeleteBinding.inflate(inflater);
+        binding = FragmentMainACMainViewEditLayoutHowToSaveBinding.inflate(inflater);
 
-        fadeInAnimation(binding.frameLayoutParentFragMainACMainViewEditLayoutHowToDelete);
+        fadeInAnimation(binding.frameLayoutParentFragMainACMainViewEditLayoutHowToSave);
 
-        if(fromNext){
-            fragIndicatorScaleDownAnimation(binding.cardViewFragIndicator5FragMainACMainViewEditLayoutHowToDelete);
-            colorChangeFadeOutAnimation(binding.cardViewFragIndicator5FragMainACMainViewEditLayoutHowToDelete);
-            fragIndicatorScaleUpAnimation(binding.cardViewFragIndicator4FragMainACMainViewEditLayoutHowToDelete);
-            colorChangeFadeInAnimation(binding.cardViewFragIndicator4FragMainACMainViewEditLayoutHowToDelete);
-        } else {
-            fragIndicatorScaleDownAnimation(binding.cardViewFragIndicator3FragMainACMainViewEditLayoutHowToDelete);
-            colorChangeFadeOutAnimation(binding.cardViewFragIndicator3FragMainACMainViewEditLayoutHowToDelete);
-            fragIndicatorScaleUpAnimation(binding.cardViewFragIndicator4FragMainACMainViewEditLayoutHowToDelete);
-            colorChangeFadeInAnimation(binding.cardViewFragIndicator4FragMainACMainViewEditLayoutHowToDelete);
-        }
+        fragIndicatorScaleDownAnimation(binding.cardViewFragIndicator4FragMainACMainViewEditLayoutHowToSave);
+        colorChangeFadeOutAnimation(binding.cardViewFragIndicator4FragMainACMainViewEditLayoutHowToSave);
+        fragIndicatorScaleUpAnimation(binding.cardViewFragIndicator5FragMainACMainViewEditLayoutHowToSave);
+        colorChangeFadeInAnimation(binding.cardViewFragIndicator5FragMainACMainViewEditLayoutHowToSave);
 
-        new CountDownTimer(700, 1000) {
+        setPointerColor();
+        new CountDownTimer(1200, 1000) {
             public void onTick(long millisUntilFinished) {
 
             }
 
             public void onFinish() {
-                initialRemoveAnimation();
+                initialSaveAnimation();
             }
         }.start();
 
@@ -76,122 +65,171 @@ public class MainACMainViewEditLayoutHowToDeleteFragment extends Fragment {
 
         return binding.getRoot();
     }
+    private void setPointerColor(){
+        TypedValue typedValue = new TypedValue();
+        getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorControlNormal, typedValue, true);
+        int color = typedValue.data;
+        int initialColor = color;
 
+        typedValue = new TypedValue();
+        getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.textAppearanceBodySmall, typedValue, true);
+        color = typedValue.data;
+        int finalColor = color;
+
+        colorChangePointingAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave, initialColor, finalColor);
+    }
     private void setupPreviousButton(){
-        binding.textViewPreviousFragMainACMainViewEditLayoutHowToDelete.setOnClickListener(new View.OnClickListener() {
+        binding.textViewPreviousFragMainACMainViewEditLayoutHowToSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.textViewPreviousFragMainACMainViewEditLayoutHowToDelete.setEnabled(false);
+                binding.textViewPreviousFragMainACMainViewEditLayoutHowToSave.setEnabled(false);
                 switch (nextButtonState){
                     case "base":
-                        fadeOutAnimation(binding.frameLayoutParentFragMainACMainViewEditLayoutHowToDelete);
-                        parent.changeHowToFragment("goToDragNDrop", true);
+                        fadeOutAnimation(binding.frameLayoutParentFragMainACMainViewEditLayoutHowToSave);
+                        parent.changeHowToFragment("goToDelete", true);
+                        break;
+                    case "fase1":
+                        stopAnims = false;
+                        fadeOutAnimation(binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToSave);
+                        fadeOutAnimation(binding.imageViewSaveExplanationFragMainACMainViewEditLayoutHowToSave);
+                        fadeOutAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave);
+                        fadeOutEveryTimeAnimation(binding.textViewNextFragMainACMainViewEditLayoutHowToSave);
+                        new CountDownTimer(700, 1000) {
+                            public void onTick(long millisUntilFinished) {
+
+                            }
+
+                            public void onFinish() {
+                                binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave.setVisibility(View.INVISIBLE);
+                                binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToSave.setVisibility(View.INVISIBLE);
+                                binding.imageViewSaveExplanationFragMainACMainViewEditLayoutHowToSave.setVisibility(View.INVISIBLE);
+                                if(initialSaveAnimationIsFinished){
+                                    initialSaveAnimation();
+                                }
+                                fadeInEveryTimeAnimation(binding.textViewNextFragMainACMainViewEditLayoutHowToSave);
+                                fadeInAnimation(binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToSave);
+                                fadeInAnimation(binding.textViewTitleFragMainACMainViewEditLayoutHowToSave);
+                                binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToSave.setText(getString(R.string.mainAc_FragMainViewEditLayoutHowTo_Save_Text_1));
+                                binding.textViewNextFragMainACMainViewEditLayoutHowToSave.setText(getString(R.string.general_next));
+                            }
+                        }.start();
+                        nextButtonState = "base";
                         break;
                 }
-                binding.textViewPreviousFragMainACMainViewEditLayoutHowToDelete.setEnabled(true);
+                binding.textViewPreviousFragMainACMainViewEditLayoutHowToSave.setEnabled(true);
             }
         });
     }
     private void setupNextButton(){
-        binding.textViewNextFragMainACMainViewEditLayoutHowToDelete.setOnClickListener(new View.OnClickListener() {
+        binding.textViewNextFragMainACMainViewEditLayoutHowToSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.textViewNextFragMainACMainViewEditLayoutHowToDelete.setEnabled(false);
+                binding.textViewNextFragMainACMainViewEditLayoutHowToSave.setEnabled(false);
                 switch (nextButtonState){
                     case "base":
                         stopAnims = true;
-                        fadeOutEveryTimeAnimation(binding.frameLayoutParentFragMainACMainViewEditLayoutHowToDelete);
-                        parent.changeHowToFragment("goToSave", false);
+                        fadeOutEveryTimeAnimation(binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToSave);
+                        fadeOutEveryTimeAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave);
+                        fadeOutEveryTimeAnimation(binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToSave);
+                        fadeOutEveryTimeAnimation(binding.imageViewSaveExplanationFragMainACMainViewEditLayoutHowToSave);
+                        fadeOutEveryTimeAnimation(binding.textViewNextFragMainACMainViewEditLayoutHowToSave);
+                        fadeOutEveryTimeAnimation(binding.textViewTitleFragMainACMainViewEditLayoutHowToSave);
+                        new CountDownTimer(700, 1000) {
+                            public void onTick(long millisUntilFinished) {
+
+                            }
+
+                            public void onFinish() {
+                                binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave.setVisibility(View.GONE);
+                                binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToSave.setVisibility(View.GONE);
+                                binding.imageViewSaveExplanationFragMainACMainViewEditLayoutHowToSave.setVisibility(View.GONE);
+                                fadeInEveryTimeAnimation(binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToSave);
+                                fadeInEveryTimeAnimation(binding.textViewNextFragMainACMainViewEditLayoutHowToSave);
+                                binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToSave.setText(getString(R.string.mainAc_FragMainViewEditLayoutHowTo_Save_Text_2));
+                                binding.textViewNextFragMainACMainViewEditLayoutHowToSave.setText(getString(R.string.general_finish));
+                            }
+                        }.start();
+                        nextButtonState = "fase1";
+                        break;
+                    case "fase1":
+                        fadeOutEveryTimeAnimation(binding.frameLayoutParentFragMainACMainViewEditLayoutHowToSave);
+                        parent.changeHowToFragment("finish", false);
                         break;
                 }
-                binding.textViewNextFragMainACMainViewEditLayoutHowToDelete.setEnabled(true);
+                binding.textViewNextFragMainACMainViewEditLayoutHowToSave.setEnabled(true);
             }
         });
     }
-    private void initialRemoveAnimation(){
+    private void initialSaveAnimation(){
         if(!stopAnims){
-            fadeInAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete);
-            fadeInAnimation(binding.cardViewSwipeExplanationFragMainACMainViewEditLayoutHowToDelete);
-            pointYAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, (-170));
-            new CountDownTimer(1000, 1000) {
+            initialSaveAnimationIsFinished = false;
+            fadeInAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave);
+            fadeInAnimation(binding.imageViewSaveExplanationFragMainACMainViewEditLayoutHowToSave);
+            forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave, 430, 0);
+            new CountDownTimer(1300, 1000) {
                 public void onTick(long millisUntilFinished) {
 
                 }
 
                 public void onFinish() {
-                    binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
-                    forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, 190, 0);
+                    pointYAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave, (-150));
                     new CountDownTimer(1000, 1000) {
                         public void onTick(long millisUntilFinished) {
 
                         }
 
                         public void onFinish() {
-                            TypedValue typedValue = new TypedValue();
-                            getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorControlNormal, typedValue, true);
-                            int color = typedValue.data;
-                            int initialColor = color;
-
-                            typedValue = new TypedValue();
-                            getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.textAppearanceBodySmall, typedValue, true);
-                            color = typedValue.data;
-                            int finalColor = color;
-
-                            colorChangePointingAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, initialColor, finalColor);
-
-                            fadeInAnimation(binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToDelete);
-                            binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
-                            downwardsAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, 40, -170);
-                            new CountDownTimer(1500, 1000) {
+                            binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
+                            new CountDownTimer(250, 1000) {
                                 public void onTick(long millisUntilFinished) {
 
                                 }
 
                                 public void onFinish() {
-                                    forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, 750, 190);
-                                    new CountDownTimer(1500, 1000) {
+                                    fadeInAnimation(binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToSave);
+                                    binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
+                                    forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave, 290, 430);
+                                    new CountDownTimer(1000, 1000) {
                                         public void onTick(long millisUntilFinished) {
 
                                         }
 
                                         public void onFinish() {
-                                            binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
-                                            new CountDownTimer(500, 1000) {
+                                            downwardsAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave, 70, (-150));
+                                            new CountDownTimer(1000, 1000) {
                                                 public void onTick(long millisUntilFinished) {
 
                                                 }
 
                                                 public void onFinish() {
-                                                    binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
-                                                    fadeOutAnimation(binding.cardViewSwipeExplanationFragMainACMainViewEditLayoutHowToDelete);
-                                                    new CountDownTimer(1800, 1000) {
+                                                    binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
+                                                    new CountDownTimer(250, 1000) {
                                                         public void onTick(long millisUntilFinished) {
 
                                                         }
 
                                                         public void onFinish() {
-                                                            fadeOutAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete);
-                                                            fadeOutAnimation(binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToDelete);
-                                                            new CountDownTimer(700, 1000) {
+                                                            binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
+                                                            new CountDownTimer(1500, 1000) {
                                                                 public void onTick(long millisUntilFinished) {
 
                                                                 }
 
                                                                 public void onFinish() {
-                                                                    TypedValue typedValue = new TypedValue();
-                                                                    getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.textAppearanceBodySmall, typedValue, true);
-                                                                    int color = typedValue.data;
-                                                                    int initialColor = color;
+                                                                    fadeOutAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave);
+                                                                    fadeOutAnimation(binding.imageViewSaveExplanationFragMainACMainViewEditLayoutHowToSave);
+                                                                    fadeOutAnimation(binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToSave);
+                                                                    downwardsAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave, 0, 70);
+                                                                    new CountDownTimer(500, 1000) {
+                                                                        public void onTick(long millisUntilFinished) {
 
-                                                                    typedValue = new TypedValue();
-                                                                    getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorControlNormal, typedValue, true);
-                                                                    color = typedValue.data;
-                                                                    int finalColor = color;
+                                                                        }
 
-                                                                    colorChangePointingAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, initialColor, finalColor);
-
-                                                                    pointBackToStartPosAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, 0, 790);
-                                                                    initialRemoveAnimation();
+                                                                        public void onFinish() {
+                                                                            initialSaveAnimationIsFinished = true;
+                                                                            initialSaveAnimation();
+                                                                        }
+                                                                    }.start();
                                                                 }
                                                             }.start();
                                                         }
@@ -207,12 +245,6 @@ public class MainACMainViewEditLayoutHowToDeleteFragment extends Fragment {
                 }
             }.start();
         }
-    }
-    private void pointBackToStartPosAnimation(View view, float value, float initialValue) {
-        ObjectAnimator translateXAnimator = ObjectAnimator.ofFloat(view, "translationX", initialValue, value);
-        translateXAnimator.setDuration(50);
-        translateXAnimator.setInterpolator(new LinearInterpolator());
-        translateXAnimator.start();
     }
     private void pointYAnimation(View view, float value) {
         if(!stopAnims){
@@ -399,6 +431,7 @@ public class MainACMainViewEditLayoutHowToDeleteFragment extends Fragment {
 
         colorAnimator.setDuration(1000);
         colorAnimator.start();
+
     }
     private void colorChangePointingAnimation(ImageView imageView, int initialColor, int finalColor){
         ValueAnimator colorAnimator = ValueAnimator.ofObject(new ArgbEvaluator(), initialColor, finalColor);
@@ -410,7 +443,7 @@ public class MainACMainViewEditLayoutHowToDeleteFragment extends Fragment {
             }
         });
 
-        colorAnimator.setDuration(1000);
+        colorAnimator.setDuration(100);
         colorAnimator.start();
     }
 }

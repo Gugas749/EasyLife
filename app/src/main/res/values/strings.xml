@@ -120,6 +120,7 @@
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_SaveBeforeLeaving_Text">Do you wish to save this account before leaving?</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_Save_Text">Do you wish to save this account layout?</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_RepeatedName_Text">Looks like theres is already a Percentage Named that</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_NamedPlus_Text">Sorry you cannot name your percentage "+"</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_PecentageMaxCap_Text">Sorry you can only have 8 percentages if you want to have more consider adding a subAccount to this account later</string>
     <!-- Main AC - Overview View - Account Details -->
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_AddSubAccount_Title">Add Sub Account</string>

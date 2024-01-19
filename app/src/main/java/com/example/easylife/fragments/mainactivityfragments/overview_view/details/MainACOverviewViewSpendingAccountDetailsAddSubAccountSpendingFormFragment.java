@@ -40,7 +40,7 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
     private FragmentMainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormBinding binding;
     private MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFragment THIS;
     private UserInfosEntity userInfos;
-    private String SubAccountName = "";
+    private String SubAccountName = "", nameFromDB = "";
     private List<String> percentagesNamesFromParent = new ArrayList<>();
     private int positionOnList;
     private boolean allDisable = false;
@@ -59,6 +59,7 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
 
     public MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFragment(String SubAccountName, int positionOnList, SpendingAccountsEntity account, List<String> percentagesNamesFromParent) {
         this.SubAccountName = SubAccountName;
+        this.nameFromDB = SubAccountName;
         this.positionOnList = positionOnList;
         this.account = account;
         this.percentagesNamesFromParent = percentagesNamesFromParent;
@@ -85,6 +86,9 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
     }
     private void init(){
         THIS = this;
+        if(SubAccountName.equals("+")){
+            SubAccountName = "";
+        }
         binding.editTextAccountNameFragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm.setText(SubAccountName);
         binding.cardViewChangeParentShowingColorFragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm.setCardBackgroundColor(Integer.parseInt(account.getPercentagesColorList().get(positionOnList)));
         percentagesNamesList = new ArrayList<>();
@@ -231,17 +235,23 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
             String accountName = binding.editTextAccountNameFragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm.getText().toString().trim();
             if(!accountName.equals("") && percentagesNamesList.size() >= 2 && percentagesColorsList.size() >= 2){
                 boolean repeated = false;
-                for (int i = 0; i < percentagesNamesFromParent.size(); i++) {
-                    if(percentagesNamesFromParent.get(i).equals(accountName)){
-                        repeated = true;
-                        break;
+                if(!accountName.equals("+")){
+                    if(!accountName.equals(nameFromDB)){
+                        for (int i = 0; i < percentagesNamesFromParent.size(); i++) {
+                            if(percentagesNamesFromParent.get(i).equals(accountName)){
+                                repeated = true;
+                                break;
+                            }
+                        }
                     }
-                }
-                if(!repeated){
-                    new LocalDatabaseInsertTask().execute();
+                    if(!repeated){
+                        new LocalDatabaseInsertTask().execute();
+                    }else{
+                        Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_RepeatedName_Text), Toast.LENGTH_SHORT).show();
+                        enableDisableEverything(true);
+                    }
                 }else{
-                    Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_RepeatedName_Text), Toast.LENGTH_SHORT).show();
-                    enableDisableEverything(true);
+                    Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_NamedPlus_Text), Toast.LENGTH_SHORT).show();
                 }
             }else{
                 Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_MissingInputs_Text), Toast.LENGTH_SHORT).show();
@@ -284,6 +294,14 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
                 }
             }
             account.setSpendsList(spendsEntitiesParentAccount);
+
+            while (percentagesNamesList.size() < 4){
+                percentagesNamesList.add("+");
+            }
+
+            while (percentagesColorsList.size() < 4){
+                percentagesColorsList.add("-1");
+            }
 
             subAccount.setInfos(account.getId(), (positionOnList+1), accountName, spendsEntities, percentagesNamesList, percentagesColorsList);
 

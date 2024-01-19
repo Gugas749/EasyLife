@@ -79,7 +79,7 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
     private void init(boolean editModeAux){
         THIS = this;
         binding.editTextAccountNameFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setText(subAccount.getAccountTitle());
-
+        hideAll();
         setEditMode(editModeAux);
         loadTextViews();
         loadChart();
@@ -201,6 +201,9 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
                 int index = (int) view.getTag();
                 index--;
                 List<String> namesList = subAccount.getPercentagesNamesList();
+                while (namesList.size() < 4){
+                    namesList.add("+");
+                }
                 String name = namesList.get(index);
                 fragment.setInfos(customAlertDialogFragment, customAlertDialogFragment, index, name);
                 fragment.setPercentagesNames(namesList);
@@ -233,6 +236,14 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
         int color = typedValue.data;
         List<PieEntry> entries = new ArrayList<>();
         List<String> percentagesNamesList = subAccount.getPercentagesNamesList();
+
+        for (int i = 0; i < percentagesNamesList.size(); i++) {
+            if(percentagesNamesList.get(i).equals("+")){
+                percentagesNamesList.remove(percentagesNamesList.get(i));
+                i--;
+            }
+        }
+
         List<String> percentagesColorsList = subAccount.getPercentagesColorList();
         List<Float> percetagesValuesList = calculateSpendPercentages(subAccount.getSpendsList(), percentagesNamesList);
         int[] colors = new int[percentagesColorsList.size()];
@@ -253,39 +264,38 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
             }
         }
 
-        for (int i = 0; i <= percentagesNamesList.size(); i++) {
+        for (int i = 0; i < percentagesNamesList.size(); i++) {
             switch (i){
                 case 0:
                     entries.add(new PieEntry(percetagesValuesList.get(0)));
                     colors[i] = Integer.parseInt(percentagesColorsList.get(0));
                     binding.linerLayoutPieChartPercentage1FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.VISIBLE);
                     binding.cardViewColorIndicatorPercentage1FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardBackgroundColor(Integer.parseInt(percentagesColorsList.get(0)));
+                    binding.textViewPercentageText11FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setText(percetagesValuesList.get(0) * 100+"%");
                     break;
                 case 1:
                     entries.add(new PieEntry(percetagesValuesList.get(1)));
                     colors[i] = Integer.parseInt(percentagesColorsList.get(1));
                     binding.linerLayoutPieChartPercentage2FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.VISIBLE);
                     binding.cardViewColorIndicatorPercentage2FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardBackgroundColor(Integer.parseInt(percentagesColorsList.get(1)));
+                    binding.textViewPercentageText21FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setText(percetagesValuesList.get(1) * 100+"%");
                     break;
                 case 2:
                     entries.add(new PieEntry(percetagesValuesList.get(2)));
                     colors[i] = Integer.parseInt(percentagesColorsList.get(2));
                     binding.linerLayoutPieChartPercentage3FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.VISIBLE);
                     binding.cardViewColorIndicatorPercentage3FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardBackgroundColor(Integer.parseInt(percentagesColorsList.get(2)));
+                    binding.textViewPercentageText31FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setText(percetagesValuesList.get(2) * 100+"%");
                     break;
                 case 3:
                     entries.add(new PieEntry(percetagesValuesList.get(3)));
                     colors[i] = Integer.parseInt(percentagesColorsList.get(3));
                     binding.linerLayoutPieChartPercentage4FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.VISIBLE);
                     binding.cardViewColorIndicatorPercentage4FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardBackgroundColor(Integer.parseInt(percentagesColorsList.get(3)));
+                    binding.textViewPercentageText41FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setText(percetagesValuesList.get(3) * 100+"%");
                     break;
             }
         }
-
-        binding.textViewPercentageText11FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setText(percetagesValuesList.get(0) * 100+"%");
-        binding.textViewPercentageText21FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setText(percetagesValuesList.get(0) * 100+"%");
-        binding.textViewPercentageText31FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setText(percetagesValuesList.get(0) * 100+"%");
-        binding.textViewPercentageText41FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setText(percetagesValuesList.get(0) * 100+"%");
 
         PieDataSet dataSet = new PieDataSet(entries, "");
 
@@ -305,6 +315,12 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
 
         // Invalidate the chart to refresh
         pieChart.invalidate();
+    }
+    private void hideAll(){
+        binding.linerLayoutPieChartPercentage1FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.GONE);
+        binding.linerLayoutPieChartPercentage2FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.GONE);
+        binding.linerLayoutPieChartPercentage3FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.GONE);
+        binding.linerLayoutPieChartPercentage4FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.GONE);
     }
     private void fadeInAnimation(ViewGroup view){
         Animation fadeOut = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
@@ -372,7 +388,6 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
     public void onConfirmButtonClicked(String Tag) {
         exitListenner.onExitFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails(subAccount, oldSubAccount, true);
     }
-
     @Override
     public void onCancelButtonClicked(String Tag) {
 

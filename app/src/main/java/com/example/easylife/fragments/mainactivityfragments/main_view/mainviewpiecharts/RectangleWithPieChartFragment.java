@@ -1,4 +1,4 @@
-package com.example.easylife.fragments.mainactivityfragments.mainview.mainviewpiecharts;
+package com.example.easylife.fragments.mainactivityfragments.main_view.mainviewpiecharts;
 
 import android.os.Bundle;
 
@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.easylife.R;
 import com.example.easylife.database.entities.DraggableCardViewEntity;
 import com.example.easylife.database.entities.SpendingAccountsEntity;
 import com.example.easylife.databinding.FragmentRectangleWithPieChartBinding;

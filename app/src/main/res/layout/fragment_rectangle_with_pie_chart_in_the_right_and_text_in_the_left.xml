@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.mainactivityfragments.mainview.mainviewpiecharts.RectangleWithPieChartInTheRightAndTextInTheLeftFragment">
+    tools:context=".fragments.mainactivityfragments.main_view.mainviewpiecharts.RectangleWithPieChartInTheRightAndTextInTheLeftFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView_container_RectangleStyle2"
@@ -58,33 +58,10 @@
                             android:text="Percentage 1"/>
                     </LinearLayout>
                     <LinearLayout
-                        android:id="@+id/linerLayout_pieChart_Percentage2_FragRectangleWithChartInTheRightAndTextInTheLeft"
+                        android:id="@+id/linerLayout_pieChart_Percentage3_FragRectangleWithChartInTheRightAndTextInTheLeft"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/linerLayout_pieChart_Percentage1_FragRectangleWithChartInTheRightAndTextInTheLeft">
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/cardView_colorIndicator_Percentage2_FragRectangleWithChartInTheRightAndTextInTheLeft"
-                            android:layout_width="10sp"
-                            android:layout_height="10sp"
-                            app:cardCornerRadius="30sp"
-                            android:layout_margin="5sp"/>
-                        <TextView
-                            android:id="@+id/textView_PercentageText2_FragRectangleWithChartInTheRightAndTextInTheLeft"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAlignment="center"
-                            android:textColor="?attr/textAppearanceBodyMedium"
-                            android:text="Percentage 2"/>
-                    </LinearLayout>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20sp">
-                    <LinearLayout
-                        android:id="@+id/linerLayout_pieChart_Percentage3_FragRectangleWithChartInTheRightAndTextInTheLeft"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cardView_colorIndicator_Percentage3_FragRectangleWithChartInTheRightAndTextInTheLeft"
                             android:layout_width="10sp"
@@ -99,11 +76,34 @@
                             android:textColor="?attr/textAppearanceBodyMedium"
                             android:text="Percentage 3"/>
                     </LinearLayout>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20sp">
+                    <LinearLayout
+                        android:id="@+id/linerLayout_pieChart_Percentage2_FragRectangleWithChartInTheRightAndTextInTheLeft"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardView_colorIndicator_Percentage2_FragRectangleWithChartInTheRightAndTextInTheLeft"
+                            android:layout_width="10sp"
+                            android:layout_height="10sp"
+                            app:cardCornerRadius="30sp"
+                            android:layout_margin="5sp"/>
+                        <TextView
+                            android:id="@+id/textView_PercentageText2_FragRectangleWithChartInTheRightAndTextInTheLeft"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:textColor="?attr/textAppearanceBodyMedium"
+                            android:text="Percentage 2"/>
+                    </LinearLayout>
                     <LinearLayout
                         android:id="@+id/linerLayout_pieChart_Percentage4_FragRectangleWithChartInTheRightAndTextInTheLeft"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/linerLayout_pieChart_Percentage3_FragRectangleWithChartInTheRightAndTextInTheLeft">
+                        android:layout_below="@+id/linerLayout_pieChart_Percentage2_FragRectangleWithChartInTheRightAndTextInTheLeft">
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cardView_colorIndicator_Percentage4_FragRectangleWithChartInTheRightAndTextInTheLeft"
                             android:layout_width="10sp"

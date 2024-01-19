@@ -196,6 +196,15 @@ public class MainACOverviewViewAddSpendingAccountFormFragment extends Fragment i
             SpendingAccountsEntity spendingAccountsEntity = new SpendingAccountsEntity();
             String accountName = binding.editTextAccountNameFragMainACOverviewViewAddSpendingAccountForm.getText().toString().trim();
             List<SpendsEntity> spendsEntities = new ArrayList<>();
+
+            while (percentagesNamesList.size() < 8){
+                percentagesNamesList.add("+");
+            }
+
+            while (percentagesColorsList.size() < 8){
+                percentagesColorsList.add("-1");
+            }
+
             spendingAccountsEntity.setInfos(userInfos.firebaseID, userInfos.email, accountName, spendsEntities, percentagesNamesList, percentagesColorsList);
 
             spendingsAccountsDao.insert(spendingAccountsEntity);

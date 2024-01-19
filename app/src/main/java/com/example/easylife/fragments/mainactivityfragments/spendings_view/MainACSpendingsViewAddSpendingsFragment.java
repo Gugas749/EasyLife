@@ -1,4 +1,4 @@
-package com.example.easylife.fragments.mainactivityfragments;
+package com.example.easylife.fragments.mainactivityfragments.spendings_view;
 
 import android.os.Bundle;
 
@@ -8,14 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.easylife.R;
 import com.example.easylife.databinding.FragmentMainACAddViewBinding;
 
-public class MainACAddViewFragment extends Fragment {
+public class MainACSpendingsViewAddSpendingsFragment extends Fragment {
 
     private FragmentMainACAddViewBinding binding;
 
-    public MainACAddViewFragment() {
+    public MainACSpendingsViewAddSpendingsFragment() {
         // Required empty public constructor
     }
 

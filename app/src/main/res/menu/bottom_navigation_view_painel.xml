@@ -9,7 +9,7 @@
         android:title=""
         android:icon="@drawable/home" />
     <item
-        android:id="@+id/menu_bottomNavigation_painel_Add"
+        android:id="@+id/menu_bottomNavigation_painel_SpendingsView"
         android:title=""
-        android:icon="@drawable/add" />
+        android:icon="@drawable/price_tag_icon" />
 </menu>

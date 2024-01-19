@@ -134,36 +134,10 @@
                                 android:text="Name 1"/>
                         </LinearLayout>
                         <LinearLayout
-                            android:id="@+id/linerLayout_pieChart_Percentage2_FragMainACOverviewViewSpendingAccountDetailsForm"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/linerLayout_pieChart_Percentage1_FragMainACOverviewViewSpendingAccountDetailsForm">
-                            <TextView
-                                android:id="@+id/textView_PercentageText2_1_FragMainACOverviewViewSpendingAccountDetailsForm"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textAlignment="center"
-                                android:textColor="?attr/textAppearanceBodyMedium"
-                                android:text="Percentage 2"/>
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/cardView_colorIndicator_Percentage2_FragMainACOverviewViewSpendingAccountDetailsForm"
-                                android:layout_width="10sp"
-                                android:layout_height="10sp"
-                                app:cardCornerRadius="30sp"
-                                android:layout_margin="5sp"/>
-                            <TextView
-                                android:id="@+id/textView_PercentageText2_2_FragMainACOverviewViewSpendingAccountDetailsForm"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textAlignment="center"
-                                android:textColor="?attr/textAppearanceBodyMedium"
-                                android:text="Name 2"/>
-                        </LinearLayout>
-                        <LinearLayout
                             android:id="@+id/linerLayout_pieChart_Percentage3_FragMainACOverviewViewSpendingAccountDetailsForm"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/linerLayout_pieChart_Percentage2_FragMainACOverviewViewSpendingAccountDetailsForm">
+                            android:layout_below="@+id/linerLayout_pieChart_Percentage1_FragMainACOverviewViewSpendingAccountDetailsForm">
                             <TextView
                                 android:id="@+id/textView_PercentageText3_1_FragMainACOverviewViewSpendingAccountDetailsForm"
                                 android:layout_width="wrap_content"
@@ -186,10 +160,93 @@
                                 android:text="Name 3"/>
                         </LinearLayout>
                         <LinearLayout
-                            android:id="@+id/linerLayout_pieChart_Percentage4_FragMainACOverviewViewSpendingAccountDetailsForm"
+                            android:id="@+id/linerLayout_pieChart_Percentage5_FragMainACOverviewViewSpendingAccountDetailsForm"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/linerLayout_pieChart_Percentage3_FragMainACOverviewViewSpendingAccountDetailsForm">
+                            <TextView
+                                android:id="@+id/textView_PercentageText5_1_FragMainACOverviewViewSpendingAccountDetailsForm"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAlignment="center"
+                                android:textColor="?attr/textAppearanceBodyMedium"
+                                android:text="Percentage 5"/>
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/cardView_colorIndicator_Percentage5_FragMainACOverviewViewSpendingAccountDetailsForm"
+                                android:layout_width="10sp"
+                                android:layout_height="10sp"
+                                app:cardCornerRadius="30sp"
+                                android:layout_margin="5sp"/>
+                            <TextView
+                                android:id="@+id/textView_PercentageText5_2_FragMainACOverviewViewSpendingAccountDetailsForm"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAlignment="center"
+                                android:textColor="?attr/textAppearanceBodyMedium"
+                                android:text="Name 5"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/linerLayout_pieChart_Percentage7_FragMainACOverviewViewSpendingAccountDetailsForm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/linerLayout_pieChart_Percentage5_FragMainACOverviewViewSpendingAccountDetailsForm">
+                            <TextView
+                                android:id="@+id/textView_PercentageText7_1_FragMainACOverviewViewSpendingAccountDetailsForm"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAlignment="center"
+                                android:textColor="?attr/textAppearanceBodyMedium"
+                                android:text="Percentage 7"/>
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/cardView_colorIndicator_Percentage7_FragMainACOverviewViewSpendingAccountDetailsForm"
+                                android:layout_width="10sp"
+                                android:layout_height="10sp"
+                                app:cardCornerRadius="30sp"
+                                android:layout_margin="5sp"/>
+                            <TextView
+                                android:id="@+id/textView_PercentageText7_2_FragMainACOverviewViewSpendingAccountDetailsForm"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAlignment="center"
+                                android:textColor="?attr/textAppearanceBodyMedium"
+                                android:text="Name 7"/>
+                        </LinearLayout>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center">
+                        <LinearLayout
+                            android:id="@+id/linerLayout_pieChart_Percentage2_FragMainACOverviewViewSpendingAccountDetailsForm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/textView_PercentageText2_1_FragMainACOverviewViewSpendingAccountDetailsForm"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAlignment="center"
+                                android:textColor="?attr/textAppearanceBodyMedium"
+                                android:text="Percentage 2"/>
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/cardView_colorIndicator_Percentage2_FragMainACOverviewViewSpendingAccountDetailsForm"
+                                android:layout_width="10sp"
+                                android:layout_height="10sp"
+                                app:cardCornerRadius="30sp"
+                                android:layout_margin="5sp"/>
+                            <TextView
+                                android:id="@+id/textView_PercentageText2_2_FragMainACOverviewViewSpendingAccountDetailsForm"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAlignment="center"
+                                android:textColor="?attr/textAppearanceBodyMedium"
+                                android:text="Name 2"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/linerLayout_pieChart_Percentage4_FragMainACOverviewViewSpendingAccountDetailsForm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/linerLayout_pieChart_Percentage2_FragMainACOverviewViewSpendingAccountDetailsForm">
                             <TextView
                                 android:id="@+id/textView_PercentageText4_1_FragMainACOverviewViewSpendingAccountDetailsForm"
                                 android:layout_width="wrap_content"
@@ -211,49 +268,18 @@
                                 android:textColor="?attr/textAppearanceBodyMedium"
                                 android:text="Name 4"/>
                         </LinearLayout>
-                    </RelativeLayout>
-                    <RelativeLayout
-                        android:layout_width="0sp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center">
-                        <LinearLayout
-                            android:id="@+id/linerLayout_pieChart_Percentage5_FragMainACOverviewViewSpendingAccountDetailsForm"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-                            <TextView
-                                android:id="@+id/textView_PercentageText5_1_FragMainACOverviewViewSpendingAccountDetailsForm"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textAlignment="center"
-                                android:textColor="?attr/textAppearanceBodyMedium"
-                                android:text="Percentage 1"/>
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/cardView_colorIndicator_Percentage5_FragMainACOverviewViewSpendingAccountDetailsForm"
-                                android:layout_width="10sp"
-                                android:layout_height="10sp"
-                                app:cardCornerRadius="30sp"
-                                android:layout_margin="5sp"/>
-                            <TextView
-                                android:id="@+id/textView_PercentageText5_2_FragMainACOverviewViewSpendingAccountDetailsForm"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textAlignment="center"
-                                android:textColor="?attr/textAppearanceBodyMedium"
-                                android:text="Name 1"/>
-                        </LinearLayout>
                         <LinearLayout
                             android:id="@+id/linerLayout_pieChart_Percentage6_FragMainACOverviewViewSpendingAccountDetailsForm"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/linerLayout_pieChart_Percentage5_FragMainACOverviewViewSpendingAccountDetailsForm">
+                            android:layout_below="@+id/linerLayout_pieChart_Percentage4_FragMainACOverviewViewSpendingAccountDetailsForm">
                             <TextView
                                 android:id="@+id/textView_PercentageText6_1_FragMainACOverviewViewSpendingAccountDetailsForm"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
                                 android:textColor="?attr/textAppearanceBodyMedium"
-                                android:text="Percentage 1"/>
+                                android:text="Percentage 6"/>
                             <androidx.cardview.widget.CardView
                                 android:id="@+id/cardView_colorIndicator_Percentage6_FragMainACOverviewViewSpendingAccountDetailsForm"
                                 android:layout_width="10sp"
@@ -266,46 +292,20 @@
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
                                 android:textColor="?attr/textAppearanceBodyMedium"
-                                android:text="Name 1"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:id="@+id/linerLayout_pieChart_Percentage7_FragMainACOverviewViewSpendingAccountDetailsForm"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/linerLayout_pieChart_Percentage6_FragMainACOverviewViewSpendingAccountDetailsForm">
-                            <TextView
-                                android:id="@+id/textView_PercentageText7_1_FragMainACOverviewViewSpendingAccountDetailsForm"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textAlignment="center"
-                                android:textColor="?attr/textAppearanceBodyMedium"
-                                android:text="Percentage 1"/>
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/cardView_colorIndicator_Percentage7_FragMainACOverviewViewSpendingAccountDetailsForm"
-                                android:layout_width="10sp"
-                                android:layout_height="10sp"
-                                app:cardCornerRadius="30sp"
-                                android:layout_margin="5sp"/>
-                            <TextView
-                                android:id="@+id/textView_PercentageText7_2_FragMainACOverviewViewSpendingAccountDetailsForm"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textAlignment="center"
-                                android:textColor="?attr/textAppearanceBodyMedium"
-                                android:text="Name 1"/>
+                                android:text="Name 6"/>
                         </LinearLayout>
                         <LinearLayout
                             android:id="@+id/linerLayout_pieChart_Percentage8_FragMainACOverviewViewSpendingAccountDetailsForm"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/linerLayout_pieChart_Percentage7_FragMainACOverviewViewSpendingAccountDetailsForm">
+                            android:layout_below="@+id/linerLayout_pieChart_Percentage6_FragMainACOverviewViewSpendingAccountDetailsForm">
                             <TextView
                                 android:id="@+id/textView_PercentageText8_1_FragMainACOverviewViewSpendingAccountDetailsForm"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
                                 android:textColor="?attr/textAppearanceBodyMedium"
-                                android:text="Percentage 1"/>
+                                android:text="Percentage 8"/>
                             <androidx.cardview.widget.CardView
                                 android:id="@+id/cardView_colorIndicator_Percentage8_FragMainACOverviewViewSpendingAccountDetailsForm"
                                 android:layout_width="10sp"
@@ -318,7 +318,7 @@
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
                                 android:textColor="?attr/textAppearanceBodyMedium"
-                                android:text="Name 1"/>
+                                android:text="Name 8"/>
                         </LinearLayout>
                     </RelativeLayout>
                 </LinearLayout>

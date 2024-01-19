@@ -1,6 +1,5 @@
-package com.example.easylife.fragments.mainactivityfragments.mainview;
+package com.example.easylife.fragments.mainactivityfragments.main_view;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,19 +8,16 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.view.Gravity;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
-import com.example.easylife.R;
 import com.example.easylife.activitys.MainActivity;
 import com.example.easylife.database.entities.DraggableCardViewEntity;
 import com.example.easylife.database.entities.SpendingAccountsEntity;
 import com.example.easylife.databinding.FragmentMainACMainViewBinding;
 import com.example.easylife.fragments.alertDialogFragments.AlertDialogLongPressMainViewObjectsFragment;
-import com.example.easylife.fragments.alertDialogFragments.AlertDialogQuestionFragment;
-import com.example.easylife.fragments.mainactivityfragments.mainview.mainviewpiecharts.BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment;
-import com.example.easylife.fragments.mainactivityfragments.mainview.mainviewpiecharts.RectangleWithPieChartFragment;
-import com.example.easylife.fragments.mainactivityfragments.mainview.mainviewpiecharts.RectangleWithPieChartInTheLeftAndTextInTheRightFragment;
-import com.example.easylife.fragments.mainactivityfragments.mainview.mainviewpiecharts.RectangleWithPieChartInTheRightAndTextInTheLeftFragment;
+import com.example.easylife.fragments.mainactivityfragments.main_view.mainviewpiecharts.BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment;
+import com.example.easylife.fragments.mainactivityfragments.main_view.mainviewpiecharts.RectangleWithPieChartFragment;
+import com.example.easylife.fragments.mainactivityfragments.main_view.mainviewpiecharts.RectangleWithPieChartInTheLeftAndTextInTheRightFragment;
+import com.example.easylife.fragments.mainactivityfragments.main_view.mainviewpiecharts.RectangleWithPieChartInTheRightAndTextInTheLeftFragment;
 import com.example.easylife.scripts.CustomAlertDialogFragment;
 
 import java.util.ArrayList;

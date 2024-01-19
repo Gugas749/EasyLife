@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.mainactivityfragments.mainview.mainviewpiecharts.RectangleWithPieChartFragment">
+    tools:context=".fragments.mainactivityfragments.main_view.mainviewpiecharts.RectangleWithPieChartFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView_container_SmallRectangleStyle1"

@@ -1,4 +1,4 @@
-package com.example.easylife.fragments.mainactivityfragments.mainview.editlayouthowtofrags;
+package com.example.easylife.fragments.mainactivityfragments.main_view.editlayouthowtofrags;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
@@ -18,7 +18,7 @@ import android.view.animation.LinearInterpolator;
 
 import com.example.easylife.R;
 import com.example.easylife.databinding.FragmentMainACMainViewEditLayoutHowToHomeBinding;
-import com.example.easylife.fragments.mainactivityfragments.mainview.MainACMainViewEditLayoutFragment;
+import com.example.easylife.fragments.mainactivityfragments.main_view.MainACMainViewEditLayoutFragment;
 
 public class MainACMainViewEditLayoutHowToHomeFragment extends Fragment {
 

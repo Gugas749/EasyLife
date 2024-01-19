@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/colorPrimary"
     android:id="@+id/frameLayout_parent_FragMainACMainViewEditLayoutHowToDelete"
-    tools:context=".fragments.mainactivityfragments.mainview.editlayouthowtofrags.MainACMainViewEditLayoutHowToDeleteFragment">
+    tools:context=".fragments.mainactivityfragments.main_view.editlayouthowtofrags.MainACMainViewEditLayoutHowToDeleteFragment">
 
     <!--    -->
     <TextView

@@ -1,4 +1,4 @@
-package com.example.easylife.fragments.mainactivityfragments.mainview;
+package com.example.easylife.fragments.mainactivityfragments.main_view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -15,7 +15,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.room.Room;
 
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -27,20 +26,16 @@ import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.example.easylife.R;
-import com.example.easylife.activitys.MainActivity;
 import com.example.easylife.database.daos.DraggableCardViewDao;
 import com.example.easylife.database.entities.DraggableCardViewEntity;
 import com.example.easylife.database.LocalDataBase;
-import com.example.easylife.database.entities.SpendingAccountsEntity;
 import com.example.easylife.databinding.FragmentMainACMainViewEditLayoutBinding;
 import com.example.easylife.fragments.alertDialogFragments.AlertDialogQuestionFragment;
-import com.example.easylife.fragments.mainactivityfragments.MainACAddViewFragment;
-import com.example.easylife.fragments.mainactivityfragments.mainview.editlayouthowtofrags.MainACMainViewEditLayoutHowToAddFragment;
-import com.example.easylife.fragments.mainactivityfragments.mainview.editlayouthowtofrags.MainACMainViewEditLayoutHowToDeleteFragment;
-import com.example.easylife.fragments.mainactivityfragments.mainview.editlayouthowtofrags.MainACMainViewEditLayoutHowToDragNDropFragment;
-import com.example.easylife.fragments.mainactivityfragments.mainview.editlayouthowtofrags.MainACMainViewEditLayoutHowToHomeFragment;
-import com.example.easylife.fragments.mainactivityfragments.mainview.editlayouthowtofrags.MainACMainViewEditLayoutHowToSaveFragment;
-import com.example.easylife.fragments.mainactivityfragments.overview_view.MainACOverviewViewFragment;
+import com.example.easylife.fragments.mainactivityfragments.main_view.editlayouthowtofrags.MainACMainViewEditLayoutHowToAddFragment;
+import com.example.easylife.fragments.mainactivityfragments.main_view.editlayouthowtofrags.MainACMainViewEditLayoutHowToDeleteFragment;
+import com.example.easylife.fragments.mainactivityfragments.main_view.editlayouthowtofrags.MainACMainViewEditLayoutHowToDragNDropFragment;
+import com.example.easylife.fragments.mainactivityfragments.main_view.editlayouthowtofrags.MainACMainViewEditLayoutHowToHomeFragment;
+import com.example.easylife.fragments.mainactivityfragments.main_view.editlayouthowtofrags.MainACMainViewEditLayoutHowToSaveFragment;
 import com.example.easylife.scripts.CustomAlertDialogFragment;
 import com.example.easylife.scripts.UniqueRandomStringGenerator;
 import com.example.easylife.scripts.mainvieweditlayout_things.DraggableCardView;

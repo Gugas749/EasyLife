@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/colorPrimary"
-    tools:context=".fragments.mainactivityfragments.mainview.MainACMainViewEditLayoutFragment">
+    tools:context=".fragments.mainactivityfragments.main_view.MainACMainViewEditLayoutFragment">
 
     <FrameLayout
         android:id="@+id/frameLayout_fragmentContainer_FullScreen_FragMainACMainViewEditLayout"

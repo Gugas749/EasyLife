@@ -1,11 +1,9 @@
 package com.example.easylife.fragments;
 
 import android.animation.Animator;
-import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -14,11 +12,9 @@ import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.room.Room;
 
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,12 +32,8 @@ import com.example.easylife.R;
 import com.example.easylife.activitys.MainActivity;
 import com.example.easylife.database.LocalDataBase;
 import com.example.easylife.database.daos.UserInfosDao;
-import com.example.easylife.database.entities.SpendingAccountsEntity;
 import com.example.easylife.database.entities.UserInfosEntity;
 import com.example.easylife.databinding.FragmentAuthenticationBinding;
-import com.example.easylife.fragments.mainactivityfragments.MainACAddViewFragment;
-import com.example.easylife.fragments.mainactivityfragments.mainview.MainACMainViewFragment;
-import com.example.easylife.fragments.mainactivityfragments.overview_view.MainACOverviewViewFragment;
 
 import java.util.List;
 import java.util.concurrent.Executor;
