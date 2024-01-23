@@ -9,7 +9,7 @@
         android:id="@+id/textView_noItemsToDisplay_FragMainACOverviewView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/mainAc_FragOverviewView_NoItemsToDisplay_Text"
+        android:text="@string/mainAc_FragSpendingsView_NoItemsToDisplay_Text"
         android:textStyle="bold"
         android:textColor="?attr/textAppearanceBodyMedium"
         android:textAlignment="center"

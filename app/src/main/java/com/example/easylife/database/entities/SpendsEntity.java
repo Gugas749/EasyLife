@@ -16,9 +16,9 @@ public class SpendsEntity {
     private String where;
     @ColumnInfo(name = "when")
     private String when;
-
     @ColumnInfo(name = "isPartOf")
     private String isPartOf;
+
     public SpendsEntity() {
 
     }

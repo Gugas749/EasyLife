@@ -20,6 +20,7 @@ public class MainACOverviewViewFragment extends Fragment implements RVAdapterSpe
     private List<SpendingAccountsEntity> accountsEntityList;
     private RVAdapterSpendingsAccounts adapter;
     private MainActivity parent;
+
     private SpendingsAccountItemClickFragMainACOverviewView listenner;
     public interface SpendingsAccountItemClickFragMainACOverviewView{
         void onSpendingsAccountItemClickFragMainACOverviewView(SpendingAccountsEntity account);
@@ -27,6 +28,7 @@ public class MainACOverviewViewFragment extends Fragment implements RVAdapterSpe
     public void setSpendingsAccountItemClickFragMainACOverviewViewListenner(SpendingsAccountItemClickFragMainACOverviewView listenner){
         this.listenner = listenner;
     }
+
     public MainACOverviewViewFragment() {
 
     }

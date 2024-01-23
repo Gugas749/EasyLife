@@ -18,9 +18,13 @@ import androidx.fragment.app.Fragment;
 import com.example.easylife.R;
 import com.example.easylife.database.entities.DraggableCardViewEntity;
 import com.example.easylife.fragments.alertDialogFragments.AlertDialogColorPickerFragment;
+import com.example.easylife.fragments.alertDialogFragments.AlertDialogDateHourPickerFragment;
 import com.example.easylife.fragments.alertDialogFragments.AlertDialogLongPressMainViewObjectsFragment;
 import com.example.easylife.fragments.alertDialogFragments.AlertDialogNotifyFragment;
 import com.example.easylife.fragments.alertDialogFragments.AlertDialogQuestionFragment;
+
+import java.sql.Time;
+import java.util.Date;
 
 public class CustomAlertDialogFragment extends DialogFragment implements AlertDialogNotifyFragment.ContinueButtonClick,
         AlertDialogQuestionFragment.CancelButtonClick,
@@ -28,7 +32,8 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
         AlertDialogColorPickerFragment.ConfirmButtonClickColorPicker,
         AlertDialogColorPickerFragment.CancelButtonClickColorPicker,
         AlertDialogLongPressMainViewObjectsFragment.CancelButtonClickAlertDialogLongPressMainViewObjectsFrag,
-        AlertDialogLongPressMainViewObjectsFragment.ConfirmButtonClickAlertDialogLongPressMainViewObjectsFrag {
+        AlertDialogLongPressMainViewObjectsFragment.ConfirmButtonClickAlertDialogLongPressMainViewObjectsFrag,
+        AlertDialogDateHourPickerFragment.ExitAlertDialogDateHourPicker {
     private Fragment customFragment;
     private ConfirmButtonClickAlertDialogQuestionFrag confirmButtonClickAlertDialogQuestionFrag;
     private CancelButtonClickAlertDialogQuestionFrag cancelButtonClickAlertDialogQuestionFrag;
@@ -36,6 +41,14 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
     private ConfirmButtonClickAlertDialogLongPressMainViewObjects confirmButtonClickAlertDialogLongPressMainViewObjectsListenner;
     private String Tag;
     private int backgroundColor = 0;
+
+    private ExitAlertDialogDateHourPicker_CustomAlertDialogFrag exitAlertDialogDateHourPicker_CustomAlertDialogFragListenner;
+    public interface ExitAlertDialogDateHourPicker_CustomAlertDialogFrag{
+        void onExitAlertDialogDateHourPicker_CustomAlertDialogFrag(boolean save, Date date);
+    }
+    public void setExitAlertDialogDateHourPickerListenner_CustomAlertDialogFrag(ExitAlertDialogDateHourPicker_CustomAlertDialogFrag listenner){
+        this.exitAlertDialogDateHourPicker_CustomAlertDialogFragListenner = listenner;
+    }
 
     public interface ConfirmButtonClickAlertDialogQuestionFrag{
         void onConfirmButtonClicked(String Tag);
@@ -148,6 +161,12 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
     @Override
     public void onConfirmButtonClickAlertDialogLongPressMainViewObjectsFrag(DraggableCardViewEntity object, boolean canHoldMainAccount, int selectedSubAccountIndex) {
         confirmButtonClickAlertDialogLongPressMainViewObjectsListenner.onConfirmButtonClickAlertDialogLongPressMainViewObjects(object, canHoldMainAccount, selectedSubAccountIndex);
+        this.dismiss();
+    }
+
+    @Override
+    public void onExitAlertDialogDateHourPicker(boolean save, Date date) {
+        exitAlertDialogDateHourPicker_CustomAlertDialogFragListenner.onExitAlertDialogDateHourPicker_CustomAlertDialogFrag(save, date);
         this.dismiss();
     }
 }

@@ -21,6 +21,8 @@ public class UserInfosEntity {
     public String Theme;
     @ColumnInfo(name = "language")
     public String Language;
+    @ColumnInfo(name = "addSpedingsWheres")
+    public List<String> addSpedingsWheres;
 
     public UserInfosEntity(long id, String Password, String Theme, String Language) {
         this.id = id;
@@ -32,5 +34,9 @@ public class UserInfosEntity {
     public void setInfos(String firebaseID, String email){
         this.firebaseID = firebaseID;
         this.email = email;
+    }
+
+    public void setAddSpedingsWheres(List<String> addSpedingsWheres){
+        this.addSpedingsWheres = addSpedingsWheres;
     }
 }
