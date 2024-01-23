@@ -65,39 +65,54 @@
             android:textColor="?attr/textAppearanceBodyMedium"
             android:textAlignment="center"
             android:textSize="20sp"/>
-        <LinearLayout
-            android:id="@+id/linearLayout_textViewDateHolder_FragMainACSpendingsViewAddSpendings"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView_textViewDateHolder_FragMainACSpendingsViewAddSpendings"
+            android:layout_below="@+id/textView_design_1_FragMainACSpendingsViewAddSpendings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textView_design_1_FragMainACSpendingsViewAddSpendings">
-            <TextView
-                android:id="@+id/textView_date_FragMainACSpendingsViewAddSpendings"
-                android:layout_width="0dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            app:cardBackgroundColor="?attr/colorSecondary"
+            app:cardCornerRadius="30sp">
+            <LinearLayout
+                android:id="@+id/linearLayout_textViewDateHolder_FragMainACSpendingsViewAddSpendings"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:text="@string/mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_1_Text"
-                android:textStyle="bold"
-                android:textColor="?attr/textAppearanceBodyMedium"
-                android:textAlignment="center"
-                android:textSize="20sp"/>
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_ChangeHours_AlertDialogDateHourPicker"
-                android:layout_gravity="left"
-                android:textSize="16sp"
-                android:paddingTop="15sp"
-                android:paddingBottom="15sp"
-                android:paddingLeft="25sp"
-                android:paddingRight="25sp"
-                android:text="@string/general_change"
-                android:textColor="?attr/textAppearanceBodySmall"
-                android:background="@drawable/round_button_secondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+                android:layout_below="@+id/textView_design_1_FragMainACSpendingsViewAddSpendings">
+                <TextView
+                    android:id="@+id/textView_date_FragMainACSpendingsViewAddSpendings"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:text="@string/mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_1_Text"
+                    android:textStyle="bold"
+                    android:textColor="?attr/textAppearanceBodyMedium"
+                    android:textAlignment="center"
+                    android:textSize="20sp"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_ChangeHours_AlertDialogDateHourPicker"
+                    android:layout_marginLeft="@dimen/_6sdp"
+                    android:layout_marginRight="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:layout_marginBottom="@dimen/_6sdp"
+                    android:layout_gravity="center|left"
+                    android:textSize="16sp"
+                    android:paddingTop="15sp"
+                    android:paddingBottom="15sp"
+                    android:paddingLeft="25sp"
+                    android:paddingRight="25sp"
+                    android:text="@string/general_change"
+                    android:textColor="?attr/textAppearanceBodySmall"
+                    android:background="@drawable/round_button_secondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
         <TextView
             android:id="@+id/textView_spinnerWhereExplain_FragMainACSpendingsViewAddSpendings"
-            android:layout_below="@+id/linearLayout_textViewDateHolder_FragMainACSpendingsViewAddSpendings"
+            android:layout_below="@+id/cardView_textViewDateHolder_FragMainACSpendingsViewAddSpendings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center|start"

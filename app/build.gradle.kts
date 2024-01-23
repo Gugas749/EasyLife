@@ -1,17 +1,20 @@
+import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.exclude
+
 plugins {
     id("com.android.application")
+    id("com.google.gms.google-services") version "4.4.0" apply false
 }
 
 android {
-    namespace = "com.example.easylife"
+    namespace = "com.alexandreconrado.easylife"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.easylife"
+        applicationId = "com.alexandreconrado.easylife"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "0.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -69,4 +72,8 @@ dependencies {
 
     //SPINNER
     implementation("com.github.skydoves:powerspinner:1.2.7")
+
+    //FIREBASE
+    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
+    implementation("com.google.firebase:firebase-analytics")
 }

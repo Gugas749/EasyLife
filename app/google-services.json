@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "791752105870",
+    "project_id": "easylife-e5135",
+    "storage_bucket": "easylife-e5135.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791752105870:android:b0b403e76d0b2c2dc90edf",
+        "android_client_info": {
+          "package_name": "com.alexandreconrado.easylife"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXRJZ6PSnBjx_eAmQjoD4VKgkXBKBABVA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
