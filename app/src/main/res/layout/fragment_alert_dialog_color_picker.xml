@@ -9,21 +9,21 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="15sp">
+        android:padding="@dimen/_11sdp">
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_editTextHolder_AccountName_FragAlertDialogColorPicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5sp"
-            android:layout_marginLeft="20sp"
-            android:layout_marginRight="20sp"
-            app:cardCornerRadius="30sp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginLeft="@dimen/_16sdp"
+            android:layout_marginRight="@dimen/_16sdp"
+            app:cardCornerRadius="@dimen/_23sdp"
             app:cardBackgroundColor="?attr/colorSecondary">
             <EditText
                 android:id="@+id/editText_AccountName_FragAlertDialogColorPicker"
                 android:gravity="center_horizontal"
-                android:textSize="18sp"
-                android:padding="5sp"
+                android:textSize="@dimen/_14sdp"
+                android:padding="@dimen/_4sdp"
                 android:maxLines="1"
                 android:hint="@string/mainAc_FragOverviewViewAddSpendingsAccount_editTextAccountName_Hint"
                 android:background="@android:color/transparent"
@@ -60,16 +60,16 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15sp"
+            android:layout_marginTop="@dimen/_11sdp"
             android:layout_below="@+id/colorAlphaSlider_FragAlertDialogColorPicker">
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_Cancel_AlertDialogFragment_ColorPicker"
                 android:layout_gravity="left"
-                android:textSize="16sp"
-                android:paddingTop="15sp"
-                android:paddingBottom="15sp"
-                android:paddingLeft="25sp"
-                android:paddingRight="25sp"
+                android:textSize="@dimen/_12sdp"
+                android:paddingTop="@dimen/_11sdp"
+                android:paddingBottom="@dimen/_11sdp"
+                android:paddingLeft="@dimen/_20sdp"
+                android:paddingRight="@dimen/_20sdp"
                 android:text="@string/general_cancel"
                 android:textColor="?attr/textAppearanceBodySmall"
                 android:background="@drawable/round_button_secondary"
@@ -78,11 +78,11 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_Confirm_AlertDialogFragment_ColorPicker"
                 android:layout_gravity="right"
-                android:textSize="16sp"
-                android:paddingTop="15sp"
-                android:paddingBottom="15sp"
-                android:paddingLeft="25sp"
-                android:paddingRight="25sp"
+                android:textSize="@dimen/_12sdp"
+                android:paddingTop="@dimen/_11sdp"
+                android:paddingBottom="@dimen/_11sdp"
+                android:paddingLeft="@dimen/_20sdp"
+                android:paddingRight="@dimen/_20sdp"
                 android:text="@string/general_confirm"
                 android:textColor="?attr/textAppearanceBodySmall"
                 android:background="@drawable/round_button_secondary"

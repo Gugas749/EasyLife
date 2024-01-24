@@ -4,15 +4,15 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/linearLayout_parent_custom_alertDialog"
-    app:cardCornerRadius="30sp"
+    app:cardCornerRadius="@dimen/_23sdp"
     app:cardBackgroundColor="?attr/colorControlNormal"
-    android:minWidth="150dp"
+    android:minWidth="@dimen/_116sdp"
     android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/fragment_container_custom_alertDialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="24dp"/>
+        android:padding="@dimen/_18sdp"/>
 
 </androidx.cardview.widget.CardView>

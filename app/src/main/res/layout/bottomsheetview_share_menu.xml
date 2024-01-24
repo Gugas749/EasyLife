@@ -10,28 +10,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="?attr/colorPrimary"
-        app:cardCornerRadius="20sp"
-        android:layout_marginBottom="-18sp">
+        app:cardCornerRadius="@dimen/_16sdp"
+        android:layout_marginBottom="@dimen/_minus14sdp">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginBottom="@dimen/_16sdp"
             android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_alignParentLeft="true"
                 android:orientation="vertical"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginLeft="@dimen/_11sdp"
+                android:layout_marginRight="@dimen/_11sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/dialog_title"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="17dp"
-                    android:layout_marginRight="17dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="@dimen/_11sdp"
+                    android:layout_marginLeft="@dimen/_14sdp"
+                    android:layout_marginRight="@dimen/_14sdp"
+                    android:layout_marginBottom="@dimen/_16sdp"
                     android:layout_gravity="center_horizontal"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/_16sdp"
                     android:textColor="?attr/colorSecondary"
                     android:text="@string/bottomSheetView_shareMenu_title"
                     android:textAlignment="center"
@@ -39,21 +39,21 @@
                     android:layout_height="wrap_content"/>
                 <GridLayout
                     android:layout_width="match_parent"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="@dimen/_16sdp"
+                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:layout_marginRight="@dimen/_16sdp"
                     android:layout_height="wrap_content">
                     <ImageView
                         android:id="@+id/bottomSheetView_button_WhatsappIcon_MainAC"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
                         android:src="@drawable/whatsapp_icon"
                         android:contentDescription="Whatsapp"
                         android:scaleType="fitCenter" />
                     <ImageView
                         android:id="@+id/bottomSheetView_button_Twitter_MainAC"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
                         android:src="@drawable/twitterx_icon"
                         android:layout_gravity="center_horizontal"
                         android:contentDescription="Twitter"
@@ -61,8 +61,8 @@
                         android:forceDarkAllowed="false" />
                     <ImageView
                         android:id="@+id/bottomSheetView_button_Facebook_MainAC"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
                         android:src="@drawable/facebook_icon"
                         android:contentDescription="Facebook"
                         android:scaleType="fitCenter" />

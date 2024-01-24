@@ -12,8 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|right"
-        android:layout_margin="15sp"
-        android:textSize="20sp"
+        android:layout_margin="@dimen/_11sdp"
+        android:textSize="@dimen/_16sdp"
         android:textStyle="bold"
         android:textColor="?attr/textAppearanceBodyMedium"
         android:text="@string/tutorialFrag_skip"/>
@@ -22,74 +22,74 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-        android:layout_margin="20sp"
-        android:textSize="20sp"
+        android:layout_margin="@dimen/_16sdp"
+        android:textSize="@dimen/_16sdp"
         android:textStyle="bold"
         android:textColor="?attr/textAppearanceBodyMedium"
         android:text="@string/general_next"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20sp"
+        android:layout_marginBottom="@dimen/_16sdp"
         android:layout_gravity="bottom|center">
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_tutorialFragIndicator_1_FragTutorialWelcome"
-            android:layout_width="25sp"
-            android:layout_height="7sp"
-            android:layout_marginRight="5sp"
-            app:cardCornerRadius="90sp"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_4sdp"
+            app:cardCornerRadius="@dimen/_90sdp"
             app:cardBackgroundColor="?attr/colorControlNormal"/>
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_tutorialFragIndicator_2_FragTutorialWelcome"
-            android:layout_width="7sp"
-            android:layout_height="7sp"
-            android:layout_marginRight="5sp"
-            app:cardCornerRadius="90sp"
+            android:layout_width="@dimen/_5sdp"
+            android:layout_height="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_4sdp"
+            app:cardCornerRadius="@dimen/_90sdp"
             app:cardBackgroundColor="?attr/colorSecondary"/>
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_tutorialFragIndicator_3_FragTutorialWelcome"
-            android:layout_width="7sp"
-            android:layout_height="7sp"
-            android:layout_marginRight="5sp"
-            app:cardCornerRadius="90sp"
+            android:layout_width="@dimen/_5sdp"
+            android:layout_height="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_4sdp"
+            app:cardCornerRadius="@dimen/_90sdp"
             app:cardBackgroundColor="?attr/colorSecondary"/>
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_tutorialFragIndicator_4_FragTutorialWelcome"
-            android:layout_width="7sp"
-            android:layout_height="7sp"
-            android:layout_marginRight="5sp"
-            app:cardCornerRadius="90sp"
+            android:layout_width="@dimen/_5sdp"
+            android:layout_height="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_4sdp"
+            app:cardCornerRadius="@dimen/_90sdp"
             app:cardBackgroundColor="?attr/colorSecondary"/>
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_tutorialFragIndicator_5_FragTutorialWelcome"
-            android:layout_width="7sp"
-            android:layout_height="7sp"
-            app:cardCornerRadius="90sp"
+            android:layout_width="@dimen/_5sdp"
+            android:layout_height="@dimen/_5sdp"
+            app:cardCornerRadius="@dimen/_90sdp"
             app:cardBackgroundColor="?attr/colorSecondary"/>
     </LinearLayout>
     <!--    -->
 
     <ImageView
         android:id="@+id/imageView_waving_FragTutotialWelcome"
-        android:layout_marginBottom="80sp"
-        android:layout_marginRight="10sp"
+        android:layout_marginBottom="@dimen/_61sdp"
+        android:layout_marginRight="@dimen/_8sdp"
         android:layout_gravity="center"
-        android:layout_width="100sp"
-        android:layout_height="100sp"
+        android:layout_width="@dimen/_77sdp"
+        android:layout_height="@dimen/_77sdp"
         android:src="@drawable/welcome_icon"
         app:tint="?attr/colorControlNormal" />
     <TextView
         android:layout_gravity="center"
-        android:textSize="40sp"
+        android:textSize="@dimen/_31sdp"
         android:text="@string/tutorialFrag_Welcome_Title"
         android:textColor="?attr/textAppearanceBodyMedium"
         android:fontFamily="@font/coiny_regular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
-        android:layout_marginTop="40sp"
+        android:layout_marginTop="@dimen/_31sdp"
         android:layout_gravity="center"
-        android:textSize="30sp"
+        android:textSize="@dimen/_23sdp"
         android:text="@string/tutorialFrag_Welcome_Text"
         android:textColor="?attr/textAppearanceBodyMedium"
         android:fontFamily="@font/dosis_regular"

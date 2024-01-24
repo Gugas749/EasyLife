@@ -12,7 +12,7 @@
         <TextView
             android:id="@+id/textView_title_AlertDialogFragment_Notify"
             android:gravity="center_horizontal"
-            android:textSize="24sp"
+            android:textSize="@dimen/_18sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TITLE"/>
@@ -21,8 +21,8 @@
             android:id="@+id/textView_description_AlertDialogFragment_Notify"
             android:layout_below="@+id/textView_title_AlertDialogFragment_Notify"
             android:gravity="center_horizontal"
-            android:layout_marginTop="15sp"
-            android:textSize="18sp"
+            android:layout_marginTop="@dimen/_11sdp"
+            android:textSize="@dimen/_14sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Description"/>
@@ -30,10 +30,10 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_Ok_AlertDialogFragment_Notify"
             android:layout_below="@+id/textView_description_AlertDialogFragment_Notify"
-            android:layout_marginTop="15sp"
-            android:layout_marginLeft="20sp"
-            android:layout_marginRight="20sp"
-            android:textSize="16sp"
+            android:layout_marginTop="@dimen/_11sdp"
+            android:layout_marginLeft="@dimen/_16sdp"
+            android:layout_marginRight="@dimen/_16sdp"
+            android:textSize="@dimen/_12sdp"
             android:text="@string/general_continue"
             android:textColor="?attr/textAppearanceBodySmall"
             android:background="@drawable/round_button_principal"

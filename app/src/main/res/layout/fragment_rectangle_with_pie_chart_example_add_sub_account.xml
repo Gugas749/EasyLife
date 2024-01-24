@@ -10,10 +10,10 @@
         android:id="@+id/cardView_container_RectangleStyle1"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_81sdp"
-        android:layout_marginRight="10sp"
-        android:layout_marginLeft="10sp"
+        android:layout_marginRight="@dimen/_8sdp"
+        android:layout_marginLeft="@dimen/_8sdp"
         android:layout_gravity="center"
-        app:cardCornerRadius="30sp"
+        app:cardCornerRadius="@dimen/_23sdp"
         android:alpha="0.8"
         app:cardBackgroundColor="?attr/colorControlHighlight">
         <ImageView

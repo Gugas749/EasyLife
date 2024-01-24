@@ -14,81 +14,80 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-        android:layout_margin="20sp"
-        android:textSize="20sp"
+        android:layout_margin="@dimen/_16sdp"
+        android:textSize="@dimen/_16sdp"
         android:textStyle="bold"
         android:textColor="?attr/textAppearanceBodyMedium"
         android:text="@string/general_next"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20sp"
+        android:layout_marginBottom="@dimen/_16sdp"
         android:layout_gravity="bottom|center">
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_FragIndicator_1_FragMainACMainViewEditLayoutHowToHome"
-            android:layout_width="25sp"
-            android:layout_height="7sp"
-            android:layout_marginRight="5sp"
-            app:cardCornerRadius="90sp"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_4sdp"
+            app:cardCornerRadius="@dimen/_90sdp"
             app:cardBackgroundColor="?attr/colorControlNormal"/>
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_FragIndicator_2_FragMainACMainViewEditLayoutHowToHome"
-            android:layout_width="7sp"
-            android:layout_height="7sp"
-            android:layout_marginRight="5sp"
-            app:cardCornerRadius="90sp"
+            android:layout_width="@dimen/_5sdp"
+            android:layout_height="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_4sdp"
+            app:cardCornerRadius="@dimen/_90sdp"
             app:cardBackgroundColor="?attr/colorSecondary"/>
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_FragIndicator_3_FragMainACMainViewEditLayoutHowToHome"
-            android:layout_width="7sp"
-            android:layout_height="7sp"
-            android:layout_marginRight="5sp"
-            app:cardCornerRadius="90sp"
+            android:layout_width="@dimen/_5sdp"
+            android:layout_height="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_4sdp"
+            app:cardCornerRadius="@dimen/_90sdp"
             app:cardBackgroundColor="?attr/colorSecondary"/>
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_FragIndicator_4_FragMainACMainViewEditLayoutHowToHome"
-            android:layout_width="7sp"
-            android:layout_height="7sp"
-            android:layout_marginRight="5sp"
-            app:cardCornerRadius="90sp"
+            android:layout_width="@dimen/_5sdp"
+            android:layout_height="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_4sdp"
+            app:cardCornerRadius="@dimen/_90sdp"
             app:cardBackgroundColor="?attr/colorSecondary"/>
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_FragIndicator_5_FragMainACMainViewEditLayoutHowToHome"
-            android:layout_width="7sp"
-            android:layout_height="7sp"
-            app:cardCornerRadius="90sp"
+            android:layout_width="@dimen/_5sdp"
+            android:layout_height="@dimen/_5sdp"
+            app:cardCornerRadius="@dimen/_90sdp"
             app:cardBackgroundColor="?attr/colorSecondary"/>
     </LinearLayout>
     <!--    -->
 
     <ImageView
         android:id="@+id/imageView_pointing_FragMainACMainViewEditLayoutHowToHome"
-        android:layout_marginBottom="40sp"
-        android:layout_marginRight="60sp"
+        android:layout_marginBottom="@dimen/_31sdp"
+        android:layout_marginRight="@dimen/_46sdp"
         android:layout_gravity="bottom|right"
-        android:layout_width="70sp"
-        android:layout_height="70sp"
+        android:layout_width="@dimen/_54sdp"
+        android:layout_height="@dimen/_54sdp"
         android:rotation="150"
         android:src="@drawable/hand_pointing"
         app:tint="?attr/colorControlNormal" />
     <TextView
         android:layout_gravity="center"
-        android:textSize="40sp"
-        android:layout_marginBottom="25sp"
+        android:textSize="@dimen/_31sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
         android:text="@string/mainAc_FragMainViewEditLayoutHowTo_Home_Title"
         android:textColor="?attr/textAppearanceBodyMedium"
         android:fontFamily="@font/coiny_regular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
-        android:layout_marginTop="40sp"
+        android:layout_marginTop="@dimen/_31sdp"
         android:layout_gravity="center"
-        android:textSize="30sp"
+        android:textSize="@dimen/_23sdp"
         android:text="@string/mainAc_FragMainViewEditLayoutHowTo_Home_Text"
         android:textColor="?attr/textAppearanceBodyMedium"
         android:textAlignment="center"
         android:fontFamily="@font/dosis_regular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-
 </FrameLayout>

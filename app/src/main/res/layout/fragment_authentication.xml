@@ -10,7 +10,8 @@
         android:id="@+id/frameLayout_animationAux_FragAuthentication"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:elevation="10sp"
+        android:elevation="@dimen/_8sdp"
+        android:visibility="gone"
         android:background="?attr/colorControlNormal"/>
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -20,12 +21,12 @@
         android:paddingLeft="@dimen/_50sdp">
         <ImageView
             android:id="@+id/imageView_AppIcon_FragAuthentication"
-            android:layout_width="80sp"
-            android:layout_height="80sp"
-            android:layout_marginTop="10sp"
-            android:layout_marginRight="15sp"
+            android:layout_width="@dimen/_61sdp"
+            android:layout_height="@dimen/_61sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_11sdp"
             android:scaleType="centerCrop"
-            android:elevation="2sp"
+            android:elevation="@dimen/_2sdp"
             android:src="@drawable/snap_black"
             android:background="@drawable/rounded_image_view"/>
         <RelativeLayout
@@ -61,7 +62,7 @@
             android:id="@+id/cardView_pinCodeLenghtIndicator_1_FragAuthentication"
             android:layout_width="@dimen/_10sdp"
             android:layout_height="@dimen/_10sdp"
-            app:cardCornerRadius="90sp"
+            app:cardCornerRadius="@dimen/_90sdp"
             app:cardBackgroundColor="?attr/colorSecondary"/>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -74,19 +75,19 @@
                 android:layout_height="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_9ssp"
                 app:cardBackgroundColor="?attr/colorSecondary"
-                app:cardCornerRadius="90sp" />
+                app:cardCornerRadius="@dimen/_90sdp" />
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView_pinCodeLenghtIndicator_3_FragAuthentication"
                 android:layout_width="@dimen/_10sdp"
                 android:layout_height="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_9ssp"
-                app:cardCornerRadius="90sp"
+                app:cardCornerRadius="@dimen/_90sdp"
                 app:cardBackgroundColor="?attr/colorSecondary"/>
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView_pinCodeLenghtIndicator_4_FragAuthentication"
                 android:layout_width="@dimen/_10sdp"
                 android:layout_height="@dimen/_10sdp"
-                app:cardCornerRadius="90sp"
+                app:cardCornerRadius="@dimen/_90sdp"
                 app:cardBackgroundColor="?attr/colorSecondary"/>
         </LinearLayout>
     </RelativeLayout>

@@ -11,11 +11,11 @@
     <!-- SPLASH -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview_1_SplashAc"
-        android:layout_width="100sp"
-        android:layout_height="100sp"
-        app:cardCornerRadius="90sp"
+        android:layout_width="@dimen/_77sdp"
+        android:layout_height="@dimen/_77sdp"
+        app:cardCornerRadius="@dimen/_90sdp"
         app:cardBackgroundColor="?attr/colorControlNormal"
-        android:layout_marginTop="250sp"
+        android:layout_marginTop="@dimen/_192sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,11 +23,11 @@
     </androidx.cardview.widget.CardView>
     <ImageView
         android:id="@+id/imageView_1_SplashAc"
-        android:layout_width="100sp"
-        android:layout_height="100sp"
+        android:layout_width="@dimen/_77sdp"
+        android:layout_height="@dimen/_77sdp"
         android:scaleType="centerCrop"
-        android:elevation="2sp"
-        android:layout_marginTop="250sp"
+        android:elevation="@dimen/_2sdp"
+        android:layout_marginTop="@dimen/_192sdp"
         android:src="@drawable/snap_black"
         android:background="@drawable/rounded_image_view"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +40,7 @@
         android:fontFamily="@font/dosis_regular"
         android:text="@string/app_slogan"
         android:textColor="?attr/textAppearanceBodyMedium"
-        android:textSize="28sp"
+        android:textSize="@dimen/_22sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_1_SplashAc" />
@@ -51,18 +51,18 @@
         android:fontFamily="@font/arapey_regular"
         android:text="@string/app_name"
         android:textColor="?attr/textAppearanceBodyMedium"
-        android:textSize="71sp"
+        android:textSize="@dimen/_54sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardview_1_SplashAc" />
     <!-- -->
     <ImageButton
         android:id="@+id/butScan_SplashAc"
-        android:layout_width="100sp"
-        android:layout_height="100sp"
-        android:layout_marginBottom="25sp"
+        android:layout_width="@dimen/_77sdp"
+        android:layout_height="@dimen/_77sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
         android:text=""
-        android:padding="15sp"
+        android:padding="@dimen/_11sdp"
         android:scaleType="centerCrop"
         android:src="@drawable/scan"
         android:background="@drawable/round_button_secondary"

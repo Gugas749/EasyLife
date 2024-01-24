@@ -12,8 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|right"
-        android:layout_margin="15sp"
-        android:textSize="20sp"
+        android:layout_margin="@dimen/_11sdp"
+        android:textSize="@dimen/_16sdp"
         android:textStyle="bold"
         android:textColor="?attr/textAppearanceBodyMedium"
         android:text="@string/tutorialFrag_skip"/>
@@ -22,8 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-        android:layout_margin="20sp"
-        android:textSize="20sp"
+        android:layout_margin="@dimen/_16sdp"
+        android:textSize="@dimen/_16sdp"
         android:textStyle="bold"
         android:textColor="?attr/textAppearanceBodyMedium"
         android:text="@string/general_next"/>
@@ -32,49 +32,49 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|left"
-        android:layout_margin="20sp"
-        android:textSize="20sp"
+        android:layout_margin="@dimen/_16sdp"
+        android:textSize="@dimen/_16sdp"
         android:textStyle="bold"
         android:textColor="?attr/textAppearanceBodyMedium"
         android:text="@string/general_previous"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20sp"
+        android:layout_marginBottom="@dimen/_16sdp"
         android:layout_gravity="bottom|center">
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_tutorialFragIndicator_1_FragTutorialEdit"
-            android:layout_width="7sp"
-            android:layout_height="7sp"
-            android:layout_marginRight="5sp"
-            app:cardCornerRadius="90sp"
+            android:layout_width="@dimen/_5sdp"
+            android:layout_height="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_4sdp"
+            app:cardCornerRadius="@dimen/_90sdp"
             app:cardBackgroundColor="?attr/colorSecondary"/>
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_tutorialFragIndicator_2_FragTutorialEdit"
-            android:layout_width="7sp"
-            android:layout_height="7sp"
-            android:layout_marginRight="5sp"
-            app:cardCornerRadius="90sp"
+            android:layout_width="@dimen/_5sdp"
+            android:layout_height="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_4sdp"
+            app:cardCornerRadius="@dimen/_90sdp"
             app:cardBackgroundColor="?attr/colorSecondary"/>
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_tutorialFragIndicator_3_FragTutorialEdit"
-            android:layout_width="7sp"
-            android:layout_height="7sp"
-            android:layout_marginRight="5sp"
-            app:cardCornerRadius="90sp"
+            android:layout_width="@dimen/_5sdp"
+            android:layout_height="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_4sdp"
+            app:cardCornerRadius="@dimen/_90sdp"
             app:cardBackgroundColor="?attr/colorSecondary"/>
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_tutorialFragIndicator_4_FragTutorialEdit"
-            android:layout_width="25sp"
-            android:layout_height="7sp"
-            android:layout_marginRight="5sp"
-            app:cardCornerRadius="90sp"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_4sdp"
+            app:cardCornerRadius="@dimen/_90sdp"
             app:cardBackgroundColor="?attr/colorControlNormal"/>
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_tutorialFragIndicator_5_FragTutorialEdit"
-            android:layout_width="7sp"
-            android:layout_height="7sp"
-            app:cardCornerRadius="90sp"
+            android:layout_width="@dimen/_5sdp"
+            android:layout_height="@dimen/_5sdp"
+            app:cardCornerRadius="@dimen/_90sdp"
             app:cardBackgroundColor="?attr/colorSecondary"/>
     </LinearLayout>
     <!--    -->

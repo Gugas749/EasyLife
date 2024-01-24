@@ -12,7 +12,7 @@
         <TextView
             android:id="@+id/textView_title_RegisterFaceIDFrag"
             android:gravity="center_horizontal"
-            android:textSize="32sp"
+            android:textSize="@dimen/_25sdp"
             android:fontFamily="@font/coiny_regular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,14 +24,15 @@
             android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/_12sdp"
             android:text="@string/app_slogan"/>
 
         <TextView
             android:id="@+id/textView_title2_RegisterFaceIDFrag"
             android:layout_below="@+id/textView_appSlogan_RegisterFaceIDFrag"
             android:gravity="center_horizontal"
-            android:layout_marginTop="15sp"
-            android:textSize="18sp"
+            android:layout_marginTop="@dimen/_11sdp"
+            android:textSize="@dimen/_14sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/register_dialog_faceId_action_register"/>
@@ -39,13 +40,13 @@
         <FrameLayout
             android:id="@+id/frameLayout_imageView_1_RegisterFaceIDFrag"
             android:layout_below="@+id/textView_title2_RegisterFaceIDFrag"
-            android:layout_marginTop="25sp"
-            android:layout_marginBottom="15sp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_11sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
-                android:layout_width="70sp"
-                android:layout_height="70sp"
+                android:layout_width="@dimen/_54sdp"
+                android:layout_height="@dimen/_54sdp"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/biometric_faceid" />
         </FrameLayout>
@@ -53,11 +54,11 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/butConfirm_RegisterFaceIDFrag"
             android:layout_below="@+id/frameLayout_imageView_1_RegisterFaceIDFrag"
-            android:layout_marginTop="15sp"
-            android:layout_marginLeft="20sp"
-            android:layout_marginRight="20sp"
-            android:layout_marginBottom="5sp"
-            android:textSize="16sp"
+            android:layout_marginTop="@dimen/_11sdp"
+            android:layout_marginLeft="@dimen/_16sdp"
+            android:layout_marginRight="@dimen/_16sdp"
+            android:layout_marginBottom="@dimen/_4sdp"
+            android:textSize="@dimen/_12sdp"
             android:textColor="?attr/textAppearanceBodySmall"
             android:text="@string/general_continue"
             android:background="@drawable/round_button_principal"
@@ -67,11 +68,11 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/butCancel_RegisterFaceIDFrag"
             android:layout_below="@+id/butConfirm_RegisterFaceIDFrag"
-            android:layout_marginTop="5sp"
-            android:layout_marginLeft="20sp"
-            android:layout_marginRight="20sp"
-            android:layout_marginBottom="15sp"
-            android:textSize="16sp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginLeft="@dimen/_16sdp"
+            android:layout_marginRight="@dimen/_16sdp"
+            android:layout_marginBottom="@dimen/_11sdp"
+            android:textSize="@dimen/_12sdp"
             android:textColor="?attr/textAppearanceBodySmall"
             android:text="@string/general_cancel"
             android:background="@drawable/round_button_secondary"

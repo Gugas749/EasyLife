@@ -14,9 +14,9 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardview_Auxiliar_LoginFrag"
-            android:layout_width="50sp"
-            android:layout_height="50sp"
-            app:cardCornerRadius="25dp"
+            android:layout_width="@dimen/_39sdp"
+            android:layout_height="@dimen/_39sdp"
+            app:cardCornerRadius="@dimen/_90sdp"
             app:cardBackgroundColor="?attr/colorControlNormal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -26,11 +26,11 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview_Dialog_LoginFrag"
-        app:cardCornerRadius="25dp"
+        app:cardCornerRadius="@dimen/_90sdp"
         android:layout_gravity="center"
         app:cardBackgroundColor="?attr/colorControlNormal"
-        android:layout_marginLeft="25sp"
-        android:layout_marginRight="25sp"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_20sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
