@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSecondary"
+    android:background="?attr/colorPrimary"
     tools:context=".fragments.alertDialogFragments.AlertDialogDateHourPickerFragment">
 
     <ScrollView
@@ -21,7 +21,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:calendarTextColor="?attr/textAppearanceBodyMedium" />
+                    android:spinnersShown="false"
+                    android:theme="@style/MyDatePickerStyle" />
             </FrameLayout>
             <FrameLayout
                 android:layout_width="match_parent"

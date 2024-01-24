@@ -140,6 +140,11 @@
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_textView_ChangeParentColor_Text">Click me to change the color!!</string>
     <!-- Main AC - Spendings View -->
     <string name="mainAc_FragSpendingsView_NoItemsToDisplay_Text">Hmm… Looks like you dont have any Spendings to display. You can create them by pressing the Plus Button Above!!</string>
+    <!-- Main AC - Spendings View - Add Spendings -->
+    <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign1_Text">Date of the Spend</string>
+    <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign2_Text">Amount Spend</string>
+    <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign3_Text">Where was it Spend</string>
+    <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign4_Text">What Account</string>
 
     <!-- Tutorial Fragments -->
     <string name="tutorialFrag_skip">Skip</string>

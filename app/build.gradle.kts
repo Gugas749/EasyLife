@@ -1,5 +1,3 @@
-import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.exclude
-
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services") version "4.4.0" apply false
@@ -14,7 +12,7 @@ android {
         minSdk = 26
         targetSdk = 34
         versionCode = 1
-        versionName = "0.1.1"
+        versionName = "0.1.2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -32,8 +30,7 @@ android {
         viewBinding = true
     }
     packagingOptions {
-        exclude("META-INF/NOTICE.md")
-        exclude("META-INF/LICENSE.md")
+        resources.excludes.add("META-INF/*")
     }
 }
 
@@ -46,6 +43,7 @@ dependencies {
     implementation("androidx.annotation:annotation:1.7.1")
     implementation("androidx.biometric:biometric:1.1.0")
     implementation("androidx.compose.animation:animation-graphics-android:1.5.4")
+    implementation("com.android.support:support-annotations:28.0.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

@@ -483,10 +483,12 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             SpendingAccountsEntity spendingAccountsSelected = spendingAccountsEntitiesList.get(i);
 
             spendsEntityList.addAll(spendingAccountsSelected.getSpendsList());
-
-            for (int j = 0; j < spendingAccountsSelected.getSubAccountsList().size(); j++) {
-                SubSpendingAccountsEntity subSpendingAccountsSelected = spendingAccountsSelected.getSubAccountsList().get(j);
-                spendsEntityList.addAll(subSpendingAccountsSelected.getSpendsList());
+            List<SubSpendingAccountsEntity> subAccounts = spendingAccountsSelected.getSubAccountsList();
+            if(subAccounts != null){
+                for (int j = 0; j < subAccounts.size(); j++) {
+                    SubSpendingAccountsEntity subSpendingAccountsSelected = spendingAccountsSelected.getSubAccountsList().get(j);
+                    spendsEntityList.addAll(subSpendingAccountsSelected.getSpendsList());
+                }
             }
         }
 
@@ -972,6 +974,10 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 mainACMainViewFragment.setParent(THIS);
 
                 changeFragmentFromMainFragmentContainer(1);
+                changeMultiFunctionButtonFunction(1);
+                binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Home).setChecked(true);
+                binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_SpendingsView).setChecked(false);
+                binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Graffics).setChecked(false);
 
                 outFragment();
                 scaleDownAnimtion();

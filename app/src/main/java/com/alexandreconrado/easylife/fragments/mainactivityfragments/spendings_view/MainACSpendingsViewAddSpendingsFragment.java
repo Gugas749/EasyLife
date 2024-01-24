@@ -1,13 +1,22 @@
 package com.alexandreconrado.easylife.fragments.mainactivityfragments.spendings_view;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alexandreconrado.easylife.database.entities.SpendingAccountsEntity;
@@ -16,8 +25,10 @@ import com.alexandreconrado.easylife.database.entities.UserInfosEntity;
 import com.alexandreconrado.easylife.databinding.FragmentMainACSpendingsViewAddSpendingsBinding;
 import com.alexandreconrado.easylife.fragments.alertDialogFragments.AlertDialogDateHourPickerFragment;
 import com.alexandreconrado.easylife.scripts.CustomAlertDialogFragment;
+import com.skydoves.powerspinner.OnSpinnerItemSelectedListener;
 import com.skydoves.powerspinner.PowerSpinnerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +39,7 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
     private List<SpendingAccountsEntity> spendingAccountsEntityList;
     private UserInfosEntity userInfos;
     private MainACSpendingsViewAddSpendingsFragment THIS;
+
     private ExitMainACSpendingsViewAddSpendingsFrag listenner;
     public interface ExitMainACSpendingsViewAddSpendingsFrag{
         void onExitMainACSpendingsViewAddSpendingsFrag(boolean save);
@@ -51,10 +63,15 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMainACSpendingsViewAddSpendingsBinding.inflate(inflater);
 
+        Date currentDate = new Date();
+        loadTextViewDate(currentDate);
+
         init();
         setupButtonSave();
         setupButtonExit();
         setupButtonChangeHours();
+        setupEditTextAmount();
+        setupOnItemSelectedSpinnerAccounts();
 
         return binding.getRoot();
     }
@@ -88,7 +105,7 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
                 fragment.setExitAlertDialogDateHourPickerListenner(customAlertDialogFragment);
                 customAlertDialogFragment.setCustomFragment(fragment);
                 TypedValue typedValue = new TypedValue();
-                getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorSecondary, typedValue, true);
+                getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true);
                 int color = typedValue.data;
                 customAlertDialogFragment.setBackgroundColor(color);
                 customAlertDialogFragment.setExitAlertDialogDateHourPickerListenner_CustomAlertDialogFrag(THIS);
@@ -96,6 +113,55 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
                 customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
             }
         });
+    }
+    private void setupEditTextAmount(){
+        binding.editTextAmountSpendFragMainACSpendingsViewAddSpendings.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(getActivity().INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(binding.editTextAmountSpendFragMainACSpendingsViewAddSpendings.getWindowToken(), 0);
+                    binding.editTextAmountSpendFragMainACSpendingsViewAddSpendings.clearFocus();
+                    return true;
+                }
+                return false;
+            }
+        });
+        binding.editTextAmountSpendFragMainACSpendingsViewAddSpendings.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    insertDeleteToEditTextAmount(false);
+                }else{
+                    insertDeleteToEditTextAmount(true);
+                }
+            }
+        });
+    }
+    private void setupOnItemSelectedSpinnerAccounts(){
+        binding.spinnerSpendigsAccountsFragMainACSpendingsViewAddSpendings.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener<Object>() {
+            @Override
+            public void onItemSelected(int i, @Nullable Object o, int i1, Object t1) {
+                loadSpinnerSubAccounts(i1);
+            }
+        });
+    }
+    private void loadTextViewDate(Date currentDate){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String formattedDate = dateFormat.format(currentDate);
+        binding.textViewDateFragMainACSpendingsViewAddSpendings.setText(formattedDate);
+    }
+    private void insertDeleteToEditTextAmount(boolean insert){
+        EditText et = binding.editTextAmountSpendFragMainACSpendingsViewAddSpendings;
+        if(insert){
+            String text = et.getText().toString().trim();
+            text += "€";
+            et.setText(text);
+        }else{
+            String text = et.getText().toString().trim();
+            text = text.replace("€", "");
+            et.setText(text);
+        }
     }
     private void loadSpinnerWheres(){
         List<String> wheres = userInfos.addSpedingsWheres;
@@ -129,6 +195,8 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
     }
     @Override
     public void onExitAlertDialogDateHourPicker_CustomAlertDialogFrag(boolean save, Date date) {
-        Toast.makeText(getContext(), ""+ save+ "    "+date+ "     ", Toast.LENGTH_SHORT).show();
+        if(save){
+            loadTextViewDate(date);
+        }
     }
 }
