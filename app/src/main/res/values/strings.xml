@@ -3,6 +3,7 @@
     <string name="app_slogan">Life is Easier</string>
 
     <!-- General -->
+    <string name="general_Save">Save</string>
     <string name="general_change">Change</string>
     <string name="general_confirm">Confirm</string>
     <string name="general_continue">Continue</string>
@@ -145,6 +146,8 @@
     <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign2_Text">Amount Spend</string>
     <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign3_Text">Where was it Spend</string>
     <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign4_Text">What Account</string>
+    <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign5_Text">What Category</string>
+    <string name="mainAc_FragSpendingsViewAddSpendings_spinnerHint_1_Text">Select a Category</string>
 
     <!-- Tutorial Fragments -->
     <string name="tutorialFrag_skip">Skip</string>

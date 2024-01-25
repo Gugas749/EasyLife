@@ -53,7 +53,7 @@
                 android:paddingBottom="@dimen/_11sdp"
                 android:paddingLeft="@dimen/_20sdp"
                 android:paddingRight="@dimen/_20sdp"
-                android:text="@string/general_confirm"
+                android:text="@string/general_Save"
                 android:textColor="?attr/textAppearanceBodySmall"
                 android:background="@drawable/round_button_principal"
                 android:layout_width="wrap_content"

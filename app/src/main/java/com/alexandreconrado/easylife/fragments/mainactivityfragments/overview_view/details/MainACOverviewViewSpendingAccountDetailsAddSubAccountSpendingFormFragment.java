@@ -286,7 +286,7 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
 
             for (int i = 0; i < spendsEntitiesParentAccount.size(); i++) {
                 SpendsEntity selected = spendsEntitiesParentAccount.get(i);
-                if(selected.getWhere().equals(SubAccountName)){
+                if(selected.getSubAccountID().equals(SubAccountName)){
                     spendsEntities.add(selected);
                     spendsEntitiesParentAccount.remove(selected);
                     i--;
@@ -302,7 +302,7 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
                 percentagesColorsList.add("-1");
             }
 
-            subAccount.setInfos(account.getId(), (positionOnList+1), accountName, spendsEntities, percentagesNamesList, percentagesColorsList);
+            subAccount.setInfos(account.getId(), (positionOnList+1), accountName, spendsEntities, percentagesNamesList, percentagesColorsList, String.valueOf(color));
 
             List<SubSpendingAccountsEntity> subSpendingAccountsEntityList = account.getSubAccountsList();
             if(subSpendingAccountsEntityList == null){

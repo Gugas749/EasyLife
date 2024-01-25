@@ -28,17 +28,20 @@ public class SubSpendingAccountsEntity {
     private List<String> percentagesNamesList;
     @ColumnInfo(name = "percentagesColorList")
     private List<String> percentagesColorList;
+    @ColumnInfo(name = "colorInParent")
+    private String colorInParent;
     public SubSpendingAccountsEntity() {
 
     }
 
-    public void setInfos(long parentID, long positionInTheList, String accountTitle, List<SpendsEntity> spendsList, List<String> percentagesNamesList, List<String> percentagesColorList) {
+    public void setInfos(long parentID, long positionInTheList, String accountTitle, List<SpendsEntity> spendsList, List<String> percentagesNamesList, List<String> percentagesColorList, String colorInParent) {
         this.parentID = parentID;
         this.positionInTheList = positionInTheList;
         this.accountTitle = accountTitle;
         this.spendsList = spendsList;
         this.percentagesNamesList = percentagesNamesList;
         this.percentagesColorList = percentagesColorList;
+        this.colorInParent = colorInParent;
     }
 
     public long getId() {
@@ -95,5 +98,13 @@ public class SubSpendingAccountsEntity {
 
     public void setPositionInTheList(long positionInTheList) {
         this.positionInTheList = positionInTheList;
+    }
+
+    public String getColorInParent() {
+        return colorInParent;
+    }
+
+    public void setColorInParent(String colorInParent) {
+        this.colorInParent = colorInParent;
     }
 }

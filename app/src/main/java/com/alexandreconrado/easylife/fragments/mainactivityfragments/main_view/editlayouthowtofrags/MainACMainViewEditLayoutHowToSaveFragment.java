@@ -165,14 +165,14 @@ public class MainACMainViewEditLayoutHowToSaveFragment extends Fragment {
             initialSaveAnimationIsFinished = false;
             fadeInAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave);
             fadeInAnimation(binding.imageViewSaveExplanationFragMainACMainViewEditLayoutHowToSave);
-            forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave, 430, 0);
+            forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave, getResources().getDimension(com.intuit.sdp.R.dimen._120sdp), 0);
             new CountDownTimer(1300, 1000) {
                 public void onTick(long millisUntilFinished) {
 
                 }
 
                 public void onFinish() {
-                    pointYAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave, (-150));
+                    pointYAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave, getResources().getDimension(com.intuit.sdp.R.dimen._minus40sdp));
                     new CountDownTimer(1000, 1000) {
                         public void onTick(long millisUntilFinished) {
 
@@ -188,14 +188,14 @@ public class MainACMainViewEditLayoutHowToSaveFragment extends Fragment {
                                 public void onFinish() {
                                     fadeInAnimation(binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToSave);
                                     binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
-                                    forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave, 290, 430);
+                                    forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave, getResources().getDimension(com.intuit.sdp.R.dimen._85sdp), getResources().getDimension(com.intuit.sdp.R.dimen._120sdp));
                                     new CountDownTimer(1000, 1000) {
                                         public void onTick(long millisUntilFinished) {
 
                                         }
 
                                         public void onFinish() {
-                                            downwardsAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave, 70, (-150));
+                                            downwardsAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave, getResources().getDimension(com.intuit.sdp.R.dimen._25sdp), getResources().getDimension(com.intuit.sdp.R.dimen._minus40sdp));
                                             new CountDownTimer(1000, 1000) {
                                                 public void onTick(long millisUntilFinished) {
 
@@ -219,7 +219,7 @@ public class MainACMainViewEditLayoutHowToSaveFragment extends Fragment {
                                                                     fadeOutAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave);
                                                                     fadeOutAnimation(binding.imageViewSaveExplanationFragMainACMainViewEditLayoutHowToSave);
                                                                     fadeOutAnimation(binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToSave);
-                                                                    downwardsAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave, 0, 70);
+                                                                    downwardsAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave, 0, getResources().getDimension(com.intuit.sdp.R.dimen._25sdp));
                                                                     new CountDownTimer(500, 1000) {
                                                                         public void onTick(long millisUntilFinished) {
 
@@ -360,8 +360,8 @@ public class MainACMainViewEditLayoutHowToSaveFragment extends Fragment {
         }
     }
     private void fragIndicatorScaleDownAnimation(CardView cardView){
-        int initialWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 25, getResources().getDisplayMetrics());
-        int finalWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 7, getResources().getDisplayMetrics());
+        int initialWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(com.intuit.sdp.R.dimen._7sdp), getResources().getDisplayMetrics());
+        int finalWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(com.intuit.sdp.R.dimen._2sdp), getResources().getDisplayMetrics());
 
         ValueAnimator animator = ValueAnimator.ofInt(initialWidth, finalWidth);
 
@@ -380,8 +380,8 @@ public class MainACMainViewEditLayoutHowToSaveFragment extends Fragment {
         animator.start();
     }
     private void fragIndicatorScaleUpAnimation(CardView cardView){
-        int initialWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 7, getResources().getDisplayMetrics());
-        int finalWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 25, getResources().getDisplayMetrics());
+        int initialWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(com.intuit.sdp.R.dimen._2sdp), getResources().getDisplayMetrics());
+        int finalWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(com.intuit.sdp.R.dimen._7sdp), getResources().getDisplayMetrics());
 
         ValueAnimator animator = ValueAnimator.ofInt(initialWidth, finalWidth);
 

@@ -49,9 +49,8 @@ public class RVAdapterSpendings extends RecyclerView.Adapter<RVAdapterSpendings.
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         final SpendsEntity SelectedAccount = spends.get(position);
-        holder.inWhatTextView.setText(SelectedAccount.getWhere());
+        holder.inWhatTextView.setText(SelectedAccount.getCategory());
         holder.amountTextView.setText(String.valueOf(SelectedAccount.getAmount()));
-        holder.inWhatTextView.setText(SelectedAccount.getWhere());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

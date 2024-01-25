@@ -319,7 +319,7 @@ public class AuthenticationFragment extends Fragment {
                 }
             });
 
-            colorAnimator.setDuration(1000);
+            colorAnimator.setDuration(600);
             colorAnimator.start();
         }else{
             float initialWidth = 0;
@@ -327,16 +327,16 @@ public class AuthenticationFragment extends Fragment {
 
             switch (stage){
                 case 2:
-                    initialWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, paramsCardView.getWidth() / 2 - 5, getResources().getDisplayMetrics());
-                    finalWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, paramsCardView.getWidth(), getResources().getDisplayMetrics());
+                    initialWidth = getResources().getDimension(com.intuit.sdp.R.dimen._10sdp);
+                    finalWidth = getResources().getDimension(com.intuit.sdp.R.dimen._28sdp);
                     break;
                 case 3:
-                    initialWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, paramsCardView.getWidth(), getResources().getDisplayMetrics());
-                    finalWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, paramsCardView.getWidth() * 2 - 10, getResources().getDisplayMetrics());
+                    initialWidth = getResources().getDimension(com.intuit.sdp.R.dimen._28sdp);
+                    finalWidth = getResources().getDimension(com.intuit.sdp.R.dimen._47sdp);
                     break;
                 case 4:
-                    initialWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, paramsCardView.getWidth() * 2 - 10, getResources().getDisplayMetrics());
-                    finalWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, paramsCardView.getWidth() * 3 - 22, getResources().getDisplayMetrics());
+                    initialWidth = getResources().getDimension(com.intuit.sdp.R.dimen._47sdp);
+                    finalWidth = getResources().getDimension(com.intuit.sdp.R.dimen._66sdp);
                     break;
             }
 

@@ -139,7 +139,7 @@ public class MainACMainViewEditLayoutHowToDragNDropFragment extends Fragment {
         });
     }
     private void initialDragAnimation(){
-        pointYAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDragNDrop, (-50));
+        pointYAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDragNDrop, (getResources().getDimension(com.intuit.sdp.R.dimen._minus30sdp)));
         new CountDownTimer(1000, 1000) {
             public void onTick(long millisUntilFinished) {
 
@@ -147,29 +147,10 @@ public class MainACMainViewEditLayoutHowToDragNDropFragment extends Fragment {
 
             public void onFinish() {
                 binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDragNDrop.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
-                forwardBackwardsAnimation(binding.cardViewDnDExplanationFragMainACMainViewEditLayoutHowToDragNDrop, 200, 0);
-                forwardBackwardsAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDragNDrop, 200, 0);
+                forwardBackwardsAnimation(binding.cardViewDnDExplanationFragMainACMainViewEditLayoutHowToDragNDrop, getResources().getDimension(com.intuit.sdp.R.dimen._115sdp), 0);
+                forwardBackwardsAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDragNDrop, getResources().getDimension(com.intuit.sdp.R.dimen._115sdp), 0);
             }
         }.start();
-    }
-    private void pointAnimation(View view, float value) {
-        ObjectAnimator translateXAnimator = ObjectAnimator.ofFloat(view, "translationX", 0, value);
-        ObjectAnimator translateYAnimator = ObjectAnimator.ofFloat(view, "translationY", 0, value);
-
-        translateXAnimator.setDuration(800);
-        translateYAnimator.setDuration(800);
-
-        translateXAnimator.setRepeatCount(ObjectAnimator.INFINITE);
-        translateYAnimator.setRepeatCount(ObjectAnimator.INFINITE);
-
-        translateXAnimator.setRepeatMode(ObjectAnimator.REVERSE);
-        translateYAnimator.setRepeatMode(ObjectAnimator.REVERSE);
-
-        translateXAnimator.setInterpolator(new LinearInterpolator());
-        translateYAnimator.setInterpolator(new LinearInterpolator());
-
-        translateXAnimator.start();
-        translateYAnimator.start();
     }
     private void pointYAnimation(View view, float value) {
         ObjectAnimator translateYAnimator = ObjectAnimator.ofFloat(view, "translationY", 0, value);
@@ -219,18 +200,6 @@ public class MainACMainViewEditLayoutHowToDragNDropFragment extends Fragment {
             }
         });
     }
-    private void upwardsAnimation(View view, float value) {
-        ObjectAnimator translateYAnimator = ObjectAnimator.ofFloat(view, "translationY", 0, value);
-        translateYAnimator.setDuration(1000); // Set the duration of the animation in milliseconds
-
-        translateYAnimator.start();
-    }
-    private void downwardsAnimation(View view, float value) {
-        ObjectAnimator translateYAnimator = ObjectAnimator.ofFloat(view, "translationY", 0, value);
-        translateYAnimator.setDuration(1000); // Set the duration of the animation in milliseconds
-
-        translateYAnimator.start();
-    }
     private void forwardBackwardsAnimation(View view, float value, float initialValue) {
         ObjectAnimator translateXAnimator = ObjectAnimator.ofFloat(view, "translationX", initialValue, value);
         translateXAnimator.setDuration(1000); // Set the duration of each phase in milliseconds
@@ -241,8 +210,8 @@ public class MainACMainViewEditLayoutHowToDragNDropFragment extends Fragment {
         translateXAnimator.start();
     }
     private void fragIndicatorScaleDownAnimation(CardView cardView){
-        int initialWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 25, getResources().getDisplayMetrics());
-        int finalWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 7, getResources().getDisplayMetrics());
+        int initialWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(com.intuit.sdp.R.dimen._7sdp), getResources().getDisplayMetrics());
+        int finalWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(com.intuit.sdp.R.dimen._2sdp), getResources().getDisplayMetrics());
 
         ValueAnimator animator = ValueAnimator.ofInt(initialWidth, finalWidth);
 
@@ -261,8 +230,8 @@ public class MainACMainViewEditLayoutHowToDragNDropFragment extends Fragment {
         animator.start();
     }
     private void fragIndicatorScaleUpAnimation(CardView cardView){
-        int initialWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 7, getResources().getDisplayMetrics());
-        int finalWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 25, getResources().getDisplayMetrics());
+        int initialWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(com.intuit.sdp.R.dimen._2sdp), getResources().getDisplayMetrics());
+        int finalWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(com.intuit.sdp.R.dimen._7sdp), getResources().getDisplayMetrics());
 
         ValueAnimator animator = ValueAnimator.ofInt(initialWidth, finalWidth);
 

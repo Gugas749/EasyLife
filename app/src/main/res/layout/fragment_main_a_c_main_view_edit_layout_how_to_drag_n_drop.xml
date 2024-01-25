@@ -111,7 +111,7 @@
             android:layout_width="@dimen/_54sdp"
             android:layout_height="@dimen/_54sdp"
             android:elevation="@dimen/_8sdp"
-            android:layout_marginLeft="@dimen/_11sdp"
+            android:layout_marginLeft="@dimen/_90sdp"
             android:src="@drawable/hand_pointing"
             app:tint="?attr/colorControlNormal" />
     </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -257,22 +258,22 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
                                 positionsUsed.add("4");
                                 break;
                             case 5:
-                                frameLayout1 = binding.frameLayoutLine5FragMainACMainView;
+                                frameLayout1 = binding.frameLayoutLine1FragMainACMainView;
                                 possibleBrother = 0;
                                 positionsUsed.add("5");
                                 break;
                             case 6:
-                                frameLayout1 = binding.frameLayoutLine5FragMainACMainView;
+                                frameLayout1 = binding.frameLayoutLine2FragMainACMainView;
                                 possibleBrother = 1;
                                 positionsUsed.add("6");
                                 break;
                             case 7:
-                                frameLayout1 = binding.frameLayoutLine5FragMainACMainView;
+                                frameLayout1 = binding.frameLayoutLine3FragMainACMainView;
                                 possibleBrother = 2;
                                 positionsUsed.add("7");
                                 break;
                             case 8:
-                                frameLayout1 = binding.frameLayoutLine5FragMainACMainView;
+                                frameLayout1 = binding.frameLayoutLine4FragMainACMainView;
                                 possibleBrother = 3;
                                 positionsUsed.add("8");
                                 break;
@@ -314,6 +315,14 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
                             frag2.setObject(brother);
                             frag2.setAccountsList(spendingAccountsEntityList);
                             brotherFragment = frag2;
+                        }
+
+                        if(selectedObject.getPosition() > possibleBrother){
+                            Fragment fragmentAux1 = brotherFragment;
+                            Fragment fragmentAux2 = fragment;
+
+                            fragment = fragmentAux1;
+                            brotherFragment = fragmentAux2;
                         }
 
                         divideFrameLayout(frameLayout1, fragment, brotherFragment);

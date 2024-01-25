@@ -66,8 +66,8 @@ public class MainACMainViewEditLayoutHowToHomeFragment extends Fragment {
     }
     private void pointAnimation() {
         // Diagonal animation: move both along X and Y axes
-        ObjectAnimator translateXAnimator = ObjectAnimator.ofFloat(binding.imageViewPointingFragMainACMainViewEditLayoutHowToHome, "translationX", 0, 10);
-        ObjectAnimator translateYAnimator = ObjectAnimator.ofFloat(binding.imageViewPointingFragMainACMainViewEditLayoutHowToHome, "translationY", 0, 10);
+        ObjectAnimator translateXAnimator = ObjectAnimator.ofFloat(binding.imageViewPointingFragMainACMainViewEditLayoutHowToHome, "translationX", 0, getResources().getDimension(com.intuit.sdp.R.dimen._6sdp));
+        ObjectAnimator translateYAnimator = ObjectAnimator.ofFloat(binding.imageViewPointingFragMainACMainViewEditLayoutHowToHome, "translationY", 0, getResources().getDimension(com.intuit.sdp.R.dimen._6sdp));
 
         translateXAnimator.setDuration(800); // Set the duration of each phase in milliseconds
         translateYAnimator.setDuration(800); // Set the duration of each phase in milliseconds
@@ -127,8 +127,8 @@ public class MainACMainViewEditLayoutHowToHomeFragment extends Fragment {
         });
     }
     private void fragIndicatorScaleDownAnimation(CardView cardView){
-        int initialWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 25, getResources().getDisplayMetrics());
-        int finalWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 7, getResources().getDisplayMetrics());
+        int initialWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(com.intuit.sdp.R.dimen._7sdp), getResources().getDisplayMetrics());
+        int finalWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(com.intuit.sdp.R.dimen._2sdp), getResources().getDisplayMetrics());
 
         ValueAnimator animator = ValueAnimator.ofInt(initialWidth, finalWidth);
 
@@ -147,8 +147,8 @@ public class MainACMainViewEditLayoutHowToHomeFragment extends Fragment {
         animator.start();
     }
     private void fragIndicatorScaleUpAnimation(CardView cardView){
-        int initialWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 7, getResources().getDisplayMetrics());
-        int finalWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 25, getResources().getDisplayMetrics());
+        int initialWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(com.intuit.sdp.R.dimen._2sdp), getResources().getDisplayMetrics());
+        int finalWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(com.intuit.sdp.R.dimen._7sdp), getResources().getDisplayMetrics());
 
         ValueAnimator animator = ValueAnimator.ofInt(initialWidth, finalWidth);
 

@@ -47,7 +47,7 @@ public class AlertDialogQuestionFragment extends Fragment {
 
         switch (Style){
             case "2":
-                binding.buttonCancelAlertDialogFragmentQuestion.setText(getString(R.string.general_no));
+                binding.buttonCancelAlertDialogFragmentQuestion.setText(getString(R.string.general_cancel));
                 binding.buttonConfirmAlertDialogFragmentQuestion.setText(getString(R.string.general_yes));
                 break;
         }

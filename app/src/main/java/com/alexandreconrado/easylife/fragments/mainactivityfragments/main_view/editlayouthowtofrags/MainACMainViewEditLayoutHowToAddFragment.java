@@ -85,7 +85,7 @@ public class MainACMainViewEditLayoutHowToAddFragment extends Fragment {
                                 fadeOutAnimation(binding.imageViewApresentationFragMainACMainViewEditLayoutHowToAdd);
                                 fadeInAnimation(binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToAdd);
 
-                                pointYAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToAdd, 20);
+                                pointYAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToAdd, getResources().getDimension(com.intuit.sdp.R.dimen._6sdp));
                                 binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToAdd.setText(getString(R.string.mainAc_FragMainViewEditLayoutHowTo_Add_Text_1));
                                 binding.imageViewApresentationFragMainACMainViewEditLayoutHowToAdd.setVisibility(View.GONE);
                                 binding.imageViewApresentationFragMainACMainViewEditLayoutHowToAdd.setImageDrawable(null);
@@ -95,7 +95,7 @@ public class MainACMainViewEditLayoutHowToAddFragment extends Fragment {
                         break;
                     case "fase2":
                         fadeOutAnimation(binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToAdd);
-                        forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToAdd, 0 , 360);
+                        forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToAdd, 0 , getResources().getDimension(com.intuit.sdp.R.dimen._103sdp));
                         new CountDownTimer(700, 1000) {
                             public void onTick(long millisUntilFinished) {
 
@@ -111,7 +111,7 @@ public class MainACMainViewEditLayoutHowToAddFragment extends Fragment {
                         break;
                     case "fase3":
                         fadeOutAnimation(binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToAdd);
-                        forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToAdd, 360, 720);
+                        forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToAdd, getResources().getDimension(com.intuit.sdp.R.dimen._103sdp), getResources().getDimension(com.intuit.sdp.R.dimen._204sdp));
                         new CountDownTimer(700, 1000) {
                             public void onTick(long millisUntilFinished) {
 
@@ -167,7 +167,7 @@ public class MainACMainViewEditLayoutHowToAddFragment extends Fragment {
                                 fadeInAnimation(binding.imageViewApresentationFragMainACMainViewEditLayoutHowToAdd);
                                 fadeInAnimation(binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToAdd);
 
-                                pointYAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToAdd, 20);
+                                pointYAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToAdd, getResources().getDimension(com.intuit.sdp.R.dimen._6sdp));
                                 binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToAdd.setText(getString(R.string.mainAc_FragMainViewEditLayoutHowTo_Add_Text_2));
                                 binding.imageViewApresentationFragMainACMainViewEditLayoutHowToAdd.setImageDrawable(getResources().getDrawable(R.drawable.bottomnav_howto_layoutedit_lightmode));
                             }
@@ -176,7 +176,7 @@ public class MainACMainViewEditLayoutHowToAddFragment extends Fragment {
                         break;
                     case "fase1":
                         fadeOutAnimation(binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToAdd);
-                        forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToAdd, 360 , 0);
+                        forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToAdd, getResources().getDimension(com.intuit.sdp.R.dimen._103sdp), 0);
                         new CountDownTimer(700, 1000) {
                             public void onTick(long millisUntilFinished) {
 
@@ -192,7 +192,7 @@ public class MainACMainViewEditLayoutHowToAddFragment extends Fragment {
                         break;
                     case "fase2":
                         fadeOutAnimation(binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToAdd);
-                        forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToAdd, 720, 360);
+                        forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToAdd, getResources().getDimension(com.intuit.sdp.R.dimen._204sdp), getResources().getDimension(com.intuit.sdp.R.dimen._103sdp));
                         new CountDownTimer(700, 1000) {
                             public void onTick(long millisUntilFinished) {
 
@@ -231,25 +231,6 @@ public class MainACMainViewEditLayoutHowToAddFragment extends Fragment {
                 binding.textViewNextFragMainACMainViewEditLayoutHowToAdd.setEnabled(true);
             }
         });
-    }
-    private void pointAnimation(View view, float value) {
-        ObjectAnimator translateXAnimator = ObjectAnimator.ofFloat(view, "translationX", 0, value);
-        ObjectAnimator translateYAnimator = ObjectAnimator.ofFloat(view, "translationY", 0, value);
-
-        translateXAnimator.setDuration(800);
-        translateYAnimator.setDuration(800);
-
-        translateXAnimator.setRepeatCount(ObjectAnimator.INFINITE);
-        translateYAnimator.setRepeatCount(ObjectAnimator.INFINITE);
-
-        translateXAnimator.setRepeatMode(ObjectAnimator.REVERSE);
-        translateYAnimator.setRepeatMode(ObjectAnimator.REVERSE);
-
-        translateXAnimator.setInterpolator(new LinearInterpolator());
-        translateYAnimator.setInterpolator(new LinearInterpolator());
-
-        translateXAnimator.start();
-        translateYAnimator.start();
     }
     private void pointYAnimation(View view, float value) {
         ObjectAnimator translateYAnimator = ObjectAnimator.ofFloat(view, "translationY", 0, value);
@@ -301,18 +282,6 @@ public class MainACMainViewEditLayoutHowToAddFragment extends Fragment {
             }
         });
     }
-    private void upwardsAnimation(View view, float value) {
-        ObjectAnimator translateYAnimator = ObjectAnimator.ofFloat(view, "translationY", 0, value);
-        translateYAnimator.setDuration(1000); // Set the duration of the animation in milliseconds
-
-        translateYAnimator.start();
-    }
-    private void downwardsAnimation(View view, float value) {
-        ObjectAnimator translateYAnimator = ObjectAnimator.ofFloat(view, "translationY", 0, value);
-        translateYAnimator.setDuration(1000); // Set the duration of the animation in milliseconds
-
-        translateYAnimator.start();
-    }
     private void forwardAnimation(View view, float value, float initialValue) {
         ObjectAnimator translateXAnimator = ObjectAnimator.ofFloat(view, "translationX", initialValue, value);
         translateXAnimator.setDuration(1000); // Set the duration of each phase in milliseconds
@@ -321,8 +290,8 @@ public class MainACMainViewEditLayoutHowToAddFragment extends Fragment {
         translateXAnimator.start();
     }
     private void fragIndicatorScaleDownAnimation(CardView cardView){
-        int initialWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 25, getResources().getDisplayMetrics());
-        int finalWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 7, getResources().getDisplayMetrics());
+        int initialWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(com.intuit.sdp.R.dimen._7sdp), getResources().getDisplayMetrics());
+        int finalWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(com.intuit.sdp.R.dimen._2sdp), getResources().getDisplayMetrics());
 
         ValueAnimator animator = ValueAnimator.ofInt(initialWidth, finalWidth);
 
@@ -341,8 +310,8 @@ public class MainACMainViewEditLayoutHowToAddFragment extends Fragment {
         animator.start();
     }
     private void fragIndicatorScaleUpAnimation(CardView cardView){
-        int initialWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 7, getResources().getDisplayMetrics());
-        int finalWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 25, getResources().getDisplayMetrics());
+        int initialWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(com.intuit.sdp.R.dimen._2sdp), getResources().getDisplayMetrics());
+        int finalWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(com.intuit.sdp.R.dimen._7sdp), getResources().getDisplayMetrics());
 
         ValueAnimator animator = ValueAnimator.ofInt(initialWidth, finalWidth);
 

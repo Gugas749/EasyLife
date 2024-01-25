@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
+
 @Entity(tableName = "Spends")
 public class SpendsEntity {
 
@@ -12,10 +14,16 @@ public class SpendsEntity {
     private int id;
     @ColumnInfo(name = "amount")
     private float amount;
-    @ColumnInfo(name = "where")
-    private String where;
-    @ColumnInfo(name = "when")
-    private String when;
+    @ColumnInfo(name = "date")
+    private Date date;
+    @ColumnInfo(name = "mainAccountID")
+    private String mainAccountID;
+    @ColumnInfo(name = "subAccountID")
+    private String subAccountID;
+    @ColumnInfo(name = "category")
+    private String category;
+    @ColumnInfo(name = "isPartOfSubAccount")
+    private boolean isPartOfSubAccount;
     @ColumnInfo(name = "isPartOf")
     private String isPartOf;
 
@@ -23,10 +31,13 @@ public class SpendsEntity {
 
     }
 
-    public void setInfos(float amount, String where, String when, String isPartOf){
+    public void setInfos(float amount, Date date, String mainAccountID, String subAccountID, String category, boolean isPartOfSubAccount, String isPartOf){
         this.amount = amount;
-        this.where = where;
-        this.when = when;
+        this.date = date;
+        this.mainAccountID = mainAccountID;
+        this.subAccountID = subAccountID;
+        this.category = category;
+        this.isPartOfSubAccount = isPartOfSubAccount;
         this.isPartOf = isPartOf;
     }
     public int getId() {
@@ -41,17 +52,45 @@ public class SpendsEntity {
     public void setAmount(float amount) {
         this.amount = amount;
     }
-    public String getWhere() {
-        return where;
+
+    public Date getDate() {
+        return date;
     }
-    public void setWhere(String where) {
-        this.where = where;
+
+    public void setDate(Date date) {
+        this.date = date;
     }
-    public String getWhen() {
-        return when;
+
+    public String getMainAccountID() {
+        return mainAccountID;
     }
-    public void setWhen(String when) {
-        this.when = when;
+
+    public void setMainAccountID(String mainAccountID) {
+        this.mainAccountID = mainAccountID;
+    }
+
+    public String getSubAccountID() {
+        return subAccountID;
+    }
+
+    public void setSubAccountID(String subAccountID) {
+        this.subAccountID = subAccountID;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public boolean isPartOfSubAccount() {
+        return isPartOfSubAccount;
+    }
+
+    public void setPartOfSubAccount(boolean partOfSubAccount) {
+        isPartOfSubAccount = partOfSubAccount;
     }
 
     public String getIsPartOf() {

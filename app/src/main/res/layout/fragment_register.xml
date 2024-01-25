@@ -26,7 +26,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview_Dialog_LoginFrag"
-        app:cardCornerRadius="@dimen/_90sdp"
+        app:cardCornerRadius="@dimen/_20sdp"
         android:layout_gravity="center"
         app:cardBackgroundColor="?attr/colorControlNormal"
         android:layout_marginLeft="@dimen/_20sdp"

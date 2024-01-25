@@ -161,6 +161,8 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         new LocalDatabaseGetAllSpendingsAccountsTask(callback).execute();
     }
     private void setupBottomNavigation() {
+        binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Graffics).setChecked(false);
+        binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_SpendingsView).setChecked(false);
         binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Home).setChecked(true);
         binding.bottomNavigationViewMainAC.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -923,12 +925,15 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                                 int subAccountIdIndex = 0;
                                 selected.setAccountID(String.valueOf(account.getId()));
                                 if(selected.getSubAccountID() != null && !selected.getAccountID().equals("")){
-                                    for (int j = 0; j < account.getSubAccountsList().size(); j++) {
-                                        SubSpendingAccountsEntity selectedSub = account.getSubAccountsList().get(j);
-                                        if(!selected.getSubAccountID().equals("")){
-                                            if(selectedSub.getId() == Integer.parseInt(selected.getSubAccountID())){
-                                                subAccountIdIndex = j;
-                                                break;
+                                    List<SubSpendingAccountsEntity> auxList = account.getSubAccountsList();
+                                    if(auxList != null){
+                                        for (int j = 0; j < auxList.size(); j++) {
+                                            SubSpendingAccountsEntity selectedSub = auxList.get(j);
+                                            if(!selected.getSubAccountID().equals("")){
+                                                if(selectedSub.getId() == Integer.parseInt(selected.getSubAccountID())){
+                                                    subAccountIdIndex = j;
+                                                    break;
+                                                }
                                             }
                                         }
                                     }
@@ -975,9 +980,9 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
 
                 changeFragmentFromMainFragmentContainer(1);
                 changeMultiFunctionButtonFunction(1);
-                binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Home).setChecked(true);
                 binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_SpendingsView).setChecked(false);
                 binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Graffics).setChecked(false);
+                binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Home).setChecked(true);
 
                 outFragment();
                 scaleDownAnimtion();
@@ -988,7 +993,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         }.start();
     }
     @Override
-    public void onExitMainACSpendingsViewAddSpendingsFrag(boolean save) {
+    public void onExitMainACSpendingsViewAddSpendingsFrag(boolean save, SpendingAccountsEntity object) {
         scaleUpAnimtion();
         new CountDownTimer(1500, 1000) {
             public void onTick(long millisUntilFinished) {
@@ -1000,7 +1005,44 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 mainACSpendingsViewFragment = new MainACSpendingsViewFragment();
                 if(save){
-
+                    for (int i = 0; i < spendingAccountsEntitiesList.size(); i++) {
+                        SpendingAccountsEntity selected = spendingAccountsEntitiesList.get(i);
+                        if(selected.getId() == object.getId()){
+                            spendingAccountsEntitiesList.remove(i);
+                            spendingAccountsEntitiesList.add(i, object);
+                            break;
+                        }
+                    }
+                    for (int i = 0; i < draggableCardViewObjectsList.size(); i++) {
+                        DraggableCardViewEntity selected = draggableCardViewObjectsList.get(i);
+                        if(selected.getAccountID() != null && !selected.getAccountID().equals("")){
+                            DraggableCardViewEntity oldObject = selected;
+                            int id = Integer.parseInt(selected.getAccountID());
+                            if(id == object.getId()){
+                                boolean can = false;
+                                if(selected.getType().equals("3")){
+                                    can = true;
+                                }
+                                int subAccountIdIndex = 0;
+                                selected.setAccountID(String.valueOf(object.getId()));
+                                if(selected.getSubAccountID() != null && !selected.getAccountID().equals("")){
+                                    List<SubSpendingAccountsEntity> auxList = object.getSubAccountsList();
+                                    if(auxList != null){
+                                        for (int j = 0; j < auxList.size(); j++) {
+                                            SubSpendingAccountsEntity selectedSub = auxList.get(j);
+                                            if(!selected.getSubAccountID().equals("")){
+                                                if(selectedSub.getId() == Integer.parseInt(selected.getSubAccountID())){
+                                                    subAccountIdIndex = j;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                new LocalDatabaseUpdateDraggableObjectsTask(selected, oldObject, can, subAccountIdIndex, true).execute();
+                            }
+                        }
+                    }
                 }
                 changeFragmentFromMainFragmentContainer(2);
                 outFragment();
@@ -1108,10 +1150,13 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
 
             if(!canHoldMainAccount){
                 boolean didNotDelete = false;
-                for (int i = 0; i < selectedAccount.getSubAccountsList().size(); i++) {
-                    if(i == selectedSubAccountIndex){
-                        didNotDelete = true;
-                        break;
+                List<SubSpendingAccountsEntity> listAux = selectedAccount.getSubAccountsList();
+                if(listAux != null){
+                    for (int i = 0; i < listAux.size(); i++) {
+                        if(i == selectedSubAccountIndex){
+                            didNotDelete = true;
+                            break;
+                        }
                     }
                 }
                 if(didNotDelete){

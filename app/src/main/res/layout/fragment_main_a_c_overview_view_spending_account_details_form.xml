@@ -107,11 +107,14 @@
                         android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_marginLeft="@dimen/_11sdp"
                         android:gravity="center">
                         <LinearLayout
                             android:id="@+id/linerLayout_pieChart_Percentage1_FragMainACOverviewViewSpendingAccountDetailsForm"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/_5sdp">
                             <TextView
                                 android:id="@+id/textView_PercentageText1_1_FragMainACOverviewViewSpendingAccountDetailsForm"
                                 android:layout_width="wrap_content"
@@ -137,6 +140,7 @@
                             android:id="@+id/linerLayout_pieChart_Percentage3_FragMainACOverviewViewSpendingAccountDetailsForm"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/_5sdp"
                             android:layout_below="@+id/linerLayout_pieChart_Percentage1_FragMainACOverviewViewSpendingAccountDetailsForm">
                             <TextView
                                 android:id="@+id/textView_PercentageText3_1_FragMainACOverviewViewSpendingAccountDetailsForm"
@@ -163,6 +167,7 @@
                             android:id="@+id/linerLayout_pieChart_Percentage5_FragMainACOverviewViewSpendingAccountDetailsForm"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/_5sdp"
                             android:layout_below="@+id/linerLayout_pieChart_Percentage3_FragMainACOverviewViewSpendingAccountDetailsForm">
                             <TextView
                                 android:id="@+id/textView_PercentageText5_1_FragMainACOverviewViewSpendingAccountDetailsForm"
@@ -216,11 +221,14 @@
                         android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_marginRight="@dimen/_11sdp"
+                        android:layout_marginLeft="@dimen/_5sdp"
                         android:gravity="center">
                         <LinearLayout
                             android:id="@+id/linerLayout_pieChart_Percentage2_FragMainACOverviewViewSpendingAccountDetailsForm"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/_5sdp">
                             <TextView
                                 android:id="@+id/textView_PercentageText2_1_FragMainACOverviewViewSpendingAccountDetailsForm"
                                 android:layout_width="wrap_content"
@@ -246,6 +254,7 @@
                             android:id="@+id/linerLayout_pieChart_Percentage4_FragMainACOverviewViewSpendingAccountDetailsForm"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/_5sdp"
                             android:layout_below="@+id/linerLayout_pieChart_Percentage2_FragMainACOverviewViewSpendingAccountDetailsForm">
                             <TextView
                                 android:id="@+id/textView_PercentageText4_1_FragMainACOverviewViewSpendingAccountDetailsForm"
@@ -272,6 +281,7 @@
                             android:id="@+id/linerLayout_pieChart_Percentage6_FragMainACOverviewViewSpendingAccountDetailsForm"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/_5sdp"
                             android:layout_below="@+id/linerLayout_pieChart_Percentage4_FragMainACOverviewViewSpendingAccountDetailsForm">
                             <TextView
                                 android:id="@+id/textView_PercentageText6_1_FragMainACOverviewViewSpendingAccountDetailsForm"
@@ -298,6 +308,7 @@
                             android:id="@+id/linerLayout_pieChart_Percentage8_FragMainACOverviewViewSpendingAccountDetailsForm"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/_5sdp"
                             android:layout_below="@+id/linerLayout_pieChart_Percentage6_FragMainACOverviewViewSpendingAccountDetailsForm">
                             <TextView
                                 android:id="@+id/textView_PercentageText8_1_FragMainACOverviewViewSpendingAccountDetailsForm"

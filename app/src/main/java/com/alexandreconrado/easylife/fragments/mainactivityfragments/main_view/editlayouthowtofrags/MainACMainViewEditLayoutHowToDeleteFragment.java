@@ -111,7 +111,7 @@ public class MainACMainViewEditLayoutHowToDeleteFragment extends Fragment {
         if(!stopAnims){
             fadeInAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete);
             fadeInAnimation(binding.cardViewSwipeExplanationFragMainACMainViewEditLayoutHowToDelete);
-            pointYAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, (-170));
+            pointYAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, getResources().getDimension(com.intuit.sdp.R.dimen._minus50sdp));
             new CountDownTimer(1000, 1000) {
                 public void onTick(long millisUntilFinished) {
 
@@ -119,7 +119,7 @@ public class MainACMainViewEditLayoutHowToDeleteFragment extends Fragment {
 
                 public void onFinish() {
                     binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
-                    forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, 190, 0);
+                    forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, getResources().getDimension(com.intuit.sdp.R.dimen._75sdp), 0);
                     new CountDownTimer(1000, 1000) {
                         public void onTick(long millisUntilFinished) {
 
@@ -140,14 +140,14 @@ public class MainACMainViewEditLayoutHowToDeleteFragment extends Fragment {
 
                             fadeInAnimation(binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToDelete);
                             binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
-                            downwardsAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, 40, -170);
+                            downwardsAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, getResources().getDimension(com.intuit.sdp.R.dimen._10sdp), getResources().getDimension(com.intuit.sdp.R.dimen._minus50sdp));
                             new CountDownTimer(1500, 1000) {
                                 public void onTick(long millisUntilFinished) {
 
                                 }
 
                                 public void onFinish() {
-                                    forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, 750, 190);
+                                    forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, getResources().getDimension(com.intuit.sdp.R.dimen._210sdp), getResources().getDimension(com.intuit.sdp.R.dimen._75sdp));
                                     new CountDownTimer(1500, 1000) {
                                         public void onTick(long millisUntilFinished) {
 
@@ -189,7 +189,7 @@ public class MainACMainViewEditLayoutHowToDeleteFragment extends Fragment {
 
                                                                     colorChangePointingAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, initialColor, finalColor);
 
-                                                                    pointBackToStartPosAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, 0, 790);
+                                                                    pointBackToStartPosAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, 0, getResources().getDimension(com.intuit.sdp.R.dimen._210sdp));
                                                                     initialRemoveAnimation();
                                                                 }
                                                             }.start();
@@ -243,27 +243,6 @@ public class MainACMainViewEditLayoutHowToDeleteFragment extends Fragment {
                 }
             });
         }
-    }
-    private void fadeInEveryTimeAnimation(View view){
-        Animation fadeOut = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
-        view.startAnimation(fadeOut);
-
-        fadeOut.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                view.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
     }
     private void fadeOutAnimation(View view){
         if(!stopAnims){
@@ -327,8 +306,8 @@ public class MainACMainViewEditLayoutHowToDeleteFragment extends Fragment {
         }
     }
     private void fragIndicatorScaleDownAnimation(CardView cardView){
-        int initialWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 25, getResources().getDisplayMetrics());
-        int finalWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 7, getResources().getDisplayMetrics());
+        int initialWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(com.intuit.sdp.R.dimen._7sdp), getResources().getDisplayMetrics());
+        int finalWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(com.intuit.sdp.R.dimen._2sdp), getResources().getDisplayMetrics());
 
         ValueAnimator animator = ValueAnimator.ofInt(initialWidth, finalWidth);
 
@@ -347,8 +326,8 @@ public class MainACMainViewEditLayoutHowToDeleteFragment extends Fragment {
         animator.start();
     }
     private void fragIndicatorScaleUpAnimation(CardView cardView){
-        int initialWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 7, getResources().getDisplayMetrics());
-        int finalWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 25, getResources().getDisplayMetrics());
+        int initialWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(com.intuit.sdp.R.dimen._2sdp), getResources().getDisplayMetrics());
+        int finalWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(com.intuit.sdp.R.dimen._7sdp), getResources().getDisplayMetrics());
 
         ValueAnimator animator = ValueAnimator.ofInt(initialWidth, finalWidth);
 
