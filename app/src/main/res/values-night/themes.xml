@@ -9,4 +9,14 @@
         <item name="textAppearanceBodyMedium">@color/extra6</item>
         <item name="textAppearanceBodyLarge">@color/highlightedTextDark</item>
     </style>
+
+    <style name="MyDatePickerStyle" parent="@android:style/Widget.Material.DatePicker">
+        <item name="android:textColor">@color/black</item><!-- OUTLINE BUTTON -->
+        <item name="android:textColorPrimary">@color/white</item> <!-- cor dos dias e do picker do mes -->
+        <item name="android:textColorSecondary">@color/white</item><!-- cor da semana tipo domingo segunda etc d s t q q s s -->
+        <item name="android:spinnersShown">false</item>
+        <item name="colorAccent">@color/secondaryLight</item>
+        <item name="android:colorAccent">@color/primaryLight</item>
+        <!-- Add more items for other text colors if needed -->
+    </style>
 </resources>

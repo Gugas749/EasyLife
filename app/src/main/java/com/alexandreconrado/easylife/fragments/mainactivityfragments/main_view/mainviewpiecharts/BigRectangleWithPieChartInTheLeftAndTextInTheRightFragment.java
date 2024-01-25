@@ -85,9 +85,11 @@ public class BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment extends 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentBigRectangleWithPieChartInTheLeftAndTextInTheRightBinding.inflate(inflater);
 
-        init();
-        loadChart();
-        setupLongPress();
+        if(title != null){
+            init();
+            loadChart();
+            setupLongPress();
+        }
 
         return binding.getRoot();
     }

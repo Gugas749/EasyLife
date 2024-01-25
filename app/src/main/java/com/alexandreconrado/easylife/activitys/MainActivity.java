@@ -10,6 +10,7 @@ import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -41,7 +42,7 @@ import com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view.M
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_view.add.MainACOverviewViewAddSpendingAccountFormFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_view.MainACOverviewViewFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_view.details.MainACOverviewViewSpendingAccountDetailsFormFragment;
-import com.alexandreconrado.easylife.fragments.mainactivityfragments.spendings_view.MainACSpendingsViewAddSpendingsFragment;
+import com.alexandreconrado.easylife.fragments.mainactivityfragments.spendings_view.add.MainACSpendingsViewAddSpendingsFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.spendings_view.MainACSpendingsViewFragment;
 import com.alexandreconrado.easylife.fragments.tutorial.TutorialAddFragment;
 import com.alexandreconrado.easylife.fragments.tutorial.TutorialEditFragment;
@@ -152,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 changeFragmentFromMainFragmentContainer(1);
                 setupSideMenu();
                 setupMultiFunctionButtonButton();
+                setupHowToButton();
             }
         };
 
@@ -230,6 +232,20 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                         scaleDownAnimtion();
                     }
                 }.start();
+            }
+        });
+    }
+    private void setupHowToButton(){
+        binding.imageViewButtonHowToUseMainAC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.getTag().equals("0")) {
+                    //overview
+                }else if (v.getTag().equals("1")) {
+                    //mainview
+                } else if (v.getTag().equals("2")) {
+                    //spendings
+                }
             }
         });
     }
@@ -331,6 +347,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     }
     private void changeFragmentFromMainFragmentContainer(int selected){
         changeMultiFunctionButtonFunction(selected);
+        changeHowToButtonFunction(selected);
         switch (selected){
             case 0:
                 mainACOverviewViewFragment.setSpendingsAccountItemClickFragMainACOverviewViewListenner(THIS);
@@ -423,6 +440,9 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             }
         });
         bottomSheetDialog.show();
+    }
+    private void changeHowToButtonFunction(int selected){
+        binding.imageViewButtonHowToUseMainAC.setTag(String.valueOf(selected));
     }
     private void changeMultiFunctionButtonFunction(int selected){
         fadeOutAnimation(binding.imageViewButtonMultiFunctionMainViewMainAC);
@@ -1430,4 +1450,14 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         return percentagesList;
     }
     //----------------------------------------------
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Check for theme change and recreate the activity if needed
+        if (newConfig.uiMode != getApplicationContext().getResources().getConfiguration().uiMode) {
+            recreate();
+        }
+    }
 }

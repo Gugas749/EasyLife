@@ -44,8 +44,10 @@ public class MainACOverviewViewFragment extends Fragment implements RVAdapterSpe
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMainACOverviewViewBinding.inflate(inflater);
 
-        init();
-        loadRecyclerView();
+        if(accountsEntityList != null){
+            init();
+            loadRecyclerView();
+        }
 
         return binding.getRoot();
     }

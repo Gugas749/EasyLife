@@ -1,8 +1,5 @@
-package com.alexandreconrado.easylife.fragments.mainactivityfragments.spendings_view;
+package com.alexandreconrado.easylife.fragments.mainactivityfragments.spendings_view.add;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 

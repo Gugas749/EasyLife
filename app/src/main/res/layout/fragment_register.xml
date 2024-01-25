@@ -16,7 +16,7 @@
             android:id="@+id/cardview_Auxiliar_LoginFrag"
             android:layout_width="@dimen/_39sdp"
             android:layout_height="@dimen/_39sdp"
-            app:cardCornerRadius="@dimen/_90sdp"
+            app:cardCornerRadius="@dimen/_20sdp"
             app:cardBackgroundColor="?attr/colorControlNormal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

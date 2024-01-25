@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/colorPrimary"
-    tools:context=".fragments.mainactivityfragments.spendings_view.MainACSpendingsViewAddSpendingsFragment">
+    tools:context=".fragments.mainactivityfragments.spendings_view.add.MainACSpendingsViewAddSpendingsFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

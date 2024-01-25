@@ -79,9 +79,11 @@ public class RectangleWithPieChartInTheRightAndTextInTheLeftFragment extends Fra
                              Bundle savedInstanceState) {
         binding = FragmentRectangleWithPieChartInTheRightAndTextInTheLeftBinding.inflate(inflater);
 
-        init();
-        loadChart();
-        setupLongPress();
+        if(title != null){
+            init();
+            loadChart();
+            setupLongPress();
+        }
 
         return binding.getRoot();
     }

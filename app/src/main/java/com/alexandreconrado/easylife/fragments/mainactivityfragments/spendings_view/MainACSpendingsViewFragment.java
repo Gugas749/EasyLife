@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.alexandreconrado.easylife.database.entities.SpendsEntity;
 import com.alexandreconrado.easylife.databinding.FragmentMainACSpendingsViewBinding;
 
+import java.util.Collections;
 import java.util.List;
 
 public class MainACSpendingsViewFragment extends Fragment implements RVAdapterSpendings.SpendingsItemClick {
@@ -34,8 +35,10 @@ public class MainACSpendingsViewFragment extends Fragment implements RVAdapterSp
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMainACSpendingsViewBinding.inflate(inflater);
 
-        init();
-        loadRecyclerView();
+        if(spendsEntityList != null){
+            init();
+            loadRecyclerView();
+        }
 
         return binding.getRoot();
     }
@@ -49,6 +52,7 @@ public class MainACSpendingsViewFragment extends Fragment implements RVAdapterSp
     }
     private void loadRecyclerView(){
         if(spendsEntityList.size() > 0){
+            Collections.reverse(spendsEntityList);
             adapter.updateData(spendsEntityList);
             binding.rvSpendingsAccountsFragMainACSpendingsView.setLayoutManager(new LinearLayoutManager(getContext()));
             binding.rvSpendingsAccountsFragMainACSpendingsView.setAdapter(adapter);

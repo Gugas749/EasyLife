@@ -50,6 +50,14 @@
                 android:padding="@dimen/_4sdp"
                 android:src="@drawable/grid_icon" />
             <ImageView
+                android:id="@+id/imageView_buttonHowToUse_MainAC"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_gravity="center"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/questionpoint_icon" />
+            <ImageView
                 android:id="@+id/imageView_buttonSideMenu_MainAC"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"

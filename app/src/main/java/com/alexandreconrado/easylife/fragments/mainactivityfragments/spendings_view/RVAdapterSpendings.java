@@ -14,6 +14,7 @@ import com.alexandreconrado.easylife.R;
 import com.alexandreconrado.easylife.database.entities.SpendsEntity;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class RVAdapterSpendings extends RecyclerView.Adapter<RVAdapterSpendings.MyViewHolder> implements Serializable{
@@ -51,6 +52,9 @@ public class RVAdapterSpendings extends RecyclerView.Adapter<RVAdapterSpendings.
         final SpendsEntity SelectedAccount = spends.get(position);
         holder.inWhatTextView.setText(SelectedAccount.getCategory());
         holder.amountTextView.setText(String.valueOf(SelectedAccount.getAmount()));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy      HH:mm");
+        String formattedDate = dateFormat.format(SelectedAccount.getDate());
+        holder.whenTextView.setText(formattedDate);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,12 +71,13 @@ public class RVAdapterSpendings extends RecyclerView.Adapter<RVAdapterSpendings.
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView inWhatTextView, amountTextView;
+        TextView inWhatTextView, amountTextView, whenTextView;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             inWhatTextView = itemView.findViewById(R.id.textView_inWhat_rvRowSpendings_MainACSpendingsView);
             amountTextView = itemView.findViewById(R.id.textView_howMuch_rvRowSpendings_MainACSpendingsView);
+            whenTextView = itemView.findViewById(R.id.textView_When_rvRowSpendings_MainACSpendingsView);
         }
     }
 }

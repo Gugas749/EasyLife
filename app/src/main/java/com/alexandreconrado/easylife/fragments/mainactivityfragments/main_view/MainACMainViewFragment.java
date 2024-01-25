@@ -46,6 +46,9 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
     public void setConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainACListenner(ConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC confirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC){
         this.confirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC = confirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC;
     }
+    public MainACMainViewFragment() {
+        // Required empty public constructor
+    }
     public MainACMainViewFragment(List<DraggableCardViewEntity> draggableCardViewObjectsList) {
         this.draggableCardViewObjectsList = draggableCardViewObjectsList;
     }
@@ -79,255 +82,257 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
     }
     private void processData(){
         List<String> positionsUsed = new ArrayList<>();
-        for (int i = 0; i < draggableCardViewObjectsList.size(); i++) {
-            DraggableCardViewEntity selectedObject = draggableCardViewObjectsList.get(i);
-            String parentTag = "FragMainACMainView";
-            switch (selectedObject.getType()){
-                case "3":
-                    FrameLayout frameLayout1 = null, frameLayout2 = null;
-                    Fragment fragment = new Fragment();
-                    switch (selectedObject.getPosition()){
-                        case 0:
-                            frameLayout1 = binding.frameLayoutLine1FragMainACMainView;
-                            frameLayout2 = binding.frameLayoutLine2FragMainACMainView;
-                            break;
-                        case 1:
-                            frameLayout1 = binding.frameLayoutLine2FragMainACMainView;
-                            frameLayout2 = binding.frameLayoutLine3FragMainACMainView;
-                            break;
-                        case 2:
-                            frameLayout1 = binding.frameLayoutLine3FragMainACMainView;
-                            frameLayout2 = binding.frameLayoutLine4FragMainACMainView;
-                            break;
-                        case 3:
-                            frameLayout1 = binding.frameLayoutLine4FragMainACMainView;
-                            frameLayout2 = binding.frameLayoutLine5FragMainACMainView;
-                            break;
-                    }
-
-                    switch (selectedObject.getStyle()){
-                        case "1":
-                            BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment fragStyle1 = new BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment();
-                            fragStyle1.setInfos(selectedObject.getValue1Color(), selectedObject.getValue2Color(),
-                                    selectedObject.getValue3Color(), selectedObject.getValue4Color(),
-                                    selectedObject.getValue5Color(), selectedObject.getValue6Color(),
-                                    selectedObject.getValue7Color(), selectedObject.getValue8Color(),
-                                    selectedObject.getChartName(),
-                                    selectedObject.getValue1Percentage(), selectedObject.getValue2Percentage(),
-                                    selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage(),
-                                    selectedObject.getValue5Percentage(), selectedObject.getValue6Percentage(),
-                                    selectedObject.getValue7Percentage(), selectedObject.getValue8Percentage(),
-                                    selectedObject.getValue1Text(), selectedObject.getValue2Text(),
-                                    selectedObject.getValue3Text(), selectedObject.getValue4Text(),
-                                    selectedObject.getValue5Text(), selectedObject.getValue6Text(),
-                                    selectedObject.getValue7Text(), selectedObject.getValue8Text());
-                            fragStyle1.setListenner(THIS);
-                            fragStyle1.setObject(selectedObject);
-                            fragStyle1.setAccountsList(spendingAccountsEntityList);
-                            fragment = fragStyle1;
-                            break;
-                        case "2":
-                            BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment fragStyle2 = new BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment();
-                            fragStyle2.setInfos(selectedObject.getValue1Color(), selectedObject.getValue2Color(),
-                                    selectedObject.getValue3Color(), selectedObject.getValue4Color(),
-                                    selectedObject.getValue5Color(), selectedObject.getValue6Color(),
-                                    selectedObject.getValue7Color(), selectedObject.getValue8Color(),
-                                    selectedObject.getChartName(),
-                                    selectedObject.getValue1Percentage(), selectedObject.getValue2Percentage(),
-                                    selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage(),
-                                    selectedObject.getValue5Percentage(), selectedObject.getValue6Percentage(),
-                                    selectedObject.getValue7Percentage(), selectedObject.getValue8Percentage(),
-                                    selectedObject.getValue1Text(), selectedObject.getValue2Text(),
-                                    selectedObject.getValue3Text(), selectedObject.getValue4Text(),
-                                    selectedObject.getValue5Text(), selectedObject.getValue6Text(),
-                                    selectedObject.getValue7Text(), selectedObject.getValue8Text());
-                            fragStyle2.setListenner(THIS);
-                            fragStyle2.setObject(selectedObject);
-                            fragStyle2.setAccountsList(spendingAccountsEntityList);
-                            fragment = fragStyle2;
-                            break;
-                    }
-
-                    if(frameLayout1 != null && frameLayout2 != null){
-                        combineFrameLayouts(frameLayout1, frameLayout2, fragment);
-                    }
-                    break;
-                case "2":
-                    frameLayout1 = null;
-                    fragment = new Fragment();
-                    switch (selectedObject.getPosition()){
-                        case 0:
-                            frameLayout1 = binding.frameLayoutLine1FragMainACMainView;
-                            break;
-                        case 1:
-                            frameLayout1 = binding.frameLayoutLine2FragMainACMainView;
-                            break;
-                        case 2:
-                            frameLayout1 = binding.frameLayoutLine3FragMainACMainView;
-                            break;
-                        case 3:
-                            frameLayout1 = binding.frameLayoutLine4FragMainACMainView;
-                            break;
-                        case 4:
-                            frameLayout1 = binding.frameLayoutLine5FragMainACMainView;
-                            break;
-                    }
-
-                    switch (selectedObject.getStyle()){
-                        case "1":
-                            RectangleWithPieChartInTheLeftAndTextInTheRightFragment fragStyle1 = new RectangleWithPieChartInTheLeftAndTextInTheRightFragment();
-                            fragStyle1.setInfos(selectedObject.getValue1Color(), selectedObject.getValue2Color(),
-                                    selectedObject.getValue3Color(), selectedObject.getValue4Color(),
-                                    selectedObject.getChartName(),
-                                    selectedObject.getValue1Percentage(), selectedObject.getValue2Percentage(),
-                                    selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage(),
-                                    selectedObject.getValue1Text(), selectedObject.getValue2Text(),
-                                    selectedObject.getValue3Text(), selectedObject.getValue4Text(), parentTag);
-                            fragStyle1.setListenner(THIS);
-                            fragStyle1.setObject(selectedObject);
-                            fragStyle1.setAccountsList(spendingAccountsEntityList);
-                            fragment = fragStyle1;
-                            break;
-                        case "2":
-                            RectangleWithPieChartInTheRightAndTextInTheLeftFragment fragStyle2 = new RectangleWithPieChartInTheRightAndTextInTheLeftFragment();
-                            fragStyle2.setInfos(selectedObject.getValue1Color(), selectedObject.getValue2Color(),
-                                    selectedObject.getValue3Color(), selectedObject.getValue4Color(),
-                                    selectedObject.getChartName(),
-                                    selectedObject.getValue1Percentage(), selectedObject.getValue2Percentage(),
-                                    selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage(),
-                                    selectedObject.getValue1Text(), selectedObject.getValue2Text(),
-                                    selectedObject.getValue3Text(), selectedObject.getValue4Text(), parentTag);
-                            fragStyle2.setListenner(THIS);
-                            fragStyle2.setObject(selectedObject);
-                            fragStyle2.setAccountsList(spendingAccountsEntityList);
-                            fragment = fragStyle2;
-                            break;
-                    }
-
-                    if(frameLayout1 != null){
-                        getChildFragmentManager()
-                                .beginTransaction()
-                                .replace(frameLayout1.getId(), fragment)
-                                .addToBackStack(null)
-                                .commit();
-                    }
-                    break;
-                case "1":
-                    frameLayout1 = null;
-                    fragment = new Fragment();
-                    Fragment brotherFragment = new Fragment();
-                    boolean repeated = false;
-                    DraggableCardViewEntity brother = null;
-
-                    if(positionsUsed.size() > 0){
-                        for (int j = 0; j < positionsUsed.size(); j++) {
-                            if(positionsUsed.get(j).equals(String.valueOf(selectedObject.getPosition()))){
-                                repeated = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if(!repeated){
-                        int possibleBrother = 0;
-
+        if(draggableCardViewObjectsList != null){
+            for (int i = 0; i < draggableCardViewObjectsList.size(); i++) {
+                DraggableCardViewEntity selectedObject = draggableCardViewObjectsList.get(i);
+                String parentTag = "FragMainACMainView";
+                switch (selectedObject.getType()){
+                    case "3":
+                        FrameLayout frameLayout1 = null, frameLayout2 = null;
+                        Fragment fragment = new Fragment();
                         switch (selectedObject.getPosition()){
                             case 0:
                                 frameLayout1 = binding.frameLayoutLine1FragMainACMainView;
-                                possibleBrother = 5;
-                                positionsUsed.add("0");
+                                frameLayout2 = binding.frameLayoutLine2FragMainACMainView;
                                 break;
                             case 1:
                                 frameLayout1 = binding.frameLayoutLine2FragMainACMainView;
-                                possibleBrother = 6;
-                                positionsUsed.add("1");
+                                frameLayout2 = binding.frameLayoutLine3FragMainACMainView;
                                 break;
                             case 2:
                                 frameLayout1 = binding.frameLayoutLine3FragMainACMainView;
-                                possibleBrother = 7;
-                                positionsUsed.add("2");
+                                frameLayout2 = binding.frameLayoutLine4FragMainACMainView;
                                 break;
                             case 3:
                                 frameLayout1 = binding.frameLayoutLine4FragMainACMainView;
-                                possibleBrother = 8;
-                                positionsUsed.add("3");
+                                frameLayout2 = binding.frameLayoutLine5FragMainACMainView;
+                                break;
+                        }
+
+                        switch (selectedObject.getStyle()){
+                            case "1":
+                                BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment fragStyle1 = new BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment();
+                                fragStyle1.setInfos(selectedObject.getValue1Color(), selectedObject.getValue2Color(),
+                                        selectedObject.getValue3Color(), selectedObject.getValue4Color(),
+                                        selectedObject.getValue5Color(), selectedObject.getValue6Color(),
+                                        selectedObject.getValue7Color(), selectedObject.getValue8Color(),
+                                        selectedObject.getChartName(),
+                                        selectedObject.getValue1Percentage(), selectedObject.getValue2Percentage(),
+                                        selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage(),
+                                        selectedObject.getValue5Percentage(), selectedObject.getValue6Percentage(),
+                                        selectedObject.getValue7Percentage(), selectedObject.getValue8Percentage(),
+                                        selectedObject.getValue1Text(), selectedObject.getValue2Text(),
+                                        selectedObject.getValue3Text(), selectedObject.getValue4Text(),
+                                        selectedObject.getValue5Text(), selectedObject.getValue6Text(),
+                                        selectedObject.getValue7Text(), selectedObject.getValue8Text());
+                                fragStyle1.setListenner(THIS);
+                                fragStyle1.setObject(selectedObject);
+                                fragStyle1.setAccountsList(spendingAccountsEntityList);
+                                fragment = fragStyle1;
+                                break;
+                            case "2":
+                                BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment fragStyle2 = new BigRectangleWithPieChartInTheLeftAndTextInTheRightFragment();
+                                fragStyle2.setInfos(selectedObject.getValue1Color(), selectedObject.getValue2Color(),
+                                        selectedObject.getValue3Color(), selectedObject.getValue4Color(),
+                                        selectedObject.getValue5Color(), selectedObject.getValue6Color(),
+                                        selectedObject.getValue7Color(), selectedObject.getValue8Color(),
+                                        selectedObject.getChartName(),
+                                        selectedObject.getValue1Percentage(), selectedObject.getValue2Percentage(),
+                                        selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage(),
+                                        selectedObject.getValue5Percentage(), selectedObject.getValue6Percentage(),
+                                        selectedObject.getValue7Percentage(), selectedObject.getValue8Percentage(),
+                                        selectedObject.getValue1Text(), selectedObject.getValue2Text(),
+                                        selectedObject.getValue3Text(), selectedObject.getValue4Text(),
+                                        selectedObject.getValue5Text(), selectedObject.getValue6Text(),
+                                        selectedObject.getValue7Text(), selectedObject.getValue8Text());
+                                fragStyle2.setListenner(THIS);
+                                fragStyle2.setObject(selectedObject);
+                                fragStyle2.setAccountsList(spendingAccountsEntityList);
+                                fragment = fragStyle2;
+                                break;
+                        }
+
+                        if(frameLayout1 != null && frameLayout2 != null){
+                            combineFrameLayouts(frameLayout1, frameLayout2, fragment);
+                        }
+                        break;
+                    case "2":
+                        frameLayout1 = null;
+                        fragment = new Fragment();
+                        switch (selectedObject.getPosition()){
+                            case 0:
+                                frameLayout1 = binding.frameLayoutLine1FragMainACMainView;
+                                break;
+                            case 1:
+                                frameLayout1 = binding.frameLayoutLine2FragMainACMainView;
+                                break;
+                            case 2:
+                                frameLayout1 = binding.frameLayoutLine3FragMainACMainView;
+                                break;
+                            case 3:
+                                frameLayout1 = binding.frameLayoutLine4FragMainACMainView;
                                 break;
                             case 4:
                                 frameLayout1 = binding.frameLayoutLine5FragMainACMainView;
-                                possibleBrother = 9;
-                                positionsUsed.add("4");
-                                break;
-                            case 5:
-                                frameLayout1 = binding.frameLayoutLine1FragMainACMainView;
-                                possibleBrother = 0;
-                                positionsUsed.add("5");
-                                break;
-                            case 6:
-                                frameLayout1 = binding.frameLayoutLine2FragMainACMainView;
-                                possibleBrother = 1;
-                                positionsUsed.add("6");
-                                break;
-                            case 7:
-                                frameLayout1 = binding.frameLayoutLine3FragMainACMainView;
-                                possibleBrother = 2;
-                                positionsUsed.add("7");
-                                break;
-                            case 8:
-                                frameLayout1 = binding.frameLayoutLine4FragMainACMainView;
-                                possibleBrother = 3;
-                                positionsUsed.add("8");
-                                break;
-                            case 9:
-                                frameLayout1 = binding.frameLayoutLine5FragMainACMainView;
-                                possibleBrother = 4;
-                                positionsUsed.add("9");
                                 break;
                         }
 
-                        positionsUsed.add(String.valueOf(possibleBrother));
-
-                        for (int k = 0; k < draggableCardViewObjectsList.size(); k++) {
-                            if(draggableCardViewObjectsList.get(k).getPosition() == possibleBrother){
-                                brother = draggableCardViewObjectsList.get(k);
+                        switch (selectedObject.getStyle()){
+                            case "1":
+                                RectangleWithPieChartInTheLeftAndTextInTheRightFragment fragStyle1 = new RectangleWithPieChartInTheLeftAndTextInTheRightFragment();
+                                fragStyle1.setInfos(selectedObject.getValue1Color(), selectedObject.getValue2Color(),
+                                        selectedObject.getValue3Color(), selectedObject.getValue4Color(),
+                                        selectedObject.getChartName(),
+                                        selectedObject.getValue1Percentage(), selectedObject.getValue2Percentage(),
+                                        selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage(),
+                                        selectedObject.getValue1Text(), selectedObject.getValue2Text(),
+                                        selectedObject.getValue3Text(), selectedObject.getValue4Text(), parentTag);
+                                fragStyle1.setListenner(THIS);
+                                fragStyle1.setObject(selectedObject);
+                                fragStyle1.setAccountsList(spendingAccountsEntityList);
+                                fragment = fragStyle1;
                                 break;
+                            case "2":
+                                RectangleWithPieChartInTheRightAndTextInTheLeftFragment fragStyle2 = new RectangleWithPieChartInTheRightAndTextInTheLeftFragment();
+                                fragStyle2.setInfos(selectedObject.getValue1Color(), selectedObject.getValue2Color(),
+                                        selectedObject.getValue3Color(), selectedObject.getValue4Color(),
+                                        selectedObject.getChartName(),
+                                        selectedObject.getValue1Percentage(), selectedObject.getValue2Percentage(),
+                                        selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage(),
+                                        selectedObject.getValue1Text(), selectedObject.getValue2Text(),
+                                        selectedObject.getValue3Text(), selectedObject.getValue4Text(), parentTag);
+                                fragStyle2.setListenner(THIS);
+                                fragStyle2.setObject(selectedObject);
+                                fragStyle2.setAccountsList(spendingAccountsEntityList);
+                                fragment = fragStyle2;
+                                break;
+                        }
+
+                        if(frameLayout1 != null){
+                            getChildFragmentManager()
+                                    .beginTransaction()
+                                    .replace(frameLayout1.getId(), fragment)
+                                    .addToBackStack(null)
+                                    .commit();
+                        }
+                        break;
+                    case "1":
+                        frameLayout1 = null;
+                        fragment = new Fragment();
+                        Fragment brotherFragment = new Fragment();
+                        boolean repeated = false;
+                        DraggableCardViewEntity brother = null;
+
+                        if(positionsUsed.size() > 0){
+                            for (int j = 0; j < positionsUsed.size(); j++) {
+                                if(positionsUsed.get(j).equals(String.valueOf(selectedObject.getPosition()))){
+                                    repeated = true;
+                                    break;
+                                }
                             }
                         }
 
-                        RectangleWithPieChartFragment frag1 = new RectangleWithPieChartFragment();
-                        frag1.setInfos(selectedObject.getValue1Color(), selectedObject.getValue2Color(),
-                                selectedObject.getValue3Color(), selectedObject.getValue4Color(),
-                                selectedObject.getChartName(),
-                                selectedObject.getValue1Percentage(), selectedObject.getValue2Percentage(),
-                                selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage());
-                        frag1.setListenner(THIS);
-                        frag1.setObject(selectedObject);
-                        frag1.setAccountsList(spendingAccountsEntityList);
-                        fragment = frag1;
+                        if(!repeated){
+                            int possibleBrother = 0;
 
-                        if(brother != null){
-                            RectangleWithPieChartFragment frag2 = new RectangleWithPieChartFragment();
-                            frag2.setInfos(brother.getValue1Color(), brother.getValue2Color(),
-                                    brother.getValue3Color(), brother.getValue4Color(),
-                                    brother.getChartName(),
-                                    brother.getValue1Percentage(), brother.getValue2Percentage(),
-                                    brother.getValue3Percentage(), brother.getValue4Percentage());
-                            frag2.setListenner(THIS);
-                            frag2.setObject(brother);
-                            frag2.setAccountsList(spendingAccountsEntityList);
-                            brotherFragment = frag2;
+                            switch (selectedObject.getPosition()){
+                                case 0:
+                                    frameLayout1 = binding.frameLayoutLine1FragMainACMainView;
+                                    possibleBrother = 5;
+                                    positionsUsed.add("0");
+                                    break;
+                                case 1:
+                                    frameLayout1 = binding.frameLayoutLine2FragMainACMainView;
+                                    possibleBrother = 6;
+                                    positionsUsed.add("1");
+                                    break;
+                                case 2:
+                                    frameLayout1 = binding.frameLayoutLine3FragMainACMainView;
+                                    possibleBrother = 7;
+                                    positionsUsed.add("2");
+                                    break;
+                                case 3:
+                                    frameLayout1 = binding.frameLayoutLine4FragMainACMainView;
+                                    possibleBrother = 8;
+                                    positionsUsed.add("3");
+                                    break;
+                                case 4:
+                                    frameLayout1 = binding.frameLayoutLine5FragMainACMainView;
+                                    possibleBrother = 9;
+                                    positionsUsed.add("4");
+                                    break;
+                                case 5:
+                                    frameLayout1 = binding.frameLayoutLine1FragMainACMainView;
+                                    possibleBrother = 0;
+                                    positionsUsed.add("5");
+                                    break;
+                                case 6:
+                                    frameLayout1 = binding.frameLayoutLine2FragMainACMainView;
+                                    possibleBrother = 1;
+                                    positionsUsed.add("6");
+                                    break;
+                                case 7:
+                                    frameLayout1 = binding.frameLayoutLine3FragMainACMainView;
+                                    possibleBrother = 2;
+                                    positionsUsed.add("7");
+                                    break;
+                                case 8:
+                                    frameLayout1 = binding.frameLayoutLine4FragMainACMainView;
+                                    possibleBrother = 3;
+                                    positionsUsed.add("8");
+                                    break;
+                                case 9:
+                                    frameLayout1 = binding.frameLayoutLine5FragMainACMainView;
+                                    possibleBrother = 4;
+                                    positionsUsed.add("9");
+                                    break;
+                            }
+
+                            positionsUsed.add(String.valueOf(possibleBrother));
+
+                            for (int k = 0; k < draggableCardViewObjectsList.size(); k++) {
+                                if(draggableCardViewObjectsList.get(k).getPosition() == possibleBrother){
+                                    brother = draggableCardViewObjectsList.get(k);
+                                    break;
+                                }
+                            }
+
+                            RectangleWithPieChartFragment frag1 = new RectangleWithPieChartFragment();
+                            frag1.setInfos(selectedObject.getValue1Color(), selectedObject.getValue2Color(),
+                                    selectedObject.getValue3Color(), selectedObject.getValue4Color(),
+                                    selectedObject.getChartName(),
+                                    selectedObject.getValue1Percentage(), selectedObject.getValue2Percentage(),
+                                    selectedObject.getValue3Percentage(), selectedObject.getValue4Percentage());
+                            frag1.setListenner(THIS);
+                            frag1.setObject(selectedObject);
+                            frag1.setAccountsList(spendingAccountsEntityList);
+                            fragment = frag1;
+
+                            if(brother != null){
+                                RectangleWithPieChartFragment frag2 = new RectangleWithPieChartFragment();
+                                frag2.setInfos(brother.getValue1Color(), brother.getValue2Color(),
+                                        brother.getValue3Color(), brother.getValue4Color(),
+                                        brother.getChartName(),
+                                        brother.getValue1Percentage(), brother.getValue2Percentage(),
+                                        brother.getValue3Percentage(), brother.getValue4Percentage());
+                                frag2.setListenner(THIS);
+                                frag2.setObject(brother);
+                                frag2.setAccountsList(spendingAccountsEntityList);
+                                brotherFragment = frag2;
+                            }
+
+                            if(selectedObject.getPosition() > possibleBrother){
+                                Fragment fragmentAux1 = brotherFragment;
+                                Fragment fragmentAux2 = fragment;
+
+                                fragment = fragmentAux1;
+                                brotherFragment = fragmentAux2;
+                            }
+
+                            divideFrameLayout(frameLayout1, fragment, brotherFragment);
                         }
-
-                        if(selectedObject.getPosition() > possibleBrother){
-                            Fragment fragmentAux1 = brotherFragment;
-                            Fragment fragmentAux2 = fragment;
-
-                            fragment = fragmentAux1;
-                            brotherFragment = fragmentAux2;
-                        }
-
-                        divideFrameLayout(frameLayout1, fragment, brotherFragment);
-                    }
-                    break;
+                        break;
+                }
             }
         }
     }

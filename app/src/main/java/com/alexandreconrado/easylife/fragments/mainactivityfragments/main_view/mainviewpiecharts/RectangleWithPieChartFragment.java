@@ -68,9 +68,11 @@ public class RectangleWithPieChartFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentRectangleWithPieChartBinding.inflate(inflater);
 
-        init();
-        loadChart();
-        setupLongPress();
+        if(title != null){
+            init();
+            loadChart();
+            setupLongPress();
+        }
 
         return binding.getRoot();
     }
