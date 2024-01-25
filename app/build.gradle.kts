@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
-    id("com.google.gms.google-services") version "4.4.0" apply false
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -74,4 +75,5 @@ dependencies {
     //FIREBASE
     implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-crashlytics")
 }
