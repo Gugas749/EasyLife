@@ -16,6 +16,7 @@ import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -55,6 +56,7 @@ public class SplashActivity extends AppCompatActivity {
         }
         inScan = false;
         setupScanButton();
+        disableBackPressed();
 
         new CountDownTimer(1500, 1000) {
             public void onTick(long millisUntilFinished) {
@@ -70,6 +72,11 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     //------------------SETUPS----------------------
+    @Override
+    public void onResume(){
+        super.onResume();
+        disableBackPressed();
+    }
     private void initRegisterFragment(){
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_splashAc, new RegisterFragment(this)).commit();
     }
@@ -300,7 +307,19 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
     //----------------------------------------------
-
+    private void disableBackPressed(){
+        binding.getRoot().setFocusableInTouchMode(true);
+        binding.getRoot().requestFocus();
+        binding.getRoot().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

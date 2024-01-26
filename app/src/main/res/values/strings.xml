@@ -3,6 +3,8 @@
     <string name="app_slogan">Life is Easier</string>
 
     <!-- General -->
+    <string name="general_Edit">Edit</string>
+    <string name="general_Example">Example</string>
     <string name="general_Save">Save</string>
     <string name="general_change">Change</string>
     <string name="general_confirm">Confirm</string>
@@ -14,23 +16,23 @@
     <string name="general_ok">Ok</string>
     <string name="general_yes">Yes</string>
     <string name="general_no">No</string>
-    <string name="general_AlertDialog_Question_saveBeforeLeaving_text">Do you wish to save before leaving?</string>
-    <string name="general_AlertDialog_Question_save_text">Do you wish to save?</string>
+    <string name="general_AlertDialog_Question_ExitWithoutSaving_Title">Exit without saving</string>
+    <string name="general_AlertDialog_Question_ExitWithoutSaving_Text">Do you wish to exit without saving?</string>
+    <string name="general_AlertDialog_Question_Saving_Text">Do you wish to save?</string>
 
-    <!-- Register Account Dialog -->
+    <!-- RegisterFrag -->
+    <!-- RegisterFrag - Account Dialog -->
     <string name="register_dialog_account_text">Create your Account</string>
     <string name="register_dialog_account_email_prompt">Email</string>
     <string name="register_dialog_account_email_code_prompt">Code</string>
     <string name="register_dialog_account_email_code_wrong">Something is wrong</string>
-
-    <!-- Register Password Dialog -->
+    <!-- RegisterFrag - Password Dialog -->
     <string name="register_dialog_password_prompt_password_1">Pin Code</string>
     <string name="register_dialog_password_prompt_password_2">Confirm the Pin Code</string>
     <string name="register_dialog_password_action_register">Setup a Pin Code</string>
     <string name="register_dialog_password_invalid_password_no_equal">Your Pin Codes dont match</string>
     <string name="register_dialog_password_invalid_password_to_short">Pin Code must have 4 characters</string>
-
-    <!-- Register Biometrics Dialog -->
+    <!-- RegisterFrag - Biometrics Dialog -->
     <string name="register_dialog_biometric_action_register">Do you want to activate biometric login?</string>
     <string name="register_dialog_faceId_action_register">Do you want to activate Face ID login?</string>
 
@@ -73,14 +75,17 @@
     <string name="mainAc_FragMainView_Example_Percentage6_Text">Percentage 6</string>
     <string name="mainAc_FragMainView_Example_Percentage7_Text">Percentage 7</string>
     <string name="mainAc_FragMainView_Example_Percentage8_Text">Percentage 8</string>
+    <!-- Main AC - Main View How To-->
+    <!-- Main AC - Main View - How To -  Home -->
+    <string name="mainAc_FragMainView_HowTo_BindingAccounts_Title">Binding Accounts</string>
+    <string name="mainAc_FragMainView_HowTo_BindingAccounts_Home_Text">To bind a account to your pie chart you just need to do a long press in it. And a pop up will appear!!</string>
+    <!-- Main AC - Main View - How To -  Home -->
+    <string name="mainAc_FragMainView_HowTo_BindingAccounts_PopUpForm_Text">Now you just need to select the desired account to bind!!</string>
     <!-- Main AC - Main View - EditLayout -->
     <string name="mainAc_FragMainViewEditLayout_Toast_noSpace_Text">You dont have space to put this object in</string>
     <string name="mainAc_FragMainViewEditLayout_AlertDialog_Delete_Title">Remove Widget</string>
     <string name="mainAc_FragMainViewEditLayout_AlertDialog_Delete_Description">Do you wish to remove this widget?</string>
-    <string name="mainAc_FragMainViewEditLayout_AlertDialog_Save_Title">Save</string>
     <string name="mainAc_FragMainViewEditLayout_AlertDialog_Save_Description">Do you wish to save this widget layout?</string>
-    <string name="mainAc_FragMainViewEditLayout_AlertDialog_Leave_Title">Save Before Leaving</string>
-    <string name="mainAc_FragMainViewEditLayout_AlertDialog_Leave_Description">Do you wish to save this widget layout before leaving?</string>
     <!-- Main AC - Main View - EditLayout - How To -->
     <!-- Main AC - Main View - EditLayout - How To -  Home -->
     <string name="mainAc_FragMainViewEditLayoutHowTo_Home_Title">Hi!!</string>
@@ -98,7 +103,7 @@
     <string name="mainAc_FragMainViewEditLayoutHowTo_DnD_Text_2">Move it to a place and it will stay there!!</string>
     <!-- Main AC - Main View - EditLayout - How To - Delete -->
     <string name="mainAc_FragMainViewEditLayoutHowTo_Delete_Title">Removing Widgets</string>
-    <string name="mainAc_FragMainViewEditLayoutHowTo_Delete_Text_1">To remove one of your Widgets you just need to do a Swipe to the right!! After a Pop-Up will appear to confirm if you want to remove the Widget</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Delete_Text_1">To remove one of your Widgets you just need to do a Double Click in it!! After a Pop-Up will appear to confirm if you want to remove the Widget</string>
     <string name="mainAc_FragMainViewEditLayoutHowTo_Delete_PopUp_Title">Remove</string>
     <string name="mainAc_FragMainViewEditLayoutHowTo_Delete_PopUp_Description">Remove Widget?</string>
     <!-- Main AC - Main View - EditLayout - How To - Save -->
@@ -120,7 +125,7 @@
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_editTextPercentagesNames_Hint">Percentage Name</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_MissingInputs_Text">Hmm… Looks like theres some empty spots</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_SaveBeforeLeaving_Text">Do you wish to save this account before leaving?</string>
-    <string name="mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_Save_Text">Do you wish to save this account layout?</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_Save_Text">Do you wish to save this account?</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_RepeatedName_Text">Looks like theres is already a Percentage Named that</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_NamedPlus_Text">Sorry you cannot name your percentage "+"</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_PecentageMaxCap_Text">Sorry you can only have 8 percentages if you want to have more consider adding a subAccount to this account later</string>
@@ -139,6 +144,7 @@
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_textView_editTextHelper_2_Text">Name and color of the Percentages</string>
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_Toast_PercentageCap_Text">Sorry you can only have 4 percentages in a Sub Account</string>
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_textView_ChangeParentColor_Text">Click me to change the color!!</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_AlertDialog_Question_Saving_Text">Do you wish to save this Sub Account?</string>
     <!-- Main AC - Spendings View -->
     <string name="mainAc_FragSpendingsView_NoItemsToDisplay_Text">Hmm… Looks like you dont have any Spendings to display. You can create them by pressing the Plus Button Above!!</string>
     <!-- Main AC - Spendings View - Add Spendings -->
@@ -148,6 +154,7 @@
     <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign4_Text">What Account</string>
     <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign5_Text">What Category</string>
     <string name="mainAc_FragSpendingsViewAddSpendings_spinnerHint_1_Text">Select a Category</string>
+    <string name="mainAc_FragSpendingsViewAddSpendings_AlertDialog_Question_Save_Text">Do you wish to save this Spend?</string>
 
     <!-- Tutorial Fragments -->
     <string name="tutorialFrag_skip">Skip</string>

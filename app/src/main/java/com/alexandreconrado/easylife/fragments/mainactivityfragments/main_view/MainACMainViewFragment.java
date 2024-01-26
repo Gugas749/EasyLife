@@ -3,6 +3,8 @@ package com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view;
 import android.graphics.Color;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,8 +79,22 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
 
         THIS = this;
         processData();
+        disableBackPressed();
 
         return binding.getRoot();
+    }
+    private void disableBackPressed(){
+        binding.getRoot().setFocusableInTouchMode(true);
+        binding.getRoot().requestFocus();
+        binding.getRoot().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    return true;
+                }
+                return false;
+            }
+        });
     }
     private void processData(){
         List<String> positionsUsed = new ArrayList<>();
@@ -220,7 +236,7 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
                         frameLayout1 = null;
                         fragment = new Fragment();
                         Fragment brotherFragment = new Fragment();
-                        boolean repeated = false;
+                        boolean repeated = false, toTheRight = false;
                         DraggableCardViewEntity brother = null;
 
                         if(positionsUsed.size() > 0){
@@ -265,26 +281,31 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
                                     frameLayout1 = binding.frameLayoutLine1FragMainACMainView;
                                     possibleBrother = 0;
                                     positionsUsed.add("5");
+                                    toTheRight = true;
                                     break;
                                 case 6:
                                     frameLayout1 = binding.frameLayoutLine2FragMainACMainView;
                                     possibleBrother = 1;
                                     positionsUsed.add("6");
+                                    toTheRight = true;
                                     break;
                                 case 7:
                                     frameLayout1 = binding.frameLayoutLine3FragMainACMainView;
                                     possibleBrother = 2;
                                     positionsUsed.add("7");
+                                    toTheRight = true;
                                     break;
                                 case 8:
                                     frameLayout1 = binding.frameLayoutLine4FragMainACMainView;
                                     possibleBrother = 3;
                                     positionsUsed.add("8");
+                                    toTheRight = true;
                                     break;
                                 case 9:
                                     frameLayout1 = binding.frameLayoutLine5FragMainACMainView;
                                     possibleBrother = 4;
                                     positionsUsed.add("9");
+                                    toTheRight = true;
                                     break;
                             }
 
@@ -321,12 +342,12 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
                                 brotherFragment = frag2;
                             }
 
-                            if(selectedObject.getPosition() > possibleBrother){
-                                Fragment fragmentAux1 = brotherFragment;
-                                Fragment fragmentAux2 = fragment;
+                            if(toTheRight){
+                                Fragment newMainFrag = brotherFragment;
+                                Fragment newBrotherFrag = fragment;
 
-                                fragment = fragmentAux1;
-                                brotherFragment = fragmentAux2;
+                                fragment = newMainFrag;
+                                brotherFragment = newBrotherFrag;
                             }
 
                             divideFrameLayout(frameLayout1, fragment, brotherFragment);
@@ -354,39 +375,43 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
 
     //------------------------------FRAME LAYOUT RELATED-------------------------
     private void divideFrameLayout(FrameLayout parentFrameLayout, Fragment frag1, Fragment frag2) {
-        //Cria um linear layout que e o adult que vai ser inserido no parent frame layout esse linear layout vai ser reponsavel por dividir esse frame layout em 50/50
+        // Cria um linear layout que é o adulto que vai ser inserido no parent frame layout.
+        // Esse linear layout vai ser responsável por dividir esse frame layout em 50/50.
         LinearLayout adult1 = new LinearLayout(parentFrameLayout.getContext());
         adult1.setId(View.generateViewId());
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
         );
         params.gravity = Gravity.START;
         adult1.setLayoutParams(params);
         adult1.setOrientation(LinearLayout.HORIZONTAL);
         parentFrameLayout.addView(adult1);
 
-        // Adiciona o primerio novo frame layout
+        // Adiciona o primeiro novo frame layout.
         FrameLayout child1 = new FrameLayout(parentFrameLayout.getContext());
         child1.setId(View.generateViewId());
         FrameLayout.LayoutParams params1 = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
         );
-        params1.gravity = Gravity.START;
         child1.setLayoutParams(params1);
         adult1.addView(child1);
 
-        // Adiciona o segundo novo frame layout
+        // Adiciona o segundo novo frame layout.
         FrameLayout child2 = new FrameLayout(parentFrameLayout.getContext());
         child2.setId(View.generateViewId());
         FrameLayout.LayoutParams params2 = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
         );
-        params2.gravity = Gravity.END;
         child2.setLayoutParams(params2);
         adult1.addView(child2);
+
+        // Set weight for child1 and child2
+        adult1.setWeightSum(2f);
+        child1.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
+        child2.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
 
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
@@ -394,7 +419,7 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
                 .addToBackStack(null)
                 .commit();
 
-        if(frag2 != null){
+        if (frag2 != null) {
             getActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(child2.getId(), frag2)
@@ -402,6 +427,7 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
                     .commit();
         }
     }
+
     private void combineFrameLayouts(FrameLayout frameLayout1, FrameLayout frameLayout2, Fragment fragment) {
         // Define o novo peso para frameLayout1 (40%)
         LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(

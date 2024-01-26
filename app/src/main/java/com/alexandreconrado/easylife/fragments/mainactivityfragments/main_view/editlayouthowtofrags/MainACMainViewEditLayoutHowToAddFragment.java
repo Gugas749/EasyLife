@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import android.os.CountDownTimer;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,8 +60,22 @@ public class MainACMainViewEditLayoutHowToAddFragment extends Fragment {
 
         setupNextButton();
         setupPreviousButton();
+        disableBackPressed();
 
         return binding.getRoot();
+    }
+    private void disableBackPressed(){
+        binding.getRoot().setFocusableInTouchMode(true);
+        binding.getRoot().requestFocus();
+        binding.getRoot().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    return true;
+                }
+                return false;
+            }
+        });
     }
     private void setupPreviousButton(){
         binding.textViewPreviousFragMainACMainViewEditLayoutHowToAdd.setOnClickListener(new View.OnClickListener() {
@@ -82,13 +97,12 @@ public class MainACMainViewEditLayoutHowToAddFragment extends Fragment {
                             public void onFinish() {
                                 fadeOutAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToAdd);
                                 binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToAdd.setVisibility(View.GONE);
-                                fadeOutAnimation(binding.imageViewApresentationFragMainACMainViewEditLayoutHowToAdd);
+                                fadeOutAnimation(binding.bottomNavigationViewExampleFragMainACMainViewEditLayout);
                                 fadeInAnimation(binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToAdd);
 
                                 pointYAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToAdd, getResources().getDimension(com.intuit.sdp.R.dimen._6sdp));
                                 binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToAdd.setText(getString(R.string.mainAc_FragMainViewEditLayoutHowTo_Add_Text_1));
-                                binding.imageViewApresentationFragMainACMainViewEditLayoutHowToAdd.setVisibility(View.GONE);
-                                binding.imageViewApresentationFragMainACMainViewEditLayoutHowToAdd.setImageDrawable(null);
+                                binding.bottomNavigationViewExampleFragMainACMainViewEditLayout.setVisibility(View.GONE);
                             }
                         }.start();
                         nextButtonState = "base";
@@ -126,7 +140,7 @@ public class MainACMainViewEditLayoutHowToAddFragment extends Fragment {
                         nextButtonState = "fase2";
                         break;
                     case "fase4":
-                        fadeOutAnimation(binding.imageViewApresentationFragMainACMainViewEditLayoutHowToAdd);
+                        fadeOutAnimation(binding.bottomNavigationViewExampleFragMainACMainViewEditLayout);
                         fadeOutAnimation(binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToAdd);
                         new CountDownTimer(700, 1000) {
                             public void onTick(long millisUntilFinished) {
@@ -136,7 +150,7 @@ public class MainACMainViewEditLayoutHowToAddFragment extends Fragment {
                             public void onFinish() {
                                 fadeInAnimation(binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToAdd);
                                 fadeInAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToAdd);
-                                fadeInAnimation(binding.imageViewApresentationFragMainACMainViewEditLayoutHowToAdd);
+                                fadeInAnimation(binding.bottomNavigationViewExampleFragMainACMainViewEditLayout);
                                 binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToAdd.setText(getString(R.string.mainAc_FragMainViewEditLayoutHowTo_Add_Text_4));
                             }
                         }.start();
@@ -163,13 +177,12 @@ public class MainACMainViewEditLayoutHowToAddFragment extends Fragment {
                             public void onFinish() {
                                 binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToAdd.setVisibility(View.INVISIBLE);
                                 fadeInAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToAdd);
-                                binding.imageViewApresentationFragMainACMainViewEditLayoutHowToAdd.setVisibility(View.INVISIBLE);
-                                fadeInAnimation(binding.imageViewApresentationFragMainACMainViewEditLayoutHowToAdd);
+                                binding.bottomNavigationViewExampleFragMainACMainViewEditLayout.setVisibility(View.INVISIBLE);
+                                fadeInAnimation(binding.bottomNavigationViewExampleFragMainACMainViewEditLayout);
                                 fadeInAnimation(binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToAdd);
 
                                 pointYAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToAdd, getResources().getDimension(com.intuit.sdp.R.dimen._6sdp));
                                 binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToAdd.setText(getString(R.string.mainAc_FragMainViewEditLayoutHowTo_Add_Text_2));
-                                binding.imageViewApresentationFragMainACMainViewEditLayoutHowToAdd.setImageDrawable(getResources().getDrawable(R.drawable.bottomnav_howto_layoutedit_lightmode));
                             }
                         }.start();
                         nextButtonState = "fase1";
@@ -209,7 +222,7 @@ public class MainACMainViewEditLayoutHowToAddFragment extends Fragment {
                     case "fase3":
                         fadeOutAnimation(binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToAdd);
                         fadeOutAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToAdd);
-                        fadeOutAnimation(binding.imageViewApresentationFragMainACMainViewEditLayoutHowToAdd);
+                        fadeOutAnimation(binding.bottomNavigationViewExampleFragMainACMainViewEditLayout);
                         new CountDownTimer(700, 1000) {
                             public void onTick(long millisUntilFinished) {
 
@@ -217,7 +230,7 @@ public class MainACMainViewEditLayoutHowToAddFragment extends Fragment {
 
                             public void onFinish() {
                                 fadeInAnimation(binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToAdd);
-                                fadeInAnimation(binding.imageViewApresentationFragMainACMainViewEditLayoutHowToAdd);
+                                fadeInAnimation(binding.bottomNavigationViewExampleFragMainACMainViewEditLayout);
                                 binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToAdd.setText(getString(R.string.mainAc_FragMainViewEditLayoutHowTo_Add_Text_5));
                             }
                         }.start();

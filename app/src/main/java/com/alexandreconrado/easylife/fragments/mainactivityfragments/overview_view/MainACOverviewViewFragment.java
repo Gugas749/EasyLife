@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,7 @@ public class MainACOverviewViewFragment extends Fragment implements RVAdapterSpe
             init();
             loadRecyclerView();
         }
+        disableBackPressed();
 
         return binding.getRoot();
     }
@@ -69,7 +71,19 @@ public class MainACOverviewViewFragment extends Fragment implements RVAdapterSpe
             binding.rvSpendingsAccountsFragMainACOverviewView.setVisibility(View.GONE);
         }
     }
-
+    private void disableBackPressed(){
+        binding.getRoot().setFocusableInTouchMode(true);
+        binding.getRoot().requestFocus();
+        binding.getRoot().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
     @Override
     public void onSpendingsAccountItemClick(SpendingAccountsEntity account) {
         listenner.onSpendingsAccountItemClickFragMainACOverviewView(account);

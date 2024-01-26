@@ -79,6 +79,8 @@ public class AuthenticationFragment extends Fragment {
             public void onFinish() {
                 binding.frameLayoutAnimationAuxFragAuthentication.setVisibility(View.GONE);
                 binding.frameLayoutAnimationAuxFragAuthentication.setEnabled(false);
+
+                showBiometricPrompt();
             }
         }.start();
 

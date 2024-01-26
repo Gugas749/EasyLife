@@ -3,6 +3,7 @@ package com.alexandreconrado.easylife.scripts;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -116,10 +117,23 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
                     .replace(R.id.fragment_container_custom_alertDialog, customFragment)
                     .commit();
         }
+        disableBackPressed(view);
 
         return view;
     }
-
+    private void disableBackPressed(View view){
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
     @Override
     public void onContinueButtonClicked() {
         this.dismiss();

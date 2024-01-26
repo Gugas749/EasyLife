@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.room.Room;
 
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ public class MainACOverviewViewAddSpendingAccountFormFragment extends Fragment i
         CustomAlertDialogFragment.ConfirmButtonClickAlertDialogColorPickerFrag,
         RVAdapterPercentagesNamesColors.ItemClickedRVAdapterPercentagesNamesAndColors,
         CustomAlertDialogFragment.CancelButtonClickAlertDialogQuestionFrag,
+        RVAdapterPercentagesNamesColors.ItemSwipeRightRVAdapterPercentagesNamesAndColors,
         CustomAlertDialogFragment.ConfirmButtonClickAlertDialogQuestionFrag {
 
     private FragmentMainACOverviewViewAddSpendingAccountFormBinding binding;
@@ -68,14 +70,29 @@ public class MainACOverviewViewAddSpendingAccountFormFragment extends Fragment i
         setupButtonAddPercentagesNames();
         setupSaveButton();
         setupExitButton();
+        disableBackPressed();
 
         return binding.getRoot();
+    }
+    private void disableBackPressed(){
+        binding.getRoot().setFocusableInTouchMode(true);
+        binding.getRoot().requestFocus();
+        binding.getRoot().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    return true;
+                }
+                return false;
+            }
+        });
     }
     private void init(){
         THIS = this;
         percentagesNamesList = new ArrayList<>();
         percentagesColorsList = new ArrayList<>();
         adapter = new RVAdapterPercentagesNamesColors(getContext(), percentagesNamesList, percentagesColorsList, this);
+        adapter.setListennerSwipeRight(this);
     }
     private void setupLocalDataBase(){
         localDataBase = Room.databaseBuilder(getContext(), LocalDataBase.class, "EasyLifeLocalDB").build();
@@ -88,7 +105,7 @@ public class MainACOverviewViewAddSpendingAccountFormFragment extends Fragment i
                 CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
                 customAlertDialogFragment.setConfirmListenner(THIS);
                 customAlertDialogFragment.setCancelListenner(THIS);
-                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Save_Title), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_Save_Text), customAlertDialogFragment, customAlertDialogFragment, "1");
+                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.general_Save), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_Save_Text), customAlertDialogFragment, customAlertDialogFragment, "1");
                 customAlertDialogFragment.setCustomFragment(fragment);
                 customAlertDialogFragment.setTag("FragMainACOverviewViewAddSpendingsAccountForm_Save");
                 customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
@@ -102,7 +119,7 @@ public class MainACOverviewViewAddSpendingAccountFormFragment extends Fragment i
                 CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
                 customAlertDialogFragment.setConfirmListenner(THIS);
                 customAlertDialogFragment.setCancelListenner(THIS);
-                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Leave_Title), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_SaveBeforeLeaving_Text), customAlertDialogFragment, customAlertDialogFragment, "2");
+                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.general_AlertDialog_Question_ExitWithoutSaving_Title), getString(R.string.general_AlertDialog_Question_ExitWithoutSaving_Text), customAlertDialogFragment, customAlertDialogFragment, "2");
                 customAlertDialogFragment.setCustomFragment(fragment);
                 customAlertDialogFragment.setTag("FragMainACOverviewViewAddSpendingsAccountForm_Exit");
                 customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
@@ -168,25 +185,33 @@ public class MainACOverviewViewAddSpendingAccountFormFragment extends Fragment i
         customAlertDialogFragment.setConfirmColorPickerListenner(MainACOverviewViewAddSpendingAccountFormFragment.this);
         customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
     }
+    @Override
+    public void onItemSwipeRightRVAdapterPercentagesNamesAndColors() {
+        Toast.makeText(getContext(), "ya", Toast.LENGTH_SHORT).show();
+        //TODO: acabar isto
+    }
 
     //-----------------QUESTION ALERT DIALOG---------------------
     @Override
     public void onConfirmButtonClicked(String Tag) {
-        if(Tag.equals("FragMainACOverviewViewAddSpendingsAccountForm_Exit") || Tag.equals("FragMainACOverviewViewAddSpendingsAccountForm_Save")){
-            String accountName = binding.editTextAccountNameFragMainACOverviewViewAddSpendingAccountForm.getText().toString().trim();
-            if(!accountName.equals("") && percentagesNamesList.size() >= 2 && percentagesColorsList.size() >= 2){
-                new LocalDatabaseInsertTask().execute();
-            }else{
-                Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_MissingInputs_Text), Toast.LENGTH_SHORT).show();
-            }
+        switch (Tag){
+            case "FragMainACOverviewViewAddSpendingsAccountForm_Save":
+                String accountName = binding.editTextAccountNameFragMainACOverviewViewAddSpendingAccountForm.getText().toString().trim();
+                if(!accountName.equals("") && percentagesNamesList.size() >= 2 && percentagesColorsList.size() >= 2){
+                    new LocalDatabaseInsertTask().execute();
+                }else{
+                    Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_MissingInputs_Text), Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case "FragMainACOverviewViewAddSpendingsAccountForm_Exit":
+                SpendingAccountsEntity newSpendingsAccount = new SpendingAccountsEntity();
+                exitListenner.onExitButtonClickFragMainACOverviewViewAddSpendingsForm(false, newSpendingsAccount);
+                break;
         }
     }
     @Override
     public void onCancelButtonClicked(String Tag) {
-        if(Tag.equals("FragMainACOverviewViewAddSpendingsAccountForm_Exit")){
-            SpendingAccountsEntity newSpendingsAccount = new SpendingAccountsEntity();
-            exitListenner.onExitButtonClickFragMainACOverviewViewAddSpendingsForm(false, newSpendingsAccount);
-        }
+
     }
     //----------------------------------------------------------------
 

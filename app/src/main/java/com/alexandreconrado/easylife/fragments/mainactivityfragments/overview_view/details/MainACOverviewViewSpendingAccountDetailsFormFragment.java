@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.room.Room;
 
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,8 +92,22 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
         setupClickListennerTextViewsAux();
         setupLocalDataBase();
         setupDeleteAccountButton();
+        disableBackPressed();
 
         return binding.getRoot();
+    }
+    private void disableBackPressed(){
+        binding.getRoot().setFocusableInTouchMode(true);
+        binding.getRoot().requestFocus();
+        binding.getRoot().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    return true;
+                }
+                return false;
+            }
+        });
     }
     private void init(boolean editModeAux){
         THIS = this;
@@ -118,87 +133,52 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
 
             binding.cardViewEditTextAccountNameHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(color);
             binding.cardViewEditTextAccountNameHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(defaultElevation);
-
-            binding.cardViewTextViewSubAccount1TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(color);
-            binding.cardViewTextViewSubAccount1TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(defaultElevation);
-            binding.cardViewTextViewSubAccount2TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(color);
-            binding.cardViewTextViewSubAccount2TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(defaultElevation);
-            binding.cardViewTextViewSubAccount3TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(color);
-            binding.cardViewTextViewSubAccount3TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(defaultElevation);
-            binding.cardViewTextViewSubAccount4TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(color);
-            binding.cardViewTextViewSubAccount4TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(defaultElevation);
-            binding.cardViewTextViewSubAccount5TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(color);
-            binding.cardViewTextViewSubAccount5TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(defaultElevation);
-            binding.cardViewTextViewSubAccount6TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(color);
-            binding.cardViewTextViewSubAccount6TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(defaultElevation);
-            binding.cardViewTextViewSubAccount7TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(color);
-            binding.cardViewTextViewSubAccount7TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(defaultElevation);
-            binding.cardViewTextViewSubAccount8TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(color);
-            binding.cardViewTextViewSubAccount8TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(defaultElevation);
-
             binding.editTextAccountNameFragMainACOverviewViewSpendingAccountDetailsForm.setEnabled(true);
-
-            binding.cardViewTextViewSubAccount1TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-            binding.cardViewTextViewSubAccount2TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-            binding.cardViewTextViewSubAccount3TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-            binding.cardViewTextViewSubAccount4TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-            binding.cardViewTextViewSubAccount5TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-            binding.cardViewTextViewSubAccount6TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-            binding.cardViewTextViewSubAccount7TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-            binding.cardViewTextViewSubAccount8TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-
-            binding.frameLayoutSubAccount1FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-            binding.frameLayoutSubAccount2FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-            binding.frameLayoutSubAccount3FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-            binding.frameLayoutSubAccount4FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-            binding.frameLayoutSubAccount5FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-            binding.frameLayoutSubAccount6FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-            binding.frameLayoutSubAccount7FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-            binding.frameLayoutSubAccount8FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
-
             binding.buttonDeleteAccountFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
+
+            View root = binding.getRoot();
+            List<String> listNamesAux = account.getPercentagesNamesList();
+            for (int i = 0; i < listNamesAux.size(); i++) {
+                if(listNamesAux.get(i).equals("+")){
+                    listNamesAux.remove(i);
+                    i--;
+                }
+            }
+            int num = listNamesAux.size();
+            if(num < 8){
+                num++;
+            }
+            for (int i = 1; i <= num; i++) {
+                int cardViewId = getResources().getIdentifier("cardView_textView_subAccount_" + i + "_Title_Holder_FragMainACOverviewViewSpendingAccountDetailsForm", "id", requireActivity().getPackageName());
+                int frameLayoutId = getResources().getIdentifier("frameLayout_subAccount_" + i + "_fragmentHolder_FragMainACOverviewViewSpendingAccountDetailsForm", "id", requireActivity().getPackageName());
+
+                CardView cardView = root.findViewById(cardViewId);
+                cardView.setCardBackgroundColor(color);
+                cardView.setCardElevation(defaultElevation);
+                cardView.setVisibility(View.VISIBLE);
+
+                FrameLayout frameLayout = root.findViewById(frameLayoutId);
+                frameLayout.setVisibility(View.VISIBLE);
+            }
         }else{
             binding.cardViewEditTextAccountNameHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(Color.TRANSPARENT);
             binding.cardViewEditTextAccountNameHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(0);
-
-            binding.cardViewTextViewSubAccount1TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(Color.TRANSPARENT);
-            binding.cardViewTextViewSubAccount1TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(0);
-            binding.cardViewTextViewSubAccount2TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(Color.TRANSPARENT);
-            binding.cardViewTextViewSubAccount2TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(0);
-            binding.cardViewTextViewSubAccount3TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(Color.TRANSPARENT);
-            binding.cardViewTextViewSubAccount3TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(0);
-            binding.cardViewTextViewSubAccount4TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(Color.TRANSPARENT);
-            binding.cardViewTextViewSubAccount4TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(0);
-            binding.cardViewTextViewSubAccount5TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(Color.TRANSPARENT);
-            binding.cardViewTextViewSubAccount5TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(0);
-            binding.cardViewTextViewSubAccount6TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(Color.TRANSPARENT);
-            binding.cardViewTextViewSubAccount6TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(0);
-            binding.cardViewTextViewSubAccount7TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(Color.TRANSPARENT);
-            binding.cardViewTextViewSubAccount7TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(0);
-            binding.cardViewTextViewSubAccount8TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardBackgroundColor(Color.TRANSPARENT);
-            binding.cardViewTextViewSubAccount8TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setCardElevation(0);
-
             binding.editTextAccountNameFragMainACOverviewViewSpendingAccountDetailsForm.setEnabled(false);
-
-            binding.cardViewTextViewSubAccount1TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-            binding.cardViewTextViewSubAccount2TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-            binding.cardViewTextViewSubAccount3TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-            binding.cardViewTextViewSubAccount4TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-            binding.cardViewTextViewSubAccount5TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-            binding.cardViewTextViewSubAccount6TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-            binding.cardViewTextViewSubAccount7TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-            binding.cardViewTextViewSubAccount8TitleHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-
-            binding.frameLayoutSubAccount1FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-            binding.frameLayoutSubAccount2FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-            binding.frameLayoutSubAccount3FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-            binding.frameLayoutSubAccount4FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-            binding.frameLayoutSubAccount5FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-            binding.frameLayoutSubAccount6FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-            binding.frameLayoutSubAccount7FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-            binding.frameLayoutSubAccount8FragmentHolderFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
-
             binding.buttonDeleteAccountFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
+
+            View root = binding.getRoot();
+            for (int i = 1; i <= 8; i++) {
+                int cardViewId = getResources().getIdentifier("cardView_textView_subAccount_" + i + "_Title_Holder_FragMainACOverviewViewSpendingAccountDetailsForm", "id", requireActivity().getPackageName());
+                int frameLayoutId = getResources().getIdentifier("frameLayout_subAccount_" + i + "_fragmentHolder_FragMainACOverviewViewSpendingAccountDetailsForm", "id", requireActivity().getPackageName());
+
+                CardView cardView = root.findViewById(cardViewId);
+                cardView.setCardBackgroundColor(Color.TRANSPARENT);
+                cardView.setCardElevation(0);
+                cardView.setVisibility(View.GONE);
+
+                FrameLayout frameLayout = root.findViewById(frameLayoutId);
+                frameLayout.setVisibility(View.GONE);
+            }
         }
     }
     private void setupDeleteAccountButton(){
@@ -623,7 +603,7 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
         CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
         customAlertDialogFragment.setCancelListenner(THIS);
         customAlertDialogFragment.setConfirmListenner(THIS);
-        AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_EditSubAccount_Title), getString(R.string.mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_EditSubAccount_Text), customAlertDialogFragment, customAlertDialogFragment, "1");
+        AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_EditSubAccount_Title), getString(R.string.mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_EditSubAccount_Text), customAlertDialogFragment, customAlertDialogFragment, "2");
         customAlertDialogFragment.setCustomFragment(fragment);
         customAlertDialogFragment.setTag("FragMainACOverviewViewSpendingAccountDetailsForm_EditSubAccount");
         customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");

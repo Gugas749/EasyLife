@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.CountDownTimer;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,7 @@ public class RegisterFragment extends Fragment {
         setupDialogFragments();
         changeDialogFragments("");
         startFragAnimations();
+        disableBackPressed();
 
         return binding.getRoot();
     }
@@ -66,6 +68,19 @@ public class RegisterFragment extends Fragment {
             public void handleOnBackPressed() {
                 // Handle back press here
                 // Leave this method empty to prevent the fragment from closing
+            }
+        });
+    }
+    private void disableBackPressed(){
+        binding.getRoot().setFocusableInTouchMode(true);
+        binding.getRoot().requestFocus();
+        binding.getRoot().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    return true;
+                }
+                return false;
             }
         });
     }

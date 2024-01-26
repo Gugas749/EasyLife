@@ -101,17 +101,51 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_31sdp"
             android:layout_below="@+id/textView_mainTextView_FragMainACMainViewEditLayoutHowToSave">
-            <ImageView
-                android:id="@+id/imageView_SaveExplanation_FragMainACMainViewEditLayoutHowToSave"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_77sdp"
-                android:layout_marginRight="@dimen/_8sdp"
-                android:layout_marginLeft="@dimen/_8sdp"
-                android:visibility="invisible"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/mainview_editlayout_topbar_saving_explanation_lightmode"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView_topNavigationExample_FragMainACMainViewEditLayoutHowToSave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_8sdp"
+                    android:layout_marginLeft="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_minus16sdp"
+                    android:visibility="invisible"
+                    app:cardCornerRadius="@dimen/_20sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:layout_gravity="start"
+                        android:layout_marginTop="@dimen/_27sdp"
+                        android:layout_marginLeft="@dimen/_16sdp"
+                        android:layout_marginBottom="@dimen/_16sdp"
+                        android:padding="@dimen/_8sdp"
+                        android:src="@drawable/cancel_icon" />
+                    <ImageView
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_gravity="center"
+                        android:padding="@dimen/_5sdp"
+                        android:src="@drawable/questionpoint_icon" />
+                    <ImageView
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="@dimen/_27sdp"
+                        android:layout_marginRight="@dimen/_16sdp"
+                        android:layout_marginBottom="@dimen/_16sdp"
+                        android:padding="@dimen/_4sdp"
+                        android:src="@drawable/confirm_icon" />
+                </androidx.cardview.widget.CardView>
+            </FrameLayout>
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView_popupExplanation_FragMainACMainViewEditLayoutHowToSave"
                 android:layout_width="@dimen/_231sdp"

@@ -91,6 +91,7 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
         setupOnItemSelectedSpinnerAccounts();
         setupOnItemSelectedSpinnerSubAccounts();
         setupOnItemSelectedSpinnerSubAccountsCategorys();
+        disableBackPressed();
 
         return binding.getRoot();
     }
@@ -99,6 +100,19 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
         hideShowSubAccountSpendCategory(false);
         loadSpinnerWheres();
         loadSpinnerMainAccounts();
+    }
+    private void disableBackPressed(){
+        binding.getRoot().setFocusableInTouchMode(true);
+        binding.getRoot().requestFocus();
+        binding.getRoot().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    return true;
+                }
+                return false;
+            }
+        });
     }
     private void setupLocalDataBase(){
         localDataBase = Room.databaseBuilder(getContext(), LocalDataBase.class, "EasyLifeLocalDB").build();
@@ -111,7 +125,7 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
                 CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
                 customAlertDialogFragment.setConfirmListenner(THIS);
                 customAlertDialogFragment.setCancelListenner(THIS);
-                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Save_Title), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_Save_Text), customAlertDialogFragment, customAlertDialogFragment, "1");
+                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.general_Save), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_Save_Text), customAlertDialogFragment, customAlertDialogFragment, "1");
                 customAlertDialogFragment.setCustomFragment(fragment);
                 customAlertDialogFragment.setTag("FragMainACSpendingsViewAddSpendings_Save");
                 customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
@@ -125,7 +139,7 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
                 CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
                 customAlertDialogFragment.setConfirmListenner(THIS);
                 customAlertDialogFragment.setCancelListenner(THIS);
-                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Save_Title), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_Save_Text), customAlertDialogFragment, customAlertDialogFragment, "2");
+                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.general_AlertDialog_Question_ExitWithoutSaving_Title), getString(R.string.general_AlertDialog_Question_ExitWithoutSaving_Text), customAlertDialogFragment, customAlertDialogFragment, "2");
                 customAlertDialogFragment.setCustomFragment(fragment);
                 customAlertDialogFragment.setTag("FragMainACSpendingsViewAddSpendings_Exit");
                 customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
@@ -189,7 +203,9 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
             public void onItemSelected(int i, @Nullable Object o, int i1, Object t1) {
                 selectedSubSpend = selectedAccount.getPercentagesNamesList().get(i1);
                 List<SubSpendingAccountsEntity> auxList = selectedAccount.getSubAccountsList();
-
+                if(binding.textViewSpinnerSpendigsSubAccountsSpendsExplainFragMainACSpendingsViewAddSpendings.getVisibility() != View.GONE){
+                    hideShowSubAccountSpendCategory(false);
+                }
                 if(auxList != null && auxList.size() > 0){
                     for (int j = 0; j < auxList.size(); j++) {
                         SubSpendingAccountsEntity selected = auxList.get(j);
@@ -223,7 +239,6 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
             }
         });
     }
-
     private void loadTextViewDate(Date currentDate){
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String formattedDate = dateFormat.format(currentDate);
@@ -302,55 +317,59 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
         if(!amount.equals("")){
             if(selectedAccount != null){
                 if(selectedSubSpend != null && !selectedSubSpend.equals("")){
-                    boolean isSubAccount = false;
-                    String subAccountID = "";
-                    String category = selectedSubSpend;
-                    SubSpendingAccountsEntity subAccountSelected = null;
-                    List<SubSpendingAccountsEntity> auxList = selectedAccount.getSubAccountsList();
-                    if(auxList != null && auxList.size() > 0){
-                        for (int j = 0; j < auxList.size(); j++) {
-                            SubSpendingAccountsEntity selected = auxList.get(j);
-                            if(selectedSubSpend.equals(selected.getAccountTitle())){
-                                subAccountID = selected.getAccountTitle();
-                                isSubAccount = true;
-                                category = subAccountCategorySelected;
-                                subAccountSelected = selected;
-                                break;
-                            }
-                        }
-                    }
-                    boolean canGo = false;
-                    String nameCategory = "";
-                    if(isSubAccount){
-                        if(!subAccountCategorySelected.equals("")){
-                            canGo = true;
-                        }else{
-                            aux = true;
-                        }
-                    }else{
-                        canGo = true;
-                    }
-
-                    if(canGo){
-                        SpendsEntity spend = new SpendsEntity();
-                        float amountFloat = Float.parseFloat(amount);
-                        spend.setInfos(amountFloat, spendDate, String.valueOf(selectedAccount.getId()), subAccountID, category, isSubAccount, category);
-
-                        if(isSubAccount){
-                            for (int i = 0; i < selectedAccount.getSubAccountsList().size(); i++) {
-                                if(selectedAccount.getSubAccountsList().get(i).equals(subAccountSelected)){
-                                    selectedAccount.getSubAccountsList().remove(subAccountSelected);
-
-                                    subAccountSelected.getSpendsList().add(spend);
-                                    selectedAccount.getSubAccountsList().add(i, subAccountSelected);
+                    if(isValidInput(amount)){
+                        boolean isSubAccount = false;
+                        String subAccountID = "";
+                        String category = selectedSubSpend;
+                        SubSpendingAccountsEntity subAccountSelected = null;
+                        List<SubSpendingAccountsEntity> auxList = selectedAccount.getSubAccountsList();
+                        if(auxList != null && auxList.size() > 0){
+                            for (int j = 0; j < auxList.size(); j++) {
+                                SubSpendingAccountsEntity selected = auxList.get(j);
+                                if(selectedSubSpend.equals(selected.getAccountTitle())){
+                                    subAccountID = selected.getAccountTitle();
+                                    isSubAccount = true;
+                                    category = subAccountCategorySelected;
+                                    subAccountSelected = selected;
                                     break;
                                 }
                             }
+                        }
+                        boolean canGo = false;
+                        String nameCategory = "";
+                        if(isSubAccount){
+                            if(!subAccountCategorySelected.equals("")){
+                                canGo = true;
+                            }else{
+                                aux = true;
+                            }
                         }else{
-                            selectedAccount.getSpendsList().add(spend);
+                            canGo = true;
                         }
 
-                        new LocalDatabaseUpdateTask().execute();
+                        if(canGo){
+                            SpendsEntity spend = new SpendsEntity();
+                            float amountFloat = Float.parseFloat(amount);
+                            spend.setInfos(amountFloat, spendDate, String.valueOf(selectedAccount.getId()), subAccountID, category, isSubAccount, category);
+
+                            if(isSubAccount){
+                                for (int i = 0; i < selectedAccount.getSubAccountsList().size(); i++) {
+                                    if(selectedAccount.getSubAccountsList().get(i).equals(subAccountSelected)){
+                                        selectedAccount.getSubAccountsList().remove(subAccountSelected);
+
+                                        subAccountSelected.getSpendsList().add(spend);
+                                        selectedAccount.getSubAccountsList().add(i, subAccountSelected);
+                                        break;
+                                    }
+                                }
+                            }else{
+                                selectedAccount.getSpendsList().add(spend);
+                            }
+
+                            new LocalDatabaseUpdateTask().execute();
+                        }
+                    }else{
+                        aux = true;
                     }
                 }else{
                     aux = true;
@@ -364,6 +383,22 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
         if(aux){
             Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_MissingInputs_Text), Toast.LENGTH_SHORT).show();
         }
+    }
+    private boolean isValidInput(String input) {
+        boolean aux = true;
+        if(input.contains(".")){
+            if(input.length() >= 3){
+                for (int i = 0; i < input.length(); i++) {
+                    if(input.substring(i).equals(".")){
+                        break;
+                    }
+                }
+            }else{
+                aux = false;
+            }
+        }
+
+        return aux;
     }
     private static float calculatePercentage(float part, float whole) {
         if (whole != 0) {
@@ -401,7 +436,6 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
 
         return percentagesList;
     }
-
     private void fadeInAnimation(View view){
         Animation fadeOut = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
         view.startAnimation(fadeOut);
@@ -454,16 +488,19 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
     }
     @Override
     public void onConfirmButtonClicked(String Tag) {
-        getInfosAndSave();
-    }
-    @Override
-    public void onCancelButtonClicked(String Tag) {
         switch (Tag){
             case "FragMainACSpendingsViewAddSpendings_Exit":
                 SpendingAccountsEntity object = null;
                 listenner.onExitMainACSpendingsViewAddSpendingsFrag(false, object);
                 break;
+            case "FragMainACSpendingsViewAddSpendings_Save":
+                getInfosAndSave();
+                break;
         }
+    }
+    @Override
+    public void onCancelButtonClicked(String Tag) {
+
     }
 
     private class LocalDatabaseUpdateTask extends AsyncTask<Void, Void, SpendingAccountsEntity> {

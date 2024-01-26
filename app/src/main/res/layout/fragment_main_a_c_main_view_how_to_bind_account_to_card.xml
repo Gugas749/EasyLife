@@ -5,12 +5,12 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/colorPrimary"
-    android:id="@+id/frameLayout_parent_FragMainACMainViewEditLayoutHowToDelete"
-    tools:context=".fragments.mainactivityfragments.main_view.editlayouthowtofrags.MainACMainViewEditLayoutHowToDeleteFragment">
+    android:id="@+id/frameLayout_parent_FragMainACMainViewHowToBindAccountToCardHome"
+    tools:context=".fragments.mainactivityfragments.main_view.howto.MainACMainViewHowToBindAccountToCardHomeFragment">
 
     <!--    -->
     <TextView
-        android:id="@+id/textView_next_FragMainACMainViewEditLayoutHowToDelete"
+        android:id="@+id/textView_next_FragMainACMainViewHowToBindAccountToCardHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
@@ -21,7 +21,7 @@
         android:textColor="?attr/textAppearanceBodyMedium"
         android:text="@string/general_next"/>
     <TextView
-        android:id="@+id/textView_previous_FragMainACMainViewEditLayoutHowToDelete"
+        android:id="@+id/textView_previous_FragMainACMainViewHowToBindAccountToCardHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|left"
@@ -29,6 +29,7 @@
         android:textSize="@dimen/_16sdp"
         android:textStyle="bold"
         android:textColor="?attr/textAppearanceBodyMedium"
+        android:visibility="gone"
         android:text="@string/general_previous"/>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -36,37 +37,17 @@
         android:layout_marginBottom="@dimen/_16sdp"
         android:layout_gravity="bottom|center">
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardView_FragIndicator_1_FragMainACMainViewEditLayoutHowToDelete"
-            android:layout_width="@dimen/_5sdp"
-            android:layout_height="@dimen/_5sdp"
-            android:layout_marginRight="@dimen/_4sdp"
-            app:cardCornerRadius="@dimen/_90sdp"
-            app:cardBackgroundColor="?attr/colorSecondary"/>
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView_FragIndicator_2_FragMainACMainViewEditLayoutHowToDelete"
-            android:layout_width="@dimen/_5sdp"
-            android:layout_height="@dimen/_5sdp"
-            android:layout_marginRight="@dimen/_4sdp"
-            app:cardCornerRadius="@dimen/_90sdp"
-            app:cardBackgroundColor="?attr/colorSecondary"/>
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView_FragIndicator_3_FragMainACMainViewEditLayoutHowToDelete"
-            android:layout_width="@dimen/_5sdp"
-            android:layout_height="@dimen/_5sdp"
-            android:layout_marginRight="@dimen/_4sdp"
-            app:cardCornerRadius="@dimen/_90sdp"
-            app:cardBackgroundColor="?attr/colorSecondary"/>
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView_FragIndicator_4_FragMainACMainViewEditLayoutHowToDelete"
+            android:id="@+id/cardView_FragIndicator_1_FragMainACMainViewHowToBindAccountToCardHome"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_5sdp"
             android:layout_marginRight="@dimen/_4sdp"
             app:cardCornerRadius="@dimen/_90sdp"
             app:cardBackgroundColor="?attr/colorControlNormal"/>
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardView_FragIndicator_5_FragMainACMainViewEditLayoutHowToDelete"
+            android:id="@+id/cardView_FragIndicator_2_FragMainACMainViewHowToBindAccountToCardHome"
             android:layout_width="@dimen/_5sdp"
             android:layout_height="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_4sdp"
             app:cardCornerRadius="@dimen/_90sdp"
             app:cardBackgroundColor="?attr/colorSecondary"/>
     </LinearLayout>
@@ -76,7 +57,7 @@
         android:layout_gravity="center_horizontal"
         android:textSize="@dimen/_23sdp"
         android:layout_marginTop="@dimen/_23sdp"
-        android:text="@string/mainAc_FragMainViewEditLayoutHowTo_Delete_Title"
+        android:text="@string/mainAc_FragMainView_HowTo_BindingAccounts_Title"
         android:textColor="?attr/textAppearanceBodyMedium"
         android:fontFamily="@font/coiny_regular"
         android:layout_width="wrap_content"
@@ -87,20 +68,20 @@
         android:layout_gravity="center"
         android:paddingBottom="@dimen/_16sdp">
         <TextView
-            android:id="@+id/textView_mainTextView_FragMainACMainViewEditLayoutHowToDelete"
+            android:id="@+id/textView_mainTextView_FragMainACMainViewHowToBindAccountToCardHome"
             android:textSize="@dimen/_23sdp"
             android:paddingRight="@dimen/_8sdp"
             android:paddingLeft="@dimen/_8sdp"
             android:layout_marginBottom="@dimen/_8sdp"
-            android:text="@string/mainAc_FragMainViewEditLayoutHowTo_Delete_Text_1"
+            android:text="@string/mainAc_FragMainView_HowTo_BindingAccounts_Home_Text"
             android:textColor="?attr/textAppearanceBodyMedium"
             android:textAlignment="center"
             android:fontFamily="@font/dosis_regular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardView_SwipeExplanation_FragMainACMainViewEditLayoutHowToDelete"
-            android:layout_below="@+id/textView_mainTextView_FragMainACMainViewEditLayoutHowToDelete"
+            android:id="@+id/cardView_LongPressExplanation_FragMainACMainViewHowToBindAccountToCardHome"
+            android:layout_below="@+id/textView_mainTextView_FragMainACMainViewHowToBindAccountToCardHome"
             android:layout_width="@dimen/_77sdp"
             android:layout_height="@dimen/_77sdp"
             android:layout_marginLeft="@dimen/_39sdp"
@@ -108,9 +89,9 @@
             app:cardBackgroundColor="?attr/colorSecondary"
             app:cardCornerRadius="@dimen/_20sdp"/>
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardView_popupExplanation_FragMainACMainViewEditLayoutHowToDelete"
-            android:layout_below="@+id/textView_mainTextView_FragMainACMainViewEditLayoutHowToDelete"
-            android:layout_toEndOf="@+id/cardView_SwipeExplanation_FragMainACMainViewEditLayoutHowToDelete"
+            android:id="@+id/cardView_popupExplanation_FragMainACMainViewHowToBindAccountToCardHome"
+            android:layout_below="@+id/textView_mainTextView_FragMainACMainViewHowToBindAccountToCardHome"
+            android:layout_toEndOf="@+id/cardView_LongPressExplanation_FragMainACMainViewHowToBindAccountToCardHome"
             android:layout_width="@dimen/_231sdp"
             android:layout_height="wrap_content"
             android:padding="@dimen/_8sdp"
@@ -125,26 +106,26 @@
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/_8sdp">
                 <TextView
-                    android:id="@+id/textView_Title_AlertDialogQuestion_Example_FragMainACMainViewEditLayoutHowToDelete"
+                    android:id="@+id/textView_Title_AlertDialogQuestion_Example_FragMainACMainViewHowToBindAccountToCardHome"
                     android:gravity="center_horizontal"
                     android:textSize="@dimen/_18sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/mainAc_FragMainViewEditLayoutHowTo_Delete_PopUp_Title"/>
+                    android:text="@string/general_Edit"/>
                 <TextView
-                    android:id="@+id/textView_description_AlertDialogQuestion_Example_FragMainACMainViewEditLayoutHowToDelete"
-                    android:layout_below="@+id/textView_Title_AlertDialogQuestion_Example_FragMainACMainViewEditLayoutHowToDelete"
+                    android:id="@+id/textView_description_AlertDialogQuestion_Example_FragMainACMainViewHowToBindAccountToCardHome"
+                    android:layout_below="@+id/textView_Title_AlertDialogQuestion_Example_FragMainACMainViewHowToBindAccountToCardHome"
                     android:gravity="center_horizontal"
                     android:layout_marginTop="@dimen/_11sdp"
                     android:textSize="@dimen/_14sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/mainAc_FragMainViewEditLayoutHowTo_Delete_PopUp_Description"/>
+                    android:text=""/>
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_11sdp"
-                    android:layout_below="@+id/textView_description_AlertDialogQuestion_Example_FragMainACMainViewEditLayoutHowToDelete">
+                    android:layout_below="@+id/textView_description_AlertDialogQuestion_Example_FragMainACMainViewHowToBindAccountToCardHome">
                     <androidx.appcompat.widget.AppCompatButton
                         android:layout_gravity="left"
                         android:textSize="@dimen/_16sdp"
@@ -167,8 +148,8 @@
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
         <ImageView
-            android:id="@+id/imageView_pointingToImageView_FragMainACMainViewEditLayoutHowToDelete"
-            android:layout_below="@+id/cardView_SwipeExplanation_FragMainACMainViewEditLayoutHowToDelete"
+            android:id="@+id/imageView_pointingToImageView_FragMainACMainViewHowToBindAccountToCardHome"
+            android:layout_below="@+id/cardView_LongPressExplanation_FragMainACMainViewHowToBindAccountToCardHome"
             android:layout_width="@dimen/_54sdp"
             android:layout_height="@dimen/_54sdp"
             android:elevation="@dimen/_8sdp"
@@ -177,5 +158,4 @@
             android:src="@drawable/hand_pointing"
             app:tint="?attr/colorControlNormal" />
     </RelativeLayout>
-
 </FrameLayout>

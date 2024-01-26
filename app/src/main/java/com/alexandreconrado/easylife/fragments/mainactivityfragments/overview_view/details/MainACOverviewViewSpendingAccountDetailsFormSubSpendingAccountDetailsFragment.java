@@ -3,15 +3,18 @@ package com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_v
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.room.Room;
 
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.alexandreconrado.easylife.R;
@@ -72,8 +75,22 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
         setupClickListennerTextViewsAux();
         setupLocalDataBase();
         setupDeleteAccountButton();
+        disableBackPressed();
 
         return binding.getRoot();
+    }
+    private void disableBackPressed(){
+        binding.getRoot().setFocusableInTouchMode(true);
+        binding.getRoot().requestFocus();
+        binding.getRoot().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    return true;
+                }
+                return false;
+            }
+        });
     }
     private void init(boolean editModeAux){
         THIS = this;
@@ -141,45 +158,44 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
 
             binding.cardViewEditTextAccountNameHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardBackgroundColor(color);
             binding.cardViewEditTextAccountNameHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardElevation(defaultElevation);
-
-            binding.cardViewTextViewSubAccount1TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardBackgroundColor(color);
-            binding.cardViewTextViewSubAccount1TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardElevation(defaultElevation);
-            binding.cardViewTextViewSubAccount2TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardBackgroundColor(color);
-            binding.cardViewTextViewSubAccount2TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardElevation(defaultElevation);
-            binding.cardViewTextViewSubAccount3TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardBackgroundColor(color);
-            binding.cardViewTextViewSubAccount3TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardElevation(defaultElevation);
-            binding.cardViewTextViewSubAccount4TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardBackgroundColor(color);
-            binding.cardViewTextViewSubAccount4TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardElevation(defaultElevation);
-
             binding.editTextAccountNameFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setEnabled(true);
-
-            binding.cardViewTextViewSubAccount1TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.VISIBLE);
-            binding.cardViewTextViewSubAccount2TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.VISIBLE);
-            binding.cardViewTextViewSubAccount3TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.VISIBLE);
-            binding.cardViewTextViewSubAccount4TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.VISIBLE);
-
             binding.buttonDeleteSubAccountFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.VISIBLE);
+
+            View root = binding.getRoot();
+            List<String> listNamesAux = subAccount.getPercentagesNamesList();
+            for (int i = 0; i < listNamesAux.size(); i++) {
+                if(listNamesAux.get(i).equals("+")){
+                    listNamesAux.remove(i);
+                    i--;
+                }
+            }
+            int num = listNamesAux.size();
+            if(num < 4){
+                num++;
+            }
+            for (int i = 1; i <= num; i++) {
+                int cardViewId = getResources().getIdentifier("cardView_textView_subAccount_" + i + "_Title_Holder_FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails", "id", requireActivity().getPackageName());
+
+                CardView cardView = root.findViewById(cardViewId);
+                cardView.setCardBackgroundColor(color);
+                cardView.setCardElevation(defaultElevation);
+                cardView.setVisibility(View.VISIBLE);
+            }
         }else{
             binding.cardViewEditTextAccountNameHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardBackgroundColor(Color.TRANSPARENT);
             binding.cardViewEditTextAccountNameHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardElevation(0);
-
-            binding.cardViewTextViewSubAccount1TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardBackgroundColor(Color.TRANSPARENT);
-            binding.cardViewTextViewSubAccount1TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardElevation(0);
-            binding.cardViewTextViewSubAccount2TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardBackgroundColor(Color.TRANSPARENT);
-            binding.cardViewTextViewSubAccount2TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardElevation(0);
-            binding.cardViewTextViewSubAccount3TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardBackgroundColor(Color.TRANSPARENT);
-            binding.cardViewTextViewSubAccount3TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardElevation(0);
-            binding.cardViewTextViewSubAccount4TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardBackgroundColor(Color.TRANSPARENT);
-            binding.cardViewTextViewSubAccount4TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardElevation(0);
-
             binding.editTextAccountNameFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setEnabled(false);
-
-            binding.cardViewTextViewSubAccount1TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.GONE);
-            binding.cardViewTextViewSubAccount2TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.GONE);
-            binding.cardViewTextViewSubAccount3TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.GONE);
-            binding.cardViewTextViewSubAccount4TitleHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.GONE);
-
             binding.buttonDeleteSubAccountFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.GONE);
+
+            View root = binding.getRoot();
+            for (int i = 1; i <= 4; i++) {
+                int cardViewId = getResources().getIdentifier("cardView_textView_subAccount_" + i + "_Title_Holder_FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails", "id", requireActivity().getPackageName());
+
+                CardView cardView = root.findViewById(cardViewId);
+                cardView.setCardBackgroundColor(Color.TRANSPARENT);
+                cardView.setCardElevation(0);
+                cardView.setVisibility(View.GONE);
+            }
         }
     }
     private void setupClickListennerTextViewsAux(){

@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import android.os.CountDownTimer;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,8 +73,22 @@ public class MainACMainViewEditLayoutHowToDeleteFragment extends Fragment {
 
         setupNextButton();
         setupPreviousButton();
+        disableBackPressed();
 
         return binding.getRoot();
+    }
+    private void disableBackPressed(){
+        binding.getRoot().setFocusableInTouchMode(true);
+        binding.getRoot().requestFocus();
+        binding.getRoot().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void setupPreviousButton(){
@@ -119,78 +134,95 @@ public class MainACMainViewEditLayoutHowToDeleteFragment extends Fragment {
 
                 public void onFinish() {
                     binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
-                    forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, getResources().getDimension(com.intuit.sdp.R.dimen._75sdp), 0);
-                    new CountDownTimer(1000, 1000) {
+                    new CountDownTimer(400, 1000) {
                         public void onTick(long millisUntilFinished) {
 
                         }
 
                         public void onFinish() {
-                            TypedValue typedValue = new TypedValue();
-                            getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorControlNormal, typedValue, true);
-                            int color = typedValue.data;
-                            int initialColor = color;
-
-                            typedValue = new TypedValue();
-                            getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.textAppearanceBodySmall, typedValue, true);
-                            color = typedValue.data;
-                            int finalColor = color;
-
-                            colorChangePointingAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, initialColor, finalColor);
-
-                            fadeInAnimation(binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToDelete);
                             binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
-                            downwardsAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, getResources().getDimension(com.intuit.sdp.R.dimen._10sdp), getResources().getDimension(com.intuit.sdp.R.dimen._minus50sdp));
-                            new CountDownTimer(1500, 1000) {
+                            new CountDownTimer(400, 1000){
                                 public void onTick(long millisUntilFinished) {
 
                                 }
-
+                                @Override
                                 public void onFinish() {
-                                    forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, getResources().getDimension(com.intuit.sdp.R.dimen._210sdp), getResources().getDimension(com.intuit.sdp.R.dimen._75sdp));
-                                    new CountDownTimer(1500, 1000) {
+                                    binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
+                                    new CountDownTimer(400, 1000){
                                         public void onTick(long millisUntilFinished) {
 
                                         }
-
+                                        @Override
                                         public void onFinish() {
-                                            binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
-                                            new CountDownTimer(500, 1000) {
+                                            TypedValue typedValue = new TypedValue();
+                                            getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorControlNormal, typedValue, true);
+                                            int color = typedValue.data;
+                                            int initialColor = color;
+
+                                            typedValue = new TypedValue();
+                                            getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.textAppearanceBodySmall, typedValue, true);
+                                            color = typedValue.data;
+                                            int finalColor = color;
+
+                                            colorChangePointingAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, initialColor, finalColor);
+
+                                            fadeInAnimation(binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToDelete);
+                                            binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
+                                            downwardsAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, getResources().getDimension(com.intuit.sdp.R.dimen._10sdp), getResources().getDimension(com.intuit.sdp.R.dimen._minus50sdp));
+                                            new CountDownTimer(1500, 1000) {
                                                 public void onTick(long millisUntilFinished) {
 
                                                 }
 
                                                 public void onFinish() {
-                                                    binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
-                                                    fadeOutAnimation(binding.cardViewSwipeExplanationFragMainACMainViewEditLayoutHowToDelete);
-                                                    new CountDownTimer(1800, 1000) {
+                                                    forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, getResources().getDimension(com.intuit.sdp.R.dimen._190sdp), 0);
+                                                    new CountDownTimer(1500, 1000) {
                                                         public void onTick(long millisUntilFinished) {
 
                                                         }
 
                                                         public void onFinish() {
-                                                            fadeOutAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete);
-                                                            fadeOutAnimation(binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToDelete);
-                                                            new CountDownTimer(700, 1000) {
+                                                            binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
+                                                            new CountDownTimer(400, 1000) {
                                                                 public void onTick(long millisUntilFinished) {
 
                                                                 }
 
                                                                 public void onFinish() {
-                                                                    TypedValue typedValue = new TypedValue();
-                                                                    getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.textAppearanceBodySmall, typedValue, true);
-                                                                    int color = typedValue.data;
-                                                                    int initialColor = color;
+                                                                    binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
+                                                                    fadeOutAnimation(binding.cardViewSwipeExplanationFragMainACMainViewEditLayoutHowToDelete);
+                                                                    new CountDownTimer(1800, 1000) {
+                                                                        public void onTick(long millisUntilFinished) {
 
-                                                                    typedValue = new TypedValue();
-                                                                    getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorControlNormal, typedValue, true);
-                                                                    color = typedValue.data;
-                                                                    int finalColor = color;
+                                                                        }
 
-                                                                    colorChangePointingAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, initialColor, finalColor);
+                                                                        public void onFinish() {
+                                                                            fadeOutAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete);
+                                                                            fadeOutAnimation(binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToDelete);
+                                                                            new CountDownTimer(700, 1000) {
+                                                                                public void onTick(long millisUntilFinished) {
 
-                                                                    pointBackToStartPosAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, 0, getResources().getDimension(com.intuit.sdp.R.dimen._210sdp));
-                                                                    initialRemoveAnimation();
+                                                                                }
+
+                                                                                public void onFinish() {
+                                                                                    TypedValue typedValue = new TypedValue();
+                                                                                    getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.textAppearanceBodySmall, typedValue, true);
+                                                                                    int color = typedValue.data;
+                                                                                    int initialColor = color;
+
+                                                                                    typedValue = new TypedValue();
+                                                                                    getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorControlNormal, typedValue, true);
+                                                                                    color = typedValue.data;
+                                                                                    int finalColor = color;
+
+                                                                                    colorChangePointingAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, initialColor, finalColor);
+
+                                                                                    pointBackToStartPosAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToDelete, 0, getResources().getDimension(com.intuit.sdp.R.dimen._210sdp));
+                                                                                    initialRemoveAnimation();
+                                                                                }
+                                                                            }.start();
+                                                                        }
+                                                                    }.start();
                                                                 }
                                                             }.start();
                                                         }

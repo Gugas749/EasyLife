@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.room.Room;
 
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,8 +81,22 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
         setupExitButton();
         setupButtonAddPercentagesNames();
         setupChangeParentColorCardView();
+        disableBackPressed();
 
         return binding.getRoot();
+    }
+    private void disableBackPressed(){
+        binding.getRoot().setFocusableInTouchMode(true);
+        binding.getRoot().requestFocus();
+        binding.getRoot().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    return true;
+                }
+                return false;
+            }
+        });
     }
     private void init(){
         THIS = this;
@@ -105,7 +120,7 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
                 CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
                 customAlertDialogFragment.setCancelListenner(THIS);
                 customAlertDialogFragment.setConfirmListenner(THIS);
-                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Save_Title), getString(R.string.general_AlertDialog_Question_save_text), customAlertDialogFragment, customAlertDialogFragment, "1");
+                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.general_Save), getString(R.string.mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_AlertDialog_Question_Saving_Text), customAlertDialogFragment, customAlertDialogFragment, "1");
                 customAlertDialogFragment.setCustomFragment(fragment);
                 customAlertDialogFragment.setTag("FragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm_SaveButton");
                 customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
@@ -119,7 +134,7 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
                 CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
                 customAlertDialogFragment.setCancelListenner(THIS);
                 customAlertDialogFragment.setConfirmListenner(THIS);
-                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Leave_Title), getString(R.string.general_AlertDialog_Question_saveBeforeLeaving_text), customAlertDialogFragment, customAlertDialogFragment, "2");
+                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.general_AlertDialog_Question_ExitWithoutSaving_Title), getString(R.string.general_AlertDialog_Question_ExitWithoutSaving_Text), customAlertDialogFragment, customAlertDialogFragment, "2");
                 customAlertDialogFragment.setCustomFragment(fragment);
                 customAlertDialogFragment.setTag("FragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm_ExitButton");
                 customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
@@ -230,41 +245,42 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
     @Override
     public void onConfirmButtonClicked(String Tag) {
         enableDisableEverything(false);
-        if(Tag.equals("FragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm_SaveButton") || Tag.equals("FragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm_ExitButton")){
-            String accountName = binding.editTextAccountNameFragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm.getText().toString().trim();
-            if(!accountName.equals("") && percentagesNamesList.size() >= 2 && percentagesColorsList.size() >= 2){
-                boolean repeated = false;
-                if(!accountName.equals("+")){
-                    if(!accountName.equals(nameFromDB)){
-                        for (int i = 0; i < percentagesNamesFromParent.size(); i++) {
-                            if(percentagesNamesFromParent.get(i).equals(accountName)){
-                                repeated = true;
-                                break;
+        switch (Tag){
+            case "FragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm_SaveButton":
+                String accountName = binding.editTextAccountNameFragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm.getText().toString().trim();
+                if(!accountName.equals("") && percentagesNamesList.size() >= 2 && percentagesColorsList.size() >= 2){
+                    boolean repeated = false;
+                    if(!accountName.equals("+")){
+                        if(!accountName.equals(nameFromDB)){
+                            for (int i = 0; i < percentagesNamesFromParent.size(); i++) {
+                                if(percentagesNamesFromParent.get(i).equals(accountName)){
+                                    repeated = true;
+                                    break;
+                                }
                             }
                         }
-                    }
-                    if(!repeated){
-                        new LocalDatabaseInsertTask().execute();
+                        if(!repeated){
+                            new LocalDatabaseInsertTask().execute();
+                        }else{
+                            Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_RepeatedName_Text), Toast.LENGTH_SHORT).show();
+                            enableDisableEverything(true);
+                        }
                     }else{
-                        Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_RepeatedName_Text), Toast.LENGTH_SHORT).show();
-                        enableDisableEverything(true);
+                        Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_NamedPlus_Text), Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_NamedPlus_Text), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_MissingInputs_Text), Toast.LENGTH_SHORT).show();
+                    enableDisableEverything(true);
                 }
-            }else{
-                Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_MissingInputs_Text), Toast.LENGTH_SHORT).show();
-                enableDisableEverything(true);
-            }
+                break;
+            case "FragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm_ExitButton":
+                exitListenner.onExitFragMainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm(false, account);
+                break;
         }
     }
     @Override
     public void onCancelButtonClicked(String Tag) {
-        enableDisableEverything(false);
-        if (Tag.equals("FragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm_ExitButton")){
-            exitListenner.onExitFragMainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm(false, account);
-        }
-        enableDisableEverything(true);
+
     }
 
     private class LocalDatabaseInsertTask extends AsyncTask<Void, Void, SpendingAccountsEntity> {

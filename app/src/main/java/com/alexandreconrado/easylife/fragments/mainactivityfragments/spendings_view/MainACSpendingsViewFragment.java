@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,9 @@ import android.view.ViewGroup;
 import com.alexandreconrado.easylife.database.entities.SpendsEntity;
 import com.alexandreconrado.easylife.databinding.FragmentMainACSpendingsViewBinding;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MainACSpendingsViewFragment extends Fragment implements RVAdapterSpendings.SpendingsItemClick {
@@ -39,10 +42,23 @@ public class MainACSpendingsViewFragment extends Fragment implements RVAdapterSp
             init();
             loadRecyclerView();
         }
+        disableBackPressed();
 
         return binding.getRoot();
     }
-
+    private void disableBackPressed(){
+        binding.getRoot().setFocusableInTouchMode(true);
+        binding.getRoot().requestFocus();
+        binding.getRoot().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
     public void updateData(List<SpendsEntity> spendsEntityList){
         this.spendsEntityList = spendsEntityList;
     }
@@ -52,6 +68,9 @@ public class MainACSpendingsViewFragment extends Fragment implements RVAdapterSp
     }
     private void loadRecyclerView(){
         if(spendsEntityList.size() > 0){
+            spendsEntityList = sortList(spendsEntityList);
+            spendsEntityList = sortList(spendsEntityList);
+            spendsEntityList = sortList(spendsEntityList);
             Collections.reverse(spendsEntityList);
             adapter.updateData(spendsEntityList);
             binding.rvSpendingsAccountsFragMainACSpendingsView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -61,6 +80,16 @@ public class MainACSpendingsViewFragment extends Fragment implements RVAdapterSp
             binding.textViewNoItemsToDisplayFragMainACSpendingsView.setVisibility(View.VISIBLE);
             binding.rvSpendingsAccountsFragMainACSpendingsView.setVisibility(View.GONE);
         }
+    }
+    private List<SpendsEntity> sortList(List<SpendsEntity> list){
+        List<SpendsEntity> sortedList = new ArrayList<>(list);
+        sortedList.sort(new Comparator<SpendsEntity>() {
+            @Override
+            public int compare(SpendsEntity o1, SpendsEntity o2) {
+                return o1.getDate().compareTo(o2.getDate());
+            }
+        });
+        return list;
     }
 
     @Override

@@ -4,20 +4,27 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.room.Room;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -39,6 +46,8 @@ import com.alexandreconrado.easylife.databinding.ActivityMainBinding;
 import com.alexandreconrado.easylife.fragments.AuthenticationFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view.MainACMainViewEditLayoutFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view.MainACMainViewFragment;
+import com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view.howto.MainACMainViewHowToBindAccountToCardHomeFragment;
+import com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view.howto.MainACMainViewHowToBindAccountToCardPopUpFormFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_view.add.MainACOverviewViewAddSpendingAccountFormFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_view.MainACOverviewViewFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_view.details.MainACOverviewViewSpendingAccountDetailsFormFragment;
@@ -130,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     //-----------------SETUPS--------------------
     private void init(){
         THIS = this;
+        disableBackPressed();
         draggableCardViewObjectsList = new ArrayList<>();
         spendingAccountsEntitiesList = new ArrayList<>();
         allSpendsList = new ArrayList<>();
@@ -154,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 setupSideMenu();
                 setupMultiFunctionButtonButton();
                 setupHowToButton();
+                enableSwipeToOpenSideMenu();
             }
         };
 
@@ -240,11 +251,11 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             @Override
             public void onClick(View v) {
                 if (v.getTag().equals("0")) {
-                    //overview
+                    runSwipeDownAnimation("OverviewView_HowTo");
                 }else if (v.getTag().equals("1")) {
-                    //mainview
+                    runSwipeDownAnimation("MainView_HowTo");
                 } else if (v.getTag().equals("2")) {
-                    //spendings
+                    runSwipeDownAnimation("SpendingsView_HowTo");
                 }
             }
         });
@@ -261,6 +272,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     @Override
     public void onResume() {
         super.onResume();
+        disableBackPressed();
         if(seenTutorial){
             if(getSession()){ // SESSION STILL AVALIABLE
 
@@ -280,6 +292,19 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             output = true;
         }
         return output;
+    }
+    private void disableBackPressed(){
+        binding.getRoot().setFocusableInTouchMode(true);
+        binding.getRoot().requestFocus();
+        binding.getRoot().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    return true;
+                }
+                return false;
+            }
+        });
     }
     public void tutorialChangeFragments(int selected, boolean fromNextFragment, boolean skipped, int skippedFromWhere){
         switch (selected){
@@ -462,12 +487,12 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         }
         fadeInAnimation(binding.imageViewButtonMultiFunctionMainViewMainAC);
     }
-    private void enableDisableAll(boolean bool){
-        allDisable = bool;
+    private void enableDisableAll(boolean disable){
+        allDisable = disable;
         if(mainACMainViewFragment != null){
-            mainACMainViewFragment.setParentALlDisbale(bool);
+            mainACMainViewFragment.setParentALlDisbale(disable);
         }
-        if(bool){
+        if(disable){
             binding.imageViewButtonSideMenuMainAC.setEnabled(false);
             binding.imageViewButtonMultiFunctionMainViewMainAC.setEnabled(false);
 
@@ -485,6 +510,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     }
     private void showAuthenticationScreen(){
         inFragment();
+        disableSwipeToOpenSideMenu();
         enableDisableAll(true);
         binding.frameLayoutFullScreenFragmentContainerMainAc.setBackground(null);
         binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.VISIBLE);
@@ -666,6 +692,16 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         });
         navigationViewSideMenu.bringToFront();
     }
+    private void enableSwipeToOpenSideMenu() {
+        if (drawerLayoutSideMenu != null) {
+            drawerLayoutSideMenu.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        }
+    }
+    private void disableSwipeToOpenSideMenu() {
+        if (drawerLayoutSideMenu != null) {
+            drawerLayoutSideMenu.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        }
+    }
     //----------------------------------------------
 
     //----------------ANIMATIONS--------------------
@@ -766,6 +802,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         binding.cardViewTopNavigationMainAc.setVisibility(View.INVISIBLE);
         binding.imageViewButtonMultiFunctionMainViewMainAC.setVisibility(View.INVISIBLE);
         binding.imageViewButtonSideMenuMainAC.setVisibility(View.INVISIBLE);
+        binding.imageViewButtonHowToUseMainAC.setVisibility(View.INVISIBLE);
 
         binding.imageViewAux1MainActivity.setEnabled(false);
 
@@ -776,6 +813,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         binding.cardViewTopNavigationMainAc.setEnabled(false);
         binding.imageViewButtonMultiFunctionMainViewMainAC.setEnabled(false);
         binding.imageViewButtonSideMenuMainAC.setEnabled(false);
+        binding.imageViewButtonHowToUseMainAC.setEnabled(false);
     }
     private void outFragment(){
         binding.imageViewAux1MainActivity.setVisibility(View.VISIBLE);
@@ -787,6 +825,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         binding.cardViewTopNavigationMainAc.setVisibility(View.VISIBLE);
         binding.imageViewButtonMultiFunctionMainViewMainAC.setVisibility(View.VISIBLE);
         binding.imageViewButtonSideMenuMainAC.setVisibility(View.VISIBLE);
+        binding.imageViewButtonHowToUseMainAC.setVisibility(View.VISIBLE);
 
         binding.imageViewAux1MainActivity.setEnabled(true);
 
@@ -797,12 +836,14 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         binding.cardViewTopNavigationMainAc.setEnabled(true);
         binding.imageViewButtonMultiFunctionMainViewMainAC.setEnabled(true);
         binding.imageViewButtonSideMenuMainAC.setEnabled(true);
+        binding.imageViewButtonHowToUseMainAC.setEnabled(true);
     }
     //----------------------------------------------
 
     //----------------LISTENNERS--------------------
     @Override
     public void OnFragMainACMainViewEditLayoutExitClick(Boolean Changed, List<DraggableCardViewEntity> listReturned) {
+        disableBackPressed();
         scaleUpAnimtion();
         new CountDownTimer(1500, 1000) {
             public void onTick(long millisUntilFinished) {
@@ -831,6 +872,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     }
     @Override
     public void onExitButtonClickFragMainACOverviewViewAddSpendingsForm(Boolean Changed, SpendingAccountsEntity returned) {
+        disableBackPressed();
         scaleUpAnimtion();
         new CountDownTimer(1500, 1000) {
             public void onTick(long millisUntilFinished) {
@@ -857,10 +899,12 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     }
     @Override
     public void onConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC(DraggableCardViewEntity object, boolean canHoldMainAccount, int selectedSubAccountIndex) {
+        disableBackPressed();
         new LocalDatabaseUpdateDraggableObjectsTask(object, object, canHoldMainAccount, selectedSubAccountIndex, false).execute();
     }
     @Override
     public void onSpendingsAccountItemClickFragMainACOverviewView(SpendingAccountsEntity account) {
+        disableBackPressed();
         if(!allDisable){
             scaleUpAnimtion();
             enableDisableAll(true);
@@ -891,6 +935,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     }
     @Override
     public void onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(SpendingAccountsEntity account, boolean deleted) {
+        disableBackPressed();
         scaleUpAnimtion();
         new CountDownTimer(1500, 1000) {
             public void onTick(long millisUntilFinished) {
@@ -978,42 +1023,52 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     }
     @Override
     public void onAuthenticationCompletedFragAuthentication() {
-        sessionTime = System.currentTimeMillis();
-        scaleUpAnimtion();
-        new CountDownTimer(1500, 1000) {
-            public void onTick(long millisUntilFinished) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                disableBackPressed();
+                enableSwipeToOpenSideMenu();
 
+                sessionTime = System.currentTimeMillis();
+                scaleUpAnimtion();
+
+                new CountDownTimer(1500, 1000) {
+                    public void onTick(long millisUntilFinished) {
+                        // Code for each tick if needed
+                    }
+
+                    public void onFinish() {
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+                        mainACMainViewFragment = new MainACMainViewFragment(draggableCardViewObjectsList);
+                        mainACOverviewViewFragment = new MainACOverviewViewFragment();
+                        mainACSpendingsViewFragment = new MainACSpendingsViewFragment();
+
+                        mainACOverviewViewFragment.updateData(spendingAccountsEntitiesList);
+                        mainACOverviewViewFragment.setSpendingsAccountItemClickFragMainACOverviewViewListenner(THIS);
+                        mainACMainViewFragment.setAccountsList(spendingAccountsEntitiesList);
+                        mainACMainViewFragment.setParent(THIS);
+
+                        changeFragmentFromMainFragmentContainer(1);
+                        changeMultiFunctionButtonFunction(1);
+                        binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_SpendingsView).setChecked(false);
+                        binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Graffics).setChecked(false);
+                        binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Home).setChecked(true);
+
+                        outFragment();
+                        scaleDownAnimtion();
+                        enableDisableAll(false);
+                        binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.INVISIBLE);
+                        binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(false);
+                    }
+                }.start();
             }
-
-            public void onFinish() {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-                mainACMainViewFragment = new MainACMainViewFragment(draggableCardViewObjectsList);
-                mainACOverviewViewFragment = new MainACOverviewViewFragment();
-                mainACSpendingsViewFragment = new MainACSpendingsViewFragment();
-
-                mainACOverviewViewFragment.updateData(spendingAccountsEntitiesList);
-                mainACOverviewViewFragment.setSpendingsAccountItemClickFragMainACOverviewViewListenner(THIS);
-                mainACMainViewFragment.setAccountsList(spendingAccountsEntitiesList);
-                mainACMainViewFragment.setParent(THIS);
-
-                changeFragmentFromMainFragmentContainer(1);
-                changeMultiFunctionButtonFunction(1);
-                binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_SpendingsView).setChecked(false);
-                binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Graffics).setChecked(false);
-                binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Home).setChecked(true);
-
-                outFragment();
-                scaleDownAnimtion();
-                enableDisableAll(false);
-                binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.INVISIBLE);
-                binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(false);
-            }
-        }.start();
+        });
     }
     @Override
     public void onExitMainACSpendingsViewAddSpendingsFrag(boolean save, SpendingAccountsEntity object) {
+        disableBackPressed();
         scaleUpAnimtion();
         new CountDownTimer(1500, 1000) {
             public void onTick(long millisUntilFinished) {
@@ -1230,7 +1285,16 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                         i--;
                     }
                 }
-                percentagesList = calculateSpendPercentages(selectedAccount.getSpendsList(),namesList);
+
+                List<SpendsEntity> spendsListFinal = new ArrayList<>();
+                List<SpendsEntity> spendsList = getAllSpends();
+                for (int i = 0; i < spendsList.size(); i++) {
+                    SpendsEntity selectedSpend = spendsList.get(i);
+                    if(selectedSpend.getMainAccountID().equals(String.valueOf(selectedAccount.getId()))){
+                        spendsListFinal.add(selectedSpend);
+                    }
+                }
+                percentagesList = calculateSpendPercentages(spendsListFinal,namesList);
 
                 object = clearObject(object);
             }
@@ -1438,7 +1502,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
 
             for (int j = 0; j < objects.size(); j++) {
                 SpendsEntity spend = objects.get(j);
-                if(spend.getIsPartOf().equals(percentage)){
+                if(spend.getIsPartOf().equals(percentage) || spend.getSubAccountID().equals(percentage)){
                     amount += spend.getAmount();
                 }
             }
@@ -1459,5 +1523,96 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         if (newConfig.uiMode != getApplicationContext().getResources().getConfiguration().uiMode) {
             recreate();
         }
+    }
+
+    public void changeHowToFragment(String Tag, Boolean fromNext){
+        switch (Tag){
+            case "MainView_HowTo_goToHome":
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_fullScreenFragmentContainer_forHowTos_MainAc, new MainACMainViewHowToBindAccountToCardHomeFragment(THIS, fromNext))
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case "MainView_HowTo_goToPopUpFrom":
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_fullScreenFragmentContainer_forHowTos_MainAc, new MainACMainViewHowToBindAccountToCardPopUpFormFragment(THIS, fromNext))
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case "goToDragNDrop":
+                break;
+            case "goToDelete": ;
+                break;
+            case "goToSave":
+                break;
+            case "MainView_HowTo_finish":
+                runSwipeUpAnimation();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                int containerId = binding.frameLayoutFullScreenFragmentContainerForHowTosMainAc.getId();
+
+                for (Fragment fragment : fragmentManager.getFragments()) {
+                    if (fragment != null && fragment.getId() == containerId) {
+                        fragmentManager.beginTransaction().remove(fragment).commit();
+                    }
+                }
+                break;
+        }
+    }
+    private void runSwipeDownAnimation(String howToID) {
+        ViewGroup container1 = binding.constraintLayoutMainAc;
+        ViewGroup container2 = binding.frameLayoutFullScreenFragmentContainerForHowTosMainAc;
+        container2.setVisibility(View.VISIBLE);
+        ObjectAnimator translateYAnimator = ObjectAnimator.ofFloat(container1, "translationY", 0, container1.getHeight());
+        translateYAnimator.setDuration(500); // Set the duration of the animation in milliseconds
+
+        translateYAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                inFragment();
+                container1.setVisibility(View.GONE);
+                fadeInAnimation(container2);
+
+                switch (howToID){
+                    case "OverviewView_HowTo":
+
+                        break;
+                    case "MainView_HowTo":
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frameLayout_fullScreenFragmentContainer_forHowTos_MainAc, new MainACMainViewHowToBindAccountToCardHomeFragment(THIS, false))
+                                .addToBackStack(null)
+                                .commit();
+                        break;
+                    case "SpendingsView_HowTo":
+
+                        break;
+                }
+            }
+        });
+
+        translateYAnimator.start();
+    }
+    private void runSwipeUpAnimation() {
+        outFragment();
+        ViewGroup container1 = binding.constraintLayoutMainAc;
+        container1.setVisibility(View.VISIBLE);
+        container1.setTranslationY(0);
+        ViewGroup container2 = binding.frameLayoutFullScreenFragmentContainerForHowTosMainAc;
+        ObjectAnimator translateYAnimator = ObjectAnimator.ofFloat(container1, "translationY", container1.getHeight(), 0);
+        translateYAnimator.setDuration(500); // Set the duration of the animation in milliseconds
+
+        translateYAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                container2.setVisibility(View.GONE);
+                container2.setEnabled(false);
+            }
+        });
+
+        translateYAnimator.start();
     }
 }

@@ -96,16 +96,31 @@
             android:fontFamily="@font/dosis_regular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-        <ImageView
-            android:id="@+id/imageView_apresentation_FragMainACMainViewEditLayoutHowToAdd"
-            android:layout_below="@+id/textView_mainTextView_FragMainACMainViewEditLayoutHowToAdd"
+        <FrameLayout
+            android:id="@+id/frameLayout_bottomNavigationViewExampleHolder_FragMainACMainViewEditLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:src="@drawable/bottomnav_howto_layoutedit_lightmode"/>
+            android:layout_marginBottom="@dimen/_55sdp"
+            android:layout_marginTop="@dimen/_80sdp">
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNavigationViewExample_FragMainACMainViewEditLayout"
+                android:layout_below="@+id/textView_mainTextView_FragMainACMainViewEditLayoutHowToAdd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_minus11sdp"
+                android:paddingTop="@dimen/_4sdp"
+                android:visibility="gone"
+                app:itemRippleColor="?attr/colorControlNormal"
+                app:itemActiveIndicatorStyle="@null"
+                android:background="@drawable/rounded_exclude_bottom"
+                app:menu="@menu/bottom_navigation_view_mainacmainvieweditlayout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </FrameLayout>
         <ImageView
             android:id="@+id/imageView_pointingToImageView_FragMainACMainViewEditLayoutHowToAdd"
-            android:layout_below="@+id/imageView_apresentation_FragMainACMainViewEditLayoutHowToAdd"
+            android:layout_below="@+id/frameLayout_bottomNavigationViewExampleHolder_FragMainACMainViewEditLayout"
             android:layout_width="@dimen/_54sdp"
             android:layout_height="@dimen/_54sdp"
             android:visibility="gone"

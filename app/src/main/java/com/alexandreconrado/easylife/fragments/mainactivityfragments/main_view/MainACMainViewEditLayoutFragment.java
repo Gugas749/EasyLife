@@ -16,6 +16,7 @@ import androidx.room.Room;
 
 import android.os.CountDownTimer;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -87,12 +88,24 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
         setupBottomNavigation();
         setupHowToUseButton();
         setupLocalDataBase();
-
+        disableBackPressed();
         initPostLoad();
 
         return binding.getRoot();
     }
-
+    private void disableBackPressed(){
+        binding.getRoot().setFocusableInTouchMode(true);
+        binding.getRoot().requestFocus();
+        binding.getRoot().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
     //------------------------------------SETUPS-------------------------------
     private void init(){
         TypedValue typedValue = new TypedValue();
@@ -132,7 +145,7 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
                 CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
                 customAlertDialogFragment.setCancelListenner(THIS);
                 customAlertDialogFragment.setConfirmListenner(THIS);
-                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Leave_Title), getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Leave_Description), customAlertDialogFragment, customAlertDialogFragment, "2");
+                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.general_AlertDialog_Question_ExitWithoutSaving_Title), getString(R.string.general_AlertDialog_Question_ExitWithoutSaving_Text), customAlertDialogFragment, customAlertDialogFragment, "2");
                 customAlertDialogFragment.setCustomFragment(fragment);
                 customAlertDialogFragment.setTag("Exit");
                 customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
@@ -146,7 +159,7 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
                 CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
                 customAlertDialogFragment.setCancelListenner(THIS);
                 customAlertDialogFragment.setConfirmListenner(THIS);
-                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Save_Title), getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Save_Description), customAlertDialogFragment, customAlertDialogFragment, "1");
+                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.general_Save), getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Save_Description), customAlertDialogFragment, customAlertDialogFragment, "1");
                 customAlertDialogFragment.setCustomFragment(fragment);
                 customAlertDialogFragment.setTag("Save");
                 customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
@@ -784,7 +797,7 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
             CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
             customAlertDialogFragment.setConfirmListenner(THIS);
             customAlertDialogFragment.setCancelListenner(THIS);
-            AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Delete_Title), getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Delete_Description), customAlertDialogFragment, customAlertDialogFragment, "1");
+            AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Delete_Title), getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Delete_Description), customAlertDialogFragment, customAlertDialogFragment, "2");
             customAlertDialogFragment.setCustomFragment(fragment);
             customAlertDialogFragment.setTag("SwipeRight");
             customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
@@ -796,15 +809,16 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
         switch (Tag){
             case "SwipeRight":
                 deleteCardView(swipedDraggableCardView);
+                enableEverything();
                 break;
             case "Exit":
-                pfvFunciona();
+                onExitClickListenner.OnFragMainACMainViewEditLayoutExitClick(false, draggableCardViewEntityListLoadedFormDB);
                 break;
             case "Save":
                 pfvFunciona();
+                enableEverything();
                 break;
         }
-        enableEverything();
     }
     private void pfvFunciona(){
         DatabaseCallbackMainACMainViewEditLayout callback = new DatabaseCallbackMainACMainViewEditLayout() {
@@ -817,15 +831,7 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
     }
     @Override
     public void onCancelButtonClicked(String Tag) {
-        disableEverything();
-        switch (Tag){
-            case "Exit":
-                onExitClickListenner.OnFragMainACMainViewEditLayoutExitClick(false, draggableCardViewEntityListLoadedFormDB);
-                break;
-            default:
-                enableEverything();
-                break;
-        }
+
     }
     //----------------------------LOAD OLD SCHEME---------------------------
     private void loadUsedPoint(){

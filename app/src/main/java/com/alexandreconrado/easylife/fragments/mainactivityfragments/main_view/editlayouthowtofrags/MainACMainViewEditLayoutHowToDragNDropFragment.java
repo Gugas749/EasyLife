@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import android.os.CountDownTimer;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,8 +70,22 @@ public class MainACMainViewEditLayoutHowToDragNDropFragment extends Fragment {
 
         setupNextButton();
         setupPreviousButton();
+        disableBackPressed();
 
         return binding.getRoot();
+    }
+    private void disableBackPressed(){
+        binding.getRoot().setFocusableInTouchMode(true);
+        binding.getRoot().requestFocus();
+        binding.getRoot().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    return true;
+                }
+                return false;
+            }
+        });
     }
     private void setupPreviousButton(){
         binding.textViewPreviousFragMainACMainViewEditLayoutHowToDragNDrop.setOnClickListener(new View.OnClickListener() {

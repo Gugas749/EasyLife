@@ -1,10 +1,14 @@
-package com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view.editlayouthowtofrags;
+package com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view.howto;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+
 import android.os.CountDownTimer;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -16,21 +20,24 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-
 import com.alexandreconrado.easylife.R;
-import com.alexandreconrado.easylife.databinding.FragmentMainACMainViewEditLayoutHowToSaveBinding;
-import com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view.MainACMainViewEditLayoutFragment;
+import com.alexandreconrado.easylife.activitys.MainActivity;
+import com.alexandreconrado.easylife.databinding.FragmentMainACMainViewHowToBindAccountToCardPopUpFormBinding;
 
-public class MainACMainViewEditLayoutHowToSaveFragment extends Fragment {
+public class MainACMainViewHowToBindAccountToCardPopUpFormFragment extends Fragment {
 
-    private FragmentMainACMainViewEditLayoutHowToSaveBinding binding;
-    private MainACMainViewEditLayoutFragment parent;
+    private FragmentMainACMainViewHowToBindAccountToCardPopUpFormBinding binding;
+    private MainActivity parent;
     private String nextButtonState = "base";
+    private Boolean fromNext;
     private Boolean stopAnims = false, initialSaveAnimationIsFinished = false;
-    public MainACMainViewEditLayoutHowToSaveFragment(MainACMainViewEditLayoutFragment parent) {
+
+    public MainACMainViewHowToBindAccountToCardPopUpFormFragment() {
+        // Required empty public constructor
+    }
+    public MainACMainViewHowToBindAccountToCardPopUpFormFragment(MainActivity parent, Boolean fromNext) {
         this.parent = parent;
+        this.fromNext = fromNext;
     }
 
     @Override
@@ -41,23 +48,22 @@ public class MainACMainViewEditLayoutHowToSaveFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentMainACMainViewEditLayoutHowToSaveBinding.inflate(inflater);
+        binding = FragmentMainACMainViewHowToBindAccountToCardPopUpFormBinding.inflate(inflater);
 
-        fadeInAnimation(binding.frameLayoutParentFragMainACMainViewEditLayoutHowToSave);
+        fadeInAnimation(binding.frameLayoutParentFragMainACMainViewHowToBindAccountToCardPopUpForm);
 
-        fragIndicatorScaleDownAnimation(binding.cardViewFragIndicator4FragMainACMainViewEditLayoutHowToSave);
-        colorChangeFadeOutAnimation(binding.cardViewFragIndicator4FragMainACMainViewEditLayoutHowToSave);
-        fragIndicatorScaleUpAnimation(binding.cardViewFragIndicator5FragMainACMainViewEditLayoutHowToSave);
-        colorChangeFadeInAnimation(binding.cardViewFragIndicator5FragMainACMainViewEditLayoutHowToSave);
+        fragIndicatorScaleDownAnimation(binding.cardViewFragIndicator1FragMainACMainViewHowToBindAccountToCardPopUpForm);
+        colorChangeFadeOutAnimation(binding.cardViewFragIndicator1FragMainACMainViewHowToBindAccountToCardPopUpForm);
+        fragIndicatorScaleUpAnimation(binding.cardViewFragIndicator2FragMainACMainViewHowToBindAccountToCardPopUpForm);
+        colorChangeFadeInAnimation(binding.cardViewFragIndicator2FragMainACMainViewHowToBindAccountToCardPopUpForm);
 
-        setPointerColor();
-        new CountDownTimer(1200, 1000) {
+        new CountDownTimer(700, 1000) {
             public void onTick(long millisUntilFinished) {
 
             }
 
             public void onFinish() {
-                initialSaveAnimation();
+                longPressAnimation();
             }
         }.start();
 
@@ -67,6 +73,7 @@ public class MainACMainViewEditLayoutHowToSaveFragment extends Fragment {
 
         return binding.getRoot();
     }
+
     private void disableBackPressed(){
         binding.getRoot().setFocusableInTouchMode(true);
         binding.getRoot().requestFocus();
@@ -80,169 +87,166 @@ public class MainACMainViewEditLayoutHowToSaveFragment extends Fragment {
             }
         });
     }
-    private void setPointerColor(){
-        TypedValue typedValue = new TypedValue();
-        getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorControlNormal, typedValue, true);
-        int color = typedValue.data;
-        int initialColor = color;
 
-        typedValue = new TypedValue();
-        getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.textAppearanceBodySmall, typedValue, true);
-        color = typedValue.data;
-        int finalColor = color;
-
-        colorChangePointingAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave, initialColor, finalColor);
-    }
     private void setupPreviousButton(){
-        binding.textViewPreviousFragMainACMainViewEditLayoutHowToSave.setOnClickListener(new View.OnClickListener() {
+        binding.textViewPreviousFragMainACMainViewHowToBindAccountToCardPopUpForm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.textViewPreviousFragMainACMainViewEditLayoutHowToSave.setEnabled(false);
+                binding.textViewPreviousFragMainACMainViewHowToBindAccountToCardPopUpForm.setEnabled(false);
                 switch (nextButtonState){
                     case "base":
-                        fadeOutAnimation(binding.frameLayoutParentFragMainACMainViewEditLayoutHowToSave);
-                        parent.changeHowToFragment("goToDelete", true);
-                        break;
-                    case "fase1":
-                        stopAnims = false;
-                        fadeOutAnimation(binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToSave);
-                        fadeOutAnimation(binding.cardViewTopNavigationExampleFragMainACMainViewEditLayoutHowToSave);
-                        fadeOutAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave);
-                        fadeOutEveryTimeAnimation(binding.textViewNextFragMainACMainViewEditLayoutHowToSave);
-                        new CountDownTimer(700, 1000) {
-                            public void onTick(long millisUntilFinished) {
-
-                            }
-
-                            public void onFinish() {
-                                binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave.setVisibility(View.INVISIBLE);
-                                binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToSave.setVisibility(View.INVISIBLE);
-                                binding.cardViewTopNavigationExampleFragMainACMainViewEditLayoutHowToSave.setVisibility(View.INVISIBLE);
-                                if(initialSaveAnimationIsFinished){
-                                    initialSaveAnimation();
-                                }
-                                fadeInEveryTimeAnimation(binding.textViewNextFragMainACMainViewEditLayoutHowToSave);
-                                fadeInAnimation(binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToSave);
-                                fadeInAnimation(binding.textViewTitleFragMainACMainViewEditLayoutHowToSave);
-                                binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToSave.setText(getString(R.string.mainAc_FragMainViewEditLayoutHowTo_Save_Text_1));
-                                binding.textViewNextFragMainACMainViewEditLayoutHowToSave.setText(getString(R.string.general_next));
-                            }
-                        }.start();
-                        nextButtonState = "base";
+                        fadeOutAnimation(binding.frameLayoutParentFragMainACMainViewHowToBindAccountToCardPopUpForm);
+                        parent.changeHowToFragment("MainView_HowTo_goToHome", true);
                         break;
                 }
-                binding.textViewPreviousFragMainACMainViewEditLayoutHowToSave.setEnabled(true);
+                binding.textViewPreviousFragMainACMainViewHowToBindAccountToCardPopUpForm.setEnabled(true);
             }
         });
     }
     private void setupNextButton(){
-        binding.textViewNextFragMainACMainViewEditLayoutHowToSave.setOnClickListener(new View.OnClickListener() {
+        binding.textViewNextFragMainACMainViewHowToBindAccountToCardPopUpForm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.textViewNextFragMainACMainViewEditLayoutHowToSave.setEnabled(false);
+                binding.textViewNextFragMainACMainViewHowToBindAccountToCardPopUpForm.setEnabled(false);
                 switch (nextButtonState){
                     case "base":
                         stopAnims = true;
-                        fadeOutEveryTimeAnimation(binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToSave);
-                        fadeOutEveryTimeAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave);
-                        fadeOutEveryTimeAnimation(binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToSave);
-                        fadeOutEveryTimeAnimation(binding.cardViewTopNavigationExampleFragMainACMainViewEditLayoutHowToSave);
-                        fadeOutEveryTimeAnimation(binding.textViewNextFragMainACMainViewEditLayoutHowToSave);
-                        fadeOutEveryTimeAnimation(binding.textViewTitleFragMainACMainViewEditLayoutHowToSave);
-                        new CountDownTimer(700, 1000) {
-                            public void onTick(long millisUntilFinished) {
-
-                            }
-
-                            public void onFinish() {
-                                binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave.setVisibility(View.GONE);
-                                binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToSave.setVisibility(View.GONE);
-                                binding.cardViewTopNavigationExampleFragMainACMainViewEditLayoutHowToSave.setVisibility(View.GONE);
-                                fadeInEveryTimeAnimation(binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToSave);
-                                fadeInEveryTimeAnimation(binding.textViewNextFragMainACMainViewEditLayoutHowToSave);
-                                binding.textViewMainTextViewFragMainACMainViewEditLayoutHowToSave.setText(getString(R.string.mainAc_FragMainViewEditLayoutHowTo_Save_Text_2));
-                                binding.textViewNextFragMainACMainViewEditLayoutHowToSave.setText(getString(R.string.general_finish));
-                            }
-                        }.start();
-                        nextButtonState = "fase1";
-                        break;
-                    case "fase1":
-                        fadeOutEveryTimeAnimation(binding.frameLayoutParentFragMainACMainViewEditLayoutHowToSave);
-                        parent.changeHowToFragment("finish", false);
+                        fadeOutEveryTimeAnimation(binding.frameLayoutParentFragMainACMainViewHowToBindAccountToCardPopUpForm);
+                        parent.changeHowToFragment("MainView_HowTo_finish", false);
                         break;
                 }
-                binding.textViewNextFragMainACMainViewEditLayoutHowToSave.setEnabled(true);
+                binding.textViewNextFragMainACMainViewHowToBindAccountToCardPopUpForm.setEnabled(true);
             }
         });
     }
-    private void initialSaveAnimation(){
+    private void longPressAnimation(){
         if(!stopAnims){
-            initialSaveAnimationIsFinished = false;
-            fadeInAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave);
-            fadeInAnimation(binding.cardViewTopNavigationExampleFragMainACMainViewEditLayoutHowToSave);
-            forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave, getResources().getDimension(com.intuit.sdp.R.dimen._120sdp), 0);
-            new CountDownTimer(1300, 1000) {
+            fadeInAnimation(binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm);
+            fadeInAnimation(binding.cardViewPopupExplanationFragMainACMainViewHowToBindAccountToCardPopUpForm);
+            float originalDimension = getResources().getDimension(com.intuit.sdp.R.dimen._140sdp);
+            forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm, (-originalDimension), 0);
+            new CountDownTimer(1000, 1000) {
                 public void onTick(long millisUntilFinished) {
 
                 }
 
                 public void onFinish() {
-                    pointYAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave, getResources().getDimension(com.intuit.sdp.R.dimen._minus30sdp));
-                    new CountDownTimer(1000, 1000) {
+                    binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
+                    new CountDownTimer(400, 1000) {
                         public void onTick(long millisUntilFinished) {
 
                         }
 
                         public void onFinish() {
-                            binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
-                            new CountDownTimer(250, 1000) {
+                            TypedValue typedValue = new TypedValue();
+                            getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorControlNormal, typedValue, true);
+                            int color = typedValue.data;
+                            int initialColor = color;
+
+                            typedValue = new TypedValue();
+                            getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.textAppearanceBodySmall, typedValue, true);
+                            color = typedValue.data;
+                            int finalColor = color;
+
+                            colorChangePointingAnimation(binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm, initialColor, finalColor);
+                            binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
+                            downwardsAnimation(binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm, getResources().getDimension(com.intuit.sdp.R.dimen._50sdp), 0);
+                            new CountDownTimer(1500, 1000) {
                                 public void onTick(long millisUntilFinished) {
 
                                 }
 
                                 public void onFinish() {
-                                    fadeInAnimation(binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToSave);
-                                    binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
-                                    forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave, getResources().getDimension(com.intuit.sdp.R.dimen._85sdp), getResources().getDimension(com.intuit.sdp.R.dimen._120sdp));
-                                    new CountDownTimer(1000, 1000) {
+                                    binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
+
+                                    new CountDownTimer(400, 1000) {
                                         public void onTick(long millisUntilFinished) {
 
                                         }
 
                                         public void onFinish() {
-                                            downwardsAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave, getResources().getDimension(com.intuit.sdp.R.dimen._25sdp), getResources().getDimension(com.intuit.sdp.R.dimen._minus30sdp));
-                                            new CountDownTimer(1000, 1000) {
+                                            binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
+                                            downwardsAnimation(binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm, getResources().getDimension(com.intuit.sdp.R.dimen._100sdp), getResources().getDimension(com.intuit.sdp.R.dimen._50sdp));
+
+                                            new CountDownTimer(1300, 1000){
                                                 public void onTick(long millisUntilFinished) {
 
                                                 }
 
+                                                @Override
                                                 public void onFinish() {
-                                                    binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
-                                                    new CountDownTimer(250, 1000) {
+                                                    binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
+
+                                                    new CountDownTimer(400, 1000) {
                                                         public void onTick(long millisUntilFinished) {
 
                                                         }
 
                                                         public void onFinish() {
-                                                            binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
-                                                            new CountDownTimer(1500, 1000) {
+                                                            binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
+                                                            downwardsAnimation(binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm, getResources().getDimension(com.intuit.sdp.R.dimen._150sdp), getResources().getDimension(com.intuit.sdp.R.dimen._100sdp));
+
+                                                            new CountDownTimer(1300, 1000){
                                                                 public void onTick(long millisUntilFinished) {
 
                                                                 }
 
+                                                                @Override
                                                                 public void onFinish() {
-                                                                    fadeOutAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave);
-                                                                    fadeOutAnimation(binding.cardViewTopNavigationExampleFragMainACMainViewEditLayoutHowToSave);
-                                                                    fadeOutAnimation(binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToSave);
-                                                                    downwardsAnimation(binding.imageViewPointingToImageViewFragMainACMainViewEditLayoutHowToSave, 0, getResources().getDimension(com.intuit.sdp.R.dimen._25sdp));
-                                                                    new CountDownTimer(500, 1000) {
+                                                                    float originalDimension = getResources().getDimension(com.intuit.sdp.R.dimen._140sdp);
+                                                                    float finalDimension = getResources().getDimension(com.intuit.sdp.R.dimen._63sdp);
+                                                                    forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm, (-finalDimension), (-originalDimension));
+
+                                                                    new CountDownTimer(1300, 1000) {
                                                                         public void onTick(long millisUntilFinished) {
 
                                                                         }
 
                                                                         public void onFinish() {
-                                                                            initialSaveAnimationIsFinished = true;
-                                                                            initialSaveAnimation();
+                                                                            binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
+
+                                                                            new CountDownTimer(400, 1000) {
+                                                                                public void onTick(long millisUntilFinished) {
+
+                                                                                }
+
+                                                                                public void onFinish() {
+                                                                                    binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
+
+                                                                                    new CountDownTimer(1300, 1000) {
+                                                                                        public void onTick(long millisUntilFinished) {
+
+                                                                                        }
+
+                                                                                        public void onFinish() {
+                                                                                            fadeOutAnimation(binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm);
+                                                                                            fadeOutAnimation(binding.cardViewPopupExplanationFragMainACMainViewHowToBindAccountToCardPopUpForm);
+                                                                                            new CountDownTimer(700, 1000) {
+                                                                                                public void onTick(long millisUntilFinished) {
+
+                                                                                                }
+
+                                                                                                public void onFinish() {
+                                                                                                    TypedValue typedValue = new TypedValue();
+                                                                                                    getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.textAppearanceBodySmall, typedValue, true);
+                                                                                                    int color = typedValue.data;
+                                                                                                    int initialColor = color;
+
+                                                                                                    typedValue = new TypedValue();
+                                                                                                    getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorControlNormal, typedValue, true);
+                                                                                                    color = typedValue.data;
+                                                                                                    int finalColor = color;
+
+                                                                                                    colorChangePointingAnimation(binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm, initialColor, finalColor);
+
+                                                                                                    pointBackToStartPosAnimation(binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm, 0, getResources().getDimension(com.intuit.sdp.R.dimen._210sdp));
+                                                                                                    longPressAnimation();
+                                                                                                }
+                                                                                            }.start();
+                                                                                        }
+                                                                                    }.start();
+                                                                                }
+                                                                            }.start();
                                                                         }
                                                                     }.start();
                                                                 }
@@ -260,6 +264,12 @@ public class MainACMainViewEditLayoutHowToSaveFragment extends Fragment {
                 }
             }.start();
         }
+    }
+    private void pointBackToStartPosAnimation(View view, float value, float initialValue) {
+        ObjectAnimator translateXAnimator = ObjectAnimator.ofFloat(view, "translationX", initialValue, value);
+        translateXAnimator.setDuration(50);
+        translateXAnimator.setInterpolator(new LinearInterpolator());
+        translateXAnimator.start();
     }
     private void pointYAnimation(View view, float value) {
         if(!stopAnims){
@@ -291,27 +301,6 @@ public class MainACMainViewEditLayoutHowToSaveFragment extends Fragment {
                 }
             });
         }
-    }
-    private void fadeInEveryTimeAnimation(View view){
-        Animation fadeOut = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
-        view.startAnimation(fadeOut);
-
-        fadeOut.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                view.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
     }
     private void fadeOutAnimation(View view){
         if(!stopAnims){
@@ -446,7 +435,6 @@ public class MainACMainViewEditLayoutHowToSaveFragment extends Fragment {
 
         colorAnimator.setDuration(1000);
         colorAnimator.start();
-
     }
     private void colorChangePointingAnimation(ImageView imageView, int initialColor, int finalColor){
         ValueAnimator colorAnimator = ValueAnimator.ofObject(new ArgbEvaluator(), initialColor, finalColor);
@@ -458,7 +446,7 @@ public class MainACMainViewEditLayoutHowToSaveFragment extends Fragment {
             }
         });
 
-        colorAnimator.setDuration(100);
+        colorAnimator.setDuration(1000);
         colorAnimator.start();
     }
 }

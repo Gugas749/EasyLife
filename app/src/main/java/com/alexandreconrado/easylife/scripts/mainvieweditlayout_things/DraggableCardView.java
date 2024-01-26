@@ -160,12 +160,9 @@ public class DraggableCardView extends FrameLayout {
     private void setupGestureDetector(Context context) {
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                if (e2.getX() - e1.getX() > MIN_DISTANCE_THRESHOLD && Math.abs(velocityX) > Math.abs(velocityY)) {
-                    swipeRightListener.onCardViewSwipeRight(DraggableCardView.this);
-                    return true;
-                }
-                return false;
+            public boolean onDoubleTap(MotionEvent e) {
+                swipeRightListener.onCardViewSwipeRight(DraggableCardView.this);
+                return true;
             }
         });
     }

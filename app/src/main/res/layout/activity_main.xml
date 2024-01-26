@@ -8,6 +8,12 @@
     android:background="?attr/colorPrimary"
     android:id="@+id/drawerLayout_MainAc_SideMenu">
 
+    <FrameLayout
+        android:id="@+id/frameLayout_fullScreenFragmentContainer_forHowTos_MainAc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="@dimen/_8sdp" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
