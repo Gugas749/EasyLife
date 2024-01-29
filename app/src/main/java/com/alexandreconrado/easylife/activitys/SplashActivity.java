@@ -33,6 +33,8 @@ import com.alexandreconrado.easylife.databinding.ActivitySplashBinding;
 import com.alexandreconrado.easylife.fragments.register.RegisterFragment;
 import com.alexandreconrado.easylife.scripts.ocr.TextRecognitionUtil;
 
+import java.util.Locale;
+
 public class SplashActivity extends AppCompatActivity {
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
     private static final int REQUEST_IMAGE_CAPTURE = 101;
@@ -48,6 +50,23 @@ public class SplashActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("Perf_User", MODE_PRIVATE);
         isLogged = prefs.getBoolean("logged", false);
+        String themePreference = prefs.getString("theme_preference", "system_default");
+        String userLanguage = prefs.getString("user_language", "en-US");
+
+        if ("light".equals(themePreference)) {
+            setTheme(R.style.Base_Theme_EasyLife_Light);
+        } else if ("dark".equals(themePreference)) {
+            setTheme(R.style.Base_Theme_EasyLife_Dark);
+        }
+
+        Locale userLocale = new Locale(userLanguage);
+        Locale.setDefault(userLocale);
+
+        Configuration configuration = new Configuration();
+        configuration.setLocale(userLocale);
+
+        Resources resources = getApplicationContext().getResources();
+        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
 
         if(isLogged){
             binding.butScanSplashAc.setVisibility(View.VISIBLE);

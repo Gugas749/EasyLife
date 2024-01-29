@@ -1,5 +1,7 @@
 package com.alexandreconrado.easylife.fragments;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.animation.Animator;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
@@ -15,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.room.Room;
 
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -143,6 +146,10 @@ public class AuthenticationFragment extends Fragment {
     private final View.OnClickListener commonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            Vibrator vibrator = (Vibrator) requireContext().getSystemService(getContext().VIBRATOR_SERVICE);
+            if (vibrator.hasVibrator()) {
+                vibrator.vibrate(100);
+            }
             if(inputedPinCode.length() < 4){
                 inputedPinCode = inputedPinCode+view.getTag();
                 pinCodeIndicatorScaleUp(inputedPinCode.length());

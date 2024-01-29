@@ -1,5 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Base.Theme.EasyLife" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.EasyLife.Light" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Customize other attributes as needed -->
         <item name="colorControlHighlight">@color/extra6</item>
         <item name="colorPrimary">@color/primaryLight</item>
         <item name="colorSecondary">@color/secondaryLight</item>
@@ -10,17 +11,15 @@
         <item name="textAppearanceBodyLarge">@color/highlightedTextLight</item>
     </style>
 
-
     <style name="MyDatePickerStyle" parent="@android:style/Widget.Material.DatePicker">
-        <item name="android:textColor">@color/black</item><!-- OUTLINE BUTTON -->
-        <item name="android:textColorPrimary">@color/white</item> <!-- cor dos dias e do picker do mes -->
-        <item name="android:textColorSecondary">@color/white</item><!-- cor da semana tipo domingo segunda etc d s t q q s s -->
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
         <item name="android:spinnersShown">false</item>
         <item name="colorAccent">@color/secondaryLight</item>
         <item name="android:colorAccent">@color/primaryLight</item>
         <!-- Add more items for other text colors if needed -->
     </style>
 
-
-    <style name="Theme.EasyLife" parent="Base.Theme.EasyLife" />
+    <style name="Theme.EasyLife" parent="Base.Theme.EasyLife.Light" />
 </resources>

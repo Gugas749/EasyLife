@@ -1,4 +1,4 @@
-package com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view.howto;
+package com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_view.howto;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
@@ -22,20 +22,20 @@ import android.widget.ImageView;
 
 import com.alexandreconrado.easylife.R;
 import com.alexandreconrado.easylife.activitys.MainActivity;
-import com.alexandreconrado.easylife.databinding.FragmentMainACMainViewHowToBindAccountToCardPopUpFormBinding;
+import com.alexandreconrado.easylife.databinding.FragmentMainACOverviewViewHowToAddBinding;
 
-public class MainACMainViewHowToBindAccountToCardPopUpFormFragment extends Fragment {
+public class MainACOverviewViewHowToAddFragment extends Fragment {
 
-    private FragmentMainACMainViewHowToBindAccountToCardPopUpFormBinding binding;
+    private FragmentMainACOverviewViewHowToAddBinding binding;
     private MainActivity parent;
     private String nextButtonState = "base";
     private Boolean fromNext;
     private Boolean stopAnims = false, initialSaveAnimationIsFinished = false;
 
-    public MainACMainViewHowToBindAccountToCardPopUpFormFragment() {
+    public MainACOverviewViewHowToAddFragment() {
         // Required empty public constructor
     }
-    public MainACMainViewHowToBindAccountToCardPopUpFormFragment(MainActivity parent, Boolean fromNext) {
+    public MainACOverviewViewHowToAddFragment(MainActivity parent, Boolean fromNext) {
         this.parent = parent;
         this.fromNext = fromNext;
     }
@@ -48,14 +48,19 @@ public class MainACMainViewHowToBindAccountToCardPopUpFormFragment extends Fragm
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentMainACMainViewHowToBindAccountToCardPopUpFormBinding.inflate(inflater);
+        binding = FragmentMainACOverviewViewHowToAddBinding.inflate(inflater);
 
-        fadeInAnimation(binding.frameLayoutParentFragMainACMainViewHowToBindAccountToCardPopUpForm);
+        fadeInAnimation(binding.frameLayoutParentFragMainACOverviewViewHowToAdd);
 
-        fragIndicatorScaleDownAnimation(binding.cardViewFragIndicator1FragMainACMainViewHowToBindAccountToCardPopUpForm);
-        colorChangeFadeOutAnimation(binding.cardViewFragIndicator1FragMainACMainViewHowToBindAccountToCardPopUpForm);
-        fragIndicatorScaleUpAnimation(binding.cardViewFragIndicator2FragMainACMainViewHowToBindAccountToCardPopUpForm);
-        colorChangeFadeInAnimation(binding.cardViewFragIndicator2FragMainACMainViewHowToBindAccountToCardPopUpForm);
+        if(fromNext){
+            fragIndicatorScaleDownAnimation(binding.cardViewFragIndicator2FragMainACOverviewViewHowToAdd);
+            colorChangeFadeOutAnimation(binding.cardViewFragIndicator2FragMainACOverviewViewHowToAdd);
+            fragIndicatorScaleUpAnimation(binding.cardViewFragIndicator1FragMainACOverviewViewHowToAdd);
+            colorChangeFadeInAnimation(binding.cardViewFragIndicator1FragMainACOverviewViewHowToAdd);
+        } else {
+            fragIndicatorScaleUpAnimation(binding.cardViewFragIndicator1FragMainACOverviewViewHowToAdd);
+            colorChangeFadeInAnimation(binding.cardViewFragIndicator1FragMainACOverviewViewHowToAdd);
+        }
 
         new CountDownTimer(700, 1000) {
             public void onTick(long millisUntilFinished) {
@@ -89,38 +94,43 @@ public class MainACMainViewHowToBindAccountToCardPopUpFormFragment extends Fragm
     }
 
     private void setupPreviousButton(){
-        binding.textViewPreviousFragMainACMainViewHowToBindAccountToCardPopUpForm.setOnClickListener(new View.OnClickListener() {
+        binding.textViewPreviousFragMainACOverviewViewHowToAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.textViewPreviousFragMainACMainViewHowToBindAccountToCardPopUpForm.setEnabled(false);
+                binding.textViewPreviousFragMainACOverviewViewHowToAdd.setEnabled(false);
                 switch (nextButtonState){
                     case "base":
-                        fadeOutAnimation(binding.frameLayoutParentFragMainACMainViewHowToBindAccountToCardPopUpForm);
-                        parent.changeHowToFragment("MainView_HowTo_goToHome", true);
+                        fadeOutAnimation(binding.frameLayoutParentFragMainACOverviewViewHowToAdd);
+                        parent.changeHowToFragment("", true);
                         break;
                 }
-                binding.textViewPreviousFragMainACMainViewHowToBindAccountToCardPopUpForm.setEnabled(true);
+                binding.textViewPreviousFragMainACOverviewViewHowToAdd.setEnabled(true);
             }
         });
     }
     private void setupNextButton(){
-        binding.textViewNextFragMainACMainViewHowToBindAccountToCardPopUpForm.setOnClickListener(new View.OnClickListener() {
+        binding.textViewNextFragMainACOverviewViewHowToAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.textViewNextFragMainACMainViewHowToBindAccountToCardPopUpForm.setEnabled(false);
+                binding.textViewNextFragMainACOverviewViewHowToAdd.setEnabled(false);
                 switch (nextButtonState){
                     case "base":
                         stopAnims = true;
-                        fadeOutEveryTimeAnimation(binding.frameLayoutParentFragMainACMainViewHowToBindAccountToCardPopUpForm);
-                        parent.changeHowToFragment("MainView_HowTo_finish", false);
+                        fadeOutEveryTimeAnimation(binding.frameLayoutParentFragMainACOverviewViewHowToAdd);
+                        parent.changeHowToFragment("Overview_HowTo_goToDetails", false);
                         break;
                 }
-                binding.textViewNextFragMainACMainViewHowToBindAccountToCardPopUpForm.setEnabled(true);
+                binding.textViewNextFragMainACOverviewViewHowToAdd.setEnabled(true);
             }
         });
     }
     private void longPressAnimation(){
         if(!stopAnims){
+            fadeInAnimation(binding.imageViewPointingToImageViewFragMainACOverviewViewHowToAdd);
+            fadeInAnimation(binding.cardViewTopNavigationExampleFragMainACOverviewViewHowToAdd);
+            float originalDimension = getResources().getDimension(com.intuit.sdp.R.dimen._112sdp);
+            forwardAnimation(binding.imageViewPointingToImageViewFragMainACOverviewViewHowToAdd, (-originalDimension), 0);
+
             TypedValue typedValue = new TypedValue();
             getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorControlNormal, typedValue, true);
             int color = typedValue.data;
@@ -131,117 +141,50 @@ public class MainACMainViewHowToBindAccountToCardPopUpFormFragment extends Fragm
             color = typedValue.data;
             int finalColor = color;
 
-            colorChangePointingAnimation(binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm, initialColor, finalColor);
-            fadeInAnimation(binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm);
-            fadeInAnimation(binding.cardViewPopupExplanationFragMainACMainViewHowToBindAccountToCardPopUpForm);
-            float originalDimension = getResources().getDimension(com.intuit.sdp.R.dimen._140sdp);
-            forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm, (-originalDimension), 0);
-            new CountDownTimer(1000, 1000) {
+            colorChangePointingAnimation(binding.imageViewPointingToImageViewFragMainACOverviewViewHowToAdd, initialColor, finalColor);
+            new CountDownTimer(1300, 1000) {
                 public void onTick(long millisUntilFinished) {
 
                 }
 
                 public void onFinish() {
-                    binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
-                    new CountDownTimer(400, 1000) {
+                    alphaAnimation(binding.imageViewExampleButtonAddFragMainACOverviewViewHowToAdd, 0.6f, 1.0f);
+                    pointYAnimation(binding.imageViewPointingToImageViewFragMainACOverviewViewHowToAdd, getResources().getDimension(com.intuit.sdp.R.dimen._minus40sdp));
+                    new CountDownTimer(1000, 1000) {
                         public void onTick(long millisUntilFinished) {
 
                         }
 
                         public void onFinish() {
-                            binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
-                            downwardsAnimation(binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm, getResources().getDimension(com.intuit.sdp.R.dimen._50sdp), 0);
-                            new CountDownTimer(1500, 1000) {
+                            binding.imageViewPointingToImageViewFragMainACOverviewViewHowToAdd.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
+
+                            new CountDownTimer(400, 1000) {
                                 public void onTick(long millisUntilFinished) {
 
                                 }
 
                                 public void onFinish() {
-                                    binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
+                                    binding.imageViewPointingToImageViewFragMainACOverviewViewHowToAdd.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
 
-                                    new CountDownTimer(400, 1000) {
+                                    new CountDownTimer(1000, 1000) {
                                         public void onTick(long millisUntilFinished) {
 
                                         }
 
                                         public void onFinish() {
-                                            binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
-                                            downwardsAnimation(binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm, getResources().getDimension(com.intuit.sdp.R.dimen._100sdp), getResources().getDimension(com.intuit.sdp.R.dimen._50sdp));
+                                            fadeOutAnimation(binding.imageViewPointingToImageViewFragMainACOverviewViewHowToAdd);
+                                            fadeOutAnimation(binding.cardViewTopNavigationExampleFragMainACOverviewViewHowToAdd);
 
-                                            new CountDownTimer(1300, 1000){
+                                            new CountDownTimer(700, 1000) {
                                                 public void onTick(long millisUntilFinished) {
 
                                                 }
 
-                                                @Override
                                                 public void onFinish() {
-                                                    binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
-
-                                                    new CountDownTimer(400, 1000) {
-                                                        public void onTick(long millisUntilFinished) {
-
-                                                        }
-
-                                                        public void onFinish() {
-                                                            binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
-                                                            downwardsAnimation(binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm, getResources().getDimension(com.intuit.sdp.R.dimen._150sdp), getResources().getDimension(com.intuit.sdp.R.dimen._100sdp));
-
-                                                            new CountDownTimer(1300, 1000){
-                                                                public void onTick(long millisUntilFinished) {
-
-                                                                }
-
-                                                                @Override
-                                                                public void onFinish() {
-                                                                    float originalDimension = getResources().getDimension(com.intuit.sdp.R.dimen._140sdp);
-                                                                    float finalDimension = getResources().getDimension(com.intuit.sdp.R.dimen._63sdp);
-                                                                    forwardAnimation(binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm, (-finalDimension), (-originalDimension));
-
-                                                                    new CountDownTimer(1300, 1000) {
-                                                                        public void onTick(long millisUntilFinished) {
-
-                                                                        }
-
-                                                                        public void onFinish() {
-                                                                            binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
-
-                                                                            new CountDownTimer(400, 1000) {
-                                                                                public void onTick(long millisUntilFinished) {
-
-                                                                                }
-
-                                                                                public void onFinish() {
-                                                                                    binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
-
-                                                                                    new CountDownTimer(1300, 1000) {
-                                                                                        public void onTick(long millisUntilFinished) {
-
-                                                                                        }
-
-                                                                                        public void onFinish() {
-                                                                                            fadeOutAnimation(binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm);
-                                                                                            fadeOutAnimation(binding.cardViewPopupExplanationFragMainACMainViewHowToBindAccountToCardPopUpForm);
-                                                                                            new CountDownTimer(700, 1000) {
-                                                                                                public void onTick(long millisUntilFinished) {
-
-                                                                                                }
-
-                                                                                                public void onFinish() {
-                                                                                                    downwardsAnimation(binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm, 0, 0);
-                                                                                                    pointBackToStartPosAnimation(binding.imageViewPointingToImageViewFragMainACMainViewHowToBindAccountToCardPopUpForm, 0, 0);
-                                                                                                    longPressAnimation();
-                                                                                                }
-                                                                                            }.start();
-                                                                                        }
-                                                                                    }.start();
-                                                                                }
-                                                                            }.start();
-                                                                        }
-                                                                    }.start();
-                                                                }
-                                                            }.start();
-                                                        }
-                                                    }.start();
+                                                    pointYAnimation(binding.imageViewPointingToImageViewFragMainACOverviewViewHowToAdd, 0);
+                                                    pointBackToStartPosAnimation(binding.imageViewPointingToImageViewFragMainACOverviewViewHowToAdd, 0, 0);
+                                                    binding.imageViewExampleButtonAddFragMainACOverviewViewHowToAdd.setAlpha(1.0f);
+                                                    longPressAnimation();
                                                 }
                                             }.start();
                                         }
@@ -313,6 +256,11 @@ public class MainACMainViewHowToBindAccountToCardPopUpFormFragment extends Fragm
                 }
             });
         }
+    }
+    private void alphaAnimation(View view, float value, float initialValue){
+        ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(view, View.ALPHA, initialValue, value);
+        alphaAnimator.setDuration(500);
+        alphaAnimator.start();
     }
     private void fadeOutEveryTimeAnimation(View view){
         Animation fadeOut = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);

@@ -113,14 +113,8 @@ public class RegisterPasswordDialogFragment extends Fragment {
         @Override
         protected UserInfosEntity doInBackground(Void... voids) {
             String password = binding.editTextConfirmPasswordRegisterPasswordDialogFrag.getText().toString();
-            String theme = "";
-            int currentTheme = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-            if (currentTheme == Configuration.UI_MODE_NIGHT_NO) {
-                theme = "Light";
-            } else {
-                theme = "Dark";
-            }
-            String deviceLanguage = Locale.getDefault().getDisplayLanguage();
+            String theme = "System-Sync";
+            Locale deviceLanguage = Locale.getDefault();
 
             UserInfosEntity infosEntity = new UserInfosEntity(0, password, theme, deviceLanguage);
             infosEntity.setInfos("", email);//TODO: Firebase ID

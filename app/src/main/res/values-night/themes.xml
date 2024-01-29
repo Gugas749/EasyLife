@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Base.Theme.EasyLife" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.EasyLife.Dark" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">@color/primaryDark</item>
         <item name="colorSecondary">@color/secondaryDark</item>
         <item name="colorControlNormal">@color/extra5</item>
@@ -19,4 +19,6 @@
         <item name="android:colorAccent">@color/primaryLight</item>
         <!-- Add more items for other text colors if needed -->
     </style>
+
+    <style name="Theme.EasyLife" parent="Base.Theme.EasyLife.Dark" />
 </resources>

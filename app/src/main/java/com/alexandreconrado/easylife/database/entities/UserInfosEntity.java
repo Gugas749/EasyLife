@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.util.List;
+import java.util.Locale;
 
 @Entity(tableName = "User_Infos")
 public class UserInfosEntity {
@@ -19,11 +20,11 @@ public class UserInfosEntity {
     @ColumnInfo(name = "theme")
     public String Theme;
     @ColumnInfo(name = "language")
-    public String Language;
+    public Locale Language;
     @ColumnInfo(name = "addSpedingsWheres")
     public List<String> addSpedingsWheres;
 
-    public UserInfosEntity(long id, String Password, String Theme, String Language) {
+    public UserInfosEntity(long id, String Password, String Theme, Locale Language) {
         this.id = id;
         this.Password = Password;
         this.Theme = Theme;

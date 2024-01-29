@@ -3,6 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#c80000</color>
+    <color name="green">#3bc440</color>
     <!-- Light -->
     <color name="primaryLight">#6A6ECF</color>
     <color name="secondaryLight">#8D93E3</color>

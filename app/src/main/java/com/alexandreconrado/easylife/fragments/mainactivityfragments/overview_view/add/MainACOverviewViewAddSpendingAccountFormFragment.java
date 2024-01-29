@@ -132,7 +132,7 @@ public class MainACOverviewViewAddSpendingAccountFormFragment extends Fragment i
             public void onClick(View v) {
                 binding.buttonSubmitNameFragMainACOverviewViewAddSpendingAccountForm.setEnabled(false);
                 if(percentagesNamesList.size() >= 8){
-                    Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_PecentageMaxCap_Text), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_PercentageMaxCap_Text), Toast.LENGTH_LONG).show();
                 }else{
                     if(binding.editTextNamesPercentagesFragMainACOverviewViewAddSpendingAccountForm.length() > 0){
                         Boolean repeated = false;
@@ -161,6 +161,7 @@ public class MainACOverviewViewAddSpendingAccountFormFragment extends Fragment i
         binding.rvPercentagesNamesFragMainACOverviewViewAddSpendingAccountForm.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvPercentagesNamesFragMainACOverviewViewAddSpendingAccountForm.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+        disableBackPressed();
     }
     @Override
     public void onConfirmButtonClicked(int color, int position, String name, boolean justGetColor) {

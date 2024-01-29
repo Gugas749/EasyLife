@@ -15,7 +15,6 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -44,6 +43,7 @@ import com.alexandreconrado.easylife.database.entities.SubSpendingAccountsEntity
 import com.alexandreconrado.easylife.database.entities.UserInfosEntity;
 import com.alexandreconrado.easylife.databinding.ActivityMainBinding;
 import com.alexandreconrado.easylife.fragments.AuthenticationFragment;
+import com.alexandreconrado.easylife.fragments.mainactivityfragments.SettingsFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view.MainACMainViewEditLayoutFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view.MainACMainViewFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view.howto.MainACMainViewHowToBindAccountToCardHomeFragment;
@@ -51,6 +51,8 @@ import com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view.h
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_view.add.MainACOverviewViewAddSpendingAccountFormFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_view.MainACOverviewViewFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_view.details.MainACOverviewViewSpendingAccountDetailsFormFragment;
+import com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_view.howto.MainACOverviewViewHowToAddFragment;
+import com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_view.howto.MainACOverviewViewHowToDetailsFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.spendings_view.add.MainACSpendingsViewAddSpendingsFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.spendings_view.MainACSpendingsViewFragment;
 import com.alexandreconrado.easylife.fragments.tutorial.TutorialAddFragment;
@@ -116,7 +118,19 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         }
 
-        if(seenTutorial){
+        new CountDownTimer(500, 1000) {
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            public void onFinish() {
+                init();
+                startFragAnimations();
+                showAuthenticationScreen();
+            }
+        }.start();
+
+        /*if(seenTutorial){
             new CountDownTimer(500, 1000) {
                 public void onTick(long millisUntilFinished) {
 
@@ -133,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             init();
             binding.frameLayoutFullScreenFragmentContainerMainAc.setBackground(null);
             tutorialChangeFragments(0, false, false, 0);
-        }
+        }*/
     }
 
     //-----------------SETUPS--------------------
@@ -684,6 +698,10 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                             editor.putInt("debugModeHelper", debugModeHelper);
                             editor.apply();
                         }
+                    }else if(item.getItemId() == R.id.mainAc_SideBar_Backups){
+
+                    }else if(item.getItemId() == R.id.mainAc_SideBar_Configs){
+                        runSwipeRightAnimation("Settings");
                     }
                     item.setEnabled(true);
                 }
@@ -1541,9 +1559,19 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                         .addToBackStack(null)
                         .commit();
                 break;
-            case "goToDragNDrop":
+            case "Overview_HowTo_goToAdd":
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_fullScreenFragmentContainer_forHowTos_MainAc, new MainACOverviewViewHowToAddFragment(THIS, fromNext))
+                        .addToBackStack(null)
+                        .commit();
                 break;
-            case "goToDelete": ;
+            case "Overview_HowTo_goToDetails": ;
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_fullScreenFragmentContainer_forHowTos_MainAc, new MainACOverviewViewHowToDetailsFragment(THIS, fromNext))
+                        .addToBackStack(null)
+                        .commit();
                 break;
             case "goToSave":
                 break;
@@ -1577,7 +1605,11 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
 
                 switch (howToID){
                     case "OverviewView_HowTo":
-
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frameLayout_fullScreenFragmentContainer_forHowTos_MainAc, new MainACOverviewViewHowToAddFragment(THIS, false))
+                                .addToBackStack(null)
+                                .commit();
                         break;
                     case "MainView_HowTo":
                         getSupportFragmentManager()
@@ -1587,7 +1619,11 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                                 .commit();
                         break;
                     case "SpendingsView_HowTo":
-
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frameLayout_fullScreenFragmentContainer_forHowTos_MainAc, new MainACMainViewHowToBindAccountToCardHomeFragment(THIS, false))
+                                .addToBackStack(null)
+                                .commit();
                         break;
                 }
             }
@@ -1608,11 +1644,74 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
+                binding.imageViewAux1MainActivity.setVisibility(View.GONE);
                 container2.setVisibility(View.GONE);
                 container2.setEnabled(false);
             }
         });
 
         translateYAnimator.start();
+    }
+    private void runSwipeRightAnimation(String fragmentID) {
+        ViewGroup container1 = binding.constraintLayoutMainAc;
+        container1.setVisibility(View.VISIBLE);
+
+        ViewGroup container2 = binding.frameLayoutFullScreenFragmentContainerForHowTosMainAc;
+        container2.setVisibility(View.INVISIBLE);
+
+        ObjectAnimator translateXAnimator = ObjectAnimator.ofFloat(container1, "translationX", container1.getWidth());
+        translateXAnimator.setDuration(500);
+
+        switch (fragmentID){
+            case "Settings":
+                drawerLayoutSideMenu.closeDrawer(GravityCompat.END);
+                break;
+        }
+
+        translateXAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                inFragment();
+                container1.setVisibility(View.GONE);
+                fadeInAnimation(container2);
+
+                switch (fragmentID){
+                    case "Settings":
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frameLayout_fullScreenFragmentContainer_forHowTos_MainAc, new SettingsFragment(THIS, UserInfosEntity))
+                                .addToBackStack(null)
+                                .commit();
+                        break;
+                }
+            }
+        });
+
+        translateXAnimator.start();
+    }
+    private void runSwipeLeftAnimation() {
+        outFragment();
+
+        ViewGroup container1 = binding.constraintLayoutMainAc;
+        container1.setVisibility(View.VISIBLE);
+        container1.setTranslationX(container1.getWidth()); // Start off-screen to the right
+
+        ViewGroup container2 = binding.frameLayoutFullScreenFragmentContainerForHowTosMainAc;
+
+        ObjectAnimator translateXAnimator = ObjectAnimator.ofFloat(container1, "translationX", 0);
+        translateXAnimator.setDuration(500); // Set the duration of the animation in milliseconds
+
+        translateXAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                binding.imageViewAux1MainActivity.setVisibility(View.GONE);
+                container2.setVisibility(View.GONE);
+                container2.setEnabled(false);
+            }
+        });
+
+        translateXAnimator.start();
     }
 }

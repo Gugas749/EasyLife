@@ -15,6 +15,7 @@
             android:textSize="@dimen/_25sdp"
             android:fontFamily="@font/coiny_regular"
             android:layout_width="match_parent"
+            android:textColor="?attr/textAppearanceBodySmall"
             android:layout_height="wrap_content"
             android:text="@string/app_name"/>
 
@@ -25,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/_12sdp"
+            android:textColor="?attr/textAppearanceBodySmall"
             android:text="@string/app_slogan"/>
 
         <TextView
@@ -33,6 +35,7 @@
             android:gravity="center_horizontal"
             android:layout_marginTop="@dimen/_11sdp"
             android:textSize="@dimen/_14sdp"
+            android:textColor="?attr/textAppearanceBodySmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/register_dialog_account_text"/>
@@ -48,6 +51,7 @@
             android:layout_marginLeft="@dimen/_16sdp"
             android:layout_marginRight="@dimen/_16sdp"
             android:hint="@string/register_dialog_account_email_prompt"
+            android:textColor="?attr/textAppearanceBodySmall"
             android:background="@drawable/round_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,6 +67,7 @@
             android:maxLines="1"
             android:inputType="number"
             android:visibility="gone"
+            android:textColor="?attr/textAppearanceBodySmall"
             android:hint="@string/register_dialog_account_email_code_prompt"
             android:layout_marginLeft="@dimen/_16sdp"
             android:layout_marginRight="@dimen/_16sdp"

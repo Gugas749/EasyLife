@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,6 +16,7 @@
             android:textSize="@dimen/_25sdp"
             android:fontFamily="@font/coiny_regular"
             android:layout_width="match_parent"
+            android:textColor="?attr/textAppearanceBodySmall"
             android:layout_height="wrap_content"
             android:text="@string/app_name"/>
 
@@ -22,6 +24,7 @@
             android:id="@+id/textView_appSlogan_RegisterPasswordDialogFrag"
             android:layout_below="@+id/textView_title_RegisterPasswordDialogFrag"
             android:gravity="center_horizontal"
+            android:textColor="?attr/textAppearanceBodySmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/_12sdp"
@@ -31,6 +34,7 @@
             android:id="@+id/textView_title2_RegisterPasswordDialogFrag"
             android:layout_below="@+id/textView_appSlogan_RegisterPasswordDialogFrag"
             android:gravity="center_horizontal"
+            android:textColor="?attr/textAppearanceBodySmall"
             android:layout_marginTop="@dimen/_11sdp"
             android:textSize="@dimen/_14sdp"
             android:layout_width="match_parent"
@@ -48,7 +52,8 @@
                 android:layout_width="@dimen/_54sdp"
                 android:layout_height="@dimen/_54sdp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/biometric_fingerprint" />
+                android:src="@drawable/biometric_fingerprint"
+                app:tint="?attr/textAppearanceBodySmall" />
         </FrameLayout>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -78,6 +83,5 @@
             android:background="@drawable/round_button_secondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
     </RelativeLayout>
 </FrameLayout>

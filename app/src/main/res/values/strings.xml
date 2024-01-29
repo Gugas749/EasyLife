@@ -2,6 +2,16 @@
     <string name="app_name">Easy Life</string>
     <string name="app_slogan">Life is Easier</string>
 
+    <string-array name="theme_options">
+        <item>Light</item>
+        <item>Dark</item>
+        <item>System Default</item>
+    </string-array>
+    <string-array name="lang_options">
+        <item>EN-US</item>
+        <item>PT-PT</item>
+    </string-array>
+
     <!-- General -->
     <string name="general_Edit">Edit</string>
     <string name="general_Example">Example</string>
@@ -16,7 +26,7 @@
     <string name="general_ok">Ok</string>
     <string name="general_yes">Yes</string>
     <string name="general_no">No</string>
-    <string name="general_AlertDialog_Question_ExitWithoutSaving_Title">Exit without saving</string>
+    <string name="general_AlertDialog_Question_ExitWithoutSaving_Title">Exit Without Saving</string>
     <string name="general_AlertDialog_Question_ExitWithoutSaving_Text">Do you wish to exit without saving?</string>
     <string name="general_AlertDialog_Question_Saving_Text">Do you wish to save?</string>
 
@@ -27,11 +37,11 @@
     <string name="register_dialog_account_email_code_prompt">Code</string>
     <string name="register_dialog_account_email_code_wrong">Something is wrong</string>
     <!-- RegisterFrag - Password Dialog -->
-    <string name="register_dialog_password_prompt_password_1">Pin Code</string>
-    <string name="register_dialog_password_prompt_password_2">Confirm the Pin Code</string>
-    <string name="register_dialog_password_action_register">Setup a Pin Code</string>
-    <string name="register_dialog_password_invalid_password_no_equal">Your Pin Codes dont match</string>
-    <string name="register_dialog_password_invalid_password_to_short">Pin Code must have 4 characters</string>
+    <string name="register_dialog_password_prompt_password_1">PIN Code</string>
+    <string name="register_dialog_password_prompt_password_2">Confirm the PIN Code</string>
+    <string name="register_dialog_password_action_register">Set Up a PIN Code</string>
+    <string name="register_dialog_password_invalid_password_no_equal">Your PIN Codes don\'t match</string>
+    <string name="register_dialog_password_invalid_password_to_short">PIN Code must have 4 characters</string>
     <!-- RegisterFrag - Biometrics Dialog -->
     <string name="register_dialog_biometric_action_register">Do you want to activate biometric login?</string>
     <string name="register_dialog_faceId_action_register">Do you want to activate Face ID login?</string>
@@ -43,18 +53,18 @@
     <string name="alertDialog_FragmentRestartSession_FaceID_Title">Face ID</string>
     <string name="alertDialog_RestartSession_BiometricID_Title">Biometric ID</string>
     <string name="alertDialog_RestartSession_BiometricID_Subtitle">Biometric ID</string>
-    <string name="alertDialog_Notify_EmailSend_Title">Email Send</string>
-    <string name="alertDialog_Notify_EmailSend_Description">A Email has been send to the Email inserted has a way to verify it, please insert the code provided in the Email on the respective spot.</string>
+    <string name="alertDialog_Notify_EmailSend_Title">Email Sent</string>
+    <string name="alertDialog_Notify_EmailSend_Description">An email has been sent to the provided email for verification. Please insert the code provided in the email at the respective spot.</string>
     <!-- Alert Dialog Fragments - LongPressMainViewObjects -->
     <string name="alertDialog_LongPressMainViewObjects_TextView_Styles_Text">Widget Style</string>
-    <string name="alertDialog_LongPressMainViewObjects_TextView_SpendingsAccounts_Text">Connected Spendings Account</string>
-    <string name="alertDialog_LongPressMainViewObjects_TextView_SpendingsSubAccounts_Text">Connected Spendings Sub Account</string>
+    <string name="alertDialog_LongPressMainViewObjects_TextView_SpendingsAccounts_Text">Connected Spending Account</string>
+    <string name="alertDialog_LongPressMainViewObjects_TextView_SpendingsSubAccounts_Text">Connected Spending Sub Account</string>
     <string name="alertDialog_LongPressMainViewObjects_spinner_WidgetStyle_ItemText">Style</string>
     <string name="alertDialog_LongPressMainViewObjects_spinner_WidgetStyle_StarterText">Select a Style</string>
-    <string name="alertDialog_LongPressMainViewObjects_spinner_SpendingsAccounts_StarterText">Select a Account</string>
-    <string name="alertDialog_LongPressMainViewObjects_spinner_SpendingsSubAccounts_StarterText">Select a SubAccount</string>
+    <string name="alertDialog_LongPressMainViewObjects_spinner_SpendingsAccounts_StarterText">Select an Account</string>
+    <string name="alertDialog_LongPressMainViewObjects_spinner_SpendingsSubAccounts_StarterText">Select a Sub Account</string>
     <string name="alertDialog_LongPressMainViewObjects_Toast_SelectStyle">Please select a Style</string>
-    <string name="alertDialog_LongPressMainViewObjects_Toast_SelectAccount">Please select a Account</string>
+    <string name="alertDialog_LongPressMainViewObjects_Toast_SelectAccount">Please select an Account</string>
     <string name="alertDialog_LongPressMainViewObjects_Toast_SelectSubAccount">Please select a Sub Account</string>
 
     <!-- Main AC -->
@@ -118,17 +128,24 @@
     <string name="mainAc_FragOverviewView_Example_Percentage2_Text">Percentage 2</string>
     <string name="mainAc_FragOverviewView_Example_Percentage3_Text">Percentage 3</string>
     <string name="mainAc_FragOverviewView_Example_Percentage4_Text">Percentage 4</string>
-    <!-- Main AC - Overview View - Add Spendings Account -->
-    <string name="mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_1_Text">Name Your Account!!</string>
-    <string name="mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_2_Text">Give Some Names To Your Percentages!! Also Give Them Some Colors By Clicking Them!!</string>
+    <!-- Main AC - Overview How To-->
+    <!-- Main AC - Overview - How To -  Home -->
+    <string name="mainAc_FragOverviewView_HowTo_Add_Title">Adding Accounts</string>
+    <string name="mainAc_FragOverviewView_HowTo_Add_Text">To add a account you just need to click the plus button in the top!!</string>
+    <!-- Main AC - Overview - How To -  Home -->
+    <string name="mainAc_FragOverviewView_HowTo_Details_Title">Seeing the Details</string>
+    <string name="mainAc_FragOverviewView_HowTo_Details_Text">Now to see the details of your account you just need to click on it!!</string>
+    <!-- Main AC - Overview View - Add Spending Account -->
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_1_Text">Name Your Account</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_2_Text">Give Names to Your Percentages and Give Them Colors By Clicking Them</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_editTextAccountName_Hint">Account Name</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_editTextPercentagesNames_Hint">Percentage Name</string>
-    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_MissingInputs_Text">Hmm… Looks like theres some empty spots</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_MissingInputs_Text">Looks like there are some empty spots</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_SaveBeforeLeaving_Text">Do you wish to save this account before leaving?</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_Save_Text">Do you wish to save this account?</string>
-    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_RepeatedName_Text">Looks like theres is already a Percentage Named that</string>
-    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_NamedPlus_Text">Sorry you cannot name your percentage "+"</string>
-    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_PecentageMaxCap_Text">Sorry you can only have 8 percentages if you want to have more consider adding a subAccount to this account later</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_RepeatedName_Text">Looks like there is already a Percentage named that</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_NamedPlus_Text">Sorry, you cannot name your percentage "+" </string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_PercentageMaxCap_Text">Sorry, you can only have 8 percentages. If you want to have more, consider adding a Sub Account to this account later</string>
     <!-- Main AC - Overview View - Account Details -->
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_AddSubAccount_Title">Add Sub Account</string>
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_AddSubAccount_Text">Do you wish to add a Sub Account?</string>
@@ -162,6 +179,13 @@
     <string name="tutorialFrag_Welcome_Text">Welcome to Easy Life</string>
     <string name="tutorialFrag_End_Title">End!!</string>
     <string name="tutorialFrag_End_Text">Looks like you reached the End, so from now on enjoy the App!! Bye!!</string>
+
+    <!-- Settings Fragment -->
+    <string name="settingsFrag_TextView_spinnerLanguageExplain_Text">App Language</string>
+    <string name="settingsFrag_Spinner_Language_Text">Language</string>
+    <string name="settingsFrag_TextView_spinnerThemeExplain_Text">App Theme</string>
+    <string name="settingsFrag_Spinner_Theme_Text">Theme</string>
+    <string name="settingsFrag_TextView_switchHowToExplain_Text">Tutorials</string>
 
     <!-- Share Menu -->
     <string name="bottomSheetView_shareMenu_title">Where do you want to share?</string>
