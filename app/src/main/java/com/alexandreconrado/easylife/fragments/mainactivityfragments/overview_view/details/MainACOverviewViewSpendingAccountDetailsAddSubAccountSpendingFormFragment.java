@@ -35,6 +35,7 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
         CustomAlertDialogFragment.ConfirmButtonClickAlertDialogQuestionFrag,
         CustomAlertDialogFragment.CancelButtonClickAlertDialogQuestionFrag,
         RVAdapterPercentagesNamesColors.ItemClickedRVAdapterPercentagesNamesAndColors,
+        RVAdapterPercentagesNamesColors.ItemSwipeRightRVAdapterPercentagesNamesAndColors,
         CustomAlertDialogFragment.ConfirmButtonClickAlertDialogColorPickerFrag {
 
     private FragmentMainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormBinding binding;
@@ -49,7 +50,9 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
     private SpendingAccountsEntity account;
     private LocalDataBase localDataBase;
     private SpendingsAccountsDao spendingsAccountsDao;
+    private String itemSwiped = "";
     private ExitFragMainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm exitListenner;
+
     public interface ExitFragMainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm{
         void onExitFragMainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm(boolean save, SpendingAccountsEntity account);
     }
@@ -107,7 +110,7 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
         binding.cardViewChangeParentShowingColorFragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm.setCardBackgroundColor(Integer.parseInt(account.getPercentagesColorList().get(positionOnList)));
         percentagesNamesList = new ArrayList<>();
         percentagesColorsList = new ArrayList<>();
-        adapter = new RVAdapterPercentagesNamesColors(getContext(), percentagesNamesList, percentagesColorsList, this);
+        adapter = new RVAdapterPercentagesNamesColors(getContext(), percentagesNamesList, percentagesColorsList, this, this);
     }
     private void setupLocalDataBase(){
         localDataBase = Room.databaseBuilder(getContext(), LocalDataBase.class, "EasyLifeLocalDB").build();
@@ -180,6 +183,9 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
                             percentagesColorsList.add(String.valueOf(getResources().getColor(R.color.extra1)));
 
                             loadRecyclerView();
+
+                            binding.editTextNamesPercentagesFragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm.requestFocus();
+                            binding.editTextNamesPercentagesFragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm.setText("");
                         }else{
                             Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_RepeatedName_Text), Toast.LENGTH_SHORT).show();
                         }
@@ -276,11 +282,38 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
             case "FragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm_ExitButton":
                 exitListenner.onExitFragMainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm(false, account);
                 break;
+            case "FragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm_SwipeRight":
+                for (int i = 0; i < percentagesNamesList.size(); i++) {
+                    if(percentagesNamesList.get(i).equals(itemSwiped)){
+                        percentagesNamesList.remove(i);
+                        percentagesColorsList.remove(i);
+                        break;
+                    }
+                }
+
+                loadRecyclerView();
+                enableDisableEverything(true);
+                break;
         }
     }
     @Override
     public void onCancelButtonClicked(String Tag) {
 
+    }
+
+    @Override
+    public void onItemSwipeRightRVAdapterPercentagesNamesAndColors(int pos) {
+        if(!allDisable){
+            CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+            customAlertDialogFragment.setConfirmListenner(THIS);
+            customAlertDialogFragment.setCancelListenner(THIS);
+            AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Delete_Title), getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Delete_Description), customAlertDialogFragment, customAlertDialogFragment, "2");
+            customAlertDialogFragment.setCustomFragment(fragment);
+            customAlertDialogFragment.setTag("FragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm_SwipeRight");
+            customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
+
+            itemSwiped = percentagesNamesList.get(pos);
+        }
     }
 
     private class LocalDatabaseInsertTask extends AsyncTask<Void, Void, SpendingAccountsEntity> {

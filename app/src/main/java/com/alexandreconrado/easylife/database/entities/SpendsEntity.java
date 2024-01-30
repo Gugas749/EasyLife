@@ -13,7 +13,7 @@ public class SpendsEntity {
     @ColumnInfo(name = "id")
     private int id;
     @ColumnInfo(name = "amount")
-    private float amount;
+    private double amount;
     @ColumnInfo(name = "date")
     private Date date;
     @ColumnInfo(name = "mainAccountID")
@@ -31,7 +31,7 @@ public class SpendsEntity {
 
     }
 
-    public void setInfos(float amount, Date date, String mainAccountID, String subAccountID, String category, boolean isPartOfSubAccount, String isPartOf){
+    public void setInfos(double amount, Date date, String mainAccountID, String subAccountID, String category, boolean isPartOfSubAccount, String isPartOf){
         this.amount = amount;
         this.date = date;
         this.mainAccountID = mainAccountID;
@@ -46,10 +46,10 @@ public class SpendsEntity {
     public void setId(int id) {
         this.id = id;
     }
-    public float getAmount() {
+    public double getAmount() {
         return amount;
     }
-    public void setAmount(float amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

@@ -148,7 +148,7 @@ public class AuthenticationFragment extends Fragment {
         public void onClick(View view) {
             Vibrator vibrator = (Vibrator) requireContext().getSystemService(getContext().VIBRATOR_SERVICE);
             if (vibrator.hasVibrator()) {
-                vibrator.vibrate(100);
+                vibrator.vibrate(50);
             }
             if(inputedPinCode.length() < 4){
                 inputedPinCode = inputedPinCode+view.getTag();
@@ -189,6 +189,10 @@ public class AuthenticationFragment extends Fragment {
                 if(v.getTag().equals("biometric")){
                     showBiometricPrompt();
                 }else{
+                    Vibrator vibrator = (Vibrator) requireContext().getSystemService(getContext().VIBRATOR_SERVICE);
+                    if (vibrator.hasVibrator()) {
+                        vibrator.vibrate(50);
+                    }
                     if(inputedPinCode.length() > 0){
                         inputedPinCode = inputedPinCode.substring(0, inputedPinCode.length() - 1);;
                         pinCodeIndicatorScaleDown(inputedPinCode.length());

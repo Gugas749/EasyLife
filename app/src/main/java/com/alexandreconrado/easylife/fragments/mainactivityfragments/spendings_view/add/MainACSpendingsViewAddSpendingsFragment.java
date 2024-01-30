@@ -183,10 +183,22 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
                 if(hasFocus){
                     insertDeleteToEditTextAmount(false);
                 }else{
+                    String amount = binding.editTextAmountSpendFragMainACSpendingsViewAddSpendings.getText().toString().trim();
+                    amount = amount.replace("€", "");
+                    if(!amount.equals("")){
+                        double num = Double.parseDouble(amount);
+                        num = roundToTwoDecimalPlaces(num);
+                        String finalText = String.valueOf(num);
+                        binding.editTextAmountSpendFragMainACSpendingsViewAddSpendings.setText(finalText);
+                    }
                     insertDeleteToEditTextAmount(true);
                 }
             }
         });
+    }
+    private static double roundToTwoDecimalPlaces(double number) {
+        double rounded = Math.round(number * 100.0) / 100.0;
+        return rounded;
     }
     private void setupOnItemSelectedSpinnerAccounts(){
         binding.spinnerSpendigsAccountsFragMainACSpendingsViewAddSpendings.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener<Object>() {
@@ -349,8 +361,9 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
 
                         if(canGo){
                             SpendsEntity spend = new SpendsEntity();
-                            float amountFloat = Float.parseFloat(amount);
-                            spend.setInfos(amountFloat, spendDate, String.valueOf(selectedAccount.getId()), subAccountID, category, isSubAccount, category);
+                            double num = Double.parseDouble(amount);
+                            num = roundToTwoDecimalPlaces(num);
+                            spend.setInfos(num, spendDate, String.valueOf(selectedAccount.getId()), subAccountID, category, isSubAccount, category);
 
                             if(isSubAccount){
                                 for (int i = 0; i < selectedAccount.getSubAccountsList().size(); i++) {

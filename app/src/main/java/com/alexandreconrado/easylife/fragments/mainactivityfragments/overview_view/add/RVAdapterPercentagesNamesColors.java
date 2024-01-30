@@ -21,7 +21,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class RVAdapterPercentagesNamesColors extends RecyclerView.Adapter<RVAdapterPercentagesNamesColors.MyViewHolder> implements Serializable{
-    private static final float MIN_DISTANCE_THRESHOLD = 10;
+    private static final float MIN_DISTANCE_THRESHOLD = 5;
     private final Context context;
     private List<String> percentagesNamesList, percentagesColorsList;
 
@@ -32,17 +32,27 @@ public class RVAdapterPercentagesNamesColors extends RecyclerView.Adapter<RVAdap
 
     private ItemSwipeRightRVAdapterPercentagesNamesAndColors listennerSwipeRight;
     public interface ItemSwipeRightRVAdapterPercentagesNamesAndColors{
-        void onItemSwipeRightRVAdapterPercentagesNamesAndColors();
+        void onItemSwipeRightRVAdapterPercentagesNamesAndColors(int pos);
     }
     public void setListennerSwipeRight(ItemSwipeRightRVAdapterPercentagesNamesAndColors listennerSwipeRight){
         this.listennerSwipeRight = listennerSwipeRight;
     }
-
     public RVAdapterPercentagesNamesColors(Context context, List<String> percentagesNamesList, List<String> percentagesColorsList, ItemClickedRVAdapterPercentagesNamesAndColors listenner) {
         this.context = context;
         this.percentagesNamesList = percentagesNamesList;
         this.percentagesColorsList = percentagesColorsList;
         this.listenner = listenner;
+    }
+    public RVAdapterPercentagesNamesColors(Context context,
+                                           List<String> percentagesNamesList,
+                                           List<String> percentagesColorsList,
+                                           ItemClickedRVAdapterPercentagesNamesAndColors listenner,
+                                           ItemSwipeRightRVAdapterPercentagesNamesAndColors listennerSwipeRight) {
+        this.context = context;
+        this.percentagesNamesList = percentagesNamesList;
+        this.percentagesColorsList = percentagesColorsList;
+        this.listenner = listenner;
+        this.listennerSwipeRight = listennerSwipeRight;
     }
     public void updateData(List<String> percentagesNamesList, List<String> percentagesColorsList){
         this.percentagesNamesList = percentagesNamesList;
@@ -71,6 +81,14 @@ public class RVAdapterPercentagesNamesColors extends RecyclerView.Adapter<RVAdap
                 listenner.onItemClickedRVAdapterPercentagesNamesAndColors(position);
             }
         });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                listennerSwipeRight.onItemSwipeRightRVAdapterPercentagesNamesAndColors(position);
+                return false;
+            }
+        });
     }
 
     @Override
@@ -87,24 +105,6 @@ public class RVAdapterPercentagesNamesColors extends RecyclerView.Adapter<RVAdap
             super(itemView);
             textViewNamePercentage = itemView.findViewById(R.id.textView_accountNameHolder_rvRowPercentagesNamesAndColors_MainACOverview);
             cardViewColorPercentage = itemView.findViewById(R.id.cardView_percentagesColor_rvRowPercentagesNamesAndColors_MainACOverview);
-
-            gestureDetector = new GestureDetector(itemView.getContext(), new GestureDetector.SimpleOnGestureListener() {
-                @Override
-                public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                    if (e2.getX() - e1.getX() > MIN_DISTANCE_THRESHOLD && Math.abs(velocityX) > Math.abs(velocityY)) {
-                        listennerSwipeRight.onItemSwipeRightRVAdapterPercentagesNamesAndColors();
-                        return true;
-                    }
-                    return false;
-                }
-            });
-
-            itemView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    return gestureDetector.onTouchEvent(event);
-                }
-            });
         }
     }
 }

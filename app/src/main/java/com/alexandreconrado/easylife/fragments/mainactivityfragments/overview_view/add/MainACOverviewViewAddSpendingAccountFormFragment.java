@@ -36,12 +36,14 @@ public class MainACOverviewViewAddSpendingAccountFormFragment extends Fragment i
 
     private FragmentMainACOverviewViewAddSpendingAccountFormBinding binding;
     private UserInfosEntity userInfos;
+    private boolean allDisable = false;
     private RVAdapterPercentagesNamesColors adapter;
     private List<String> percentagesNamesList, percentagesColorsList;
     private ExitButtonClickFragMainACOverviewViewAddSpendingsForm exitListenner;
     private MainACOverviewViewAddSpendingAccountFormFragment THIS;
     private LocalDataBase localDataBase;
     private SpendingsAccountsDao spendingsAccountsDao;
+    private String itemSwiped = "";
 
     public interface ExitButtonClickFragMainACOverviewViewAddSpendingsForm{
         void onExitButtonClickFragMainACOverviewViewAddSpendingsForm(Boolean Changed, SpendingAccountsEntity returned);
@@ -147,6 +149,8 @@ public class MainACOverviewViewAddSpendingAccountFormFragment extends Fragment i
                             percentagesColorsList.add(String.valueOf(getResources().getColor(R.color.extra1)));
 
                             loadRecyclerView();
+                            binding.editTextNamesPercentagesFragMainACOverviewViewAddSpendingAccountForm.requestFocus();
+                            binding.editTextNamesPercentagesFragMainACOverviewViewAddSpendingAccountForm.setText("");
                         }else{
                             Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_RepeatedName_Text), Toast.LENGTH_SHORT).show();
                         }
@@ -187,9 +191,18 @@ public class MainACOverviewViewAddSpendingAccountFormFragment extends Fragment i
         customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
     }
     @Override
-    public void onItemSwipeRightRVAdapterPercentagesNamesAndColors() {
-        Toast.makeText(getContext(), "ya", Toast.LENGTH_SHORT).show();
-        //TODO: acabar isto
+    public void onItemSwipeRightRVAdapterPercentagesNamesAndColors(int pos) {
+        if(!allDisable){
+            CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+            customAlertDialogFragment.setConfirmListenner(THIS);
+            customAlertDialogFragment.setCancelListenner(THIS);
+            AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Delete_Title), getString(R.string.mainAc_FragMainViewEditLayout_AlertDialog_Delete_Description), customAlertDialogFragment, customAlertDialogFragment, "2");
+            customAlertDialogFragment.setCustomFragment(fragment);
+            customAlertDialogFragment.setTag("FragMainACOverviewViewAddSpendingsAccountForm_SwipeRight");
+            customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
+
+            itemSwiped = percentagesNamesList.get(pos);
+        }
     }
 
     //-----------------QUESTION ALERT DIALOG---------------------
@@ -207,6 +220,17 @@ public class MainACOverviewViewAddSpendingAccountFormFragment extends Fragment i
             case "FragMainACOverviewViewAddSpendingsAccountForm_Exit":
                 SpendingAccountsEntity newSpendingsAccount = new SpendingAccountsEntity();
                 exitListenner.onExitButtonClickFragMainACOverviewViewAddSpendingsForm(false, newSpendingsAccount);
+                break;
+            case "FragMainACOverviewViewAddSpendingsAccountForm_SwipeRight":
+                for (int i = 0; i < percentagesNamesList.size(); i++) {
+                    if(percentagesNamesList.get(i).equals(itemSwiped)){
+                        percentagesNamesList.remove(i);
+                        percentagesColorsList.remove(i);
+                        break;
+                    }
+                }
+
+                loadRecyclerView();
                 break;
         }
     }

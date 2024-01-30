@@ -1,5 +1,6 @@
 package com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_view.details;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -41,14 +42,15 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
 
     private FragmentMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetailsBinding binding;
     private MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetailsFragment THIS;
-    private boolean isInEditMode = false;
+    private boolean isInEditMode = false, changed = false;
+    private String selectedPercentageOnLongClick = "";
     private SubSpendingAccountsEntity subAccount, oldSubAccount;
     private LocalDataBase localDataBase;
     private SpendingsAccountsDao spendingsAccountsDao;
 
     private ExitFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails exitListenner;
     public interface ExitFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails{
-        void onExitFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails(SubSpendingAccountsEntity subAccount, SubSpendingAccountsEntity oldSubAccount, boolean deleted);
+        void onExitFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails(SubSpendingAccountsEntity subAccount, SubSpendingAccountsEntity oldSubAccount, boolean deleted, boolean changed);
     }
     public void setExitListenner(ExitFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails exitListenner){
         this.exitListenner = exitListenner;
@@ -76,6 +78,8 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
         setupLocalDataBase();
         setupDeleteAccountButton();
         disableBackPressed();
+        setupChangeParentColorCardView();
+        binding.cardViewChangeParentShowingColorFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardBackgroundColor(Integer.parseInt(subAccount.getColorInParent()));
 
         return binding.getRoot();
     }
@@ -104,9 +108,17 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
         binding.imageViewButtonExitFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = binding.editTextAccountNameFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.getText().toString().trim();
-                subAccount.setAccountTitle(name);
-                exitListenner.onExitFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails(subAccount, oldSubAccount, false);
+                if(changed){
+                    CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+                    customAlertDialogFragment.setCancelListenner(THIS);
+                    customAlertDialogFragment.setConfirmListenner(THIS);
+                    AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.general_AlertDialog_Question_SaveBeforeLeaving_Title), getString(R.string.general_AlertDialog_Question_SaveBeforeLeaving_Text), customAlertDialogFragment, customAlertDialogFragment, "2");
+                    customAlertDialogFragment.setCustomFragment(fragment);
+                    customAlertDialogFragment.setTag("FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails_Exit");
+                    customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
+                }else{
+                    exitListenner.onExitFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails(subAccount, oldSubAccount, false, false);
+                }
             }
         });
     }
@@ -139,9 +151,27 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
                     customAlertDialogFragment.setConfirmListenner(THIS);
                     AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragOverviewViewSpendingAccountDetailsForm_Button_DeleteSubAccount_Text), getString(R.string.mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_DeleteSubAccount_Text), customAlertDialogFragment, customAlertDialogFragment, "1");
                     customAlertDialogFragment.setCustomFragment(fragment);
-                    customAlertDialogFragment.setTag("FragMainACOverviewViewSpendingAccountDetailsForm_DeleteAccount");
+                    customAlertDialogFragment.setTag("FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails_Delete");
                     customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
                 }
+            }
+        });
+    }
+    private void setupChangeParentColorCardView(){
+        binding.cardViewChangeParentShowingColorFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+                AlertDialogColorPickerFragment fragment = new AlertDialogColorPickerFragment();
+                fragment.setInfos(customAlertDialogFragment, customAlertDialogFragment, 0, "FragMainACOverviewViewSpendingAccountDetailsAddSubAccountFrom_SecretMenssage");
+                fragment.setJustGetColor(true);
+                TypedValue typedValue = new TypedValue();
+                getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true);
+                int color = typedValue.data;
+                customAlertDialogFragment.setBackgroundColor(color);
+                customAlertDialogFragment.setCustomFragment(fragment);
+                customAlertDialogFragment.setConfirmColorPickerListenner(THIS);
+                customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
             }
         });
     }
@@ -151,6 +181,8 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
     }
     private void setEditMode(boolean editMode){
         if(editMode){
+            changed = true;
+
             TypedValue typedValue = new TypedValue();
             getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorSecondary, typedValue, true);
             int color = typedValue.data;
@@ -160,6 +192,8 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
             binding.cardViewEditTextAccountNameHolderFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardElevation(defaultElevation);
             binding.editTextAccountNameFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setEnabled(true);
             binding.buttonDeleteSubAccountFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.VISIBLE);
+
+            binding.cardViewChangeParentShowingColorFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.VISIBLE);
 
             View root = binding.getRoot();
             List<String> listNamesAux = subAccount.getPercentagesNamesList();
@@ -187,6 +221,8 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
             binding.editTextAccountNameFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setEnabled(false);
             binding.buttonDeleteSubAccountFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.GONE);
 
+            binding.cardViewChangeParentShowingColorFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.GONE);
+
             View root = binding.getRoot();
             for (int i = 1; i <= 4; i++) {
                 int cardViewId = getResources().getIdentifier("cardView_textView_subAccount_" + i + "_Title_Holder_FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails", "id", requireActivity().getPackageName());
@@ -205,6 +241,7 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
             TextView textView = root.findViewById(textViewId);
             textView.setTag(i);
             textView.setOnClickListener(commonOnClickListener);
+            textView.setOnLongClickListener(categorysOnLongClickListener);
         }
     }
     private final View.OnClickListener commonOnClickListener = new View.OnClickListener() {
@@ -230,6 +267,28 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
                 customAlertDialogFragment.setConfirmColorPickerListenner(THIS);
                 customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
             }
+        }
+    };
+    private final View.OnLongClickListener categorysOnLongClickListener = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View view) {
+            if(isInEditMode){
+                int index = Integer.parseInt(String.valueOf(view.getTag()));
+                index--;
+                if(subAccount.getPercentagesNamesList().size() > index){
+                    selectedPercentageOnLongClick = subAccount.getPercentagesNamesList().get(index);
+                    if(!selectedPercentageOnLongClick.equals("+")){
+                        CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+                        customAlertDialogFragment.setCancelListenner(THIS);
+                        customAlertDialogFragment.setConfirmListenner(THIS);
+                        AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.mainAc_FragOverviewViewSpendingAccountDetailsForm_Button_DeleteCategory_Text), getString(R.string.mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_DeleteCategory_Text), customAlertDialogFragment, customAlertDialogFragment, "2");
+                        customAlertDialogFragment.setCustomFragment(fragment);
+                        customAlertDialogFragment.setTag("FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails_DeleteCategory");
+                        customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
+                    }
+                }
+            }
+            return false;
         }
     };
     private void loadTextViews() {
@@ -392,19 +451,59 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
     }
     @Override
     public void onConfirmButtonClicked(int color, int position, String name, boolean justGetColor) {
-        subAccount.getPercentagesNamesList().remove(position);
-        subAccount.getPercentagesNamesList().add(position, name);
-        subAccount.getPercentagesColorList().remove(position);
-        subAccount.getPercentagesColorList().add(position, String.valueOf(color));
+        if(justGetColor){
+            binding.cardViewChangeParentShowingColorFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardBackgroundColor(color);
+        }else{
+            subAccount.getPercentagesNamesList().remove(position);
+            subAccount.getPercentagesNamesList().add(position, name);
+            subAccount.getPercentagesColorList().remove(position);
+            subAccount.getPercentagesColorList().add(position, String.valueOf(color));
 
-        init(isInEditMode);
+            init(isInEditMode);
+        }
     }
     @Override
     public void onConfirmButtonClicked(String Tag) {
-        exitListenner.onExitFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails(subAccount, oldSubAccount, true);
+        switch (Tag){
+            case "FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails_Delete":
+                exitListenner.onExitFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails(subAccount, oldSubAccount, true, true);
+                break;
+            case "FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails_Exit":
+                String name = binding.editTextAccountNameFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.getText().toString().trim();
+                subAccount.setAccountTitle(name);
+                ColorStateList colorStateList = binding.cardViewChangeParentShowingColorFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.getCardBackgroundColor();
+                int color = colorStateList.getDefaultColor();
+                subAccount.setColorInParent(String.valueOf(color));
+                exitListenner.onExitFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails(subAccount, oldSubAccount, false, true);
+                break;
+            case "FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails_DeleteCategory":
+                for (int i = 0; i < subAccount.getPercentagesNamesList().size(); i++) {
+                    if(subAccount.getPercentagesNamesList().get(i).equals(selectedPercentageOnLongClick)){
+                        subAccount.getPercentagesNamesList().remove(i);
+                        subAccount.getPercentagesColorList().remove(i);
+                        break;
+                    }
+                }
+
+                View root = binding.getRoot();
+                for (int i = 1; i <= 4; i++) {
+                    int textViewId = getResources().getIdentifier("textView_PercentageText" + i + "_2_FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails", "id", requireActivity().getPackageName());
+                    int textViewId2 = getResources().getIdentifier("textView_subAccount_" + i + "_Title_FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails", "id", requireActivity().getPackageName());
+                    TextView textView = root.findViewById(textViewId);
+                    TextView textView2 = root.findViewById(textViewId2);
+                    textView.setText("+");
+                    textView2.setText("+");
+                }
+                init(false);
+                break;
+        }
     }
     @Override
     public void onCancelButtonClicked(String Tag) {
-
+        switch (Tag){
+            case "FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails_Exit":
+                exitListenner.onExitFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails(subAccount, oldSubAccount, false, false);
+                break;
+        }
     }
 }

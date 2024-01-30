@@ -952,7 +952,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         }
     }
     @Override
-    public void onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(SpendingAccountsEntity account, boolean deleted) {
+    public void onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(SpendingAccountsEntity account, boolean deleted, boolean changed) {
         disableBackPressed();
         scaleUpAnimtion();
         new CountDownTimer(1500, 1000) {
@@ -964,64 +964,66 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-                if(deleted){
-                    for (int i = 0; i < spendingAccountsEntitiesList.size(); i++) {
-                        if(spendingAccountsEntitiesList.get(i).getId() == account.getId()){
-                            spendingAccountsEntitiesList.remove(spendingAccountsEntitiesList.get(i));
+                if(changed){
+                    if(deleted){
+                        for (int i = 0; i < spendingAccountsEntitiesList.size(); i++) {
+                            if(spendingAccountsEntitiesList.get(i).getId() == account.getId()){
+                                spendingAccountsEntitiesList.remove(spendingAccountsEntitiesList.get(i));
 
-                            new LocalDatabaseJustDeleteSpendingAccountTask(account).execute();
-                            break;
+                                new LocalDatabaseJustDeleteSpendingAccountTask(account).execute();
+                                break;
+                            }
                         }
-                    }
 
-                    for (int i = 0; i < draggableCardViewObjectsList.size(); i++) {
-                        DraggableCardViewEntity selectedDraggable = draggableCardViewObjectsList.get(i);
-                        if(selectedDraggable.getAccountID().equals(String.valueOf(account.getId()))){
-                            DraggableCardViewEntity newObject = setObjectToExample(selectedDraggable);
+                        for (int i = 0; i < draggableCardViewObjectsList.size(); i++) {
+                            DraggableCardViewEntity selectedDraggable = draggableCardViewObjectsList.get(i);
+                            if(selectedDraggable.getAccountID().equals(String.valueOf(account.getId()))){
+                                DraggableCardViewEntity newObject = setObjectToExample(selectedDraggable);
 
-                            draggableCardViewObjectsList.remove(selectedDraggable);
-                            draggableCardViewObjectsList.add(i, newObject);
+                                draggableCardViewObjectsList.remove(selectedDraggable);
+                                draggableCardViewObjectsList.add(i, newObject);
 
-                            new LocalDatabaseJustUpdateDraggableObjectTask(newObject).execute();
-                            break;
+                                new LocalDatabaseJustUpdateDraggableObjectTask(newObject).execute();
+                                break;
+                            }
                         }
-                    }
-                }else{
-                    for (int i = 0; i < spendingAccountsEntitiesList.size(); i++) {
-                        if(spendingAccountsEntitiesList.get(i).getId() == account.getId()){
-                            spendingAccountsEntitiesList.remove(spendingAccountsEntitiesList.get(i));
-                            spendingAccountsEntitiesList.add(i, account);
-                            break;
+                    }else{
+                        for (int i = 0; i < spendingAccountsEntitiesList.size(); i++) {
+                            if(spendingAccountsEntitiesList.get(i).getId() == account.getId()){
+                                spendingAccountsEntitiesList.remove(spendingAccountsEntitiesList.get(i));
+                                spendingAccountsEntitiesList.add(i, account);
+                                break;
+                            }
                         }
-                    }
 
-                    for (int i = 0; i < draggableCardViewObjectsList.size(); i++) {
-                        DraggableCardViewEntity selected = draggableCardViewObjectsList.get(i);
-                        if(selected.getAccountID() != null && !selected.getAccountID().equals("")){
-                            DraggableCardViewEntity oldObject = selected;
-                            int id = Integer.parseInt(selected.getAccountID());
-                            if(id == account.getId()){
-                                boolean can = false;
-                                if(selected.getType().equals("3")){
-                                    can = true;
-                                }
-                                int subAccountIdIndex = 0;
-                                selected.setAccountID(String.valueOf(account.getId()));
-                                if(selected.getSubAccountID() != null && !selected.getAccountID().equals("")){
-                                    List<SubSpendingAccountsEntity> auxList = account.getSubAccountsList();
-                                    if(auxList != null){
-                                        for (int j = 0; j < auxList.size(); j++) {
-                                            SubSpendingAccountsEntity selectedSub = auxList.get(j);
-                                            if(!selected.getSubAccountID().equals("")){
-                                                if(selectedSub.getId() == Integer.parseInt(selected.getSubAccountID())){
-                                                    subAccountIdIndex = j;
-                                                    break;
+                        for (int i = 0; i < draggableCardViewObjectsList.size(); i++) {
+                            DraggableCardViewEntity selected = draggableCardViewObjectsList.get(i);
+                            if(selected.getAccountID() != null && !selected.getAccountID().equals("")){
+                                DraggableCardViewEntity oldObject = selected;
+                                int id = Integer.parseInt(selected.getAccountID());
+                                if(id == account.getId()){
+                                    boolean can = false;
+                                    if(selected.getType().equals("3")){
+                                        can = true;
+                                    }
+                                    int subAccountIdIndex = 0;
+                                    selected.setAccountID(String.valueOf(account.getId()));
+                                    if(selected.getSubAccountID() != null && !selected.getAccountID().equals("")){
+                                        List<SubSpendingAccountsEntity> auxList = account.getSubAccountsList();
+                                        if(auxList != null){
+                                            for (int j = 0; j < auxList.size(); j++) {
+                                                SubSpendingAccountsEntity selectedSub = auxList.get(j);
+                                                if(!selected.getSubAccountID().equals("")){
+                                                    if(selectedSub.getId() == Integer.parseInt(selected.getSubAccountID())){
+                                                        subAccountIdIndex = j;
+                                                        break;
+                                                    }
                                                 }
                                             }
                                         }
                                     }
+                                    new LocalDatabaseUpdateDraggableObjectsTask(selected, oldObject, can, subAccountIdIndex, true).execute();
                                 }
-                                new LocalDatabaseUpdateDraggableObjectsTask(selected, oldObject, can, subAccountIdIndex, true).execute();
                             }
                         }
                     }
