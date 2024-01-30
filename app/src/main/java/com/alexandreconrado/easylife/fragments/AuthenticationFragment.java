@@ -1,11 +1,13 @@
 package com.alexandreconrado.easylife.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
 import static androidx.core.content.ContextCompat.getSystemService;
 
 import android.animation.Animator;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -146,8 +148,10 @@ public class AuthenticationFragment extends Fragment {
     private final View.OnClickListener commonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            SharedPreferences prefs = getContext().getSharedPreferences("Perf_User", MODE_PRIVATE);
+            boolean vibration = prefs.getBoolean("vibration", true);
             Vibrator vibrator = (Vibrator) requireContext().getSystemService(getContext().VIBRATOR_SERVICE);
-            if (vibrator.hasVibrator()) {
+            if (vibrator.hasVibrator() && vibration) {
                 vibrator.vibrate(50);
             }
             if(inputedPinCode.length() < 4){
@@ -189,8 +193,10 @@ public class AuthenticationFragment extends Fragment {
                 if(v.getTag().equals("biometric")){
                     showBiometricPrompt();
                 }else{
+                    SharedPreferences prefs = getContext().getSharedPreferences("Perf_User", MODE_PRIVATE);
+                    boolean vibration = prefs.getBoolean("vibration", true);
                     Vibrator vibrator = (Vibrator) requireContext().getSystemService(getContext().VIBRATOR_SERVICE);
-                    if (vibrator.hasVibrator()) {
+                    if (vibrator.hasVibrator() && vibration) {
                         vibrator.vibrate(50);
                     }
                     if(inputedPinCode.length() > 0){

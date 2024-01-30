@@ -1,8 +1,11 @@
 package com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.AsyncTask;
@@ -80,8 +83,15 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMainACMainViewEditLayoutBinding.inflate(inflater);
+
         disableEverything();
         init();
+
+        SharedPreferences prefs = getContext().getSharedPreferences("Perf_User", MODE_PRIVATE);
+        boolean showTutorials = prefs.getBoolean("hideTutorials", false);
+        if(showTutorials){
+            binding.imageViewButtonHowToUseFragMainACMainViewEditLayout.setVisibility(View.VISIBLE);
+        }
 
         setupConfirmButton();
         setupExitButton();

@@ -1,28 +1,61 @@
 package com.alexandreconrado.easylife.fragments.mainactivityfragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import static androidx.core.app.ActivityCompat.finishAffinity;
+
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.room.Room;
 
+import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.alexandreconrado.easylife.R;
 import com.alexandreconrado.easylife.activitys.MainActivity;
+import com.alexandreconrado.easylife.database.LocalDataBase;
+import com.alexandreconrado.easylife.database.daos.DraggableCardViewDao;
+import com.alexandreconrado.easylife.database.daos.SpendingsAccountsDao;
 import com.alexandreconrado.easylife.database.daos.UserInfosDao;
+import com.alexandreconrado.easylife.database.entities.DraggableCardViewEntity;
 import com.alexandreconrado.easylife.database.entities.UserInfosEntity;
 import com.alexandreconrado.easylife.databinding.FragmentSettingsBinding;
+import com.alexandreconrado.easylife.fragments.alertDialogFragments.AlertDialogNotifyFragment;
+import com.alexandreconrado.easylife.fragments.alertDialogFragments.AlertDialogQuestionFragment;
+import com.alexandreconrado.easylife.scripts.CustomAlertDialogFragment;
+import com.alexandreconrado.easylife.scripts.niceswitch.NiceSwitch;
+import com.skydoves.powerspinner.OnSpinnerItemSelectedListener;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends Fragment implements
+        CustomAlertDialogFragment.ConfirmButtonClickAlertDialogQuestionFrag,
+        CustomAlertDialogFragment.CancelButtonClickAlertDialogQuestionFrag {
 
     private FragmentSettingsBinding binding;
     private MainActivity parent;
     private UserInfosEntity userInfos;
+    private SettingsFragment THIS;
+    private boolean changed = false, needRestart = false, showTutorials = false, vibration = true, protectionMode = true;
+    private String lang = "en-US", theme = "system_default";
+    private LocalDataBase localDataBase;
+    private UserInfosDao userInfosDao;
+
+    private ExitSettingsFrag exitListenner;
+    public interface ExitSettingsFrag{
+        void onExitSettingsFrag(boolean changed);
+    }
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -33,6 +66,11 @@ public class SettingsFragment extends Fragment {
     public SettingsFragment(MainActivity parent, UserInfosEntity userInfos) {
         this.parent = parent;
         this.userInfos = userInfos;
+    }
+    public SettingsFragment(MainActivity parent, UserInfosEntity userInfos, ExitSettingsFrag exitListenner) {
+        this.parent = parent;
+        this.userInfos = userInfos;
+        this.exitListenner = exitListenner;
     }
 
     @Override
@@ -45,13 +83,30 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentSettingsBinding.inflate(inflater);
 
+        SharedPreferences prefs = getContext().getSharedPreferences("Perf_User", MODE_PRIVATE);
+        showTutorials = prefs.getBoolean("hideTutorials", true);
+        protectionMode = prefs.getBoolean("protectionMode", true);
+        vibration = prefs.getBoolean("vibration", true);
+
+        init();
         disableBackPressed();
-        loadSpinners();
-        loadUserSettings();
+        setupLocalDataBase();
+        setupExitButton();
+        setupSwitchs();
+        setupSpinners();
 
         return binding.getRoot();
     }
+    private void init(){
+        THIS = this;
 
+        loadSpinners();
+        loadUserSettings();
+    }
+    private void setupLocalDataBase(){
+        localDataBase = Room.databaseBuilder(getContext(), LocalDataBase.class, "EasyLifeLocalDB").build();
+        userInfosDao = localDataBase.userInfosDao();
+    }
     private void disableBackPressed(){
         binding.getRoot().setFocusableInTouchMode(true);
         binding.getRoot().requestFocus();
@@ -75,13 +130,13 @@ public class SettingsFragment extends Fragment {
     private void loadUserSettings(){
         int themeIndex = 0;
         switch (userInfos.Theme){
-            case "Light":
+            case "light":
                 themeIndex = 0;
                 break;
-            case "Dark":
+            case "dark":
                 themeIndex = 1;
                 break;
-            case "System-Sync":
+            case "system_default":
                 themeIndex = 2;
                 break;
         }
@@ -90,20 +145,177 @@ public class SettingsFragment extends Fragment {
 
         int langIndex = 0;
         switch (userInfos.Language.toLanguageTag()){
-            case "en-US":
+            case "en-us":
                 langIndex = 0;
                 break;
-            case "en-GB":
+            case "en-gb":
                 // English (United Kingdom)
                 break;
-            case "pt-PT":
+            case "pt-pt":
                 langIndex = 1;
                 break;
-            case "pt-BR":
+            case "pt-br":
                 // Portuguese (Brazil)
                 break;
         }
 
         binding.spinnerLanguageFragSettings.selectItemByIndex(langIndex);
+
+        new CountDownTimer(350, 1000){
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                binding.switchHowToFragSettings.setChecked(showTutorials);
+                binding.switchVibrationFragSettings.setChecked(vibration);
+                binding.switchProtectionModeFragSettings.setChecked(protectionMode);
+            }
+        }.start();
+    }
+    private void saveSettings(){
+        SharedPreferences sharedPreferences = parent.getSharedPreferences("Perf_User", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("vibration", vibration);
+        editor.putBoolean("hideTutorials", showTutorials);
+        editor.putBoolean("protectionMode", protectionMode);
+        editor.putString("theme_preference", theme);
+        editor.putString("user_language", lang);
+        editor.apply();
+
+        Locale userLocale = new Locale(lang);
+        userInfos.Language = userLocale;
+        userInfos.Theme = theme;
+    }
+    private void setupExitButton(){
+        binding.imageViewButtonExitFragSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(changed){
+                    CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+                    customAlertDialogFragment.setCancelListenner(THIS);
+                    customAlertDialogFragment.setConfirmListenner(THIS);
+                    AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.general_AlertDialog_Question_SaveBeforeLeaving_Title), getString(R.string.general_AlertDialog_Question_SaveBeforeLeaving_Text), customAlertDialogFragment, customAlertDialogFragment, "3");
+                    customAlertDialogFragment.setCustomFragment(fragment);
+                    customAlertDialogFragment.setTag("FragSettings_Exit");
+                    customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
+                }else{
+                    exitListenner.onExitSettingsFrag(false);
+                }
+            }
+        });
+    }
+    private void setupSwitchs(){
+        binding.switchHowToFragSettings.setOnCheckedChangedListener(new NiceSwitch.OnCheckedChangedListener() {
+            @Override
+            public void onCheckedChanged(boolean checked) {
+                changed = true;
+                showTutorials = checked;
+            }
+        });
+        binding.switchVibrationFragSettings.setOnCheckedChangedListener(new NiceSwitch.OnCheckedChangedListener() {
+            @Override
+            public void onCheckedChanged(boolean checked) {
+                changed = true;
+                vibration = checked;
+            }
+        });
+        binding.switchProtectionModeFragSettings.setOnCheckedChangedListener(new NiceSwitch.OnCheckedChangedListener() {
+            @Override
+            public void onCheckedChanged(boolean checked) {
+                changed = true;
+                protectionMode = checked;
+            }
+        });
+    }
+    private void setupSpinners(){
+        binding.spinnerThemeFragSettings.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener<Object>() {
+            @Override
+            public void onItemSelected(int i, @Nullable Object o, int i1, Object t1) {
+                changed = true;
+                needRestart = true;
+
+                switch (i1){
+                    case 0:
+                        theme = "light";
+                        break;
+                    case 1:
+                        theme = "dark";
+                        break;
+                }
+            }
+        });
+        binding.spinnerLanguageFragSettings.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener<Object>() {
+            @Override
+            public void onItemSelected(int i, @Nullable Object o, int i1, Object t1) {
+                changed = true;
+                needRestart = true;
+
+                switch (i1){
+                    case 0:
+                        lang = "en-US";
+                        break;
+                    case 1:
+                        lang = "pt-PT";
+                        break;
+                }
+            }
+        });
+    }
+    @Override
+    public void onConfirmButtonClicked(String Tag) {
+        switch (Tag){
+            case "FragSettings_Exit":
+                saveSettings();
+                if(needRestart){
+                    new LocalDatabaseUpdateInfosTask().execute();
+                }else{
+                    exitListenner.onExitSettingsFrag(true);
+                }
+                break;
+        }
+    }
+    @Override
+    public void onCancelButtonClicked(String Tag) {
+        switch (Tag){
+            case "FragSettings_Exit":
+                exitListenner.onExitSettingsFrag(false);
+                break;
+        }
+    }
+    private void appRestart(){
+        CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+        AlertDialogNotifyFragment fragment = new AlertDialogNotifyFragment(getString(R.string.settingsFrag_AlertDialog_Notify_NeedRestart_Text), getString(R.string.settingsFrag_AlertDialog_Notify_NeedRestart_Title), customAlertDialogFragment);
+        customAlertDialogFragment.setCustomFragment(fragment);
+        customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
+
+        new CountDownTimer(1500, 1000){
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                if (parent != null) {
+                    parent.finishAffinity();
+                }
+            }
+        }.start();
+    }
+    private class LocalDatabaseUpdateInfosTask extends AsyncTask<Void, Void, UserInfosEntity> {
+        @Override
+        protected UserInfosEntity doInBackground(Void... voids) {
+            userInfosDao.update(userInfos);
+
+            return userInfos;
+        }
+
+        @Override
+        protected void onPostExecute(UserInfosEntity object) {
+            appRestart();
+        }
     }
 }

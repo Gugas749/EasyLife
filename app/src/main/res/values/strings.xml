@@ -15,6 +15,7 @@
     <!-- General -->
     <string name="general_Edit">Edit</string>
     <string name="general_Example">Example</string>
+    <string name="general_DontSave">Don\'t Save</string>
     <string name="general_Save">Save</string>
     <string name="general_change">Change</string>
     <string name="general_confirm">Confirm</string>
@@ -190,6 +191,10 @@
     <string name="settingsFrag_TextView_spinnerThemeExplain_Text">App Theme</string>
     <string name="settingsFrag_Spinner_Theme_Text">Theme</string>
     <string name="settingsFrag_TextView_switchHowToExplain_Text">Tutorials</string>
+    <string name="settingsFrag_TextView_vibrationExplain_Text">Vibration</string>
+    <string name="settingsFrag_TextView_protectionModeExplain_Text">Screen-Rec Protection</string>
+    <string name="settingsFrag_AlertDialog_Notify_NeedRestart_Text">App Restart</string>
+    <string name="settingsFrag_AlertDialog_Notify_NeedRestart_Title">To finalize the configuration the app will restart! Sorry for the inconvenience.</string>
 
     <!-- Share Menu -->
     <string name="bottomSheetView_shareMenu_title">Where do you want to share?</string>

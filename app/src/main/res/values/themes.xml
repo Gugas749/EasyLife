@@ -21,5 +21,13 @@
         <!-- Add more items for other text colors if needed -->
     </style>
 
+    <style name="BaseSwitcher">
+        <item name="switcher_width">@dimen/switcher_width</item>
+        <item name="switcher_height">@dimen/switcher_height</item>
+        <item name="switcher_on_color">@color/green</item>
+        <item name="switcher_off_color">@color/red</item>
+        <item name="switcher_icon_color">@color/white</item>
+    </style>
+
     <style name="Theme.EasyLife" parent="Base.Theme.EasyLife.Light" />
 </resources>

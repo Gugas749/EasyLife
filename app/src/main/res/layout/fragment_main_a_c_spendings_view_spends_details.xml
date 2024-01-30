@@ -5,14 +5,14 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/colorPrimary"
-    tools:context=".fragments.mainactivityfragments.spendings_view.add.MainACSpendingsViewAddSpendingsFragment">
+    tools:context=".fragments.mainactivityfragments.spendings_view.MainACSpendingsViewSpendsDetailsFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <!-- TOP NAVIGATION -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardView_topNavigation_FragMainACSpendingsViewAddSpendings"
+            android:id="@+id/cardView_topNavigation_FragMainACSpendingsViewSpendsDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_minus16sdp"
@@ -21,7 +21,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
             <ImageView
-                android:id="@+id/imageView_buttonExit_FragMainACSpendingsViewAddSpendings"
+                android:id="@+id/imageView_buttonExit_FragMainACSpendingsViewSpendsDetails"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
                 android:layout_gravity="start"
@@ -31,7 +31,7 @@
                 android:padding="@dimen/_8sdp"
                 android:src="@drawable/cancel_icon" />
             <ImageView
-                android:id="@+id/imageView_buttonHowToUse_FragMainACSpendingsViewAddSpendings"
+                android:id="@+id/imageView_buttonHowToUse_FragMainACSpendingsViewSpendsDetails"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
                 android:layout_marginTop="@dimen/_8sdp"
@@ -40,7 +40,7 @@
                 android:visibility="gone"
                 android:src="@drawable/questionpoint_icon" />
             <ImageView
-                android:id="@+id/imageView_buttonConfirm_FragMainACSpendingsViewAddSpendings"
+                android:id="@+id/imageView_buttonConfirm_FragMainACSpendingsViewSpendsDetails"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
                 android:layout_gravity="end"
@@ -52,8 +52,8 @@
         </androidx.cardview.widget.CardView>
         <!--                -->
         <TextView
-            android:id="@+id/textView_design_1_FragMainACSpendingsViewAddSpendings"
-            android:layout_below="@+id/cardView_topNavigation_FragMainACSpendingsViewAddSpendings"
+            android:id="@+id/textView_design_1_FragMainACSpendingsViewSpendsDetails"
+            android:layout_below="@+id/cardView_topNavigation_FragMainACSpendingsViewSpendsDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_11sdp"
@@ -65,8 +65,8 @@
             android:textAlignment="center"
             android:textSize="@dimen/_18sdp"/>
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardView_textViewDateHolder_FragMainACSpendingsViewAddSpendings"
-            android:layout_below="@+id/textView_design_1_FragMainACSpendingsViewAddSpendings"
+            android:id="@+id/cardView_textViewDateHolder_FragMainACSpendingsViewSpendsDetails"
+            android:layout_below="@+id/textView_design_1_FragMainACSpendingsViewSpendsDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_11sdp"
@@ -75,12 +75,12 @@
             app:cardBackgroundColor="?attr/colorSecondary"
             app:cardCornerRadius="@dimen/_23sdp">
             <LinearLayout
-                android:id="@+id/linearLayout_textViewDateHolder_FragMainACSpendingsViewAddSpendings"
+                android:id="@+id/linearLayout_textViewDateHolder_FragMainACSpendingsViewSpendsDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textView_design_1_FragMainACSpendingsViewAddSpendings">
+                android:layout_below="@+id/textView_design_1_FragMainACSpendingsViewSpendsDetails">
                 <TextView
-                    android:id="@+id/textView_date_FragMainACSpendingsViewAddSpendings"
+                    android:id="@+id/textView_date_FragMainACSpendingsViewSpendsDetails"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -110,8 +110,8 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
         <TextView
-            android:id="@+id/textView_spinnerWhereExplain_FragMainACSpendingsViewAddSpendings"
-            android:layout_below="@+id/cardView_textViewDateHolder_FragMainACSpendingsViewAddSpendings"
+            android:id="@+id/textView_spinnerWhereExplain_FragMainACSpendingsViewSpendsDetails"
+            android:layout_below="@+id/cardView_textViewDateHolder_FragMainACSpendingsViewSpendsDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center|start"
@@ -124,8 +124,8 @@
             android:textAlignment="center"
             android:textSize="@dimen/_18sdp"/>
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardView_spinnerWhereHolder_FragMainACSpendingsViewAddSpendings"
-            android:layout_below="@+id/textView_spinnerWhereExplain_FragMainACSpendingsViewAddSpendings"
+            android:id="@+id/cardView_spinnerWhereHolder_FragMainACSpendingsViewSpendsDetails"
+            android:layout_below="@+id/textView_spinnerWhereExplain_FragMainACSpendingsViewSpendsDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_11sdp"
@@ -134,7 +134,7 @@
             app:cardBackgroundColor="?attr/colorSecondary"
             app:cardCornerRadius="@dimen/_23sdp">
             <EditText
-                android:id="@+id/editText_amountSpend_FragMainACSpendingsViewAddSpendings"
+                android:id="@+id/editText_amountSpend_FragMainACSpendingsViewSpendsDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
@@ -151,8 +151,8 @@
                 android:textCursorDrawable="@null"/>
         </androidx.cardview.widget.CardView>
         <TextView
-            android:id="@+id/textView_spinnerSpendigsAccountsExplain_FragMainACSpendingsViewAddSpendings"
-            android:layout_below="@+id/cardView_spinnerWhereHolder_FragMainACSpendingsViewAddSpendings"
+            android:id="@+id/textView_spinnerSpendigsAccountsExplain_FragMainACSpendingsViewSpendsDetails"
+            android:layout_below="@+id/cardView_spinnerWhereHolder_FragMainACSpendingsViewSpendsDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center|start"
@@ -165,8 +165,8 @@
             android:textAlignment="center"
             android:textSize="@dimen/_18sdp" />
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardView_spinnerSpendigsAccountsHolder_FragMainACSpendingsViewAddSpendings"
-            android:layout_below="@+id/textView_spinnerSpendigsAccountsExplain_FragMainACSpendingsViewAddSpendings"
+            android:id="@+id/cardView_spinnerSpendigsAccountsHolder_FragMainACSpendingsViewSpendsDetails"
+            android:layout_below="@+id/textView_spinnerSpendigsAccountsExplain_FragMainACSpendingsViewSpendsDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_11sdp"
@@ -175,7 +175,7 @@
             app:cardBackgroundColor="?attr/colorSecondary"
             app:cardCornerRadius="@dimen/_23sdp">
             <com.skydoves.powerspinner.PowerSpinnerView
-                android:id="@+id/spinner_spendigsAccounts_FragMainACSpendingsViewAddSpendings"
+                android:id="@+id/spinner_spendigsAccounts_FragMainACSpendingsViewSpendsDetails"
                 android:hint="@string/alertDialog_LongPressMainViewObjects_spinner_SpendingsAccounts_StarterText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -201,8 +201,8 @@
                 app:spinner_popup_elevation="@dimen/_11sdp" />
         </androidx.cardview.widget.CardView>
         <TextView
-            android:id="@+id/textView_spinnerSpendigsSubAccountsExplain_FragMainACSpendingsViewAddSpendings"
-            android:layout_below="@+id/cardView_spinnerSpendigsAccountsHolder_FragMainACSpendingsViewAddSpendings"
+            android:id="@+id/textView_spinnerSpendigsSubAccountsExplain_FragMainACSpendingsViewSpendsDetails"
+            android:layout_below="@+id/cardView_spinnerSpendigsAccountsHolder_FragMainACSpendingsViewSpendsDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center|start"
@@ -215,8 +215,8 @@
             android:textAlignment="center"
             android:textSize="@dimen/_18sdp" />
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardView_spinnerSpendigsSubAccountsHolder_FragMainACSpendingsViewAddSpendings"
-            android:layout_below="@+id/textView_spinnerSpendigsSubAccountsExplain_FragMainACSpendingsViewAddSpendings"
+            android:id="@+id/cardView_spinnerSpendigsSubAccountsHolder_FragMainACSpendingsViewSpendsDetails"
+            android:layout_below="@+id/textView_spinnerSpendigsSubAccountsExplain_FragMainACSpendingsViewSpendsDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_11sdp"
@@ -225,7 +225,7 @@
             app:cardBackgroundColor="?attr/colorSecondary"
             app:cardCornerRadius="@dimen/_23sdp">
             <com.skydoves.powerspinner.PowerSpinnerView
-                android:id="@+id/spinner_spendigsSubAccounts_FragMainACSpendingsViewAddSpendings"
+                android:id="@+id/spinner_spendigsSubAccounts_FragMainACSpendingsViewSpendsDetails"
                 android:hint="@string/mainAc_FragSpendingsViewAddSpendings_spinnerHint_1_Text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -251,8 +251,8 @@
                 app:spinner_popup_elevation="@dimen/_11sdp" />
         </androidx.cardview.widget.CardView>
         <TextView
-            android:id="@+id/textView_spinnerSpendigsSubAccountsSpendsExplain_FragMainACSpendingsViewAddSpendings"
-            android:layout_below="@+id/cardView_spinnerSpendigsSubAccountsHolder_FragMainACSpendingsViewAddSpendings"
+            android:id="@+id/textView_spinnerSpendigsSubAccountsSpendsExplain_FragMainACSpendingsViewSpendsDetails"
+            android:layout_below="@+id/cardView_spinnerSpendigsSubAccountsHolder_FragMainACSpendingsViewSpendsDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center|start"
@@ -265,8 +265,8 @@
             android:textAlignment="center"
             android:textSize="@dimen/_18sdp" />
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardView_spinnerSpendigsSubAccountsSpendsHolder_FragMainACSpendingsViewAddSpendings"
-            android:layout_below="@+id/textView_spinnerSpendigsSubAccountsSpendsExplain_FragMainACSpendingsViewAddSpendings"
+            android:id="@+id/cardView_spinnerSpendigsSubAccountsSpendsHolder_FragMainACSpendingsViewSpendsDetails"
+            android:layout_below="@+id/textView_spinnerSpendigsSubAccountsSpendsExplain_FragMainACSpendingsViewSpendsDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_11sdp"
@@ -275,7 +275,7 @@
             app:cardBackgroundColor="?attr/colorSecondary"
             app:cardCornerRadius="@dimen/_23sdp">
             <com.skydoves.powerspinner.PowerSpinnerView
-                android:id="@+id/spinner_spendigsSubAccountsSpends_FragMainACSpendingsViewAddSpendings"
+                android:id="@+id/spinner_spendigsSubAccountsSpends_FragMainACSpendingsViewSpendsDetails"
                 android:hint="@string/mainAc_FragSpendingsViewAddSpendings_spinnerHint_1_Text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -300,5 +300,18 @@
                 app:spinner_popup_background="@drawable/round_corners_alert_dialog"
                 app:spinner_popup_elevation="@dimen/_11sdp" />
         </androidx.cardview.widget.CardView>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_deleteAccount_FragMainACSpendingsViewSpendsDetails"
+            android:layout_below="@+id/cardView_spinnerSpendigsSubAccountsSpendsHolder_FragMainACSpendingsViewSpendsDetails"
+            android:layout_marginTop="@dimen/_11sdp"
+            android:layout_marginLeft="@dimen/_16sdp"
+            android:layout_marginRight="@dimen/_16sdp"
+            android:layout_marginBottom="@dimen/_11sdp"
+            android:textSize="@dimen/_12sdp"
+            android:text="@string/mainAc_FragOverviewViewSpendingAccountDetailsForm_Button_DeleteAccount_Text"
+            android:textColor="?attr/textAppearanceBodySmall"
+            android:background="@drawable/round_button_deleteandremove"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 </FrameLayout>

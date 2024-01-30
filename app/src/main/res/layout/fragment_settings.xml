@@ -90,6 +90,7 @@
             android:layout_height="@dimen/_1sdp"
             android:layout_marginBottom="@dimen/_11sdp"
             android:layout_marginTop="@dimen/_11sdp"
+            android:visibility="gone"
             android:layout_marginRight="@dimen/_15sdp"
             android:layout_marginLeft="@dimen/_15sdp"
             android:background="?attr/colorControlNormal" />
@@ -102,6 +103,7 @@
             android:layout_marginLeft="@dimen/_16sdp"
             android:layout_marginRight="@dimen/_16sdp"
             android:text="@string/settingsFrag_TextView_spinnerThemeExplain_Text"
+            android:visibility="gone"
             android:textStyle="bold"
             android:textColor="?attr/textAppearanceBodyMedium"
             android:textAlignment="center"
@@ -114,6 +116,7 @@
             android:layout_marginTop="@dimen/_11sdp"
             android:layout_marginRight="@dimen/_8sdp"
             android:layout_marginLeft="@dimen/_8sdp"
+            android:visibility="gone"
             app:cardBackgroundColor="?attr/colorSecondary"
             app:cardCornerRadius="@dimen/_23sdp">
             <com.skydoves.powerspinner.PowerSpinnerView
@@ -178,8 +181,90 @@
                     android:textColor="?attr/textAppearanceBodyMedium"
                     android:textAlignment="center"
                     android:textSize="@dimen/_18sdp" />
-                <com.sigma.niceswitch.NiceSwitch
+                <com.alexandreconrado.easylife.scripts.niceswitch.NiceSwitch
                     android:id="@+id/switch_howTo_FragSettings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:layout_marginBottom="@dimen/_6sdp"
+                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:layout_marginRight="@dimen/_26sdp"
+                    app:switcher_on_color="@color/green"
+                    app:switcher_off_color="@color/red"
+                    app:switcher_icon_color="?attr/colorControlNormal" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView_vibrationSwitchHolder_FragSettings"
+            android:layout_below="@+id/cardView_howToSwitchHolder_FragSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_11sdp"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            app:cardBackgroundColor="?attr/colorSecondary"
+            app:cardCornerRadius="@dimen/_23sdp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/textView_vibrationExplain_FragSettings"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:layout_marginBottom="@dimen/_6sdp"
+                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:layout_marginRight="@dimen/_16sdp"
+                    android:text="@string/settingsFrag_TextView_vibrationExplain_Text"
+                    android:textStyle="bold"
+                    android:textColor="?attr/textAppearanceBodyMedium"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_18sdp" />
+                <com.alexandreconrado.easylife.scripts.niceswitch.NiceSwitch
+                    android:id="@+id/switch_Vibration_FragSettings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:layout_marginBottom="@dimen/_6sdp"
+                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:layout_marginRight="@dimen/_26sdp"
+                    app:switcher_on_color="@color/green"
+                    app:switcher_off_color="@color/red"
+                    app:switcher_icon_color="?attr/colorControlNormal" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView_protectionModeHolder_FragSettings"
+            android:layout_below="@+id/cardView_vibrationSwitchHolder_FragSettings"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/_11sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            app:cardBackgroundColor="?attr/colorSecondary"
+            app:cardCornerRadius="@dimen/_23sdp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/textView_protectionModeExplain_FragSettings"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:layout_marginBottom="@dimen/_6sdp"
+                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:layout_marginRight="@dimen/_16sdp"
+                    android:text="@string/settingsFrag_TextView_protectionModeExplain_Text"
+                    android:textStyle="bold"
+                    android:textColor="?attr/textAppearanceBodyMedium"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_18sdp" />
+                <com.alexandreconrado.easylife.scripts.niceswitch.NiceSwitch
+                    android:id="@+id/switch_ProtectionMode_FragSettings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

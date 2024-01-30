@@ -51,13 +51,15 @@ public class SplashActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("Perf_User", MODE_PRIVATE);
         isLogged = prefs.getBoolean("logged", false);
         String themePreference = prefs.getString("theme_preference", "system_default");
-        String userLanguage = prefs.getString("user_language", "en-US");
+        String userLanguage = prefs.getString("user_language", "en-us");
 
-        if ("light".equals(themePreference)) {
+        /*if (themePreference.equals("light")) {
+            Toast.makeText(this, "light", Toast.LENGTH_SHORT).show();
             setTheme(R.style.Base_Theme_EasyLife_Light);
-        } else if ("dark".equals(themePreference)) {
+        } else if (themePreference.equals("dark")) {
+            Toast.makeText(this, "dark", Toast.LENGTH_SHORT).show();
             setTheme(R.style.Base_Theme_EasyLife_Dark);
-        }
+        }*/
 
         Locale userLocale = new Locale(userLanguage);
         Locale.setDefault(userLocale);
