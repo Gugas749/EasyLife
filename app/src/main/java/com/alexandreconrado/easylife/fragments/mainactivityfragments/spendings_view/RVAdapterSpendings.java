@@ -14,6 +14,8 @@ import com.alexandreconrado.easylife.R;
 import com.alexandreconrado.easylife.database.entities.SpendsEntity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -51,7 +53,8 @@ public class RVAdapterSpendings extends RecyclerView.Adapter<RVAdapterSpendings.
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         final SpendsEntity SelectedAccount = spends.get(position);
         holder.inWhatTextView.setText(SelectedAccount.getCategory());
-        holder.amountTextView.setText(String.valueOf(SelectedAccount.getAmount()));
+        String amountFinal = shortenNumber(SelectedAccount.getAmount());
+        holder.amountTextView.setText(amountFinal);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy      HH:mm");
         String formattedDate = dateFormat.format(SelectedAccount.getDate());
         holder.whenTextView.setText(formattedDate);
@@ -68,7 +71,78 @@ public class RVAdapterSpendings extends RecyclerView.Adapter<RVAdapterSpendings.
     public int getItemCount() {
         return spends.size();
     }
+    public static String shortenNumber(double number) {
+        String stringFinal = "";
+        if (number == (long) number) {
+            String originalString = String.format("%.0f", number);
+            String string1 = "", string2 = "", character = "";
+            int value1 = 0, value2 = 0;
 
+            if (number >= 1_000_000_000) {
+                character = "b";
+                value1 = 1;
+                value2 = 3;
+            } else if (number >= 100_000_000) {
+                character = "m";
+                value1 = 3;
+                value2 = 5;
+            } else if (number >= 10_000_000) {
+                character = "m";
+                value1 = 2;
+                value2 = 4;
+            } else if (number >= 1_000_000) {
+                character = "m";
+                value1 = 1;
+                value2 = 3;
+            } else if (number >= 100_000) {
+                character = "k";
+                value1 = 3;
+                value2 = 5;
+            } else{
+                stringFinal = originalString;
+            }
+            if (originalString.length() > 5) {
+                string1 = originalString.substring(0, value1);
+                string2 = originalString.substring(value1, value2);
+                stringFinal = string1+","+string2+character;
+            }
+        } else {
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+            String originalString = decimalFormat.format(number);
+            String string1 = "", string2 = "", character = "";
+            int value1 = 0, value2 = 0;
+
+            if (number >= 1_000_000_000.00) {
+                character = "b";
+                value1 = 1;
+                value2 = 3;
+            } else if (number >= 100_000_000.00) {
+                character = "m";
+                value1 = 3;
+                value2 = 5;
+            } else if (number >= 10_000_000.00) {
+                character = "m";
+                value1 = 2;
+                value2 = 4;
+            } else if (number >= 1_000_000.00) {
+                character = "m";
+                value1 = 1;
+                value2 = 3;
+            } else if (number >= 100_000.00) {
+                character = "k";
+                value1 = 3;
+                value2 = 5;
+            } else{
+                stringFinal = originalString;
+            }
+            if (originalString.length() > 7) {
+                string1 = originalString.substring(0, value1);
+                string2 = originalString.substring(value1, value2);
+                stringFinal = string1+","+string2+character;
+            }
+        }
+        return stringFinal;
+    }
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView inWhatTextView, amountTextView, whenTextView;

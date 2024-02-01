@@ -49,7 +49,7 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
     private List<SpendingAccountsEntity> spendingAccountsEntityList = new ArrayList<>();
     private List<SubSpendingAccountsEntity> subAcountsList = new ArrayList<>();
     private SpendingAccountsEntity selectedAccount;
-    private String selectedSubSpend, subAccountCategorySelected;
+    private String selectedSubSpend = "", subAccountCategorySelected;
     private Date spendDate;
     private UserInfosEntity userInfos;
     private MainACSpendingsViewAddSpendingsFragment THIS;
@@ -187,8 +187,7 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
                     amount = amount.replace("€", "");
                     if(!amount.equals("")){
                         double num = Double.parseDouble(amount);
-                        num = roundToTwoDecimalPlaces(num);
-                        String finalText = String.valueOf(num);
+                        String finalText = roundToTwoDecimalPlaces(num);
                         binding.editTextAmountSpendFragMainACSpendingsViewAddSpendings.setText(finalText);
                     }
                     insertDeleteToEditTextAmount(true);
@@ -196,9 +195,9 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
             }
         });
     }
-    private static double roundToTwoDecimalPlaces(double number) {
-        double rounded = Math.round(number * 100.0) / 100.0;
-        return rounded;
+    private static String roundToTwoDecimalPlaces(double number) {
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        return decimalFormat.format(number);
     }
     private void setupOnItemSelectedSpinnerAccounts(){
         binding.spinnerSpendigsAccountsFragMainACSpendingsViewAddSpendings.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener<Object>() {
@@ -326,60 +325,66 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
         boolean aux = false;
         String amount = binding.editTextAmountSpendFragMainACSpendingsViewAddSpendings.getText().toString().trim();
         amount = amount.replace("€", "");
-        if(!amount.equals("")){
-            if(selectedAccount != null){
-                if(selectedSubSpend != null && !selectedSubSpend.equals("")){
-                    if(isValidInput(amount)){
-                        boolean isSubAccount = false;
-                        String subAccountID = "";
-                        String category = selectedSubSpend;
-                        SubSpendingAccountsEntity subAccountSelected = null;
-                        List<SubSpendingAccountsEntity> auxList = selectedAccount.getSubAccountsList();
-                        if(auxList != null && auxList.size() > 0){
-                            for (int j = 0; j < auxList.size(); j++) {
-                                SubSpendingAccountsEntity selected = auxList.get(j);
-                                if(selectedSubSpend.equals(selected.getAccountTitle())){
-                                    subAccountID = selected.getAccountTitle();
-                                    isSubAccount = true;
-                                    category = subAccountCategorySelected;
-                                    subAccountSelected = selected;
-                                    break;
-                                }
-                            }
-                        }
-                        boolean canGo = false;
-                        String nameCategory = "";
-                        if(isSubAccount){
-                            if(!subAccountCategorySelected.equals("")){
-                                canGo = true;
-                            }else{
-                                aux = true;
-                            }
-                        }else{
-                            canGo = true;
-                        }
-
-                        if(canGo){
-                            SpendsEntity spend = new SpendsEntity();
-                            double num = Double.parseDouble(amount);
-                            num = roundToTwoDecimalPlaces(num);
-                            spend.setInfos(num, spendDate, String.valueOf(selectedAccount.getId()), subAccountID, category, isSubAccount, category);
-
-                            if(isSubAccount){
-                                for (int i = 0; i < selectedAccount.getSubAccountsList().size(); i++) {
-                                    if(selectedAccount.getSubAccountsList().get(i).equals(subAccountSelected)){
-                                        selectedAccount.getSubAccountsList().remove(subAccountSelected);
-
-                                        subAccountSelected.getSpendsList().add(spend);
-                                        selectedAccount.getSubAccountsList().add(i, subAccountSelected);
+        double doubleValue = Double.parseDouble(amount);
+        if(doubleValue < 10_000_000_000.00){
+            if(!amount.equals("")){
+                if(selectedAccount != null){
+                    if(selectedSubSpend != null && !selectedSubSpend.equals("")){
+                        if(isValidInput(amount)){
+                            boolean isSubAccount = false;
+                            String subAccountID = "";
+                            String category = selectedSubSpend;
+                            SubSpendingAccountsEntity subAccountSelected = null;
+                            List<SubSpendingAccountsEntity> auxList = selectedAccount.getSubAccountsList();
+                            if(auxList != null && auxList.size() > 0){
+                                for (int j = 0; j < auxList.size(); j++) {
+                                    SubSpendingAccountsEntity selected = auxList.get(j);
+                                    if(selectedSubSpend.equals(selected.getAccountTitle())){
+                                        subAccountID = selected.getAccountTitle();
+                                        isSubAccount = true;
+                                        category = subAccountCategorySelected;
+                                        subAccountSelected = selected;
                                         break;
                                     }
                                 }
+                            }
+                            boolean canGo = false;
+                            String nameCategory = "";
+                            if(isSubAccount){
+                                if(!subAccountCategorySelected.equals("")){
+                                    canGo = true;
+                                }else{
+                                    aux = true;
+                                }
                             }else{
-                                selectedAccount.getSpendsList().add(spend);
+                                canGo = true;
                             }
 
-                            new LocalDatabaseUpdateTask().execute();
+                            if(canGo){
+                                SpendsEntity spend = new SpendsEntity();
+                                double num = Double.parseDouble(amount);
+                                String stringNum = roundToTwoDecimalPlaces(num);
+                                double numFinal = Double.parseDouble(stringNum);
+                                spend.setInfos(numFinal, spendDate, String.valueOf(selectedAccount.getId()), subAccountID, category, isSubAccount, category);
+
+                                if(isSubAccount){
+                                    for (int i = 0; i < selectedAccount.getSubAccountsList().size(); i++) {
+                                        if(selectedAccount.getSubAccountsList().get(i).equals(subAccountSelected)){
+                                            selectedAccount.getSubAccountsList().remove(subAccountSelected);
+
+                                            subAccountSelected.getSpendsList().add(spend);
+                                            selectedAccount.getSubAccountsList().add(i, subAccountSelected);
+                                            break;
+                                        }
+                                    }
+                                }else{
+                                    selectedAccount.getSpendsList().add(spend);
+                                }
+
+                                new LocalDatabaseUpdateTask().execute();
+                            }
+                        }else{
+                            aux = true;
                         }
                     }else{
                         aux = true;
@@ -390,11 +395,11 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
             }else{
                 aux = true;
             }
+            if(aux){
+                Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_MissingInputs_Text), Toast.LENGTH_SHORT).show();
+            }
         }else{
-            aux = true;
-        }
-        if(aux){
-            Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_MissingInputs_Text), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_MaxValue_Text), Toast.LENGTH_SHORT).show();
         }
     }
     private boolean isValidInput(String input) {

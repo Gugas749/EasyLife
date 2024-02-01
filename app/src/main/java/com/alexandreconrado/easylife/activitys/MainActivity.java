@@ -53,8 +53,12 @@ import com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_vi
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_view.details.MainACOverviewViewSpendingAccountDetailsFormFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_view.howto.MainACOverviewViewHowToAddFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_view.howto.MainACOverviewViewHowToDetailsFragment;
+import com.alexandreconrado.easylife.fragments.mainactivityfragments.spendings_view.MainACSpendingsViewSpendsDetailsFragment;
+import com.alexandreconrado.easylife.fragments.mainactivityfragments.spendings_view.RVAdapterSpendings;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.spendings_view.add.MainACSpendingsViewAddSpendingsFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.spendings_view.MainACSpendingsViewFragment;
+import com.alexandreconrado.easylife.fragments.mainactivityfragments.spendings_view.howto.MainACSpendingsViewHowToAddFragment;
+import com.alexandreconrado.easylife.fragments.mainactivityfragments.spendings_view.howto.MainACSpendingsViewHowToDetailsFragment;
 import com.alexandreconrado.easylife.fragments.tutorial.TutorialAddFragment;
 import com.alexandreconrado.easylife.fragments.tutorial.TutorialEditFragment;
 import com.alexandreconrado.easylife.fragments.tutorial.TutorialEndFragment;
@@ -76,7 +80,9 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         MainACOverviewViewSpendingAccountDetailsFormFragment.ExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm,
         AuthenticationFragment.AuthenticationCompletedFragAuthentication,
         MainACSpendingsViewAddSpendingsFragment.ExitMainACSpendingsViewAddSpendingsFrag,
-        SettingsFragment.ExitSettingsFrag {
+        SettingsFragment.ExitSettingsFrag,
+        MainACSpendingsViewSpendsDetailsFragment.ExitFragMainACSpendingsViewSpendsDetails,
+        MainACSpendingsViewFragment.ItemClickRVAdapeterSpendsFragMainACSpendingsView {
     //-------------------OTHERS---------------
     private ActivityMainBinding binding;
     private long sessionTime;
@@ -172,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             public void onTaskCompleted(List<SpendingAccountsEntity> result) {
                 mainACMainViewFragment = new MainACMainViewFragment(draggableCardViewObjectsList);
                 mainACOverviewViewFragment = new MainACOverviewViewFragment();
-                mainACSpendingsViewFragment = new MainACSpendingsViewFragment();
+                mainACSpendingsViewFragment = new MainACSpendingsViewFragment(THIS);
 
                 mainACOverviewViewFragment.updateData(spendingAccountsEntitiesList);
                 mainACOverviewViewFragment.setSpendingsAccountItemClickFragMainACOverviewViewListenner(THIS);
@@ -420,6 +426,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             case 2:
                 allSpendsList = getAllSpends();
                 mainACSpendingsViewFragment.updateData(allSpendsList);
+                mainACSpendingsViewFragment.setItemClickListenner(THIS);
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frameLayout_fragmentContainer_MainAC, mainACSpendingsViewFragment)
@@ -534,10 +541,18 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     private void showAuthenticationScreen(){
         inFragment();
         disableSwipeToOpenSideMenu();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
         enableDisableAll(true);
         binding.frameLayoutFullScreenFragmentContainerMainAc.setBackground(null);
         binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.VISIBLE);
         binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(true);
+
+        binding.frameLayoutFullScreenFragmentContainerForHowTosMainAc.setBackground(null);
+        binding.frameLayoutFullScreenFragmentContainerForHowTosMainAc.setVisibility(View.GONE);
+
         AuthenticationFragment fragment = new AuthenticationFragment();
         fragment.setAuthenticationCompletedFragAuthenticationListenner(this);
         fragment.setParent(this);
@@ -862,7 +877,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
 
     //----------------LISTENNERS--------------------
     @Override
-    public void OnFragMainACMainViewEditLayoutExitClick(Boolean Changed, List<DraggableCardViewEntity> listReturned) {
+    public void OnFragMainACMainViewEditLayoutExitClick(boolean Changed, List<DraggableCardViewEntity> listReturned) {
         disableBackPressed();
         scaleUpAnimtion();
         new CountDownTimer(1500, 1000) {
@@ -891,7 +906,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         }.start();
     }
     @Override
-    public void onExitButtonClickFragMainACOverviewViewAddSpendingsForm(Boolean Changed, SpendingAccountsEntity returned) {
+    public void onExitButtonClickFragMainACOverviewViewAddSpendingsForm(boolean Changed, SpendingAccountsEntity returned) {
         disableBackPressed();
         scaleUpAnimtion();
         new CountDownTimer(1500, 1000) {
@@ -954,7 +969,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         }
     }
     @Override
-    public void onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(SpendingAccountsEntity account, boolean deleted, boolean changed) {
+    public void onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(SpendingAccountsEntity accountFromExitDetailsAccounts, boolean deleted, boolean changed) {
         disableBackPressed();
         scaleUpAnimtion();
         new CountDownTimer(1500, 1000) {
@@ -969,17 +984,17 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 if(changed){
                     if(deleted){
                         for (int i = 0; i < spendingAccountsEntitiesList.size(); i++) {
-                            if(spendingAccountsEntitiesList.get(i).getId() == account.getId()){
+                            if(spendingAccountsEntitiesList.get(i).getId() == accountFromExitDetailsAccounts.getId()){
                                 spendingAccountsEntitiesList.remove(spendingAccountsEntitiesList.get(i));
 
-                                new LocalDatabaseJustDeleteSpendingAccountTask(account).execute();
+                                new LocalDatabaseJustDeleteSpendingAccountTask(accountFromExitDetailsAccounts).execute();
                                 break;
                             }
                         }
 
                         for (int i = 0; i < draggableCardViewObjectsList.size(); i++) {
                             DraggableCardViewEntity selectedDraggable = draggableCardViewObjectsList.get(i);
-                            if(selectedDraggable.getAccountID().equals(String.valueOf(account.getId()))){
+                            if(selectedDraggable.getAccountID().equals(String.valueOf(accountFromExitDetailsAccounts.getId()))){
                                 DraggableCardViewEntity newObject = setObjectToExample(selectedDraggable);
 
                                 draggableCardViewObjectsList.remove(selectedDraggable);
@@ -991,9 +1006,9 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                         }
                     }else{
                         for (int i = 0; i < spendingAccountsEntitiesList.size(); i++) {
-                            if(spendingAccountsEntitiesList.get(i).getId() == account.getId()){
+                            if(spendingAccountsEntitiesList.get(i).getId() == accountFromExitDetailsAccounts.getId()){
                                 spendingAccountsEntitiesList.remove(spendingAccountsEntitiesList.get(i));
-                                spendingAccountsEntitiesList.add(i, account);
+                                spendingAccountsEntitiesList.add(i, accountFromExitDetailsAccounts);
                                 break;
                             }
                         }
@@ -1003,15 +1018,15 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                             if(selected.getAccountID() != null && !selected.getAccountID().equals("")){
                                 DraggableCardViewEntity oldObject = selected;
                                 int id = Integer.parseInt(selected.getAccountID());
-                                if(id == account.getId()){
+                                if(id == accountFromExitDetailsAccounts.getId()){
                                     boolean can = false;
                                     if(selected.getType().equals("3")){
                                         can = true;
                                     }
                                     int subAccountIdIndex = 0;
-                                    selected.setAccountID(String.valueOf(account.getId()));
+                                    selected.setAccountID(String.valueOf(accountFromExitDetailsAccounts.getId()));
                                     if(selected.getSubAccountID() != null && !selected.getAccountID().equals("")){
-                                        List<SubSpendingAccountsEntity> auxList = account.getSubAccountsList();
+                                        List<SubSpendingAccountsEntity> auxList = accountFromExitDetailsAccounts.getSubAccountsList();
                                         if(auxList != null){
                                             for (int j = 0; j < auxList.size(); j++) {
                                                 SubSpendingAccountsEntity selectedSub = auxList.get(j);
@@ -1162,6 +1177,100 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 fragmentManager.beginTransaction().remove(fragment).commit();
             }
         }
+    }
+    @Override
+    public void onItemClickRVAdapeterSpendsFragMainACSpendingsView(SpendsEntity spends) {
+        disableBackPressed();
+        if(!allDisable){
+            scaleUpAnimtion();
+            enableDisableAll(true);
+            new CountDownTimer(1200, 1000) {
+                public void onTick(long millisUntilFinished) {
+
+                }
+
+                public void onFinish() {
+                    inFragment();
+
+                    binding.frameLayoutFullScreenFragmentContainerMainAc.setBackground(null);
+                    binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.VISIBLE);
+                    binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(true);
+
+                    MainACSpendingsViewSpendsDetailsFragment fragment = new MainACSpendingsViewSpendsDetailsFragment(THIS, spends, spendingAccountsEntitiesList);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frameLayout_fullScreenFragmentContainer_MainAc, fragment)
+                            .addToBackStack(null)
+                            .commit();
+
+                    scaleDownAnimtion();
+                }
+            }.start();
+        }
+    }
+    @Override
+    public void onExitFragMainACSpendingsViewSpendsDetails(boolean changed, SpendingAccountsEntity account) {
+        disableBackPressed();
+        scaleUpAnimtion();
+        new CountDownTimer(1500, 1000) {
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            public void onFinish() {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                mainACSpendingsViewFragment = new MainACSpendingsViewFragment();
+
+                if(changed){
+                    for (int i = 0; i < spendingAccountsEntitiesList.size(); i++) {
+                        SpendingAccountsEntity selected = spendingAccountsEntitiesList.get(i);
+                        if(selected.getId() == account.getId()){
+                            spendingAccountsEntitiesList.remove(i);
+                            spendingAccountsEntitiesList.add(i, account);
+                            break;
+                        }
+                    }
+                    for (int i = 0; i < draggableCardViewObjectsList.size(); i++) {
+                        DraggableCardViewEntity selected = draggableCardViewObjectsList.get(i);
+                        if(selected.getAccountID() != null && !selected.getAccountID().equals("")){
+                            DraggableCardViewEntity oldObject = selected;
+                            int id = Integer.parseInt(selected.getAccountID());
+                            if(id == account.getId()){
+                                boolean can = false;
+                                if(selected.getType().equals("3")){
+                                    can = true;
+                                }
+                                int subAccountIdIndex = 0;
+                                selected.setAccountID(String.valueOf(account.getId()));
+                                if(selected.getSubAccountID() != null && !selected.getAccountID().equals("")){
+                                    List<SubSpendingAccountsEntity> auxList = account.getSubAccountsList();
+                                    if(auxList != null){
+                                        for (int j = 0; j < auxList.size(); j++) {
+                                            SubSpendingAccountsEntity selectedSub = auxList.get(j);
+                                            if(!selected.getSubAccountID().equals("")){
+                                                if(selectedSub.getId() == Integer.parseInt(selected.getSubAccountID())){
+                                                    subAccountIdIndex = j;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                new LocalDatabaseUpdateDraggableObjectsTask(selected, oldObject, can, subAccountIdIndex, true).execute();
+                            }
+                        }
+                    }
+                }
+
+                changeFragmentFromMainFragmentContainer(2);
+                outFragment();
+                scaleDownAnimtion();
+                enableDisableAll(false);
+                binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.INVISIBLE);
+                binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(false);
+            }
+        }.start();
     }
     //----------------------------------------------
 
@@ -1588,7 +1697,19 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                         .addToBackStack(null)
                         .commit();
                 break;
-            case "goToSave":
+            case "Spendings_HowTo_goToAdd":
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_fullScreenFragmentContainer_forHowTos_MainAc, new MainACSpendingsViewHowToAddFragment(THIS, fromNext))
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case "Spendings_HowTo_goToDetails":
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_fullScreenFragmentContainer_forHowTos_MainAc, new MainACSpendingsViewHowToDetailsFragment(THIS, fromNext))
+                        .addToBackStack(null)
+                        .commit();
                 break;
             case "MainView_HowTo_finish":
                 runSwipeUpAnimation();
@@ -1634,10 +1755,9 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                                 .commit();
                         break;
                     case "SpendingsView_HowTo":
-                        //TODO: mudar aq
                         getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.frameLayout_fullScreenFragmentContainer_forHowTos_MainAc, new MainACMainViewHowToBindAccountToCardHomeFragment(THIS, false))
+                                .replace(R.id.frameLayout_fullScreenFragmentContainer_forHowTos_MainAc, new MainACSpendingsViewHowToAddFragment(THIS, false))
                                 .addToBackStack(null)
                                 .commit();
                         break;

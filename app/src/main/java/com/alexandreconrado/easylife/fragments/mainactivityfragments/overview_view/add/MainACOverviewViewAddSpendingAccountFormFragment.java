@@ -46,7 +46,7 @@ public class MainACOverviewViewAddSpendingAccountFormFragment extends Fragment i
     private String itemSwiped = "";
 
     public interface ExitButtonClickFragMainACOverviewViewAddSpendingsForm{
-        void onExitButtonClickFragMainACOverviewViewAddSpendingsForm(Boolean Changed, SpendingAccountsEntity returned);
+        void onExitButtonClickFragMainACOverviewViewAddSpendingsForm(boolean Changed, SpendingAccountsEntity returned);
     }
 
     public MainACOverviewViewAddSpendingAccountFormFragment(UserInfosEntity userInfos) {

@@ -1,4 +1,4 @@
-package com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_view.details;
+package com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_view.details.subaccount;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.alexandreconrado.easylife.R;
@@ -112,7 +111,7 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
                     CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
                     customAlertDialogFragment.setCancelListenner(THIS);
                     customAlertDialogFragment.setConfirmListenner(THIS);
-                    AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.general_AlertDialog_Question_SaveBeforeLeaving_Title), getString(R.string.general_AlertDialog_Question_SaveBeforeLeaving_Text), customAlertDialogFragment, customAlertDialogFragment, "2");
+                    AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.general_AlertDialog_Question_SaveBeforeLeaving_Title), getString(R.string.general_AlertDialog_Question_SaveBeforeLeaving_Text), customAlertDialogFragment, customAlertDialogFragment, "3");
                     customAlertDialogFragment.setCustomFragment(fragment);
                     customAlertDialogFragment.setTag("FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails_Exit");
                     customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/colorPrimary"
-    tools:context=".fragments.mainactivityfragments.overview_view.details.MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetailsFragment">
+    tools:context=".fragments.mainactivityfragments.overview_view.details.subaccount.MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetailsFragment">
 
     <RelativeLayout
         android:id="@+id/relativeLayout_parent_FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails"

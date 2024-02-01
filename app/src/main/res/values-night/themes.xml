@@ -5,7 +5,7 @@
         <item name="colorControlNormal">@color/extra5</item>
         <item name="colorControlHighlight">@color/extra6</item>
 
-        <item name="textAppearanceBodySmall">@color/extra5</item>
+        <item name="textAppearanceBodySmall">@color/extra6</item>
         <item name="textAppearanceBodyMedium">@color/extra6</item>
         <item name="textAppearanceBodyLarge">@color/highlightedTextDark</item>
     </style>

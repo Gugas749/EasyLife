@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alexandreconrado.easylife.activitys.MainActivity;
 import com.alexandreconrado.easylife.database.entities.SpendsEntity;
 import com.alexandreconrado.easylife.databinding.FragmentMainACSpendingsViewBinding;
 
@@ -23,9 +24,21 @@ public class MainACSpendingsViewFragment extends Fragment implements RVAdapterSp
     private FragmentMainACSpendingsViewBinding binding;
     private List<SpendsEntity> spendsEntityList;
     private RVAdapterSpendings adapter;
+    private MainActivity parent;
+
+    private ItemClickRVAdapeterSpendsFragMainACSpendingsView itemClickListenner;
+    public interface ItemClickRVAdapeterSpendsFragMainACSpendingsView{
+        void onItemClickRVAdapeterSpendsFragMainACSpendingsView(SpendsEntity spends);
+    }
+    public void setItemClickListenner(ItemClickRVAdapeterSpendsFragMainACSpendingsView itemClickListenner){
+        this.itemClickListenner = itemClickListenner;
+    }
 
     public MainACSpendingsViewFragment() {
         // Required empty public constructor
+    }
+    public MainACSpendingsViewFragment(MainActivity parent) {
+        this.parent = parent;
     }
 
     @Override
@@ -69,8 +82,6 @@ public class MainACSpendingsViewFragment extends Fragment implements RVAdapterSp
     private void loadRecyclerView(){
         if(spendsEntityList.size() > 0){
             spendsEntityList = sortList(spendsEntityList);
-            spendsEntityList = sortList(spendsEntityList);
-            spendsEntityList = sortList(spendsEntityList);
             Collections.reverse(spendsEntityList);
             adapter.updateData(spendsEntityList);
             binding.rvSpendingsAccountsFragMainACSpendingsView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -89,11 +100,11 @@ public class MainACSpendingsViewFragment extends Fragment implements RVAdapterSp
                 return o1.getDate().compareTo(o2.getDate());
             }
         });
-        return list;
+        return sortedList;
     }
 
     @Override
     public void onSpendingsItemClick(SpendsEntity spend) {
-
+        itemClickListenner.onItemClickRVAdapeterSpendsFragMainACSpendingsView(spend);
     }
 }

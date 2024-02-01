@@ -1,4 +1,4 @@
-package com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_view.details;
+package com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_view.details.subaccount;
 
 import android.content.res.ColorStateList;
 import android.os.AsyncTask;

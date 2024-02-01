@@ -13,8 +13,10 @@
     </string-array>
 
     <!-- General -->
+    <string name="general_Delete">Delete</string>
     <string name="general_Edit">Edit</string>
     <string name="general_Example">Example</string>
+    <string name="general_plusSign">+</string>
     <string name="general_DontSave">Don\'t Save</string>
     <string name="general_Save">Save</string>
     <string name="general_change">Change</string>
@@ -144,6 +146,7 @@
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_editTextAccountName_Hint">Account Name</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_editTextPercentagesNames_Hint">Percentage Name</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_MissingInputs_Text">Looks like there are some empty spots</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_MaxValue_Text">Sorry, but the amount spent cannot exceed the value of 9,999,999,999</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_SaveBeforeLeaving_Text">Do you wish to save this account before leaving?</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_Save_Text">Do you wish to save this account?</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_RepeatedName_Text">Looks like there is already a Percentage named that</string>
@@ -169,6 +172,12 @@
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_AlertDialog_Question_Saving_Text">Do you wish to save this Sub Account?</string>
     <!-- Main AC - Spendings View -->
     <string name="mainAc_FragSpendingsView_NoItemsToDisplay_Text">Hmm… Looks like you dont have any Spendings to display. You can create them by pressing the Plus Button Above!!</string>
+    <!-- Main AC - Overview - How To -  Add -->
+    <string name="mainAc_FragSpendingsView_HowTo_Add_Title">Adding Spends</string>
+    <string name="mainAc_FragSpendingsView_HowTo_Add_Text">To add a spend you just need to click the plus button in the top!!</string>
+    <!-- Main AC - Overview - How To -  Details -->
+    <string name="mainAc_FragSpendingsView_HowTo_Details_Title">Seeing the Details</string>
+    <string name="mainAc_FragSpendingsView_HowTo_Details_Text">Now to see the details of your spend you just need to click on it!!</string>
     <!-- Main AC - Spendings View - Add Spendings -->
     <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign1_Text">Date of the Spend</string>
     <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign2_Text">Amount Spend</string>
@@ -177,6 +186,22 @@
     <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign5_Text">What Category</string>
     <string name="mainAc_FragSpendingsViewAddSpendings_spinnerHint_1_Text">Select a Category</string>
     <string name="mainAc_FragSpendingsViewAddSpendings_AlertDialog_Question_Save_Text">Do you wish to save this Spend?</string>
+    <!-- Main AC - Spendings View - Details Spends -->
+    <string name="mainAc_FragSpendingsViewAddSpendings_AlertDialog_Question_Delete_Title">Do you wish to delete this Spend?</string>
+    <!-- Main AC - Spendings View - Details Spends - How To -->
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_EditMode_Title">Edit Mode</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_EditMode_Text">The Edit Mode is like the name says a mode that lets you edit your account. To enter it you just need to click the button in the top right!!</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_EditTitle_Title">Editing the Title</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_EditTitle_Text">To edit your account title/name you need to be in the Edit Mode and click on it.</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_AddCategory_Title">Adding Category\'s</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_AddCategory_Text">To add a category you need to be in the Edit Mode and click on one of this cards with a \"+\" on them. They are located on the bottom.</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_AddCategory_Text_2">After a pop up will appear. In that pop up you have some options for your category.</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_AddCategory_Title_2">Editing a Category</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_AddCategory_Text_3">Similar to adding a category, to edit one you just need to click on them and a pop up will appear letting you edit it.</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_AddSubAccount_Title">Adding a SubAccount</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_AddSubAccount_Text">To add a SubAccount you need to be in the Edit Mode and click on one of this big rectangle with a \"+\" on them. They are located on the bottom.</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_EditSubAccount_Title">Details of a SubAccount</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_EditSubAccount_Text">To enter the details of your SubAccount you just need to locate the SubAccount that you want and do a Long Press on them. And Pop Up will appear.</string>
 
     <!-- Tutorial Fragments -->
     <string name="tutorialFrag_skip">Skip</string>
