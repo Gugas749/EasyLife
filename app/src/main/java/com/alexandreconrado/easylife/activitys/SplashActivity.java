@@ -31,6 +31,7 @@ import androidx.core.content.ContextCompat;
 import com.alexandreconrado.easylife.R;
 import com.alexandreconrado.easylife.databinding.ActivitySplashBinding;
 import com.alexandreconrado.easylife.fragments.register.RegisterFragment;
+import com.alexandreconrado.easylife.scripts.ProcessOCRData;
 import com.alexandreconrado.easylife.scripts.ocr.TextRecognitionUtil;
 
 import java.util.Locale;
@@ -323,6 +324,9 @@ public class SplashActivity extends AppCompatActivity {
                 // Faça o que precisar com o texto (por exemplo, exiba em um TextView)
                 // ...
                 Log.i("LOG_texto", "TEXTO: "+detectedText);
+                ProcessOCRData processOCRData = new ProcessOCRData();
+                String processado = processOCRData.ProcessData(detectedText);
+                Log.i("LOG_texto", "VALUE PROCESSADO: "+processado);
                 Toast.makeText(this, detectedText, Toast.LENGTH_LONG).show();
             }
         }
