@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.register.RegisterDialogAccountFragment">
+    tools:context=".fragments.register.account.RegisterDialogAccountFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

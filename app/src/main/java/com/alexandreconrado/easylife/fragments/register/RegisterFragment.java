@@ -25,6 +25,7 @@ import android.view.animation.ScaleAnimation;
 import com.alexandreconrado.easylife.R;
 import com.alexandreconrado.easylife.activitys.SplashActivity;
 import com.alexandreconrado.easylife.databinding.FragmentRegisterBinding;
+import com.alexandreconrado.easylife.fragments.register.account.RegisterDialogAccountFragment;
 import com.alexandreconrado.easylife.scripts.BiometricChecker;
 
 public class RegisterFragment extends Fragment {

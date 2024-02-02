@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/colorPrimary"
+    tools:context=".fragments.mainactivityfragments.sidemenu.BackupsFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!-- TOP NAVIGATION -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView_topNavigation_FragBackups"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_minus16sdp"
+            app:cardCornerRadius="@dimen/_20sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <ImageView
+                android:id="@+id/imageView_buttonExit_FragBackups"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="start"
+                android:layout_marginTop="@dimen/_27sdp"
+                android:layout_marginLeft="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_16sdp"
+                android:padding="@dimen/_8sdp"
+                android:rotation="180"
+                android:src="@drawable/arrow_icon" />
+            <ImageView
+                android:id="@+id/imageView_buttonUpload_FragBackups"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:padding="@dimen/_2sdp"
+                android:src="@drawable/backup_image" />
+            <ImageView
+                android:id="@+id/imageView_buttonLoad_FragBackups"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/_27sdp"
+                android:layout_marginRight="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_16sdp"
+                android:padding="@dimen/_2sdp"
+                android:src="@drawable/backup_download" />
+        </androidx.cardview.widget.CardView>
+        <!--                -->
+        <TextView
+            android:id="@+id/textView_noItemsToDisplay_FragBackups"
+            android:layout_below="@+id/cardView_topNavigation_FragBackups"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/register_dialog_AlertDialog_BackupLoad_NoItemsToDisplay_Text"
+            android:textStyle="bold"
+            android:textColor="?attr/textAppearanceBodyMedium"
+            android:textAlignment="center"
+            android:textSize="@dimen/_12sdp"
+            android:visibility="gone"
+            android:layout_margin="@dimen/_16sdp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_Backups_FragBackups"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardView_topNavigation_FragBackups"/>
+    </RelativeLayout>
+</FrameLayout>

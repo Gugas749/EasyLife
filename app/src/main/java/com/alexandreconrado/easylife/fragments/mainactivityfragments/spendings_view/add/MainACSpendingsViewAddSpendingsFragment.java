@@ -277,13 +277,6 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
         }
     }
     private void loadSpinnerWheres(){
-        List<String> wheres = userInfos.addSpedingsWheres;
-        PowerSpinnerView powerSpinner = binding.spinnerSpendigsAccountsFragMainACSpendingsViewAddSpendings;
-        if(wheres != null){
-            if(wheres.size() > 0){
-                powerSpinner.setItems(wheres);
-            }
-        }
     }
     private void loadSpinnerMainAccounts(){
         List<String> items = new ArrayList<>();

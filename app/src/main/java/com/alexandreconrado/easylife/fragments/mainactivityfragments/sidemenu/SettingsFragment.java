@@ -1,8 +1,6 @@
-package com.alexandreconrado.easylife.fragments.mainactivityfragments;
+package com.alexandreconrado.easylife.fragments.mainactivityfragments.sidemenu;
 
 import static android.content.Context.MODE_PRIVATE;
-
-import static androidx.core.app.ActivityCompat.finishAffinity;
 
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -13,20 +11,15 @@ import androidx.fragment.app.Fragment;
 import androidx.room.Room;
 
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.alexandreconrado.easylife.R;
 import com.alexandreconrado.easylife.activitys.MainActivity;
 import com.alexandreconrado.easylife.database.LocalDataBase;
-import com.alexandreconrado.easylife.database.daos.DraggableCardViewDao;
-import com.alexandreconrado.easylife.database.daos.SpendingsAccountsDao;
 import com.alexandreconrado.easylife.database.daos.UserInfosDao;
-import com.alexandreconrado.easylife.database.entities.DraggableCardViewEntity;
 import com.alexandreconrado.easylife.database.entities.UserInfosEntity;
 import com.alexandreconrado.easylife.databinding.FragmentSettingsBinding;
 import com.alexandreconrado.easylife.fragments.alertDialogFragments.AlertDialogNotifyFragment;

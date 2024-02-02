@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.alexandreconrado.easylife.R;
 import com.alexandreconrado.easylife.database.entities.DraggableCardViewEntity;
+import com.alexandreconrado.easylife.fragments.alertDialogFragments.AlertDialogBackupLoadFragment;
 import com.alexandreconrado.easylife.fragments.alertDialogFragments.AlertDialogColorPickerFragment;
 import com.alexandreconrado.easylife.fragments.alertDialogFragments.AlertDialogDateHourPickerFragment;
 import com.alexandreconrado.easylife.fragments.alertDialogFragments.AlertDialogLongPressMainViewObjectsFragment;
@@ -32,16 +33,20 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
         AlertDialogColorPickerFragment.CancelButtonClickColorPicker,
         AlertDialogLongPressMainViewObjectsFragment.CancelButtonClickAlertDialogLongPressMainViewObjectsFrag,
         AlertDialogLongPressMainViewObjectsFragment.ConfirmButtonClickAlertDialogLongPressMainViewObjectsFrag,
-        AlertDialogDateHourPickerFragment.ExitAlertDialogDateHourPicker {
+        AlertDialogDateHourPickerFragment.ExitAlertDialogDateHourPicker,
+        AlertDialogBackupLoadFragment.ConfirmButtonClickAlertDialogBackupLoad,
+        AlertDialogBackupLoadFragment.CancelButtonClickAlertDialogBackupLoad {
     private Fragment customFragment;
     private ConfirmButtonClickAlertDialogQuestionFrag confirmButtonClickAlertDialogQuestionFrag;
     private CancelButtonClickAlertDialogQuestionFrag cancelButtonClickAlertDialogQuestionFrag;
     private ConfirmButtonClickAlertDialogColorPickerFrag confirmButtonClickAlertDialogColorPickerFrag;
     private ConfirmButtonClickAlertDialogLongPressMainViewObjects confirmButtonClickAlertDialogLongPressMainViewObjectsListenner;
+    private ConfirmButtonClickAlertDialogBackupLoad_CustomAlertDialog ConfirmButtonClickAlertDialogBackupLoad_CustomAlertDialogListenner;
     private String Tag;
     private int backgroundColor = 0;
 
     private ExitAlertDialogDateHourPicker_CustomAlertDialogFrag exitAlertDialogDateHourPicker_CustomAlertDialogFragListenner;
+
     public interface ExitAlertDialogDateHourPicker_CustomAlertDialogFrag{
         void onExitAlertDialogDateHourPicker_CustomAlertDialogFrag(boolean save, Date date);
     }
@@ -68,6 +73,10 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
     public interface ConfirmButtonClickAlertDialogLongPressMainViewObjects{
         void onConfirmButtonClickAlertDialogLongPressMainViewObjects(DraggableCardViewEntity object, boolean canHoldMainAccount, int selectedSubAccountIndex);
     }
+    public interface ConfirmButtonClickAlertDialogBackupLoad_CustomAlertDialog{
+        void onConfirmButtonClickAlertDialogBackupLoad_CustomAlertDialog(String id);
+    }
+
     public CustomAlertDialogFragment() {
 
     }
@@ -94,6 +103,9 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
 
     public void setConfirmButtonClickAlertDialogLongPressMainViewObjects(ConfirmButtonClickAlertDialogLongPressMainViewObjects listenner){
         this.confirmButtonClickAlertDialogLongPressMainViewObjectsListenner = listenner;
+    }
+    public void setConfirmButtonClickAlertDialogBackupLoad_CustomAlertDialog(ConfirmButtonClickAlertDialogBackupLoad_CustomAlertDialog listenner){
+        this.ConfirmButtonClickAlertDialogBackupLoad_CustomAlertDialogListenner = listenner;
     }
 
 
@@ -179,6 +191,17 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
     @Override
     public void onExitAlertDialogDateHourPicker(boolean save, Date date) {
         exitAlertDialogDateHourPicker_CustomAlertDialogFragListenner.onExitAlertDialogDateHourPicker_CustomAlertDialogFrag(save, date);
+        this.dismiss();
+    }
+
+    @Override
+    public void onConfirmButtonClickAlertDialogBackupLoad(String id) {
+        ConfirmButtonClickAlertDialogBackupLoad_CustomAlertDialogListenner.onConfirmButtonClickAlertDialogBackupLoad_CustomAlertDialog(id);
+        this.dismiss();
+    }
+
+    @Override
+    public void onCancelButtonClickAlertDialogBackupLoad() {
         this.dismiss();
     }
 }

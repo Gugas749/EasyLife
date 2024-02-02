@@ -54,6 +54,10 @@ public class AlertDialogQuestionFragment extends Fragment {
                 binding.buttonCancelAlertDialogFragmentQuestion.setText(getString(R.string.general_DontSave));
                 binding.buttonConfirmAlertDialogFragmentQuestion.setText(getString(R.string.general_Save));
                 break;
+            case "4":
+                binding.buttonCancelAlertDialogFragmentQuestion.setText(getString(R.string.general_no));
+                binding.buttonConfirmAlertDialogFragmentQuestion.setText(getString(R.string.general_yes));
+                break;
         }
 
         binding.buttonConfirmAlertDialogFragmentQuestion.setOnClickListener(new View.OnClickListener() {

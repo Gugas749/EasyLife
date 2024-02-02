@@ -1,5 +1,8 @@
 package com.alexandreconrado.easylife.fragments.register;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -115,9 +118,10 @@ public class RegisterPasswordDialogFragment extends Fragment {
             String password = binding.editTextConfirmPasswordRegisterPasswordDialogFrag.getText().toString();
             String theme = "System-Sync";
             Locale deviceLanguage = Locale.getDefault();
-
-            UserInfosEntity infosEntity = new UserInfosEntity(0, password, theme, deviceLanguage);
-            infosEntity.setInfos("", email);//TODO: Firebase ID
+            SharedPreferences perfs = getContext().getSharedPreferences("Perf_User", MODE_PRIVATE);
+            String firebaseID = perfs.getString("firebaseID", "");
+            UserInfosEntity infosEntity = new UserInfosEntity(password, theme, deviceLanguage);
+            infosEntity.setInfos(firebaseID, email);
             userInfosDao.insert(infosEntity);
             return infosEntity;
         }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.alertDialogFragments.AlertDialogBackupLoadFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <FrameLayout
+            android:id="@+id/frameLayout_rvAndTextViewHolder_FragAlertDialogBackupLoad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_Backups_FragAlertDialogBackupLoad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/_200sdp"/>
+            <TextView
+                android:id="@+id/textView_noItemsToDisplay_FragAlertDialogBackupLoad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/register_dialog_AlertDialog_BackupLoad_NoItemsToDisplay_Text"
+                android:textStyle="bold"
+                android:textColor="?attr/textAppearanceBodyMedium"
+                android:textAlignment="center"
+                android:textSize="@dimen/_12sdp"
+                android:visibility="gone"
+                android:layout_margin="@dimen/_16sdp"/>
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_11sdp"
+            android:layout_below="@+id/frameLayout_rvAndTextViewHolder_FragAlertDialogBackupLoad">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_Cancel_FragAlertDialogBackupLoad"
+                android:layout_gravity="left"
+                android:textSize="@dimen/_12sdp"
+                android:paddingTop="@dimen/_11sdp"
+                android:paddingBottom="@dimen/_11sdp"
+                android:paddingLeft="@dimen/_20sdp"
+                android:paddingRight="@dimen/_20sdp"
+                android:text="@string/general_cancel"
+                android:textColor="?attr/textAppearanceBodySmall"
+                android:background="@drawable/round_button_secondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_Confirm_FragAlertDialogBackupLoad"
+                android:layout_gravity="right"
+                android:textSize="@dimen/_12sdp"
+                android:paddingTop="@dimen/_11sdp"
+                android:paddingBottom="@dimen/_11sdp"
+                android:paddingLeft="@dimen/_20sdp"
+                android:paddingRight="@dimen/_20sdp"
+                android:text="@string/general_confirm"
+                android:textColor="?attr/textAppearanceBodySmall"
+                android:background="@drawable/round_button_secondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+    </RelativeLayout>
+</FrameLayout>

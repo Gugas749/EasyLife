@@ -43,7 +43,9 @@ import com.alexandreconrado.easylife.database.entities.SubSpendingAccountsEntity
 import com.alexandreconrado.easylife.database.entities.UserInfosEntity;
 import com.alexandreconrado.easylife.databinding.ActivityMainBinding;
 import com.alexandreconrado.easylife.fragments.AuthenticationFragment;
-import com.alexandreconrado.easylife.fragments.mainactivityfragments.SettingsFragment;
+import com.alexandreconrado.easylife.fragments.mainactivityfragments.sidemenu.AboutFragment;
+import com.alexandreconrado.easylife.fragments.mainactivityfragments.sidemenu.BackupsFragment;
+import com.alexandreconrado.easylife.fragments.mainactivityfragments.sidemenu.SettingsFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view.MainACMainViewEditLayoutFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view.MainACMainViewFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view.howto.MainACMainViewHowToBindAccountToCardHomeFragment;
@@ -54,7 +56,6 @@ import com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_vi
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_view.howto.MainACOverviewViewHowToAddFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.overview_view.howto.MainACOverviewViewHowToDetailsFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.spendings_view.MainACSpendingsViewSpendsDetailsFragment;
-import com.alexandreconrado.easylife.fragments.mainactivityfragments.spendings_view.RVAdapterSpendings;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.spendings_view.add.MainACSpendingsViewAddSpendingsFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.spendings_view.MainACSpendingsViewFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.spendings_view.howto.MainACSpendingsViewHowToAddFragment;
@@ -710,7 +711,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                     }else if(item.getItemId() == R.id.mainAc_SideBar_RateUs){
 
                     }else if(item.getItemId() == R.id.mainAc_SideBar_Backups){
-
+                        runSwipeRightAnimation("Backups");
                     }else if(item.getItemId() == R.id.mainAc_SideBar_Configs){
                         runSwipeRightAnimation("Settings");
                     }
@@ -1813,10 +1814,24 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 fadeInAnimation(container2);
 
                 switch (fragmentID){
+                    case "Backups":
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frameLayout_fullScreenFragmentContainer_forHowTos_MainAc, new BackupsFragment())
+                                .addToBackStack(null)
+                                .commit();
+                        break;
                     case "Settings":
                         getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.frameLayout_fullScreenFragmentContainer_forHowTos_MainAc, new SettingsFragment(THIS, UserInfosEntity, THIS))
+                                .addToBackStack(null)
+                                .commit();
+                        break;
+                    case "About":
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frameLayout_fullScreenFragmentContainer_forHowTos_MainAc, new AboutFragment())
                                 .addToBackStack(null)
                                 .commit();
                         break;

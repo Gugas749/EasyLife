@@ -41,6 +41,10 @@
     <string name="register_dialog_account_email_prompt">Email</string>
     <string name="register_dialog_account_email_code_prompt">Code</string>
     <string name="register_dialog_account_email_code_wrong">Something is wrong</string>
+    <string name="register_dialog_account_Toast_NotAvaliable_Network">Please connect to Wi-Fi to processed.</string>
+    <string name="register_dialog_AlertDialog_Question_Title">Load Backup</string>
+    <string name="register_dialog_AlertDialog_Question_Text">Looks like your account is already registered do you want to load a backup?</string>
+    <string name="register_dialog_AlertDialog_BackupLoad_NoItemsToDisplay_Text">Hmm… Looks like you don\'t have any Backups to display.</string>
     <!-- RegisterFrag - Password Dialog -->
     <string name="register_dialog_password_prompt_password_1">PIN Code</string>
     <string name="register_dialog_password_prompt_password_2">Confirm the PIN Code</string>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/colorPrimary"
+    tools:context=".fragments.mainactivityfragments.sidemenu.AboutFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!-- TOP NAVIGATION -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView_topNavigation_FragSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_minus16sdp"
+            app:cardCornerRadius="@dimen/_20sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <ImageView
+                android:id="@+id/imageView_buttonExit_FragSettings"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="start"
+                android:layout_marginTop="@dimen/_27sdp"
+                android:layout_marginLeft="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_16sdp"
+                android:padding="@dimen/_8sdp"
+                android:rotation="180"
+                android:src="@drawable/arrow_icon" />
+        </androidx.cardview.widget.CardView>
+        <!--                -->
+
+    </RelativeLayout>
+</FrameLayout>

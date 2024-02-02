@@ -21,11 +21,8 @@ public class UserInfosEntity {
     public String Theme;
     @ColumnInfo(name = "language")
     public Locale Language;
-    @ColumnInfo(name = "addSpedingsWheres")
-    public List<String> addSpedingsWheres;
 
-    public UserInfosEntity(long id, String Password, String Theme, Locale Language) {
-        this.id = id;
+    public UserInfosEntity(String Password, String Theme, Locale Language) {
         this.Password = Password;
         this.Theme = Theme;
         this.Language = Language;
@@ -34,9 +31,5 @@ public class UserInfosEntity {
     public void setInfos(String firebaseID, String email){
         this.firebaseID = firebaseID;
         this.email = email;
-    }
-
-    public void setAddSpedingsWheres(List<String> addSpedingsWheres){
-        this.addSpedingsWheres = addSpedingsWheres;
     }
 }

@@ -33,6 +33,7 @@ import com.alexandreconrado.easylife.databinding.ActivitySplashBinding;
 import com.alexandreconrado.easylife.fragments.register.RegisterFragment;
 import com.alexandreconrado.easylife.scripts.ProcessOCRData;
 import com.alexandreconrado.easylife.scripts.ocr.TextRecognitionUtil;
+import com.google.firebase.FirebaseApp;
 
 import java.util.Locale;
 
@@ -79,6 +80,7 @@ public class SplashActivity extends AppCompatActivity {
         inScan = false;
         setupScanButton();
         disableBackPressed();
+        FirebaseApp.initializeApp(getApplicationContext());
 
         new CountDownTimer(1500, 1000) {
             public void onTick(long millisUntilFinished) {
