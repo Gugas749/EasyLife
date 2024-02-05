@@ -1,4 +1,4 @@
-package com.alexandreconrado.easylife.scripts;
+package com.alexandreconrado.easylife.scripts.ocr;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

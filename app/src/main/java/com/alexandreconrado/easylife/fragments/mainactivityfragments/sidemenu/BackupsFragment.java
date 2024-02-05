@@ -53,7 +53,12 @@ public class BackupsFragment extends Fragment implements
     private BackupsFragment THIS;
     private String TAG = "EasyLife_Logs_BackupsFrag", backupDocID = "";;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private boolean changed = false;
 
+    private ExitBackupsFrag exitListenner;
+    public interface ExitBackupsFrag{
+        void onExitBackupsFrag(boolean changed);
+    }
 
     private interface FirestoreDBCallback_getAllBackups{
         void onFirestoreDBCallback_getAllBackups();
@@ -68,8 +73,12 @@ public class BackupsFragment extends Fragment implements
     public BackupsFragment() {
         // Required empty public constructor
     }
-    public BackupsFragment(List<Timestamp> listBackupsDates) {
+    public BackupsFragment(ExitBackupsFrag exitListenner) {
+        this.exitListenner = exitListenner;
+    }
+    public BackupsFragment(List<Timestamp> listBackupsDates, ExitBackupsFrag exitListenner) {
         this.listBackupsDates = listBackupsDates;
+        this.exitListenner = exitListenner;
     }
 
     @Override
@@ -84,6 +93,7 @@ public class BackupsFragment extends Fragment implements
 
         init();
         load();
+        setupExitButton();
         setupCreateBackupButton();
         setupLoadBackupButton();
 
@@ -98,7 +108,13 @@ public class BackupsFragment extends Fragment implements
         binding.imageViewButtonUploadFragBackups.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadBackup();
+                CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+                customAlertDialogFragment.setConfirmListenner(THIS);
+                customAlertDialogFragment.setCancelListenner(THIS);
+                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.backupsFrag_AlertDialog_Question_UploadBackup_Title), getString(R.string.backupsFrag_AlertDialog_Question_UploadBackup_Text), customAlertDialogFragment, customAlertDialogFragment, "2");
+                customAlertDialogFragment.setCustomFragment(fragment);
+                customAlertDialogFragment.setTag("FragBackups_uploadBackup");
+                customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
             }
         });
     }
@@ -109,10 +125,18 @@ public class BackupsFragment extends Fragment implements
                 CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
                 customAlertDialogFragment.setConfirmListenner(THIS);
                 customAlertDialogFragment.setCancelListenner(THIS);
-                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.general_AlertDialog_Question_ExitWithoutSaving_Title), getString(R.string.general_AlertDialog_Question_ExitWithoutSaving_Text), customAlertDialogFragment, customAlertDialogFragment, "2");
+                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.backupsFrag_AlertDialog_Question_LoadBackup_Title), getString(R.string.backupsFrag_AlertDialog_Question_LoadBackup_Text), customAlertDialogFragment, customAlertDialogFragment, "2");
                 customAlertDialogFragment.setCustomFragment(fragment);
                 customAlertDialogFragment.setTag("FragBackups_loadBackup");
                 customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
+            }
+        });
+    }
+    private void setupExitButton(){
+        binding.imageViewButtonExitFragBackups.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                exitListenner.onExitBackupsFrag(changed);
             }
         });
     }
@@ -212,6 +236,9 @@ public class BackupsFragment extends Fragment implements
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         backupDocID = documentReference.getId();
+                        listBackupsDates.add(currentTime);
+
+                        loadRv();
                         callback.onFirestoreDBCallback_UploadBackup();
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
                     }
@@ -237,6 +264,7 @@ public class BackupsFragment extends Fragment implements
     public void onConfirmButtonClicked(String Tag) {
         switch (Tag){
             case "FragBackups_loadBackup":
+                changed = true;
                 if(timestampFromClickedBackup != null){
                     FirestoreDBCallback_getSelectedBackup callback = new FirestoreDBCallback_getSelectedBackup() {
                         @Override
@@ -246,6 +274,9 @@ public class BackupsFragment extends Fragment implements
                     };
                     getSelectedBackup(callback);
                 }
+                break;
+            case "FragBackups_uploadBackup":
+                uploadBackup();
                 break;
         }
     }

@@ -59,9 +59,14 @@ public class RVAdapterBackups extends RecyclerView.Adapter<RVAdapterBackups.MyVi
         final Timestamp backupSelected = backups.get(position);
         if(backupSelected != null){
             Date date = backupSelected.toDate();
+
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
             String formattedDate = sdf.format(date);
             holder.dateTextView.setText(formattedDate);
+
+            SimpleDateFormat sdfHour = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+            String formattedHour = sdfHour.format(date);
+            holder.hourTextView.setText(formattedHour);
         }
 
         if (position == selectedItem) {
@@ -94,13 +99,14 @@ public class RVAdapterBackups extends RecyclerView.Adapter<RVAdapterBackups.MyVi
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView dateTextView;
+        TextView dateTextView, hourTextView;
         CardView cardView;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             dateTextView = itemView.findViewById(R.id.textView_date_rvRowBackup_AlertDialogBackupLoad);
             cardView = itemView.findViewById(R.id.cardView_Holder_rvRowBackup_AlertDialogBackupLoad);
+            hourTextView = itemView.findViewById(R.id.textView_hour_rvRowBackup_AlertDialogBackupLoad);
         }
     }
 }

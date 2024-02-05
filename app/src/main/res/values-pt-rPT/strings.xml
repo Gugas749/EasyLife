@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Easy Life</string>
+    <string name="app_slogan">Life is Easier</string>
+
+    <string-array name="theme_options">
+        <item>Claro</item>
+        <item>Escuro</item>
+        <item>Predefinição do Sistema</item>
+    </string-array>
+    <string-array name="lang_options">
+        <item>EN-US</item>
+        <item>EN-GB</item>
+        <item>PT-PT</item>
+    </string-array>
+
+    <!-- General -->
+    <string name="general_Delete">Apagar</string>
+    <string name="general_Edit">Editar</string>
+    <string name="general_Example">Exemplo</string>
+    <string name="general_plusSign">+</string>
+    <string name="general_DontSave">Não Guardar</string>
+    <string name="general_Save">Guardar</string>
+    <string name="general_change">Alterar</string>
+    <string name="general_confirm">Confirmar</string>
+    <string name="general_continue">Continuar</string>
+    <string name="general_cancel">Cancelar</string>
+    <string name="general_next">Seguinte</string>
+    <string name="general_previous">Anterior</string>
+    <string name="general_finish">Terminar</string>
+    <string name="general_ok">Ok</string>
+    <string name="general_yes">Sim</string>
+    <string name="general_no">Não</string>
+    <string name="general_AlertDialog_Question_ExitWithoutSaving_Title">Sair Sem Guardar</string>
+    <string name="general_AlertDialog_Question_ExitWithoutSaving_Text">Deseja sair sem guardar?</string>
+    <string name="general_AlertDialog_Question_Saving_Text">Deseja guardar?</string>
+    <string name="general_AlertDialog_Question_SaveBeforeLeaving_Title">Guardar Antes de Sair</string>
+    <string name="general_AlertDialog_Question_SaveBeforeLeaving_Text">Deseja guardar antes de sair?</string>
+
+    <!-- RegisterFrag -->
+    <!-- RegisterFrag - Account Dialog -->
+    <string name="register_dialog_account_text">Criar a sua Conta</string>
+    <string name="register_dialog_account_email_prompt">Email</string>
+    <string name="register_dialog_account_email_code_prompt">Código</string>
+    <string name="register_dialog_account_email_code_wrong">Algo está errado</string>
+    <string name="register_dialog_account_Toast_NotAvaliable_Network">Por favor, conecte-se ao Wi-Fi para prosseguir.</string>
+    <string name="register_dialog_AlertDialog_Question_Title">Carregar Cópia de Segurança</string>
+    <string name="register_dialog_AlertDialog_Question_Text">Parece que a sua conta já está registada. Deseja carregar uma cópia de segurança?</string>
+    <string name="register_dialog_AlertDialog_BackupLoad_NoItemsToDisplay_Text">Hmm… Parece que não tem nenhuma cópia de segurança para mostrar.</string>
+    <!-- RegisterFrag - Password Dialog -->
+    <string name="register_dialog_password_prompt_password_1">PIN Code</string>
+    <string name="register_dialog_password_prompt_password_2">Confirm the PIN Code</string>
+    <string name="register_dialog_password_action_register">Set Up a PIN Code</string>
+    <string name="register_dialog_password_invalid_password_no_equal">Your PIN Codes don\'t match</string>
+    <string name="register_dialog_password_invalid_password_to_short">PIN Code must have 4 characters</string>
+    <!-- RegisterFrag - Biometrics Dialog -->
+    <string name="register_dialog_biometric_action_register">Do you want to activate biometric login?</string>
+    <string name="register_dialog_faceId_action_register">Do you want to activate Face ID login?</string>
+
+    <!-- Authentication Fragment -->
+    <string name="authFragment_wrongPinCode_Toast_Text">O código PIN inserido está incorreto!!</string>
+
+    <!-- Alert Dialog Fragments -->
+    <string name="alertDialog_FragmentRestartSession_FaceID_Title">Reconhecimento Facial</string>
+    <string name="alertDialog_RestartSession_BiometricID_Title">Identificação Biométrica</string>
+    <string name="alertDialog_RestartSession_BiometricID_Subtitle">Identificação Biométrica</string>
+    <string name="alertDialog_Notify_EmailSend_Title">Email Enviado</string>
+    <string name="alertDialog_Notify_EmailSend_Description">Um email foi enviado para o endereço fornecido para verificação. Por favor, insira o código fornecido no email no local correspondente.</string>
+    <!-- Alert Dialog Fragments - LongPressMainViewObjects -->
+    <string name="alertDialog_LongPressMainViewObjects_TextView_Styles_Text">Estilo do Widget</string>
+    <string name="alertDialog_LongPressMainViewObjects_TextView_SpendingsAccounts_Text">Conta de Gastos Conectada</string>
+    <string name="alertDialog_LongPressMainViewObjects_TextView_SpendingsSubAccounts_Text">Subconta de Gastos Conectada</string>
+    <string name="alertDialog_LongPressMainViewObjects_spinner_WidgetStyle_ItemText">Estilo</string>
+    <string name="alertDialog_LongPressMainViewObjects_spinner_WidgetStyle_StarterText">Selecione um Estilo</string>
+    <string name="alertDialog_LongPressMainViewObjects_spinner_SpendingsAccounts_StarterText">Selecione uma Conta</string>
+    <string name="alertDialog_LongPressMainViewObjects_spinner_SpendingsSubAccounts_StarterText">Selecione uma Subconta</string>
+    <string name="alertDialog_LongPressMainViewObjects_Toast_SelectStyle">Por favor, selecione um Estilo</string>
+    <string name="alertDialog_LongPressMainViewObjects_Toast_SelectAccount">Por favor, selecione uma Conta</string>
+    <string name="alertDialog_LongPressMainViewObjects_Toast_SelectSubAccount">Por favor, selecione uma Subconta</string>
+
+    <!-- Main AC -->
+    <string name="mainAc_bottomNavigationView_Home">Início</string>
+    <string name="mainAc_bottomNavigationView_Add">Adicionar</string>
+    <string name="mainAc_bottomNavigationView_Graffics">Despesas</string>
+    <string name="mainAc_sideBar_Share">Compartilhar</string>
+    <string name="mainAc_sideBar_RateUs">Avalie-nos</string>
+    <string name="mainAc_sideBar_Backups">Cópias de Segurança</string>
+    <string name="mainAc_sideBar_Configs">Configurações</string>
+    <!-- Main AC - Main View -->
+    <string name="mainAc_FragMainView_Example_ChartName_Text">Nome do Seu Gráfico</string>
+    <string name="mainAc_FragMainView_Example_Percentage1_Text">Percentagem 1</string>
+    <string name="mainAc_FragMainView_Example_Percentage2_Text">Percentagem 2</string>
+    <string name="mainAc_FragMainView_Example_Percentage3_Text">Percentagem 3</string>
+    <string name="mainAc_FragMainView_Example_Percentage4_Text">Percentagem 4</string>
+    <string name="mainAc_FragMainView_Example_Percentage5_Text">Percentagem 5</string>
+    <string name="mainAc_FragMainView_Example_Percentage6_Text">Percentagem 6</string>
+    <string name="mainAc_FragMainView_Example_Percentage7_Text">Percentagem 7</string>
+    <string name="mainAc_FragMainView_Example_Percentage8_Text">Percentagem 8</string>
+    <!-- Main AC - Main View How To-->
+    <!-- Main AC - Main View How To -  Home -->
+    <string name="mainAc_FragMainView_HowTo_BindingAccounts_Title">Vinculando Contas</string>
+    <string name="mainAc_FragMainView_HowTo_BindingAccounts_Home_Text">Para vincular uma conta ao seu gráfico de pizza, basta fazer uma pressão longa nela. E aparecerá uma janela pop-up!!</string>
+    <!-- Main AC - Main View - How To -  Home -->
+    <string name="mainAc_FragMainView_HowTo_BindingAccounts_PopUpForm_Text">Agora você só precisa selecionar a conta desejada para vincular!!</string>
+    <!-- Main AC - Main View - EditLayout -->
+    <string name="mainAc_FragMainViewEditLayout_Toast_noSpace_Text">Você não tem espaço para colocar este objeto</string>
+    <string name="mainAc_FragMainViewEditLayout_AlertDialog_Delete_Title">Remover Widget</string>
+    <string name="mainAc_FragMainViewEditLayout_AlertDialog_Delete_Description">Deseja remover este widget?</string>
+    <string name="mainAc_FragMainViewEditLayout_AlertDialog_Save_Description">Deseja salvar este layout de widget?</string>
+    <!-- Main AC - Main View - EditLayout - How To -->
+    <!-- Main AC - Main View - EditLayout - How To -  Home -->
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Home_Title">Oi!!</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Home_Text">Aqui está como criar seu próprio layout de widget!!</string>
+    <!-- Main AC - Main View - EditLayout - How To - Add -->
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Add_Title">Adicionando Widgets</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Add_Text_1">Ao adicionar Widgets, você tem 3 tamanhos de Widgets</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Add_Text_2">O Pequeno</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Add_Text_3">O Médio</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Add_Text_4">E O GRANDE</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Add_Text_5">Para adicionar seus Widgets, basta clicar em um dos botões!</string>
+    <!-- Main AC - Main View - EditLayout - How To - Drag N Drop -->
+    <string name="mainAc_FragMainViewEditLayoutHowTo_DnD_Title">Movendo os Widgets</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_DnD_Text_1">Depois de adicionar seus Widgets, você pode movê-los como quiser!!</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_DnD_Text_2">Mova para um lugar e ele ficará lá!!</string>
+    <!-- Main AC - Main View - EditLayout - How To - Delete -->
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Delete_Title">Removendo Widgets</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Delete_Text_1">Para remover um de seus Widgets, basta dar um clique duplo nele!! Depois, uma janela pop-up aparecerá para confirmar se você deseja remover o Widget</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Delete_PopUp_Title">Remover</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Delete_PopUp_Description">Remover Widget?</string>
+    <!-- Main AC - Main View - EditLayout - How To - Save -->
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Save_Title">Salvando os Widgets</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Save_Text_1">Para salvar seus Widgets, basta clicar no botão de marca de seleção e confirmar que deseja salvar na janela pop-up</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Save_Text_2">Parabéns!! Agora você sabe como personalizar seus Widgets!!</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Save_PopUp_Title">Salvar</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Save_PopUp_Description">Salvar Widgets?</string>
+    <!-- Main AC - Overview View -->
+    <string name="mainAc_FragOverviewView_NoItemsToDisplay_Text">Hmm… Parece que você não tem nenhuma conta de gastos. Você pode criá-las pressionando o botão de adição acima!</string>
+    <string name="mainAc_FragOverviewView_Example_Percentage1_Text">Percentagem 1</string>
+    <string name="mainAc_FragOverviewView_Example_Percentage2_Text">Percentagem 2</string>
+    <string name="mainAc_FragOverviewView_Example_Percentage3_Text">Percentagem 3</string>
+    <string name="mainAc_FragOverviewView_Example_Percentage4_Text">Percentagem 4</string>
+    <!-- Main AC - Overview How To -->
+    <!-- Main AC - Overview - How To -  Home -->
+    <string name="mainAc_FragOverviewView_HowTo_Add_Title">Adicionando Contas</string>
+    <string name="mainAc_FragOverviewView_HowTo_Add_Text">Para adicionar uma conta, basta clicar no botão de adição no topo!</string>
+    <!-- Main AC - Overview - How To -  Home -->
+    <string name="mainAc_FragOverviewView_HowTo_Details_Title">Vendo os Detalhes</string>
+    <string name="mainAc_FragOverviewView_HowTo_Details_Text">Agora, para ver os detalhes de sua conta, basta clicar nela!</string>
+    <!-- Main AC - Overview View - Add Spending Account -->
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_1_Text">Nomeie Sua Conta</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_2_Text">Dê Nomes às Suas Porcentagens e Atribua Cores a Elas Clicando nelas</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_editTextAccountName_Hint">Nome da Conta</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_editTextPercentagesNames_Hint">Nome da Porcentagem</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_MissingInputs_Text">Parece que há alguns campos vazios</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_MaxValue_Text">Desculpe, mas o valor gasto não pode exceder 9.999.999.999</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_SaveBeforeLeaving_Text">Você deseja salvar esta conta antes de sair?</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_Save_Text">Você deseja salvar esta conta?</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_RepeatedName_Text">Parece que já existe uma Porcentagem com esse nome</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_NamedPlus_Text">Desculpe, você não pode nomear sua porcentagem como "+" </string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_PercentageMaxCap_Text">Desculpe, você só pode ter 8 porcentagens. Se quiser ter mais, considere adicionar uma Subconta a esta conta posteriormente</string>
+    <!-- Main AC - Overview View - Account Details -->
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_AddSubAccount_Title">Adicionar Subconta</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_AddSubAccount_Text">Você deseja adicionar uma Subconta?</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_EditSubAccount_Title">Detalhes da Subconta</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_EditSubAccount_Text">Você deseja ver os detalhes desta Subconta?</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_Button_DeleteAccount_Text">Excluir Conta</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_DeleteAccount_Text">Você deseja excluir esta conta?</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_Button_DeleteSubAccount_Text">Excluir Subconta</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_DeleteSubAccount_Text">Você deseja excluir esta Subconta?</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_Button_DeleteCategory_Text">Excluir Categoria</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_DeleteCategory_Text">Você deseja excluir esta Categoria?</string>
+    <!-- Main AC - Overview View - Account Details - Add SubAccount -->
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_textView_editTextHelper_1_Text">Nome da Subconta</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_textView_changeParentColor_Text">Cor na Conta Principal</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_textView_editTextHelper_2_Text">Nome e cor das Porcentagens</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_Toast_PercentageCap_Text">Desculpe, você só pode ter 4 porcentagens em uma Subconta</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_textView_ChangeParentColor_Text">Clique para mudar a cor!!</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_AlertDialog_Question_Saving_Text">Você deseja salvar esta Subconta?</string>
+    <!-- Main AC - Spendings View -->
+    <string name="mainAc_FragSpendingsView_NoItemsToDisplay_Text">Hmm… Parece que você não tem nenhuma despesa para exibir. Você pode criá-las pressionando o botão de adição acima!</string>
+    <!-- Main AC - Overview - How To -  Add -->
+    <string name="mainAc_FragSpendingsView_HowTo_Add_Title">Adicionando Despesas</string>
+    <string name="mainAc_FragSpendingsView_HowTo_Add_Text">Para adicionar uma despesa, basta clicar no botão de adição no topo!</string>
+    <!-- Main AC - Overview - How To -  Details -->
+    <string name="mainAc_FragSpendingsView_HowTo_Details_Title">Vendo os Detalhes</string>
+    <string name="mainAc_FragSpendingsView_HowTo_Details_Text">Agora, para ver os detalhes de sua despesa, basta clicar nela!</string>
+    <!-- Main AC - Spendings View - Add Spendings -->
+    <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign1_Text">Data da Despesa</string>
+    <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign2_Text">Valor Gasto</string>
+    <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign3_Text">Onde Foi Gasto</string>
+    <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign4_Text">Em Qual Conta</string>
+    <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign5_Text">Qual Categoria</string>
+    <string name="mainAc_FragSpendingsViewAddSpendings_spinnerHint_1_Text">Selecione uma Categoria</string>
+    <string name="mainAc_FragSpendingsViewAddSpendings_AlertDialog_Question_Save_Text">Você deseja salvar esta Despesa?</string>
+    <!-- Main AC - Spendings View - Details Spends -->
+    <string name="mainAc_FragSpendingsViewAddSpendings_AlertDialog_Question_Delete_Title">Você deseja excluir esta Despesa?</string>
+    <!-- Main AC - Spendings View - Details Spends - How To -->
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_EditMode_Title">Modo de Edição</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_EditMode_Text">O Modo de Edição é, como o nome sugere, um modo que permite editar sua conta. Para entrar nele, clique no botão no canto superior direito!</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_EditTitle_Title">Editando o Título</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_EditTitle_Text">Para editar o título/nome da sua conta, você precisa estar no Modo de Edição e clicar sobre ele.</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_AddCategory_Title">Adicionando Categorias</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_AddCategory_Text">Para adicionar uma categoria, você precisa estar no Modo de Edição e clicar em um dos cartões com um "+" neles. Eles estão localizados na parte inferior.</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_AddCategory_Text_2">Depois, uma janela pop-up aparecerá. Nessa janela, você terá algumas opções para a sua categoria.</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_AddCategory_Title_2">Editando uma Categoria</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_AddCategory_Text_3">Semelhante à adição de uma categoria, para editá-la, basta clicar sobre ela e uma janela pop-up aparecerá, permitindo que você a edite.</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_AddSubAccount_Title">Adicionando uma Subconta</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_AddSubAccount_Text">Para adicionar uma Subconta, você precisa estar no Modo de Edição e clicar em um dos retângulos grandes com um "+" neles. Eles estão localizados na parte inferior.</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_EditSubAccount_Title">Detalhes de uma Subconta</string>
+    <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_EditSubAccount_Text">Para entrar nos detalhes de sua Subconta, basta localizar a Subconta desejada e pressioná-la por um tempo. Uma janela pop-up aparecerá.</string>
+
+    <!-- Tutorial Fragments -->
+    <string name="tutorialFrag_skip">Saltar</string>
+    <string name="tutorialFrag_Welcome_Title">Olá!!</string>
+    <string name="tutorialFrag_Welcome_Text">Bem-vindo ao Easy Life</string>
+    <string name="tutorialFrag_End_Title">Fim!!</string>
+    <string name="tutorialFrag_End_Text">Parece que chegaste ao fim. A partir de agora, aproveita a aplicação!! Adeus!!</string>
+
+    <!-- Settings Fragment -->
+    <string name="settingsFrag_TextView_spinnerLanguageExplain_Text">Idioma da Aplicação</string>
+    <string name="settingsFrag_Spinner_Language_Text">Idioma</string>
+    <string name="settingsFrag_TextView_spinnerThemeExplain_Text">Tema da Aplicação</string>
+    <string name="settingsFrag_Spinner_Theme_Text">Tema</string>
+    <string name="settingsFrag_TextView_switchHowToExplain_Text">Tutoriais</string>
+    <string name="settingsFrag_TextView_vibrationExplain_Text">Vibração</string>
+    <string name="settingsFrag_TextView_protectionModeExplain_Text">Proteção contra Gravação de Ecrã</string>
+    <string name="settingsFrag_AlertDialog_Notify_NeedRestart_Text">Reiniciar Aplicação</string>
+    <string name="settingsFrag_AlertDialog_Notify_NeedRestart_Title">Para finalizar a configuração, a aplicação será reiniciada! Pedimos desculpa pelo incómodo.</string>
+
+    <!-- Backups Fragment -->
+    <string name="backupsFrag_AlertDialog_Question_LoadBackup_Title">Carregar Cópia de Segurança</string>
+    <string name="backupsFrag_AlertDialog_Question_LoadBackup_Text">Deseja carregar a cópia de segurança selecionada? Ao carregá-la, as informações atualmente guardadas serão eliminadas e substituídas pelas informações na cópia de segurança.</string>
+    <string name="backupsFrag_AlertDialog_Question_UploadBackup_Title">Carregar Cópia de Segurança</string>
+    <string name="backupsFrag_AlertDialog_Question_UploadBackup_Text">Deseja carregar/criar uma cópia de segurança das informações atuais na aplicação?</string>
+
+    <!-- Share Menu -->
+    <string name="bottomSheetView_shareMenu_title">Onde deseja partilhar?</string>
+    <string name="bottomSheetView_shareMenu_sharingText">Confira esta aplicação!!!!</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Olá fragmento vazio</string>
+</resources>

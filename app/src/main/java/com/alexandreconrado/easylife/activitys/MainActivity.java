@@ -83,7 +83,8 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         MainACSpendingsViewAddSpendingsFragment.ExitMainACSpendingsViewAddSpendingsFrag,
         SettingsFragment.ExitSettingsFrag,
         MainACSpendingsViewSpendsDetailsFragment.ExitFragMainACSpendingsViewSpendsDetails,
-        MainACSpendingsViewFragment.ItemClickRVAdapeterSpendsFragMainACSpendingsView {
+        MainACSpendingsViewFragment.ItemClickRVAdapeterSpendsFragMainACSpendingsView,
+        BackupsFragment.ExitBackupsFrag {
     //-------------------OTHERS---------------
     private ActivityMainBinding binding;
     private long sessionTime;
@@ -107,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     private DraggableCardViewDao draggableCardViewDao;
     private SpendingsAccountsDao spendingsAccountsDao;
     private UserInfosDao userInfosDao;
+
 
     public interface DatabaseCallback {
         void onTaskCompleted(List<SpendingAccountsEntity> result);
@@ -1169,7 +1171,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     @Override
     public void onExitSettingsFrag(boolean changed) {
         disableBackPressed();
-        runSwipeLeftAnimation(changed);
+        runSwipeLeftAnimation(changed, "Settings");
         FragmentManager fragmentManager = getSupportFragmentManager();
         int containerId = binding.frameLayoutFullScreenFragmentContainerForHowTosMainAc.getId();
 
@@ -1272,6 +1274,19 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(false);
             }
         }.start();
+    }
+    @Override
+    public void onExitBackupsFrag(boolean changed) {
+        disableBackPressed();
+        runSwipeLeftAnimation(changed, "Backups");
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        int containerId = binding.frameLayoutFullScreenFragmentContainerForHowTosMainAc.getId();
+
+        for (Fragment fragment : fragmentManager.getFragments()) {
+            if (fragment != null && fragment.getId() == containerId) {
+                fragmentManager.beginTransaction().remove(fragment).commit();
+            }
+        }
     }
     //----------------------------------------------
 
@@ -1817,7 +1832,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                     case "Backups":
                         getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.frameLayout_fullScreenFragmentContainer_forHowTos_MainAc, new BackupsFragment())
+                                .replace(R.id.frameLayout_fullScreenFragmentContainer_forHowTos_MainAc, new BackupsFragment(THIS))
                                 .addToBackStack(null)
                                 .commit();
                         break;
@@ -1841,7 +1856,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
 
         translateXAnimator.start();
     }
-    private void runSwipeLeftAnimation(boolean changed) {
+    private void runSwipeLeftAnimation(boolean changed, String Tag) {
         outFragment();
 
         ViewGroup container1 = binding.constraintLayoutMainAc;
@@ -1866,10 +1881,17 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(false);
 
                 if(changed){
-                    initSettings();
+                    switch (Tag){
+                        case "Backups":
+                            recreate();
+                            break;
+                        case "Settings":
+                            initSettings();
 
-                    mainACMainViewFragment = new MainACMainViewFragment(draggableCardViewObjectsList);
-                    changeFragmentFromMainFragmentContainer(1);
+                            mainACMainViewFragment = new MainACMainViewFragment(draggableCardViewObjectsList);
+                            changeFragmentFromMainFragmentContainer(1);
+                            break;
+                    }
                 }
             }
         });

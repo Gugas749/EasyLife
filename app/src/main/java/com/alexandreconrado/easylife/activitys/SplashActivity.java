@@ -3,6 +3,7 @@ package com.alexandreconrado.easylife.activitys;
 import android.Manifest;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -12,6 +13,8 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.LocaleList;
+import java.util.Locale;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -31,7 +34,8 @@ import androidx.core.content.ContextCompat;
 import com.alexandreconrado.easylife.R;
 import com.alexandreconrado.easylife.databinding.ActivitySplashBinding;
 import com.alexandreconrado.easylife.fragments.register.RegisterFragment;
-import com.alexandreconrado.easylife.scripts.ProcessOCRData;
+import com.alexandreconrado.easylife.scripts.LocaleHelper;
+import com.alexandreconrado.easylife.scripts.ocr.ProcessOCRData;
 import com.alexandreconrado.easylife.scripts.ocr.TextRecognitionUtil;
 import com.google.firebase.FirebaseApp;
 
@@ -43,18 +47,14 @@ public class SplashActivity extends AppCompatActivity {
     private ActivitySplashBinding binding;
     private Boolean isLogged;
     private Boolean inScan;
+    private String themePreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivitySplashBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
         SharedPreferences prefs = getSharedPreferences("Perf_User", MODE_PRIVATE);
         isLogged = prefs.getBoolean("logged", false);
-        String themePreference = prefs.getString("theme_preference", "system_default");
+        themePreference = prefs.getString("theme_preference", "system_default");
         String userLanguage = prefs.getString("user_language", "en-us");
-
         /*if (themePreference.equals("light")) {
             Toast.makeText(this, "light", Toast.LENGTH_SHORT).show();
             setTheme(R.style.Base_Theme_EasyLife_Light);
@@ -62,15 +62,13 @@ public class SplashActivity extends AppCompatActivity {
             Toast.makeText(this, "dark", Toast.LENGTH_SHORT).show();
             setTheme(R.style.Base_Theme_EasyLife_Dark);
         }*/
+        super.onCreate(savedInstanceState);
+        binding = ActivitySplashBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        Locale userLocale = new Locale(userLanguage);
-        Locale.setDefault(userLocale);
-
-        Configuration configuration = new Configuration();
-        configuration.setLocale(userLocale);
-
-        Resources resources = getApplicationContext().getResources();
-        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+        String lang = userLanguage.substring(0, 2);
+        Context context = LocaleHelper.setLocale(this, lang);
+        Resources resources = context.getResources();
 
         if(isLogged){
             binding.butScanSplashAc.setVisibility(View.VISIBLE);

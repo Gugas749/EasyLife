@@ -103,7 +103,6 @@
             android:layout_marginLeft="@dimen/_16sdp"
             android:layout_marginRight="@dimen/_16sdp"
             android:text="@string/settingsFrag_TextView_spinnerThemeExplain_Text"
-            android:visibility="gone"
             android:textStyle="bold"
             android:textColor="?attr/textAppearanceBodyMedium"
             android:textAlignment="center"
@@ -116,7 +115,6 @@
             android:layout_marginTop="@dimen/_11sdp"
             android:layout_marginRight="@dimen/_8sdp"
             android:layout_marginLeft="@dimen/_8sdp"
-            android:visibility="gone"
             app:cardBackgroundColor="?attr/colorSecondary"
             app:cardCornerRadius="@dimen/_23sdp">
             <com.skydoves.powerspinner.PowerSpinnerView

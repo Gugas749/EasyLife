@@ -15,6 +15,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.alexandreconrado.easylife.R;
 import com.alexandreconrado.easylife.activitys.MainActivity;
@@ -142,10 +143,10 @@ public class SettingsFragment extends Fragment implements
                 langIndex = 0;
                 break;
             case "en-gb":
-                // English (United Kingdom)
+                langIndex = 1;
                 break;
             case "pt-pt":
-                langIndex = 1;
+                langIndex = 2;
                 break;
             case "pt-br":
                 // Portuguese (Brazil)
@@ -177,7 +178,6 @@ public class SettingsFragment extends Fragment implements
         editor.putString("theme_preference", theme);
         editor.putString("user_language", lang);
         editor.apply();
-
         Locale userLocale = new Locale(lang);
         userInfos.Language = userLocale;
         userInfos.Theme = theme;
@@ -248,10 +248,13 @@ public class SettingsFragment extends Fragment implements
 
                 switch (i1){
                     case 0:
-                        lang = "en-US";
+                        lang = "en-us";
                         break;
                     case 1:
-                        lang = "pt-PT";
+                        lang = "en-gb";
+                        break;
+                    case 2:
+                        lang = "pt-pt";
                         break;
                 }
             }
