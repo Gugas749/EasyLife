@@ -284,6 +284,7 @@ public class RegisterDialogAccountFragment extends Fragment implements
     }
     @Override
     public void onConfirmButtonClicked(String Tag) {
+        isDialogOpen = false;
         switch (Tag){
             case "FragRegisterDialogAccount_BackupLoad":
                 FirestoreDBCallback_getAllBackups callback = new FirestoreDBCallback_getAllBackups() {
@@ -312,6 +313,7 @@ public class RegisterDialogAccountFragment extends Fragment implements
     }
     @Override
     public void onCancelButtonClicked(String Tag) {
+        isDialogOpen = false;
         switch (Tag){
             case "FragRegisterDialogAccount_BackupLoad":
                 isRegistering = false;
