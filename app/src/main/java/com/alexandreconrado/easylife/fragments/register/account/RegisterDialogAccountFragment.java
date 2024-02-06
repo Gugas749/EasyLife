@@ -114,51 +114,59 @@ public class RegisterDialogAccountFragment extends Fragment implements
         binding.butContinueRegisterAccountDialogFrag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!isRegistering){
-                    binding.butContinueRegisterAccountDialogFrag.setEnabled(false);
-                    if (binding.editTextEmailCodeRegisterAccountDialogFrag.getVisibility() == View.GONE) {
-                        emailInsertedInEditText = binding.editTextEmailRegisterAccountDialogFrag.getText().toString().trim();
-                        if (isValidEmail(emailInsertedInEditText)) {
-                            startDelayTimer();
-                            binding.textViewResendEmailRegisterAccountDialogFrag.setEnabled(false);
-                            sendEmail(emailInsertedInEditText);
-                        } else {
-                            Toast.makeText(getContext(), "Invalid email address", Toast.LENGTH_SHORT).show();
+                binding.butContinueRegisterAccountDialogFrag.setEnabled(false);
+                if (binding.editTextEmailCodeRegisterAccountDialogFrag.getVisibility() == View.GONE) {
+                    emailInsertedInEditText = binding.editTextEmailRegisterAccountDialogFrag.getText().toString().trim();
+                    if (isValidEmail(emailInsertedInEditText)) {
+                        startDelayTimer();
+                        binding.textViewResendEmailRegisterAccountDialogFrag.setEnabled(false);
+                        sendEmail(emailInsertedInEditText);
+                    } else {
+                        Toast.makeText(getContext(), "Invalid email address", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    if(codeEmail.equals(binding.editTextEmailCodeRegisterAccountDialogFrag.getText().toString().trim())){
+                        finalUserEmail = binding.editTextEmailRegisterAccountDialogFrag.getText().toString().trim();
+
+                        Map<String, Object> object = new HashMap<>();
+                        object.put("UserEmail", finalUserEmail);
+                        binding.butContinueRegisterAccountDialogFrag.setEnabled(false);
+
+                        if(isNetworkAvailable()){
+                            FirestoreDBCallback_isRegistered dbCallbakc = new FirestoreDBCallback_isRegistered() {
+                                @Override
+                                public void onFirestoreDBCallback_isRegistered() {
+                                    if(auxIsEmailRegistered){
+                                        binding.butContinueRegisterAccountDialogFrag.setEnabled(true);
+                                        CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+                                        customAlertDialogFragment.setConfirmListenner(THIS);
+                                        customAlertDialogFragment.setCancelListenner(THIS);
+                                        AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.register_dialog_AlertDialog_Question_Title), getString(R.string.register_dialog_AlertDialog_Question_Text), customAlertDialogFragment, customAlertDialogFragment, "4");
+                                        customAlertDialogFragment.setCustomFragment(fragment);
+                                        customAlertDialogFragment.setTag("FragRegisterDialogAccount_BackupLoad");
+                                        customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
+                                    }else{
+                                        FirestoreDBCallback_isRegistered callbackIsRegistered = new FirestoreDBCallback_isRegistered() {
+                                            @Override
+                                            public void onFirestoreDBCallback_isRegistered() {
+                                                binding.butContinueRegisterAccountDialogFrag.setEnabled(true);
+                                                parent.changeDialogFragments(finalUserEmail);
+                                            }
+                                        };
+                                        registerAccountFirebase(object, callbackIsRegistered);
+                                    }
+                                }
+                            };
+
+                            isEmailRegistered(finalUserEmail, dbCallbakc);
+                        }else{
+                            Toast.makeText(getContext(), getString(R.string.register_dialog_account_Toast_NotAvaliable_Network), Toast.LENGTH_SHORT).show();
                         }
                     }else{
-                        if(codeEmail.equals(binding.editTextEmailCodeRegisterAccountDialogFrag.getText().toString().trim())){
-                            finalUserEmail = binding.editTextEmailRegisterAccountDialogFrag.getText().toString().trim();
-
-                            Map<String, Object> object = new HashMap<>();
-                            object.put("UserEmail", finalUserEmail);
-                            if(isNetworkAvailable()){
-                                FirestoreDBCallback_isRegistered dbCallbakc = new FirestoreDBCallback_isRegistered() {
-                                    @Override
-                                    public void onFirestoreDBCallback_isRegistered() {
-                                        if(auxIsEmailRegistered){
-                                            CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
-                                            customAlertDialogFragment.setConfirmListenner(THIS);
-                                            customAlertDialogFragment.setCancelListenner(THIS);
-                                            AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.register_dialog_AlertDialog_Question_Title), getString(R.string.register_dialog_AlertDialog_Question_Text), customAlertDialogFragment, customAlertDialogFragment, "4");
-                                            customAlertDialogFragment.setCustomFragment(fragment);
-                                            customAlertDialogFragment.setTag("FragRegisterDialogAccount_BackupLoad");
-                                            customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
-                                        }else{
-                                            registerAccountFirebase(object, finalUserEmail);
-                                        }
-                                    }
-                                };
-
-                                isEmailRegistered(finalUserEmail, dbCallbakc);
-                            }else{
-                                Toast.makeText(getContext(), getString(R.string.register_dialog_account_Toast_NotAvaliable_Network), Toast.LENGTH_SHORT).show();
-                            }
-                        }else{
-                            binding.editTextEmailCodeRegisterAccountDialogFrag.setError(getString(R.string.register_dialog_account_email_code_wrong));
-                        }
+                        binding.editTextEmailCodeRegisterAccountDialogFrag.setError(getString(R.string.register_dialog_account_email_code_wrong));
                     }
-                    binding.butContinueRegisterAccountDialogFrag.setEnabled(true);
                 }
+                binding.butContinueRegisterAccountDialogFrag.setEnabled(true);
             }
         });
     }
@@ -218,8 +226,7 @@ public class RegisterDialogAccountFragment extends Fragment implements
                     }
                 });
     }
-    private void registerAccountFirebase(Map<String, Object> object, String email){
-        isRegistering = true;
+    private void registerAccountFirebase(Map<String, Object> object, FirestoreDBCallback_isRegistered callbackIsRegistered){
         db.collection("Users")
                 .add(object)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -233,8 +240,8 @@ public class RegisterDialogAccountFragment extends Fragment implements
                         editor.putString("user_language", deviceLanguage.getDisplayName().toLowerCase());
                         editor.putString("autoBackupTime", "monthly");
                         editor.apply();
-                        isRegistering = false;
-                        parent.changeDialogFragments(email);
+
+                        callbackIsRegistered.onFirestoreDBCallback_isRegistered();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
