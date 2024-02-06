@@ -1,5 +1,6 @@
 package com.alexandreconrado.easylife.scripts;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -77,6 +78,13 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
     public interface ConfirmButtonClickAlertDialogBackupLoad_CustomAlertDialog{
         void onConfirmButtonClickAlertDialogBackupLoad_CustomAlertDialog(Timestamp backup);
     }
+    private DismissListenner dismissListenner;
+    public interface DismissListenner{
+        void onDismissListenner();
+    }
+    public void setDismissListenner(DismissListenner dismissListenner){
+        this.dismissListenner = dismissListenner;
+    }
 
     public CustomAlertDialogFragment() {
 
@@ -147,6 +155,15 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
             }
         });
     }
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+
+        if(dismissListenner != null){
+            dismissListenner.onDismissListenner();
+        }
+    }
+
     @Override
     public void onContinueButtonClicked() {
         this.dismiss();
