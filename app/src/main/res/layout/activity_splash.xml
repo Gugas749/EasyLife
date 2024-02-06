@@ -66,6 +66,7 @@
         android:padding="@dimen/_11sdp"
         android:scaleType="centerCrop"
         android:src="@drawable/scan"
+        android:visibility="gone"
         android:background="@drawable/round_button_secondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
