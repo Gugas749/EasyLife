@@ -224,9 +224,8 @@ public class RegisterDialogAccountFragment extends Fragment implements
                                     auxIsEmailRegistered = true;
                                     break;
                                 }
-
-                                callbakc.onFirestoreDBCallback_isRegistered();
                             }
+                            callbakc.onFirestoreDBCallback_isRegistered();
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }

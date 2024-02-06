@@ -374,50 +374,55 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         String backups = prefs.getString("autoBackupTime", "monthly");
         String userFBid = prefs.getString("firebaseID", "");
         Timestamp lastBackup = UserInfosEntity.lastBackup;
-        Date timestampDate = lastBackup.toDate();
-        Date currentDate = new Date();
-        long differenceInMillis = currentDate.getTime() - timestampDate.getTime();
-        long differenceInDays = differenceInMillis / (1000 * 60 * 60 * 24);
-        boolean aux = false;
+        if(lastBackup != null){
+            Date timestampDate = lastBackup.toDate();
+            Date currentDate = new Date();
+            long differenceInMillis = currentDate.getTime() - timestampDate.getTime();
+            long differenceInDays = differenceInMillis / (1000 * 60 * 60 * 24);
+            boolean aux = false;
 
-        switch (backups){
-            case "weekly":
-                if(differenceInDays >= 7){
-                    aux = true;
-                }
-                break;
-            case "biweekly":
-                if(differenceInDays >= 14){
-                    aux = true;
-                }
-                break;
-            case "monthly":
-                if(differenceInDays >= 30){
-                    aux = true;
-                }
-                break;
-        }
-
-        if(aux){
-            FirestoreDBCallback_getAllBackups callbackGetAllBackups = new FirestoreDBCallback_getAllBackups() {
-                @Override
-                public void onFirestoreDBCallback_getAllBackups(List<Timestamp> listBackupsDates) {
-                    if(listBackupsDates.size() < 8){
-                        uploadBackup();
-                    }else{
-                        FirestoreDBCallback_deleteOldestBackup deleteOldestBackup = new FirestoreDBCallback_deleteOldestBackup() {
-                            @Override
-                            public void onFirestoreDBCallback_deleteOldestBackup() {
-                                uploadBackup();
-                            }
-                        };
-
-                        deleteOldestBackup(deleteOldestBackup, listBackupsDates);
+            switch (backups){
+                case "weekly":
+                    if(differenceInDays >= 7){
+                        aux = true;
                     }
-                }
-            };
+                    break;
+                case "biweekly":
+                    if(differenceInDays >= 14){
+                        aux = true;
+                    }
+                    break;
+                case "monthly":
+                    if(differenceInDays >= 30){
+                        aux = true;
+                    }
+                    break;
+            }
 
-            getAllBackups(userFBid, callbackGetAllBackups);
+            if(aux){
+                FirestoreDBCallback_getAllBackups callbackGetAllBackups = new FirestoreDBCallback_getAllBackups() {
+                    @Override
+                    public void onFirestoreDBCallback_getAllBackups(List<Timestamp> listBackupsDates) {
+                        if(listBackupsDates.size() < 8){
+                            uploadBackup();
+                        }else{
+                            FirestoreDBCallback_deleteOldestBackup deleteOldestBackup = new FirestoreDBCallback_deleteOldestBackup() {
+                                @Override
+                                public void onFirestoreDBCallback_deleteOldestBackup() {
+                                    uploadBackup();
+                                }
+                            };
+
+                            deleteOldestBackup(deleteOldestBackup, listBackupsDates);
+                        }
+                    }
+                };
+
+                getAllBackups(userFBid, callbackGetAllBackups);
+            }
+        }else{
+            UserInfosEntity.lastBackup = Timestamp.now();
+            new LocalDatabaseJustUpdateUserInfoTask().execute();
         }
     }
     private void deleteOldestBackup(FirestoreDBCallback_deleteOldestBackup callback, List<Timestamp> listBackupsDates){
@@ -1779,6 +1784,22 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         protected void onPostExecute(DraggableCardViewEntity object) {
             Log.i("DataBaseOperationsMainAC", "onPostExecute LocalDatabaseJustUpdateDraggableObjectTask");
             updateMainViewInNextLoad = true;
+        }
+    }
+    private class LocalDatabaseJustUpdateUserInfoTask extends AsyncTask<Void, Void, UserInfosEntity> {
+        public LocalDatabaseJustUpdateUserInfoTask() {
+
+        }
+        @Override
+        protected UserInfosEntity doInBackground(Void... voids) {
+            userInfosDao.update(UserInfosEntity);
+
+            return UserInfosEntity;
+        }
+
+        @Override
+        protected void onPostExecute(UserInfosEntity object) {
+            Log.i("DataBaseOperationsMainAC", "onPostExecute LocalDatabaseJustUpdateUserInfoTask");
         }
     }
     private class LocalDatabaseJustDeleteSpendingAccountTask extends AsyncTask<Void, Void, SpendingAccountsEntity> {
