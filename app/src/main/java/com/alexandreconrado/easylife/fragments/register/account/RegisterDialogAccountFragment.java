@@ -189,7 +189,7 @@ public class RegisterDialogAccountFragment extends Fragment implements
 
         Random random = new Random();
         int randomNumber = random.nextInt((max - min) + 1) + min;
-        String emailBody = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Email Verification</title><style>@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400&family=Arapey:wght@400&display=swap');body{font-family:'Arial',sans-serif;margin:0;padding:0;background-color:#f4f4f4;}.container{max-width:600px;margin:20px auto;background-color:#6A6ECF;padding:20px;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,0.1);position:relative;color:#ffffff;}.logo{max-width:60px;height:auto;border-radius:50%;margin-right:10px;}.content{text-align:left;}.verification-code{font-size:24px;font-weight:bold;color:#F493FB;text-align:center;}.footer{margin-top:20px;text-align:center;color:#8D93E3;}</style></head><body><div class=\"container\"><div><img class=\"logo\" src=\"https://media.discordapp.net/attachments/1117167988659998791/1191714890432380968/snapLogoWhite.png?ex=65a671fa&is=6593fcfa&hm=29e4cfabf6f0eb62607799a2cacc4c0f98cc98025b4c524a66cd3a8750baeca1&=&format=webp&quality=lossless\" alt=\"Company Logo\"><h2>Email Verification</h2></div><div class=\"content\"><p>Hello!! User,</p><p>Thanks for creating an account!! Please use the following verification code to enter the Application:</p><p class=\"verification-code\">" + randomNumber + "</p></div><div class=\"footer\"><p>If you did not sign up for this service, please ignore this email.</p></div></div></body></html>\n";
+        String emailBody = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Email Verification</title><style>@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400&family=Arapey:wght@400&display=swap');body{font-family:'Arial',sans-serif;margin:0;padding:0;background-color:#f4f4f4;}.container{max-width:600px;margin:20px auto;background-color:#6A6ECF;padding:20px;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,0.1);position:relative;color:#ffffff;}.logo{max-width:60px;height:auto;border-radius:50%;margin-right:10px;}.content{text-align:left;}.verification-code{font-size:24px;font-weight:bold;color:#ffffff;text-align:center;}.footer{margin-top:20px;text-align:center;color:#8D93E3;}</style></head><body><div class=\"container\"><div><img class=\"logo\" src=\"https://media.discordapp.net/attachments/1117167988659998791/1191714890432380968/snapLogoWhite.png?ex=65a671fa&is=6593fcfa&hm=29e4cfabf6f0eb62607799a2cacc4c0f98cc98025b4c524a66cd3a8750baeca1&=&format=webp&quality=lossless\" alt=\"Company Logo\"><h2>Email Verification</h2></div><div class=\"content\"><p>Hello!! User,</p><p>Thanks for creating an account!! Please use the following verification code to enter the Application:</p><p class=\"verification-code\">" + randomNumber + "</p></div><div class=\"footer\"><p>If you did not sign up for this service, please ignore this email.</p></div></div></body></html>\n";
 
         SendMailTask sendMailTask = new SendMailTask(fromEmail, fromPassword, toEmail, emailSubject, emailBody);
         sendMailTask.execute();
@@ -222,9 +222,10 @@ public class RegisterDialogAccountFragment extends Fragment implements
                                     editor.putString("firebaseID", document.getId());
                                     editor.apply();
                                     auxIsEmailRegistered = true;
-                                    callbakc.onFirestoreDBCallback_isRegistered();
                                     break;
                                 }
+
+                                callbakc.onFirestoreDBCallback_isRegistered();
                             }
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
