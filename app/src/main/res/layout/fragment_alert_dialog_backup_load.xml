@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorPrimary"
     tools:context=".fragments.alertDialogFragments.AlertDialogBackupLoadFragment">
 
     <RelativeLayout
@@ -15,8 +16,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_Backups_FragAlertDialogBackupLoad"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="@dimen/_200sdp"/>
+                android:layout_height="@dimen/_230sdp" />
             <TextView
                 android:id="@+id/textView_noItemsToDisplay_FragAlertDialogBackupLoad"
                 android:layout_width="match_parent"

@@ -4,6 +4,7 @@ import androidx.room.TypeConverter;
 
 import com.alexandreconrado.easylife.database.entities.SpendsEntity;
 import com.alexandreconrado.easylife.database.entities.SubSpendingAccountsEntity;
+import com.google.firebase.Timestamp;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -63,5 +64,15 @@ public class Converters {
     @TypeConverter
     public static String toLocaleString(Locale locale) {
         return locale.toString();
+    }
+
+    @TypeConverter
+    public static Timestamp fromTimestamp(Long value) {
+        return value == null ? null : new Timestamp(value, 0);
+    }
+
+    @TypeConverter
+    public static Long toTimestamp(Timestamp timestamp) {
+        return timestamp == null ? null : timestamp.getSeconds();
     }
 }

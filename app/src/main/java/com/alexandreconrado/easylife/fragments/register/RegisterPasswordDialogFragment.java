@@ -19,6 +19,7 @@ import com.alexandreconrado.easylife.database.LocalDataBase;
 import com.alexandreconrado.easylife.database.daos.UserInfosDao;
 import com.alexandreconrado.easylife.database.entities.UserInfosEntity;
 import com.alexandreconrado.easylife.databinding.FragmentRegisterPasswordDialogBinding;
+import com.google.firebase.Timestamp;
 
 import java.util.Locale;
 
@@ -122,6 +123,7 @@ public class RegisterPasswordDialogFragment extends Fragment {
             String firebaseID = perfs.getString("firebaseID", "");
             UserInfosEntity infosEntity = new UserInfosEntity(password, theme, deviceLanguage);
             infosEntity.setInfos(firebaseID, email);
+            infosEntity.lastBackup = Timestamp.now();
             userInfosDao.insert(infosEntity);
             return infosEntity;
         }

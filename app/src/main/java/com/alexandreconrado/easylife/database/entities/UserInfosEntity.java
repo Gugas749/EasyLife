@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.firebase.Timestamp;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -21,6 +23,8 @@ public class UserInfosEntity {
     public String Theme;
     @ColumnInfo(name = "language")
     public Locale Language;
+    @ColumnInfo(name = "lastBackup")
+    public Timestamp lastBackup;
 
     public UserInfosEntity(String Password, String Theme, Locale Language) {
         this.Password = Password;

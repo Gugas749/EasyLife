@@ -26,12 +26,13 @@ public class AlertDialogBackupLoadFragment extends Fragment implements RVAdapter
     private FragmentAlertDialogBackupLoadBinding binding;
     private List<Timestamp> listString = new ArrayList<>();
     private RVAdapterBackups adapter;
+    private Timestamp backup;
 
     private ConfirmButtonClickAlertDialogBackupLoad confirmListenner;
     private CancelButtonClickAlertDialogBackupLoad cancelListenner;
 
     public interface ConfirmButtonClickAlertDialogBackupLoad{
-        void onConfirmButtonClickAlertDialogBackupLoad(String id);
+        void onConfirmButtonClickAlertDialogBackupLoad(Timestamp backup);
     }
     public interface CancelButtonClickAlertDialogBackupLoad{
         void onCancelButtonClickAlertDialogBackupLoad();
@@ -60,12 +61,32 @@ public class AlertDialogBackupLoadFragment extends Fragment implements RVAdapter
 
         init();
         loadRv();
+        setupCancelButton();
+        setupConfirmButton();
 
         return binding.getRoot();
     }
     private void init(){
         adapter = new RVAdapterBackups(getContext(), listString);
         adapter.setSpendingsItemListenner(this);
+    }
+    private void setupConfirmButton(){
+        binding.buttonConfirmFragAlertDialogBackupLoad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(backup != null){
+                    confirmListenner.onConfirmButtonClickAlertDialogBackupLoad(backup);
+                }
+            }
+        });
+    }
+    private void setupCancelButton(){
+        binding.buttonCancelFragAlertDialogBackupLoad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancelListenner.onCancelButtonClickAlertDialogBackupLoad();
+            }
+        });
     }
     private void loadRv(){
         if(listString.size() > 0){
@@ -87,6 +108,6 @@ public class AlertDialogBackupLoadFragment extends Fragment implements RVAdapter
     }
     @Override
     public void onBackupsItemClick(Timestamp backup) {
-
+        this.backup = backup;
     }
 }

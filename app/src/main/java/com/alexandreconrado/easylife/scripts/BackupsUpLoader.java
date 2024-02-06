@@ -454,7 +454,7 @@ public class BackupsUpLoader {
 
         @Override
         protected void onPostExecute(String object) {
-            Toast.makeText(context, "aaaaaa", Toast.LENGTH_SHORT).show();
+
         }
     }
 

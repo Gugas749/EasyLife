@@ -12,6 +12,11 @@
         <item>EN-GB</item>
         <item>PT-PT</item>
     </string-array>
+    <string-array name="autoBackups_options">
+        <item>Weekly</item>
+        <item>Biweekly</item>
+        <item>Monthly</item>
+    </string-array>
 
     <!-- General -->
     <string name="general_Delete">Delete</string>
@@ -46,6 +51,7 @@
     <string name="register_dialog_AlertDialog_Question_Title">Load Backup</string>
     <string name="register_dialog_AlertDialog_Question_Text">Looks like your account is already registered do you want to load a backup?</string>
     <string name="register_dialog_AlertDialog_BackupLoad_NoItemsToDisplay_Text">Hmm… Looks like you don\'t have any Backups to display.</string>
+    <string name="register_dialog_textView_ResendEmail_Text">Resend Email</string>
     <!-- RegisterFrag - Password Dialog -->
     <string name="register_dialog_password_prompt_password_1">PIN Code</string>
     <string name="register_dialog_password_prompt_password_2">Confirm the PIN Code</string>
@@ -85,6 +91,7 @@
     <string name="mainAc_sideBar_RateUs">Rate Us</string>
     <string name="mainAc_sideBar_Backups">Backups</string>
     <string name="mainAc_sideBar_Configs">Settings</string>
+    <string name="mainAc_SideBar_Credits">Credits</string>
     <!-- Main AC - Main View -->
     <string name="mainAc_FragMainView_Example_ChartName_Text">Your Chart Name</string>
     <string name="mainAc_FragMainView_Example_Percentage1_Text">Percentage 1</string>
@@ -225,16 +232,41 @@
     <string name="settingsFrag_TextView_protectionModeExplain_Text">Screen-Rec Protection</string>
     <string name="settingsFrag_AlertDialog_Notify_NeedRestart_Text">App Restart</string>
     <string name="settingsFrag_AlertDialog_Notify_NeedRestart_Title">To finalize the configuration the app will restart! Sorry for the inconvenience.</string>
+    <string name="settingsFrag_TextView_spinnerAutoBackupsExplain_Text">Auto Backups</string>
 
     <!-- Backups Fragment -->
     <string name="backupsFrag_AlertDialog_Question_LoadBackup_Title">Load Backup</string>
     <string name="backupsFrag_AlertDialog_Question_LoadBackup_Text">Do you wish to load the selected Backup? By loading it the information currently saved will be deleted and replaced with the information in the Backup.</string>
     <string name="backupsFrag_AlertDialog_Question_UploadBackup_Title">Upload Backup</string>
     <string name="backupsFrag_AlertDialog_Question_UploadBackup_Text">Do you wish to upload/create a backup of the current information in the app?</string>
+    <string name="backupsFrag_AlertDialog_Question_DeleteAndUploadBackup_Title">Max Backups</string>
+    <string name="backupsFrag_AlertDialog_Question_DeleteAndUploadBackup_Text">You reached the maximum number of backups, do you wish to replace the oldest with a new backup?</string>
 
     <!-- Share Menu -->
     <string name="bottomSheetView_shareMenu_title">Where do you want to share?</string>
     <string name="bottomSheetView_shareMenu_sharingText">Check out this app!!!!</string>
+
+    <!-- Credits Fragment -->
+    <string name="creditsFrag_TextView_Text_1">Developer: Alexandre Conrado</string>
+    <string name="creditsFrag_TextView_Text_2">Spinners - https://github.com/skydoves/PowerSpinner</string>
+    <string name="creditsFrag_TextView_Text_3">Switches - https://github.com/sigma1326/NiceSwitch</string>
+    <string name="creditsFrag_TextView_Text_4">Arrow icon - Created by NajmunNahar - Flaticon</string>
+    <string name="creditsFrag_TextView_Text_5">Edit icon - Created by Job Moon - Flaticon</string>
+    <string name="creditsFrag_TextView_Text_6">Price Tag Icon - Created by Gregor Cresnar - Flaticon</string>
+    <string name="creditsFrag_TextView_Text_7">Plus icons - Created by Freepik - Flaticon</string>
+    <string name="creditsFrag_TextView_Text_8">Graph icons - Created by Gregor Cresnar - Flaticon</string>
+    <string name="creditsFrag_TextView_Text_9">Home button icons - Created by Freepik - Flaticon</string>
+    <string name="creditsFrag_TextView_Text_10">Star icons - Created by Freepik - Flaticon</string>
+    <string name="creditsFrag_TextView_Text_11">Setting icons - Created by Phoenix Group - Flaticon</string>
+    <string name="creditsFrag_TextView_Text_12">Share icons - Created by Ilham Fitrotul Hayat - Flaticon</string>
+    <string name="creditsFrag_TextView_Text_13">Backup icons - Created by Anggara - Flaticon</string>
+    <string name="creditsFrag_TextView_Text_14">Question mark icons - Created by Freepik - Flaticon</string>
+    <string name="creditsFrag_TextView_Text_15">Tap icons - Created by Freepik - Flaticon</string>
+    <string name="creditsFrag_TextView_Text_16">Mouse pointer icons - Created by berkahicon - Flaticon</string>
+    <string name="creditsFrag_TextView_Text_17">Unchecked icons - Created by Yudhi Restu - Flaticon</string>
+    <string name="creditsFrag_TextView_Text_18">Rounded rectangle icons - Created by Freepik - Flaticon</string>
+    <string name="creditsFrag_TextView_Text_19">Done icons - Created by Zaenul Yahya - Flaticon</string>
+    <string name="creditsFrag_TextView_Text_20">About icons - Created by Ilham Fitrotul Hayat - Flaticon</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

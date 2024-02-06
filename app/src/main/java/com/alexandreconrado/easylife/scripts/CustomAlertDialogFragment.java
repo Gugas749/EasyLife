@@ -23,6 +23,7 @@ import com.alexandreconrado.easylife.fragments.alertDialogFragments.AlertDialogD
 import com.alexandreconrado.easylife.fragments.alertDialogFragments.AlertDialogLongPressMainViewObjectsFragment;
 import com.alexandreconrado.easylife.fragments.alertDialogFragments.AlertDialogNotifyFragment;
 import com.alexandreconrado.easylife.fragments.alertDialogFragments.AlertDialogQuestionFragment;
+import com.google.firebase.Timestamp;
 
 import java.util.Date;
 
@@ -74,7 +75,7 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
         void onConfirmButtonClickAlertDialogLongPressMainViewObjects(DraggableCardViewEntity object, boolean canHoldMainAccount, int selectedSubAccountIndex);
     }
     public interface ConfirmButtonClickAlertDialogBackupLoad_CustomAlertDialog{
-        void onConfirmButtonClickAlertDialogBackupLoad_CustomAlertDialog(String id);
+        void onConfirmButtonClickAlertDialogBackupLoad_CustomAlertDialog(Timestamp backup);
     }
 
     public CustomAlertDialogFragment() {
@@ -195,8 +196,8 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
     }
 
     @Override
-    public void onConfirmButtonClickAlertDialogBackupLoad(String id) {
-        ConfirmButtonClickAlertDialogBackupLoad_CustomAlertDialogListenner.onConfirmButtonClickAlertDialogBackupLoad_CustomAlertDialog(id);
+    public void onConfirmButtonClickAlertDialogBackupLoad(Timestamp backup) {
+        ConfirmButtonClickAlertDialogBackupLoad_CustomAlertDialogListenner.onConfirmButtonClickAlertDialogBackupLoad_CustomAlertDialog(backup);
         this.dismiss();
     }
 

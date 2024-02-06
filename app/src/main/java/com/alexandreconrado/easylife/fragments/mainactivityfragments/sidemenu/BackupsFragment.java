@@ -14,6 +14,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.alexandreconrado.easylife.R;
 import com.alexandreconrado.easylife.databinding.FragmentBackupsBinding;
@@ -68,6 +69,9 @@ public class BackupsFragment extends Fragment implements
     }
     private interface FirestoreDBCallback_getSelectedBackup{
         void onFirestoreDBCallback_getSelectedBackup(String docID);
+    }
+    private interface FirestoreDBCallback_deleteOldestBackup{
+        void onFirestoreDBCallback_deleteOldestBackup();
     }
 
     public BackupsFragment() {
@@ -221,6 +225,8 @@ public class BackupsFragment extends Fragment implements
             public void onFirestoreDBCallback_UploadBackup() {
                 BackupsUpLoader backupsUpLoader = new BackupsUpLoader(THIS.getContext());
                 backupsUpLoader.uploadBackup(firebaseID, backupDocID);
+
+                loadRv();
             }
         };
 
@@ -237,8 +243,6 @@ public class BackupsFragment extends Fragment implements
                     public void onSuccess(DocumentReference documentReference) {
                         backupDocID = documentReference.getId();
                         listBackupsDates.add(currentTime);
-
-                        loadRv();
                         callback.onFirestoreDBCallback_UploadBackup();
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
                     }
@@ -255,6 +259,46 @@ public class BackupsFragment extends Fragment implements
         String firebaseID = sharedPreferences.getString("firebaseID", "");
         BackupsUpLoader backupsUpLoader = new BackupsUpLoader(THIS.getContext());
         backupsUpLoader.loadBackup(firebaseID, docID);
+    }
+    private void deleteOldestBackup(FirestoreDBCallback_deleteOldestBackup callback){
+        Timestamp oldestTimestamp = listBackupsDates.get(0);
+        for (Timestamp timestamp : listBackupsDates) {
+            if (timestamp.compareTo(oldestTimestamp) < 0) {
+                oldestTimestamp = timestamp;
+            }
+        }
+
+        timestampFromClickedBackup = oldestTimestamp;
+
+        FirestoreDBCallback_getSelectedBackup callback2 = new FirestoreDBCallback_getSelectedBackup() {
+            @Override
+            public void onFirestoreDBCallback_getSelectedBackup(String docID) {
+                deleteBackup(docID, callback);
+            }
+        };
+        getSelectedBackup(callback2);
+    }
+    private void deleteBackup(String docID, FirestoreDBCallback_deleteOldestBackup callback){
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("Perf_User", MODE_PRIVATE);
+        String firebaseID = sharedPreferences.getString("firebaseID", "");
+        db.collection("Users")
+                .document(firebaseID)
+                .collection("Backups")
+                .document(docID)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        listBackupsDates.remove(timestampFromClickedBackup);
+                        callback.onFirestoreDBCallback_deleteOldestBackup();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Failure delete backup firestore operation: "+e);
+                    }
+                });
     }
     @Override
     public void onBackupsItemClick(Timestamp backup) {
@@ -276,11 +320,30 @@ public class BackupsFragment extends Fragment implements
                 }
                 break;
             case "FragBackups_uploadBackup":
-                uploadBackup();
+                if(listBackupsDates.size() < 8){
+                    uploadBackup();
+                }else{
+                    CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+                    customAlertDialogFragment.setConfirmListenner(THIS);
+                    customAlertDialogFragment.setCancelListenner(THIS);
+                    AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.backupsFrag_AlertDialog_Question_DeleteAndUploadBackup_Title), getString(R.string.backupsFrag_AlertDialog_Question_DeleteAndUploadBackup_Text), customAlertDialogFragment, customAlertDialogFragment, "2");
+                    customAlertDialogFragment.setCustomFragment(fragment);
+                    customAlertDialogFragment.setTag("FragBackups_deleteAndUploadBackup");
+                    customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
+                }
+                break;
+            case "FragBackups_deleteAndUploadBackup":
+                FirestoreDBCallback_deleteOldestBackup callback = new FirestoreDBCallback_deleteOldestBackup() {
+                    @Override
+                    public void onFirestoreDBCallback_deleteOldestBackup() {
+                        uploadBackup();
+                    }
+                };
+
+                deleteOldestBackup(callback);
                 break;
         }
     }
-
     @Override
     public void onCancelButtonClicked(String Tag) {
 

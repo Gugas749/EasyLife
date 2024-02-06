@@ -75,10 +75,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textCursorDrawable="@null"/>
+        <TextView
+            android:id="@+id/textView_ResendEmail_RegisterAccountDialogFrag"
+            android:layout_below="@+id/editText_EmailCode_RegisterAccountDialogFrag"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_11sdp"
+            android:textSize="@dimen/_14sdp"
+            android:padding="@dimen/_4sdp"
+            android:visibility="gone"
+            android:textColor="?attr/textAppearanceBodySmall"
+            android:textStyle="bold"
+            android:text="@string/register_dialog_textView_ResendEmail_Text"
+            android:layout_marginLeft="@dimen/_16sdp"
+            android:layout_marginRight="@dimen/_16sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textCursorDrawable="@null"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/butContinue_RegisterAccountDialogFrag"
-            android:layout_below="@+id/editText_EmailCode_RegisterAccountDialogFrag"
+            android:layout_below="@+id/textView_ResendEmail_RegisterAccountDialogFrag"
             android:layout_marginTop="@dimen/_11sdp"
             android:layout_marginLeft="@dimen/_16sdp"
             android:layout_marginRight="@dimen/_16sdp"

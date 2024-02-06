@@ -43,9 +43,9 @@ import com.alexandreconrado.easylife.database.entities.SubSpendingAccountsEntity
 import com.alexandreconrado.easylife.database.entities.UserInfosEntity;
 import com.alexandreconrado.easylife.databinding.ActivityMainBinding;
 import com.alexandreconrado.easylife.fragments.AuthenticationFragment;
-import com.alexandreconrado.easylife.fragments.mainactivityfragments.sidemenu.AboutFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.sidemenu.BackupsFragment;
-import com.alexandreconrado.easylife.fragments.mainactivityfragments.sidemenu.SettingsFragment;
+import com.alexandreconrado.easylife.fragments.mainactivityfragments.sidemenu.settings.CreditsFragment;
+import com.alexandreconrado.easylife.fragments.mainactivityfragments.sidemenu.settings.SettingsFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view.MainACMainViewEditLayoutFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view.MainACMainViewFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view.howto.MainACMainViewHowToBindAccountToCardHomeFragment;
@@ -65,14 +65,27 @@ import com.alexandreconrado.easylife.fragments.tutorial.TutorialEditFragment;
 import com.alexandreconrado.easylife.fragments.tutorial.TutorialEndFragment;
 import com.alexandreconrado.easylife.fragments.tutorial.TutorialShowFragment;
 import com.alexandreconrado.easylife.fragments.tutorial.TutorialWelcomeFragment;
+import com.alexandreconrado.easylife.scripts.BackupsUpLoader;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements MainACMainViewEditLayoutFragment.OnFragMainACMainViewEditLayoutExitClick,
         MainACOverviewViewAddSpendingAccountFormFragment.ExitButtonClickFragMainACOverviewViewAddSpendingsForm,
@@ -84,12 +97,15 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         SettingsFragment.ExitSettingsFrag,
         MainACSpendingsViewSpendsDetailsFragment.ExitFragMainACSpendingsViewSpendsDetails,
         MainACSpendingsViewFragment.ItemClickRVAdapeterSpendsFragMainACSpendingsView,
-        BackupsFragment.ExitBackupsFrag {
+        BackupsFragment.ExitBackupsFrag,
+        CreditsFragment.ExitCreditsFrag {
     //-------------------OTHERS---------------
     private ActivityMainBinding binding;
     private long sessionTime;
     public boolean seenTutorial, allDisable = false, updateMainViewInNextLoad = false, showTutorials = false;
     private UserInfosEntity UserInfosEntity;
+    private String TAG = "EasyLife_Logs_MainAc";
+    private FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
     //-------------------SIDE MENU---------------
     private DrawerLayout drawerLayoutSideMenu;
     private NavigationView navigationViewSideMenu;
@@ -113,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     public interface DatabaseCallback {
         void onTaskCompleted(List<SpendingAccountsEntity> result);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,6 +212,8 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 setupMultiFunctionButtonButton();
                 setupHowToButton();
                 enableSwipeToOpenSideMenu();
+
+                autoBackupCheck();
             }
         };
 
@@ -338,6 +355,190 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             }
         });
     }
+    //-----------------------------------------------BACKUPS-----------------------------------------------
+    private interface FirestoreDBCallback_getAllBackups{
+        void onFirestoreDBCallback_getAllBackups(List<Timestamp> listBackupsDates);
+    }
+    private interface FirestoreDBCallback_UploadBackup{
+        void onFirestoreDBCallback_UploadBackup(String docID);
+    }
+    private interface FirestoreDBCallback_getSelectedBackup{
+        void onFirestoreDBCallback_getSelectedBackup(String docID);
+    }
+    private interface FirestoreDBCallback_deleteOldestBackup{
+        void onFirestoreDBCallback_deleteOldestBackup();
+    }
+
+    private void autoBackupCheck(){
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("Perf_User", MODE_PRIVATE);
+        String backups = prefs.getString("autoBackupTime", "monthly");
+        String userFBid = prefs.getString("firebaseID", "");
+        Timestamp lastBackup = UserInfosEntity.lastBackup;
+        Date timestampDate = lastBackup.toDate();
+        Date currentDate = new Date();
+        long differenceInMillis = currentDate.getTime() - timestampDate.getTime();
+        long differenceInDays = differenceInMillis / (1000 * 60 * 60 * 24);
+        boolean aux = false;
+
+        switch (backups){
+            case "weekly":
+                if(differenceInDays >= 7){
+                    aux = true;
+                }
+                break;
+            case "biweekly":
+                if(differenceInDays >= 14){
+                    aux = true;
+                }
+                break;
+            case "monthly":
+                if(differenceInDays >= 30){
+                    aux = true;
+                }
+                break;
+        }
+
+        if(aux){
+            FirestoreDBCallback_getAllBackups callbackGetAllBackups = new FirestoreDBCallback_getAllBackups() {
+                @Override
+                public void onFirestoreDBCallback_getAllBackups(List<Timestamp> listBackupsDates) {
+                    if(listBackupsDates.size() < 8){
+                        uploadBackup();
+                    }else{
+                        FirestoreDBCallback_deleteOldestBackup deleteOldestBackup = new FirestoreDBCallback_deleteOldestBackup() {
+                            @Override
+                            public void onFirestoreDBCallback_deleteOldestBackup() {
+                                uploadBackup();
+                            }
+                        };
+
+                        deleteOldestBackup(deleteOldestBackup, listBackupsDates);
+                    }
+                }
+            };
+
+            getAllBackups(userFBid, callbackGetAllBackups);
+        }
+    }
+    private void deleteOldestBackup(FirestoreDBCallback_deleteOldestBackup callback, List<Timestamp> listBackupsDates){
+        Timestamp oldestTimestamp = listBackupsDates.get(0);
+        for (Timestamp timestamp : listBackupsDates) {
+            if (timestamp.compareTo(oldestTimestamp) < 0) {
+                oldestTimestamp = timestamp;
+            }
+        }
+
+        Timestamp selectedTimeStamp = oldestTimestamp;
+
+        FirestoreDBCallback_getSelectedBackup callback2 = new FirestoreDBCallback_getSelectedBackup() {
+            @Override
+            public void onFirestoreDBCallback_getSelectedBackup(String docID) {
+                deleteBackup(docID, callback);
+            }
+        };
+        getSelectedBackup(callback2, selectedTimeStamp);
+    }
+    private void deleteBackup(String docID, FirestoreDBCallback_deleteOldestBackup callback){
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Perf_User", MODE_PRIVATE);
+        String firebaseID = sharedPreferences.getString("firebaseID", "");
+        firestoreDB.collection("Users")
+                .document(firebaseID)
+                .collection("Backups")
+                .document(docID)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        callback.onFirestoreDBCallback_deleteOldestBackup();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Failure delete backup firestore operation: "+e);
+                    }
+                });
+    }
+    private void uploadBackup(){
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Perf_User", MODE_PRIVATE);
+        String firebaseID = sharedPreferences.getString("firebaseID", "");
+
+        FirestoreDBCallback_UploadBackup callback = new FirestoreDBCallback_UploadBackup() {
+            @Override
+            public void onFirestoreDBCallback_UploadBackup(String docID) {
+                BackupsUpLoader backupsUpLoader = new BackupsUpLoader(getApplicationContext());
+                backupsUpLoader.uploadBackup(firebaseID, docID);
+            }
+        };
+
+        Timestamp currentTime = Timestamp.now();
+        Map<String, Object> object = new HashMap<>();
+        object.put("TimeStamp", currentTime);
+
+        firestoreDB.collection("Users")
+                .document(firebaseID)
+                .collection("Backups")
+                .add(object)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        String backupDocID = documentReference.getId();
+                        callback.onFirestoreDBCallback_UploadBackup(backupDocID);
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
+    }
+    private void getAllBackups(String userID, FirestoreDBCallback_getAllBackups callback){
+        List<Timestamp> listBackupsDates = new ArrayList<>();
+        firestoreDB.collection("Users")
+                .document(userID)
+                .collection("Backups")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Timestamp backupDate = document.getTimestamp("TimeStamp");
+                                listBackupsDates.add(backupDate);
+                            }
+                            callback.onFirestoreDBCallback_getAllBackups(listBackupsDates);
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+    }
+    private void getSelectedBackup(FirestoreDBCallback_getSelectedBackup callback, Timestamp selectedTimeStamp){
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Perf_User", MODE_PRIVATE);
+        String firebaseID = sharedPreferences.getString("firebaseID", "");
+        firestoreDB.collection("Users")
+                .document(firebaseID)
+                .collection("Backups")
+                .whereEqualTo("TimeStamp", selectedTimeStamp)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            callback.onFirestoreDBCallback_getSelectedBackup(document.getId());
+                            break;
+                        }
+                    } else {
+                        Exception exception = task.getException();
+                        if (exception != null) {
+                            exception.printStackTrace();
+                        }
+                    }
+                });
+    }
+    //------------------------------------------------------------------
+
     public void tutorialChangeFragments(int selected, boolean fromNextFragment, boolean skipped, int skippedFromWhere){
         switch (selected){
             case 0:
@@ -716,6 +917,8 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                         runSwipeRightAnimation("Backups");
                     }else if(item.getItemId() == R.id.mainAc_SideBar_Configs){
                         runSwipeRightAnimation("Settings");
+                    }else if(item.getItemId() == R.id.mainAc_SideBar_Credits){
+                        runSwipeRightAnimation("Credits");
                     }
                     item.setEnabled(true);
                 }
@@ -1288,6 +1491,19 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             }
         }
     }
+    @Override
+    public void onExitCreditsFrag() {
+        disableBackPressed();
+        runSwipeLeftAnimation(false, "Credits");
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        int containerId = binding.frameLayoutFullScreenFragmentContainerForHowTosMainAc.getId();
+
+        for (Fragment fragment : fragmentManager.getFragments()) {
+            if (fragment != null && fragment.getId() == containerId) {
+                fragmentManager.beginTransaction().remove(fragment).commit();
+            }
+        }
+    }
     //----------------------------------------------
 
     //----------------DATABASE OPERATIONS--------------------
@@ -1814,10 +2030,8 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         ObjectAnimator translateXAnimator = ObjectAnimator.ofFloat(container1, "translationX", container1.getWidth());
         translateXAnimator.setDuration(500);
 
-        switch (fragmentID){
-            case "Settings":
-                drawerLayoutSideMenu.closeDrawer(GravityCompat.END);
-                break;
+        if(fragmentID.equals("Backups") || fragmentID.equals("Settings") || fragmentID.equals("Credits")){
+            drawerLayoutSideMenu.closeDrawer(GravityCompat.END);
         }
 
         translateXAnimator.addListener(new AnimatorListenerAdapter() {
@@ -1843,10 +2057,10 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                                 .addToBackStack(null)
                                 .commit();
                         break;
-                    case "About":
+                    case "Credits":
                         getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.frameLayout_fullScreenFragmentContainer_forHowTos_MainAc, new AboutFragment())
+                                .replace(R.id.frameLayout_fullScreenFragmentContainer_forHowTos_MainAc, new CreditsFragment(THIS))
                                 .addToBackStack(null)
                                 .commit();
                         break;

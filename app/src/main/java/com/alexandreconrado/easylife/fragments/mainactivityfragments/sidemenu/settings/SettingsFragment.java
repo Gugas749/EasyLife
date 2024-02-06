@@ -1,4 +1,4 @@
-package com.alexandreconrado.easylife.fragments.mainactivityfragments.sidemenu;
+package com.alexandreconrado.easylife.fragments.mainactivityfragments.sidemenu.settings;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -15,7 +15,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.alexandreconrado.easylife.R;
 import com.alexandreconrado.easylife.activitys.MainActivity;
@@ -42,7 +41,7 @@ public class SettingsFragment extends Fragment implements
     private UserInfosEntity userInfos;
     private SettingsFragment THIS;
     private boolean changed = false, needRestart = false, showTutorials = false, vibration = true, protectionMode = true;
-    private String lang = "en-US", theme = "system_default";
+    private String lang = "en-US", theme = "system_default", autoBackups = "monthly";
     private LocalDataBase localDataBase;
     private UserInfosDao userInfosDao;
 
@@ -120,6 +119,9 @@ public class SettingsFragment extends Fragment implements
 
         entries = Arrays.asList(getResources().getStringArray(R.array.theme_options));
         binding.spinnerThemeFragSettings.setItems(entries);
+
+        entries = Arrays.asList(getResources().getStringArray(R.array.autoBackups_options));
+        binding.spinnerAutoBackupsFragSettings.setItems(entries);
     }
     private void loadUserSettings(){
         int themeIndex = 0;
@@ -155,6 +157,24 @@ public class SettingsFragment extends Fragment implements
 
         binding.spinnerLanguageFragSettings.selectItemByIndex(langIndex);
 
+
+        SharedPreferences prefs = getContext().getSharedPreferences("Perf_User", MODE_PRIVATE);
+        String backups = prefs.getString("autoBackupTime", "monthly");
+        int backupsIndex = 0;
+        switch (backups){
+            case "weekly":
+                backupsIndex = 0;
+                break;
+            case "biweekly":
+                backupsIndex = 1;
+                break;
+            case "monthly":
+                backupsIndex = 2;
+                break;
+        }
+
+        binding.spinnerAutoBackupsFragSettings.selectItemByIndex(backupsIndex);
+
         new CountDownTimer(350, 1000){
             @Override
             public void onTick(long millisUntilFinished) {
@@ -177,6 +197,7 @@ public class SettingsFragment extends Fragment implements
         editor.putBoolean("protectionMode", protectionMode);
         editor.putString("theme_preference", theme);
         editor.putString("user_language", lang);
+        editor.putString("autoBackupTime", autoBackups);
         editor.apply();
         Locale userLocale = new Locale(lang);
         userInfos.Language = userLocale;
@@ -255,6 +276,25 @@ public class SettingsFragment extends Fragment implements
                         break;
                     case 2:
                         lang = "pt-pt";
+                        break;
+                }
+            }
+        });
+        binding.spinnerAutoBackupsFragSettings.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener<Object>() {
+            @Override
+            public void onItemSelected(int i, @Nullable Object o, int i1, Object t1) {
+                changed = true;
+                needRestart = true;
+
+                switch (i1){
+                    case 0:
+                        autoBackups = "weekly";
+                        break;
+                    case 1:
+                        autoBackups = "biweekly";
+                        break;
+                    case 2:
+                        autoBackups = "monthly";
                         break;
                 }
             }

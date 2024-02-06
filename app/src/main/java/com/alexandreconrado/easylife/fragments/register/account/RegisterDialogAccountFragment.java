@@ -10,6 +10,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.util.Patterns;
 import android.util.TypedValue;
@@ -22,7 +24,9 @@ import com.alexandreconrado.easylife.databinding.FragmentRegisterDialogAccountBi
 import com.alexandreconrado.easylife.fragments.alertDialogFragments.AlertDialogBackupLoadFragment;
 import com.alexandreconrado.easylife.fragments.alertDialogFragments.AlertDialogNotifyFragment;
 import com.alexandreconrado.easylife.fragments.alertDialogFragments.AlertDialogQuestionFragment;
+import com.alexandreconrado.easylife.fragments.mainactivityfragments.sidemenu.BackupsFragment;
 import com.alexandreconrado.easylife.fragments.register.RegisterFragment;
+import com.alexandreconrado.easylife.scripts.BackupsUpLoader;
 import com.alexandreconrado.easylife.scripts.CustomAlertDialogFragment;
 import com.alexandreconrado.easylife.scripts.mailsending.SendMailTask;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,6 +42,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -48,10 +53,9 @@ public class RegisterDialogAccountFragment extends Fragment implements
 
     private FragmentRegisterDialogAccountBinding binding;
     private RegisterFragment parent;
-    private String finalUserEmail = "";
     private List<Timestamp> listBackupsDates = new ArrayList<>();
     private RegisterDialogAccountFragment THIS;
-    private String codeEmail, TAG = "EasyLife_Logs_RegisterDialogAccountFrag";
+    private String codeEmail, TAG = "EasyLife_Logs_RegisterDialogAccountFrag", finalUserEmail = "", emailInsertedInEditText = "";
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private boolean auxIsEmailRegistered = false, isRegistering = false;
 
@@ -80,11 +84,32 @@ public class RegisterDialogAccountFragment extends Fragment implements
         binding = FragmentRegisterDialogAccountBinding.inflate(inflater);
 
         THIS = this;
+        setupTextViewResendEmail();
         setupContinueButton();
 
         return binding.getRoot();
     }
+    private void setupTextViewResendEmail(){
+        binding.textViewResendEmailRegisterAccountDialogFrag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.textViewResendEmailRegisterAccountDialogFrag.setEnabled(false);
 
+                sendEmail(emailInsertedInEditText);
+
+                startDelayTimer();
+            }
+        });
+    }
+    private void startDelayTimer() {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                binding.textViewResendEmailRegisterAccountDialogFrag.setEnabled(true);
+            }
+        }, 5 * 60 * 1000);
+    }
     private void setupContinueButton(){
         binding.butContinueRegisterAccountDialogFrag.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,10 +117,11 @@ public class RegisterDialogAccountFragment extends Fragment implements
                 if(!isRegistering){
                     binding.butContinueRegisterAccountDialogFrag.setEnabled(false);
                     if (binding.editTextEmailCodeRegisterAccountDialogFrag.getVisibility() == View.GONE) {
-                        String email = binding.editTextEmailRegisterAccountDialogFrag.getText().toString().trim();
-                        if (isValidEmail(email)) {
-                            sendEmail(email);
-                            PopUpNotifyEmailSent();
+                        emailInsertedInEditText = binding.editTextEmailRegisterAccountDialogFrag.getText().toString().trim();
+                        if (isValidEmail(emailInsertedInEditText)) {
+                            startDelayTimer();
+                            binding.textViewResendEmailRegisterAccountDialogFrag.setEnabled(false);
+                            sendEmail(emailInsertedInEditText);
                         } else {
                             Toast.makeText(getContext(), "Invalid email address", Toast.LENGTH_SHORT).show();
                         }
@@ -155,7 +181,9 @@ public class RegisterDialogAccountFragment extends Fragment implements
         sendMailTask.execute();
 
         binding.editTextEmailCodeRegisterAccountDialogFrag.setVisibility(View.VISIBLE);
+        binding.textViewResendEmailRegisterAccountDialogFrag.setVisibility(View.VISIBLE);
         codeEmail = Integer.toString(randomNumber);
+        PopUpNotifyEmailSent();
     }
     private void PopUpNotifyEmailSent(){
         CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
@@ -197,9 +225,13 @@ public class RegisterDialogAccountFragment extends Fragment implements
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
+                        Locale deviceLanguage = Locale.getDefault();
                         SharedPreferences sharedPreferences = getContext().getSharedPreferences("Perf_User", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("firebaseID", documentReference.getId());
+                        editor.putString("theme_preference", "System-Sync");
+                        editor.putString("user_language", deviceLanguage.getDisplayName().toLowerCase());
+                        editor.putString("autoBackupTime", "monthly");
                         editor.apply();
                         isRegistering = false;
                         parent.changeDialogFragments(email);
@@ -276,7 +308,50 @@ public class RegisterDialogAccountFragment extends Fragment implements
     }
 
     @Override
-    public void onConfirmButtonClickAlertDialogBackupLoad_CustomAlertDialog(String id) {
-
+    public void onConfirmButtonClickAlertDialogBackupLoad_CustomAlertDialog(Timestamp backup) {
+        binding.butContinueRegisterAccountDialogFrag.setEnabled(false);
+        processBackup(backup);
+    }
+    private interface FirestoreDBCallback_getSelectedBackup{
+        void onFirestoreDBCallback_getSelectedBackup(String docID);
+    }
+    private void processBackup(Timestamp backup){
+        FirestoreDBCallback_getSelectedBackup callback = new FirestoreDBCallback_getSelectedBackup() {
+            @Override
+            public void onFirestoreDBCallback_getSelectedBackup(String docID) {
+                loadBackup(docID);
+            }
+        };
+        getSelectedBackup(callback, backup);
+    }
+    private void loadBackup(String docID){
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("Perf_User", MODE_PRIVATE);
+        String firebaseID = sharedPreferences.getString("firebaseID", "");
+        BackupsUpLoader backupsUpLoader = new BackupsUpLoader(THIS.getContext());
+        backupsUpLoader.loadBackup(firebaseID, docID);
+        binding.butContinueRegisterAccountDialogFrag.setEnabled(true);
+        parent.changeDialogFragments(finalUserEmail);
+    }
+    private void getSelectedBackup(FirestoreDBCallback_getSelectedBackup callback, Timestamp backup){
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("Perf_User", MODE_PRIVATE);
+        String firebaseID = sharedPreferences.getString("firebaseID", "");
+        db.collection("Users")
+                .document(firebaseID)
+                .collection("Backups")
+                .whereEqualTo("TimeStamp", backup)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            callback.onFirestoreDBCallback_getSelectedBackup(document.getId());
+                            break;
+                        }
+                    } else {
+                        Exception exception = task.getException();
+                        if (exception != null) {
+                            exception.printStackTrace();
+                        }
+                    }
+                });
     }
 }
