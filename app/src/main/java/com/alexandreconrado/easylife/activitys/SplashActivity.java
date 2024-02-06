@@ -71,12 +71,12 @@ public class SplashActivity extends AppCompatActivity {
         Resources resources = context.getResources();
 
         if(isLogged){
-            binding.butScanSplashAc.setVisibility(View.VISIBLE);
+            //binding.butScanSplashAc.setVisibility(View.VISIBLE);
         }else{
-            binding.butScanSplashAc.setVisibility(View.INVISIBLE);
+            binding.butScanSplashAc.setVisibility(View.GONE);
         }
         inScan = false;
-        setupScanButton();
+        //setupScanButton();
         disableBackPressed();
         FirebaseApp.initializeApp(getApplicationContext());
 
