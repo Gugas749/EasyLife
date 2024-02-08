@@ -1,5 +1,8 @@
 package com.alexandreconrado.easylife.fragments.mainactivityfragments.spendings_view.add;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -7,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.room.Room;
 
+import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -14,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.CycleInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -49,7 +56,7 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
     private List<SpendingAccountsEntity> spendingAccountsEntityList = new ArrayList<>();
     private List<SubSpendingAccountsEntity> subAcountsList = new ArrayList<>();
     private SpendingAccountsEntity selectedAccount;
-    private String selectedSubSpend = "", subAccountCategorySelected;
+    private String selectedSubSpend = "", subAccountCategorySelected, fastRegisterData;
     private Date spendDate;
     private UserInfosEntity userInfos;
     private MainACSpendingsViewAddSpendingsFragment THIS;
@@ -63,10 +70,14 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
     public void setExitMainACSpendingsViewAddSpendingsFragListenner(ExitMainACSpendingsViewAddSpendingsFrag listenner){
         this.listenner = listenner;
     }
-
     public MainACSpendingsViewAddSpendingsFragment(List<SpendingAccountsEntity> spendingAccountsEntityList, UserInfosEntity userInfos) {
         this.spendingAccountsEntityList = spendingAccountsEntityList;
         this.userInfos = userInfos;
+    }
+    public MainACSpendingsViewAddSpendingsFragment(List<SpendingAccountsEntity> spendingAccountsEntityList, UserInfosEntity userInfos, String fastRegisterData) {
+        this.spendingAccountsEntityList = spendingAccountsEntityList;
+        this.userInfos = userInfos;
+        this.fastRegisterData = fastRegisterData;
     }
 
     @Override
@@ -92,6 +103,19 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
         setupOnItemSelectedSpinnerSubAccounts();
         setupOnItemSelectedSpinnerSubAccountsCategorys();
         disableBackPressed();
+
+        if(fastRegisterData != null){
+            binding.editTextAmountSpendFragMainACSpendingsViewAddSpendings.setText(fastRegisterData);
+            insertDeleteToEditTextAmount(true);
+
+            binding.textViewFastRegisterWarningFragMainACSpendingsViewAddSpendings.setVisibility(View.VISIBLE);
+            SharedPreferences prefs = getContext().getSharedPreferences("Perf_User", MODE_PRIVATE);
+            boolean vibration = prefs.getBoolean("vibration", true);
+            Vibrator vibrator = (Vibrator) requireContext().getSystemService(getContext().VIBRATOR_SERVICE);
+            if (vibrator.hasVibrator() && vibration) {
+                vibrator.vibrate(150);
+            }
+        }
 
         return binding.getRoot();
     }
@@ -122,13 +146,40 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
         binding.imageViewButtonConfirmFragMainACSpendingsViewAddSpendings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
-                customAlertDialogFragment.setConfirmListenner(THIS);
-                customAlertDialogFragment.setCancelListenner(THIS);
-                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.general_Save), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_Save_Text), customAlertDialogFragment, customAlertDialogFragment, "1");
-                customAlertDialogFragment.setCustomFragment(fragment);
-                customAlertDialogFragment.setTag("FragMainACSpendingsViewAddSpendings_Save");
-                customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
+                String amount = binding.editTextAmountSpendFragMainACSpendingsViewAddSpendings.getText().toString().trim();
+                amount = amount.replace("€", "");
+                boolean isSubAccount = false, canGo = false;
+                for (int i = 0; i < spendingAccountsEntityList.size(); i++) {
+                    subAcountsList = spendingAccountsEntityList.get(i).getSubAccountsList();
+
+                    for (int j = 0; j < subAcountsList.size(); j++) {
+                        SubSpendingAccountsEntity subAccount = subAcountsList.get(j);
+                        if(subAccount.getAccountTitle().equals(selectedSubSpend)){
+                            isSubAccount = true;
+                            break;
+                        }
+                    }
+                }
+
+                if(!amount.equals("") && isValidInput(amount) && !amount.equals(".") && !selectedSubSpend.equals("")){
+                    if(!isSubAccount){
+                        canGo = true;
+                    }else if(subAccountCategorySelected != null && !subAccountCategorySelected.equals("")){
+                        canGo = true;
+                    }
+                }
+
+                if(canGo){
+                    CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+                    customAlertDialogFragment.setConfirmListenner(THIS);
+                    customAlertDialogFragment.setCancelListenner(THIS);
+                    AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.general_Save), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_Save_Text), customAlertDialogFragment, customAlertDialogFragment, "1");
+                    customAlertDialogFragment.setCustomFragment(fragment);
+                    customAlertDialogFragment.setTag("FragMainACSpendingsViewAddSpendings_Save");
+                    customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
+                }else{
+                    Toast.makeText(getContext(), getString(R.string.register_dialog_account_email_code_wrong), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -185,12 +236,16 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
                 }else{
                     String amount = binding.editTextAmountSpendFragMainACSpendingsViewAddSpendings.getText().toString().trim();
                     amount = amount.replace("€", "");
-                    if(!amount.equals("")){
+                    amount = amount.replace(",", ".");
+                    if(!amount.equals("") && isValidInput(amount) && !amount.equals(".")){
                         double num = Double.parseDouble(amount);
                         String finalText = roundToTwoDecimalPlaces(num);
                         binding.editTextAmountSpendFragMainACSpendingsViewAddSpendings.setText(finalText);
+                        insertDeleteToEditTextAmount(true);
+                        binding.textViewFastRegisterWarningFragMainACSpendingsViewAddSpendings.setVisibility(View.GONE);
+                    }else{
+                        binding.editTextAmountSpendFragMainACSpendingsViewAddSpendings.setError(getString(R.string.register_dialog_account_email_code_wrong));
                     }
-                    insertDeleteToEditTextAmount(true);
                 }
             }
         });
@@ -318,63 +373,69 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
         boolean aux = false;
         String amount = binding.editTextAmountSpendFragMainACSpendingsViewAddSpendings.getText().toString().trim();
         amount = amount.replace("€", "");
-        double doubleValue = Double.parseDouble(amount);
-        if(doubleValue < 10_000_000_000.00){
-            if(!amount.equals("")){
-                if(selectedAccount != null){
-                    if(selectedSubSpend != null && !selectedSubSpend.equals("")){
-                        if(isValidInput(amount)){
-                            boolean isSubAccount = false;
-                            String subAccountID = "";
-                            String category = selectedSubSpend;
-                            SubSpendingAccountsEntity subAccountSelected = null;
-                            List<SubSpendingAccountsEntity> auxList = selectedAccount.getSubAccountsList();
-                            if(auxList != null && auxList.size() > 0){
-                                for (int j = 0; j < auxList.size(); j++) {
-                                    SubSpendingAccountsEntity selected = auxList.get(j);
-                                    if(selectedSubSpend.equals(selected.getAccountTitle())){
-                                        subAccountID = selected.getAccountTitle();
-                                        isSubAccount = true;
-                                        category = subAccountCategorySelected;
-                                        subAccountSelected = selected;
-                                        break;
-                                    }
-                                }
-                            }
-                            boolean canGo = false;
-                            String nameCategory = "";
-                            if(isSubAccount){
-                                if(!subAccountCategorySelected.equals("")){
-                                    canGo = true;
-                                }else{
-                                    aux = true;
-                                }
-                            }else{
-                                canGo = true;
-                            }
-
-                            if(canGo){
-                                SpendsEntity spend = new SpendsEntity();
-                                double num = Double.parseDouble(amount);
-                                String stringNum = roundToTwoDecimalPlaces(num);
-                                double numFinal = Double.parseDouble(stringNum);
-                                spend.setInfos(numFinal, spendDate, String.valueOf(selectedAccount.getId()), subAccountID, category, isSubAccount, category);
-
-                                if(isSubAccount){
-                                    for (int i = 0; i < selectedAccount.getSubAccountsList().size(); i++) {
-                                        if(selectedAccount.getSubAccountsList().get(i).equals(subAccountSelected)){
-                                            selectedAccount.getSubAccountsList().remove(subAccountSelected);
-
-                                            subAccountSelected.getSpendsList().add(spend);
-                                            selectedAccount.getSubAccountsList().add(i, subAccountSelected);
+        amount = amount.replace(",", ".");
+        if(isValidInput(amount) && !amount.equals(".") && !amount.equals("")){
+            double doubleValue = Double.parseDouble(amount);
+            if(doubleValue < 10_000_000_000.00){
+                if(!amount.equals("")){
+                    if(selectedAccount != null){
+                        if(selectedSubSpend != null && !selectedSubSpend.equals("")){
+                            if(isValidInput(amount)){
+                                boolean isSubAccount = false;
+                                String subAccountID = "";
+                                String category = selectedSubSpend;
+                                SubSpendingAccountsEntity subAccountSelected = null;
+                                List<SubSpendingAccountsEntity> auxList = selectedAccount.getSubAccountsList();
+                                if(auxList != null && auxList.size() > 0){
+                                    for (int j = 0; j < auxList.size(); j++) {
+                                        SubSpendingAccountsEntity selected = auxList.get(j);
+                                        if(selectedSubSpend.equals(selected.getAccountTitle())){
+                                            subAccountID = selected.getAccountTitle();
+                                            isSubAccount = true;
+                                            category = subAccountCategorySelected;
+                                            subAccountSelected = selected;
                                             break;
                                         }
                                     }
+                                }
+                                boolean canGo = false;
+                                String nameCategory = "";
+                                if(isSubAccount){
+                                    if(!subAccountCategorySelected.equals("")){
+                                        canGo = true;
+                                    }else{
+                                        aux = true;
+                                    }
                                 }else{
-                                    selectedAccount.getSpendsList().add(spend);
+                                    canGo = true;
                                 }
 
-                                new LocalDatabaseUpdateTask().execute();
+                                if(canGo){
+                                    SpendsEntity spend = new SpendsEntity();
+                                    double num = Double.parseDouble(amount);
+                                    String stringNum = roundToTwoDecimalPlaces(num);
+                                    stringNum = stringNum.replace(",", ".");
+                                    double numFinal = Double.parseDouble(stringNum);
+                                    spend.setInfos(numFinal, spendDate, String.valueOf(selectedAccount.getId()), subAccountID, category, isSubAccount, category);
+
+                                    if(isSubAccount){
+                                        for (int i = 0; i < selectedAccount.getSubAccountsList().size(); i++) {
+                                            if(selectedAccount.getSubAccountsList().get(i).equals(subAccountSelected)){
+                                                selectedAccount.getSubAccountsList().remove(subAccountSelected);
+
+                                                subAccountSelected.getSpendsList().add(spend);
+                                                selectedAccount.getSubAccountsList().add(i, subAccountSelected);
+                                                break;
+                                            }
+                                        }
+                                    }else{
+                                        selectedAccount.getSpendsList().add(spend);
+                                    }
+
+                                    new LocalDatabaseUpdateTask().execute();
+                                }
+                            }else{
+                                aux = true;
                             }
                         }else{
                             aux = true;
@@ -385,14 +446,12 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
                 }else{
                     aux = true;
                 }
+                if(aux){
+                    Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_MissingInputs_Text), Toast.LENGTH_SHORT).show();
+                }
             }else{
-                aux = true;
+                Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_MaxValue_Text), Toast.LENGTH_SHORT).show();
             }
-            if(aux){
-                Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_MissingInputs_Text), Toast.LENGTH_SHORT).show();
-            }
-        }else{
-            Toast.makeText(getContext(), getString(R.string.mainAc_FragOverviewViewAddSpendingsAccount_Toast_MaxValue_Text), Toast.LENGTH_SHORT).show();
         }
     }
     private boolean isValidInput(String input) {

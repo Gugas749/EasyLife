@@ -51,7 +51,7 @@
             android:layout_marginLeft="@dimen/_16sdp"
             android:layout_marginRight="@dimen/_16sdp"
             android:hint="@string/register_dialog_account_email_prompt"
-            android:textColor="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/textAppearanceBodyLarge"
             android:background="@drawable/round_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -130,5 +130,4 @@
             android:src="@drawable/hand_pointing"
             app:tint="?attr/colorControlNormal" />
     </RelativeLayout>
-
 </FrameLayout>

@@ -1,6 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Base.Theme.EasyLife.Light" parent="Theme.Material3.Light.NoActionBar">
-        <!-- Customize other attributes as needed -->
         <item name="colorControlHighlight">@color/extra6</item>
         <item name="colorPrimary">@color/primaryLight</item>
         <item name="colorSecondary">@color/secondaryLight</item>
@@ -8,7 +7,7 @@
 
         <item name="textAppearanceBodySmall">@color/black</item>
         <item name="textAppearanceBodyMedium">@color/white</item>
-        <item name="textAppearanceBodyLarge">@color/highlightedTextLight</item>
+        <item name="textAppearanceBodyLarge">@color/black</item>
     </style>
 
     <style name="MyDatePickerStyle" parent="@android:style/Widget.Material.DatePicker">

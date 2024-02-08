@@ -1,8 +1,11 @@
 package com.alexandreconrado.easylife.activitys;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +16,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.LocaleList;
 import java.util.Locale;
 import android.provider.MediaStore;
@@ -23,6 +27,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
@@ -30,9 +35,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.alexandreconrado.easylife.R;
 import com.alexandreconrado.easylife.databinding.ActivitySplashBinding;
+import com.alexandreconrado.easylife.fragments.howtoscan.HowToScanFinalFragment;
+import com.alexandreconrado.easylife.fragments.howtoscan.HowToScanHomeFragment;
+import com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view.editlayouthowtofrags.MainACMainViewEditLayoutHowToSaveFragment;
 import com.alexandreconrado.easylife.fragments.register.RegisterFragment;
 import com.alexandreconrado.easylife.scripts.LocaleHelper;
 import com.alexandreconrado.easylife.scripts.ocr.ProcessOCRData;
@@ -45,9 +55,8 @@ public class SplashActivity extends AppCompatActivity {
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
     private static final int REQUEST_IMAGE_CAPTURE = 101;
     private ActivitySplashBinding binding;
-    private Boolean isLogged;
-    private Boolean inScan;
-    private String themePreference;
+    private boolean isLogged, inScan, stopAnims = false;
+    private String themePreference, inAnimationStep = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,28 +64,23 @@ public class SplashActivity extends AppCompatActivity {
         isLogged = prefs.getBoolean("logged", false);
         themePreference = prefs.getString("theme_preference", "system_default");
         String userLanguage = prefs.getString("user_language", "en-us");
-        /*if (themePreference.equals("light")) {
-            Toast.makeText(this, "light", Toast.LENGTH_SHORT).show();
-            setTheme(R.style.Base_Theme_EasyLife_Light);
-        } else if (themePreference.equals("dark")) {
-            Toast.makeText(this, "dark", Toast.LENGTH_SHORT).show();
-            setTheme(R.style.Base_Theme_EasyLife_Dark);
-        }*/
+
+        //setTheme();
         super.onCreate(savedInstanceState);
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        String lang = userLanguage.substring(0, 2);
+        /*String lang = userLanguage.substring(0, 2);
         Context context = LocaleHelper.setLocale(this, lang);
-        Resources resources = context.getResources();
+        Resources resources = context.getResources();*/
 
         if(isLogged){
-            //binding.butScanSplashAc.setVisibility(View.VISIBLE);
+            binding.butScanSplashAc.setVisibility(View.VISIBLE);
         }else{
             binding.butScanSplashAc.setVisibility(View.GONE);
         }
         inScan = false;
-        //setupScanButton();
+        setupScanButton();
         disableBackPressed();
         FirebaseApp.initializeApp(getApplicationContext());
 
@@ -86,9 +90,7 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
-                if(!inScan){
-                    initAnimation();
-                }
+                initAnimation();
             }
         }.start();
     }
@@ -99,10 +101,40 @@ public class SplashActivity extends AppCompatActivity {
         super.onResume();
         disableBackPressed();
     }
+    private void setTheme(){
+        switch (themePreference){
+            case "light":
+                setTheme(R.style.Base_Theme_EasyLife_Light);
+                break;
+            case "dark":
+                setTheme(R.style.Base_Theme_EasyLife_Dark);
+                break;
+            case "system_default":
+                UiModeManager uiModeManager = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
+                int currentMode = uiModeManager.getNightMode();
+
+                switch (currentMode) {
+                    case UiModeManager.MODE_NIGHT_NO:
+                        setTheme(R.style.Base_Theme_EasyLife_Light);
+                        break;
+                    case UiModeManager.MODE_NIGHT_YES:
+                        setTheme(R.style.Base_Theme_EasyLife_Dark);
+                        break;
+                }
+                break;
+        }
+    }
     private void initRegisterFragment(){
+        binding.fragmentContainerViewSplashAc.setVisibility(View.VISIBLE);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_splashAc, new RegisterFragment(this)).commit();
     }
     private void initAnimation(){
+        inAnimationStep = "1";
+        if(!stopAnims){
+            animationStep1();
+        }
+    }
+    private void animationStep1(){
         snapLogoAnimation();
         fadeOutTextViews();
         if(isLogged){
@@ -114,33 +146,45 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
-                TypedValue typedValue = new TypedValue();
-                Resources.Theme theme = getApplicationContext().getTheme();
-                theme.resolveAttribute(android.R.attr.colorControlNormal, typedValue, true);
-                @ColorInt int color = typedValue.data;
-                binding.constraintLayoutSplashAc.setBackgroundColor(color);
-                fragActive();
-
-                fadeOutSnapLogo();
-                new CountDownTimer(600, 1000) {
-                    public void onTick(long millisUntilFinished) {
-
-                    }
-
-                    public void onFinish() {
-                        if(isLogged){
-                            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            if(!inScan){
-                                finish();
-                            }
-                        }else{
-                            initRegisterFragment();
-                        }
-                    }
-                }.start();
+                inAnimationStep = "2";
+                if(!stopAnims){
+                    animationStep2();
+                }
             }
         }.start();
+    }
+    private void animationStep2(){
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = getApplicationContext().getTheme();
+        theme.resolveAttribute(android.R.attr.colorControlNormal, typedValue, true);
+        @ColorInt int color = typedValue.data;
+        binding.constraintLayoutSplashAc.setBackgroundColor(color);
+        fragActive();
+
+        fadeOutSnapLogo();
+        new CountDownTimer(600, 1000) {
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            public void onFinish() {
+                inAnimationStep = "3";
+                if(!stopAnims){
+                    animationStep3();
+                }
+            }
+        }.start();
+    }
+    private void animationStep3(){
+        if(isLogged){
+            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(intent);
+            if(!inScan){
+                finish();
+            }
+        }else{
+            initRegisterFragment();
+        }
     }
     private void fragActive(){
         int colorAttr = android.R.attr.colorControlNormal;
@@ -298,8 +342,17 @@ public class SplashActivity extends AppCompatActivity {
                             new String[]{Manifest.permission.CAMERA},
                             CAMERA_PERMISSION_REQUEST_CODE);
                 } else {
+                    binding.butScanSplashAc.setEnabled(false);
                     inScan = true;
-                    dispatchTakePictureIntent();
+                    stopAnims = true;
+                    SharedPreferences prefs = getSharedPreferences("Perf_User", MODE_PRIVATE);
+                    boolean seenScanHowTo = prefs.getBoolean("seenScanHowTo", false);
+                    if(seenScanHowTo){
+                        dispatchTakePictureIntent();
+                    }else{
+                        binding.fragmentContainerViewSplashAc.setVisibility(View.VISIBLE);
+                        howToScanFunction(false, "HowToScanHomeFragment");
+                    }
                 }
             }
         });
@@ -320,15 +373,69 @@ public class SplashActivity extends AppCompatActivity {
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
                 String detectedText = TextRecognitionUtil.extractTextFromBitmap(imageBitmap, this);
 
-                // Agora, 'detectedText' contém o texto detectado na imagem
-                // Faça o que precisar com o texto (por exemplo, exiba em um TextView)
-                // ...
                 Log.i("LOG_texto", "TEXTO: "+detectedText);
                 ProcessOCRData processOCRData = new ProcessOCRData();
                 String processado = processOCRData.ProcessData(detectedText);
                 Log.i("LOG_texto", "VALUE PROCESSADO: "+processado);
-                Toast.makeText(this, detectedText, Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                intent.putExtra("processedDataFormPhoto", processado);
+                startActivity(intent);
+                finish();
             }
+        }else{
+            inScan = false;
+            stopAnims = false;
+            binding.butScanSplashAc.setEnabled(true);
+            switch (inAnimationStep){
+                case "0":
+                    initAnimation();
+                    break;
+                case "1":
+                    animationStep1();
+                    break;
+                case "2":
+                    animationStep2();
+                    break;
+                case "3":
+                    animationStep3();
+                    break;
+            }
+        }
+    }
+    public void howToScanFunction(boolean fromNext, String nextTag){
+        switch (nextTag){
+            case "HowToScanHomeFragment":
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container_view_splashAc, new HowToScanHomeFragment(this, fromNext))
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case "HowToScanFinalFragment":
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container_view_splashAc, new HowToScanFinalFragment(this, fromNext))
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case "Finish":
+                SharedPreferences sharedPreferences = getSharedPreferences("Perf_User", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("seenScanHowTo", true);
+                editor.apply();
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                int containerId = binding.fragmentContainerViewSplashAc.getId();
+
+                for (Fragment fragment : fragmentManager.getFragments()) {
+                    if (fragment != null && fragment.getId() == containerId) {
+                        fragmentManager.beginTransaction().remove(fragment).commit();
+                    }
+                }
+
+                dispatchTakePictureIntent();
+                break;
         }
     }
     //----------------------------------------------

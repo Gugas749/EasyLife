@@ -44,6 +44,7 @@
             android:layout_marginRight="@dimen/_16sdp"
             android:text="@string/settingsFrag_TextView_spinnerLanguageExplain_Text"
             android:textStyle="bold"
+            android:visibility="gone"
             android:textColor="?attr/textAppearanceBodyMedium"
             android:textAlignment="center"
             android:textSize="@dimen/_18sdp" />
@@ -70,6 +71,7 @@
                 android:background="?attr/colorSecondary"
                 android:gravity="center"
                 android:padding="@dimen/_8sdp"
+                android:visibility="gone"
                 android:textColor="?attr/textAppearanceBodySmall"
                 android:textColorHint="?attr/textAppearanceBodySmall"
                 android:textSize="@dimen/_12sdp"

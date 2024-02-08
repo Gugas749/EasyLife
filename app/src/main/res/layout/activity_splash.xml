@@ -8,6 +8,13 @@
     android:id="@+id/constraintLayout_SplashAc"
     android:background="?attr/colorPrimary">
 
+    <FrameLayout
+        android:id="@+id/fragment_container_view_splashAc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:elevation="@dimen/_15sdp"/>
+
     <!-- SPLASH -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview_1_SplashAc"
@@ -72,9 +79,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <FrameLayout
-        android:id="@+id/fragment_container_view_splashAc"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

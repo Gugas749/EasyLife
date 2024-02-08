@@ -102,9 +102,9 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     //-------------------OTHERS---------------
     private ActivityMainBinding binding;
     private long sessionTime;
-    public boolean seenTutorial, allDisable = false, updateMainViewInNextLoad = false, showTutorials = false;
+    public boolean seenTutorial, allDisable = false, updateMainViewInNextLoad = false, showTutorials = false, fastRegister = false;
     private UserInfosEntity UserInfosEntity;
-    private String TAG = "EasyLife_Logs_MainAc";
+    private String TAG = "EasyLife_Logs_MainAc", fastRegisterData = "";
     private FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
     //-------------------SIDE MENU---------------
     private DrawerLayout drawerLayoutSideMenu;
@@ -146,6 +146,13 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 init();
                 startFragAnimations();
                 showAuthenticationScreen();
+
+                Intent intent = getIntent();
+                String processedDataFormPhoto = intent.getStringExtra("processedDataFormPhoto");
+                if(processedDataFormPhoto != null && !processedDataFormPhoto.equals("")){
+                    fastRegister = true;
+                    fastRegisterData = processedDataFormPhoto;
+                }
             }
         }.start();
 
@@ -253,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             public void onClick(View v) {
                 scaleUpAnimtion();
                 enableDisableAll(true);
-                new CountDownTimer(1200, 1000) {
+                new CountDownTimer(900, 1000) {
                     public void onTick(long millisUntilFinished) {
 
                     }
@@ -281,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                                     .addToBackStack(null)
                                     .commit();
                         }else if (tag.equals("2")) {
-                            MainACSpendingsViewAddSpendingsFragment fragment = new MainACSpendingsViewAddSpendingsFragment(spendingAccountsEntitiesList, UserInfosEntity);
+                            MainACSpendingsViewAddSpendingsFragment fragment = new MainACSpendingsViewAddSpendingsFragment(spendingAccountsEntitiesList, UserInfosEntity, fastRegisterData);
                             fragment.setExitMainACSpendingsViewAddSpendingsFragListenner(THIS);
                             getSupportFragmentManager()
                                     .beginTransaction()
@@ -382,6 +389,9 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             boolean aux = false;
 
             switch (backups){
+                case "never":
+                    aux = false;
+                    break;
                 case "weekly":
                     if(differenceInDays >= 7){
                         aux = true;
@@ -961,7 +971,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 Animation.RELATIVE_TO_SELF, 0.5f
         );
 
-        scaleAnimation.setDuration(1500);
+        scaleAnimation.setDuration(1000);
 
         binding.imageViewAux1MainActivity.startAnimation(scaleAnimation);
 
@@ -986,7 +996,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 Animation.RELATIVE_TO_SELF, 0.5f
         );
 
-        scaleAnimation.setDuration(1500);
+        scaleAnimation.setDuration(1000);
 
         binding.imageViewAux1MainActivity.startAnimation(scaleAnimation);
     }
@@ -1091,7 +1101,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     public void OnFragMainACMainViewEditLayoutExitClick(boolean Changed, List<DraggableCardViewEntity> listReturned) {
         disableBackPressed();
         scaleUpAnimtion();
-        new CountDownTimer(1500, 1000) {
+        new CountDownTimer(900, 1000) {
             public void onTick(long millisUntilFinished) {
 
             }
@@ -1120,7 +1130,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     public void onExitButtonClickFragMainACOverviewViewAddSpendingsForm(boolean Changed, SpendingAccountsEntity returned) {
         disableBackPressed();
         scaleUpAnimtion();
-        new CountDownTimer(1500, 1000) {
+        new CountDownTimer(900, 1000) {
             public void onTick(long millisUntilFinished) {
 
             }
@@ -1154,7 +1164,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         if(!allDisable){
             scaleUpAnimtion();
             enableDisableAll(true);
-            new CountDownTimer(1200, 1000) {
+            new CountDownTimer(900, 1000) {
                 public void onTick(long millisUntilFinished) {
 
                 }
@@ -1183,7 +1193,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     public void onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(SpendingAccountsEntity accountFromExitDetailsAccounts, boolean deleted, boolean changed) {
         disableBackPressed();
         scaleUpAnimtion();
-        new CountDownTimer(1500, 1000) {
+        new CountDownTimer(900, 1000) {
             public void onTick(long millisUntilFinished) {
 
             }
@@ -1280,7 +1290,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 sessionTime = System.currentTimeMillis();
                 scaleUpAnimtion();
 
-                new CountDownTimer(1500, 1000) {
+                new CountDownTimer(900, 1000) {
                     public void onTick(long millisUntilFinished) {
                         // Code for each tick if needed
                     }
@@ -1298,17 +1308,37 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                         mainACMainViewFragment.setAccountsList(spendingAccountsEntitiesList);
                         mainACMainViewFragment.setParent(THIS);
 
-                        changeFragmentFromMainFragmentContainer(1);
-                        changeMultiFunctionButtonFunction(1);
-                        binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_SpendingsView).setChecked(false);
-                        binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Graffics).setChecked(false);
-                        binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Home).setChecked(true);
+                        if(fastRegister){
+                            changeFragmentFromMainFragmentContainer(2);
+                            changeMultiFunctionButtonFunction(2);
+                            binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Graffics).setChecked(false);
+                            binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Home).setChecked(false);
+                            binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_SpendingsView).setChecked(true);
 
-                        outFragment();
-                        scaleDownAnimtion();
-                        enableDisableAll(false);
-                        binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.INVISIBLE);
-                        binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(false);
+                            inFragment();
+                            scaleDownAnimtion();
+                            enableDisableAll(true);
+
+                            MainACSpendingsViewAddSpendingsFragment fragment = new MainACSpendingsViewAddSpendingsFragment(spendingAccountsEntitiesList, UserInfosEntity, fastRegisterData);
+                            fragment.setExitMainACSpendingsViewAddSpendingsFragListenner(THIS);
+                            getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.frameLayout_fullScreenFragmentContainer_MainAc, fragment)
+                                    .addToBackStack(null)
+                                    .commit();
+                        }else{
+                            changeFragmentFromMainFragmentContainer(1);
+                            changeMultiFunctionButtonFunction(1);
+                            binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_SpendingsView).setChecked(false);
+                            binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Graffics).setChecked(false);
+                            binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Home).setChecked(true);
+
+                            outFragment();
+                            scaleDownAnimtion();
+                            enableDisableAll(false);
+                            binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.GONE);
+                            binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(false);
+                        }
                     }
                 }.start();
             }
@@ -1318,7 +1348,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     public void onExitMainACSpendingsViewAddSpendingsFrag(boolean save, SpendingAccountsEntity object) {
         disableBackPressed();
         scaleUpAnimtion();
-        new CountDownTimer(1500, 1000) {
+        new CountDownTimer(900, 1000) {
             public void onTick(long millisUntilFinished) {
 
             }
@@ -1371,6 +1401,9 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 outFragment();
                 scaleDownAnimtion();
                 enableDisableAll(false);
+                binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Graffics).setChecked(false);
+                binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_Home).setChecked(false);
+                binding.bottomNavigationViewMainAC.getMenu().findItem(R.id.menu_bottomNavigation_painel_SpendingsView).setChecked(true);
                 binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.INVISIBLE);
                 binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(false);
             }
@@ -1395,7 +1428,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         if(!allDisable){
             scaleUpAnimtion();
             enableDisableAll(true);
-            new CountDownTimer(1200, 1000) {
+            new CountDownTimer(900, 1000) {
                 public void onTick(long millisUntilFinished) {
 
                 }
@@ -1423,7 +1456,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     public void onExitFragMainACSpendingsViewSpendsDetails(boolean changed, SpendingAccountsEntity account) {
         disableBackPressed();
         scaleUpAnimtion();
-        new CountDownTimer(1500, 1000) {
+        new CountDownTimer(900, 1000) {
             public void onTick(long millisUntilFinished) {
 
             }

@@ -14,6 +14,7 @@
         <item>PT-PT</item>
     </string-array>
     <string-array name="autoBackups_options">
+        <item>Nunca</item>
         <item>Semanal</item>
         <item>Bissemanal</item>
         <item>Mensal</item>
@@ -199,6 +200,7 @@
     <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign5_Text">Qual Categoria</string>
     <string name="mainAc_FragSpendingsViewAddSpendings_spinnerHint_1_Text">Selecione uma Categoria</string>
     <string name="mainAc_FragSpendingsViewAddSpendings_AlertDialog_Question_Save_Text">Você deseja salvar esta Despesa?</string>
+    <string name="mainAc_FragSpendingsViewAddSpendings_FastRegister_Warning_Text">ATENÇÃO!! Porfavor confirme se o valor do gasto está correto o método de scan não é 100% correto!</string>
     <!-- Main AC - Spendings View - Details Spends -->
     <string name="mainAc_FragSpendingsViewAddSpendings_AlertDialog_Question_Delete_Title">Você deseja excluir esta Despesa?</string>
     <!-- Main AC - Spendings View - Details Spends - How To -->

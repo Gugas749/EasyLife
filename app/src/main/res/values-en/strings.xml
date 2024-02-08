@@ -13,6 +13,7 @@
         <item>PT-PT</item>
     </string-array>
     <string-array name="autoBackups_options">
+        <item>Never</item>
         <item>Weekly</item>
         <item>Biweekly</item>
         <item>Monthly</item>
@@ -198,6 +199,7 @@
     <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign5_Text">What Category</string>
     <string name="mainAc_FragSpendingsViewAddSpendings_spinnerHint_1_Text">Select a Category</string>
     <string name="mainAc_FragSpendingsViewAddSpendings_AlertDialog_Question_Save_Text">Do you wish to save this Spend?</string>
+    <string name="mainAc_FragSpendingsViewAddSpendings_FastRegister_Warning_Text">ATTENTION!! Please confirm if the amount is correct the scan method isn\'t 100% correct!</string>
     <!-- Main AC - Spendings View - Details Spends -->
     <string name="mainAc_FragSpendingsViewAddSpendings_AlertDialog_Question_Delete_Title">Do you wish to delete this Spend?</string>
     <!-- Main AC - Spendings View - Details Spends - How To -->

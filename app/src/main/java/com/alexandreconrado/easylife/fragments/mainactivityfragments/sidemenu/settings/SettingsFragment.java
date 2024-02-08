@@ -128,12 +128,15 @@ public class SettingsFragment extends Fragment implements
         switch (userInfos.Theme){
             case "light":
                 themeIndex = 0;
+                theme = "light";
                 break;
             case "dark":
                 themeIndex = 1;
+                theme = "dark";
                 break;
             case "system_default":
                 themeIndex = 2;
+                theme = "system_default";
                 break;
         }
 
@@ -143,12 +146,15 @@ public class SettingsFragment extends Fragment implements
         switch (userInfos.Language.toLanguageTag()){
             case "en-us":
                 langIndex = 0;
+                lang = "en-us";
                 break;
             case "en-gb":
                 langIndex = 1;
+                lang = "en-gb";
                 break;
             case "pt-pt":
                 langIndex = 2;
+                lang = "pt-pt";
                 break;
             case "pt-br":
                 // Portuguese (Brazil)
@@ -159,9 +165,9 @@ public class SettingsFragment extends Fragment implements
 
 
         SharedPreferences prefs = getContext().getSharedPreferences("Perf_User", MODE_PRIVATE);
-        String backups = prefs.getString("autoBackupTime", "monthly");
+        autoBackups = prefs.getString("autoBackupTime", "monthly");
         int backupsIndex = 0;
-        switch (backups){
+        switch (autoBackups){
             case "weekly":
                 backupsIndex = 0;
                 break;
@@ -258,6 +264,9 @@ public class SettingsFragment extends Fragment implements
                     case 1:
                         theme = "dark";
                         break;
+                    case 2:
+                        theme = "system_default";
+                        break;
                 }
             }
         });
@@ -284,16 +293,18 @@ public class SettingsFragment extends Fragment implements
             @Override
             public void onItemSelected(int i, @Nullable Object o, int i1, Object t1) {
                 changed = true;
-                needRestart = true;
 
                 switch (i1){
                     case 0:
-                        autoBackups = "weekly";
+                        autoBackups = "never";
                         break;
                     case 1:
-                        autoBackups = "biweekly";
+                        autoBackups = "weekly";
                         break;
                     case 2:
+                        autoBackups = "biweekly";
+                        break;
+                    case 3:
                         autoBackups = "monthly";
                         break;
                 }
