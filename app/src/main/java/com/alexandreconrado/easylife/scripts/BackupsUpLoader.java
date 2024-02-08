@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -472,7 +473,9 @@ public class BackupsUpLoader {
     private SpendsEntity convertMapToSpendsEntity(Map<String, Object> map) {
         SpendsEntity spendsEntity = new SpendsEntity();
         spendsEntity.setAmount((double) map.get("amount"));
-        spendsEntity.setDate((Date) map.get("date"));
+        Timestamp timestamp = (Timestamp) map.get("date");
+        Date date = timestamp.toDate();
+        spendsEntity.setDate(date);
         spendsEntity.setMainAccountID((String) map.get("mainAccountID"));
         spendsEntity.setSubAccountID((String) map.get("subAccountID"));
         spendsEntity.setCategory((String) map.get("category"));

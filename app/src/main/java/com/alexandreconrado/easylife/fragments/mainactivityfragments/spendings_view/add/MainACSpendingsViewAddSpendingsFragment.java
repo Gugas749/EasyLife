@@ -152,11 +152,15 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
                 for (int i = 0; i < spendingAccountsEntityList.size(); i++) {
                     subAcountsList = spendingAccountsEntityList.get(i).getSubAccountsList();
 
-                    for (int j = 0; j < subAcountsList.size(); j++) {
-                        SubSpendingAccountsEntity subAccount = subAcountsList.get(j);
-                        if(subAccount.getAccountTitle().equals(selectedSubSpend)){
-                            isSubAccount = true;
-                            break;
+                    if(subAcountsList != null){
+                        for (int j = 0; j < subAcountsList.size(); j++) {
+                            SubSpendingAccountsEntity subAccount = subAcountsList.get(j);
+                            if(subAccount != null){
+                                if(subAccount.getAccountTitle().equals(selectedSubSpend) && subAccount.getAccountTitle() != null){
+                                    isSubAccount = true;
+                                    break;
+                                }
+                            }
                         }
                     }
                 }

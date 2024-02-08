@@ -16,10 +16,12 @@
             <group  android:checkableBehavior="single">
                 <item android:id="@+id/mainAc_SideBar_Share"
                     android:icon="@drawable/share_image"
+                    android:checkable="false"
                     android:title="@string/mainAc_sideBar_Share">
                 </item>
                 <item android:id="@+id/mainAc_SideBar_RateUs"
                     android:icon="@drawable/rateus_image"
+                    android:checkable="false"
                     android:title="@string/mainAc_sideBar_RateUs">
                 </item>
             </group>
@@ -30,14 +32,17 @@
             <group  android:checkableBehavior="single">
                 <item android:id="@+id/mainAc_SideBar_Backups"
                     android:icon="@drawable/backup_image"
+                    android:checkable="false"
                     android:title="@string/mainAc_sideBar_Backups">
                 </item>
                 <item android:id="@+id/mainAc_SideBar_Configs"
                     android:icon="@drawable/setting_image"
+                    android:checkable="false"
                     android:title="@string/mainAc_sideBar_Configs">
                 </item>
                 <item android:id="@+id/mainAc_SideBar_Credits"
                     android:icon="@drawable/about_icon"
+                    android:checkable="false"
                     android:title="@string/mainAc_SideBar_Credits">
                 </item>
             </group>

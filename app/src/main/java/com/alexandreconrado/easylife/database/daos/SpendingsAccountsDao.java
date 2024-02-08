@@ -27,7 +27,7 @@ public interface SpendingsAccountsDao {
     @Query("SELECT * FROM SpendingAccounts")
     List<SpendingAccountsEntity> getSpendingsAccounts();
 
-    @Query("DELETE FROM DraggableCardView_Objects")
+    @Query("DELETE FROM SpendingAccounts")
     void clearAllEntries();
 }
 

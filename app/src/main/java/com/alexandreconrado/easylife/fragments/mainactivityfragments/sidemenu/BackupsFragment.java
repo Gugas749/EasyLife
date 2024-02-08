@@ -3,22 +3,32 @@ package com.alexandreconrado.easylife.fragments.mainactivityfragments.sidemenu;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.room.Room;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.alexandreconrado.easylife.R;
+import com.alexandreconrado.easylife.database.LocalDataBase;
+import com.alexandreconrado.easylife.database.daos.DraggableCardViewDao;
+import com.alexandreconrado.easylife.database.daos.SpendingsAccountsDao;
+import com.alexandreconrado.easylife.database.daos.UserInfosDao;
 import com.alexandreconrado.easylife.databinding.FragmentBackupsBinding;
 import com.alexandreconrado.easylife.fragments.alertDialogFragments.AlertDialogBackupLoadFragment;
+import com.alexandreconrado.easylife.fragments.alertDialogFragments.AlertDialogNotifyFragment;
 import com.alexandreconrado.easylife.fragments.alertDialogFragments.AlertDialogQuestionFragment;
 import com.alexandreconrado.easylife.fragments.register.account.RVAdapterBackups;
 import com.alexandreconrado.easylife.fragments.register.account.RegisterDialogAccountFragment;
@@ -55,6 +65,10 @@ public class BackupsFragment extends Fragment implements
     private String TAG = "EasyLife_Logs_BackupsFrag", backupDocID = "";;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private boolean changed = false;
+    private LocalDataBase localDataBase;
+    private DraggableCardViewDao draggableCardViewDao;
+    private SpendingsAccountsDao spendingsAccountsDao;
+    private UserInfosDao userInfosDao;
 
     private ExitBackupsFrag exitListenner;
     public interface ExitBackupsFrag{
@@ -72,6 +86,9 @@ public class BackupsFragment extends Fragment implements
     }
     private interface FirestoreDBCallback_deleteOldestBackup{
         void onFirestoreDBCallback_deleteOldestBackup();
+    }
+    private interface LocalDB_clear{
+        void onLocalDB_clear();
     }
 
     public BackupsFragment() {
@@ -96,12 +113,27 @@ public class BackupsFragment extends Fragment implements
         binding = FragmentBackupsBinding.inflate(inflater);
 
         init();
+        setupLocalDataBase();
+        disableBackPressed();
         load();
         setupExitButton();
         setupCreateBackupButton();
         setupLoadBackupButton();
 
         return binding.getRoot();
+    }
+    private void disableBackPressed(){
+        binding.getRoot().setFocusableInTouchMode(true);
+        binding.getRoot().requestFocus();
+        binding.getRoot().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    return true;
+                }
+                return false;
+            }
+        });
     }
     private void init(){
         THIS = this;
@@ -112,15 +144,42 @@ public class BackupsFragment extends Fragment implements
         binding.imageViewButtonUploadFragBackups.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
-                customAlertDialogFragment.setConfirmListenner(THIS);
-                customAlertDialogFragment.setCancelListenner(THIS);
-                AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.backupsFrag_AlertDialog_Question_UploadBackup_Title), getString(R.string.backupsFrag_AlertDialog_Question_UploadBackup_Text), customAlertDialogFragment, customAlertDialogFragment, "2");
-                customAlertDialogFragment.setCustomFragment(fragment);
-                customAlertDialogFragment.setTag("FragBackups_uploadBackup");
-                customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences("Perf_User", MODE_PRIVATE);
+                long timestampToCompare = sharedPreferences.getLong("lastBackupUpload", 0);
+                boolean passedFiveMinutes = isFiveMinutesPassed(timestampToCompare);
+                if (passedFiveMinutes) {
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putLong("lastBackupUpload", System.currentTimeMillis());
+                    editor.apply();
+
+                    CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+                    customAlertDialogFragment.setConfirmListenner(THIS);
+                    customAlertDialogFragment.setCancelListenner(THIS);
+                    AlertDialogQuestionFragment fragment = new AlertDialogQuestionFragment(getString(R.string.backupsFrag_AlertDialog_Question_UploadBackup_Title), getString(R.string.backupsFrag_AlertDialog_Question_UploadBackup_Text), customAlertDialogFragment, customAlertDialogFragment, "2");
+                    customAlertDialogFragment.setCustomFragment(fragment);
+                    customAlertDialogFragment.setTag("FragBackups_uploadBackup");
+                    customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
+                } else {
+                    CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+                    AlertDialogNotifyFragment fragment = new AlertDialogNotifyFragment(getString(R.string.backupsFrag_AlertDialog_Notify_AntiBackupSpam_Title), getString(R.string.backupsFrag_AlertDialog_Notify_AntiBackupSpam_Text), customAlertDialogFragment);
+                    customAlertDialogFragment.setCustomFragment(fragment);
+                    customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
+                }
             }
         });
+    }
+    public boolean isFiveMinutesPassed(long timestamp) {
+        long currentTimeMillis = System.currentTimeMillis();
+        long differenceMillis = currentTimeMillis - timestamp;
+        long differenceMinutes = differenceMillis / (60 * 1000); // Convert milliseconds to minutes
+
+        return differenceMinutes >= 5;
+    }
+    private void setupLocalDataBase(){
+        localDataBase = Room.databaseBuilder(getContext(), LocalDataBase.class, "EasyLifeLocalDB").build();
+        draggableCardViewDao = localDataBase.draggableCardViewDao();
+        spendingsAccountsDao = localDataBase.spendingsAccountsDao();
+        userInfosDao = localDataBase.userInfosDao();
     }
     private void setupLoadBackupButton(){
         binding.imageViewButtonLoadFragBackups.setOnClickListener(new View.OnClickListener() {
@@ -227,6 +286,10 @@ public class BackupsFragment extends Fragment implements
                 backupsUpLoader.uploadBackup(firebaseID, backupDocID);
 
                 loadRv();
+                CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+                AlertDialogNotifyFragment fragment = new AlertDialogNotifyFragment(getString(R.string.backupsFrag_AlertDialog_Notify_Backup_Upload_Title), getString(R.string.backupsFrag_AlertDialog_Notify_Backup_Upload_Text), customAlertDialogFragment);
+                customAlertDialogFragment.setCustomFragment(fragment);
+                customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
             }
         };
 
@@ -259,6 +322,11 @@ public class BackupsFragment extends Fragment implements
         String firebaseID = sharedPreferences.getString("firebaseID", "");
         BackupsUpLoader backupsUpLoader = new BackupsUpLoader(THIS.getContext());
         backupsUpLoader.loadBackup(firebaseID, docID);
+
+        CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+        AlertDialogNotifyFragment fragment = new AlertDialogNotifyFragment(getString(R.string.backupsFrag_AlertDialog_Notify_Backup_Load_Title), getString(R.string.backupsFrag_AlertDialog_Notify_Backup_Load_Text), customAlertDialogFragment);
+        customAlertDialogFragment.setCustomFragment(fragment);
+        customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
     }
     private void deleteOldestBackup(FirestoreDBCallback_deleteOldestBackup callback){
         Timestamp oldestTimestamp = listBackupsDates.get(0);
@@ -313,7 +381,14 @@ public class BackupsFragment extends Fragment implements
                     FirestoreDBCallback_getSelectedBackup callback = new FirestoreDBCallback_getSelectedBackup() {
                         @Override
                         public void onFirestoreDBCallback_getSelectedBackup(String docID) {
-                            loadBackup(docID);
+                            LocalDB_clear callback1 = new LocalDB_clear() {
+                                @Override
+                                public void onLocalDB_clear() {
+                                    loadBackup(docID);
+                                }
+                            };
+
+                            new LocalDatabaseClearTask(callback1).execute();
                         }
                     };
                     getSelectedBackup(callback);
@@ -347,5 +422,29 @@ public class BackupsFragment extends Fragment implements
     @Override
     public void onCancelButtonClicked(String Tag) {
 
+    }
+
+    private class LocalDatabaseClearTask extends AsyncTask<Void, Void, String> {
+
+        private LocalDB_clear callbabck1;
+
+        public LocalDatabaseClearTask(){
+
+        }
+        public LocalDatabaseClearTask(LocalDB_clear callbabck1){
+            this.callbabck1 =  callbabck1;
+        }
+        @Override
+        protected String doInBackground(Void... voids) {
+            draggableCardViewDao.clearAllEntries();
+            spendingsAccountsDao.clearAllEntries();
+            userInfosDao.clearAllEntries();
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String object) {
+            callbabck1.onLocalDB_clear();
+        }
     }
 }

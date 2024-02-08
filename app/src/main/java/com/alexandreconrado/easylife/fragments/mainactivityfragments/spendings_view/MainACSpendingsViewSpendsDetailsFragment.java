@@ -91,6 +91,7 @@ public class MainACSpendingsViewSpendsDetailsFragment extends Fragment implement
         binding = FragmentMainACSpendingsViewSpendsDetailsBinding.inflate(inflater);
 
         init();
+        disableBackPressed();
         setupExitButton();
         setupOnItemSelectedSpinnerAccounts();
         setupOnItemSelectedSpinnerSubAccounts();
@@ -102,7 +103,19 @@ public class MainACSpendingsViewSpendsDetailsFragment extends Fragment implement
 
         return binding.getRoot();
     }
-    
+    private void disableBackPressed(){
+        binding.getRoot().setFocusableInTouchMode(true);
+        binding.getRoot().requestFocus();
+        binding.getRoot().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
     private void init(){
         THIS = this;
         loadSpinnerMainAccounts();

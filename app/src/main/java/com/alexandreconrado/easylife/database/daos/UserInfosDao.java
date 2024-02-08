@@ -23,7 +23,7 @@ public interface UserInfosDao {
     @Query("SELECT * FROM User_Infos")
     List<UserInfosEntity> getUserInfos();
 
-    @Query("DELETE FROM DraggableCardView_Objects")
+    @Query("DELETE FROM User_Infos")
     void clearAllEntries();
 }
 

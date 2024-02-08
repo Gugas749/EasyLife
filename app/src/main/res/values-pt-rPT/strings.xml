@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Easy Life</string>
     <string name="app_slogan">Life is Easier</string>
@@ -43,6 +42,14 @@
     <string name="general_AlertDialog_Question_SaveBeforeLeaving_Title">Guardar Antes de Sair</string>
     <string name="general_AlertDialog_Question_SaveBeforeLeaving_Text">Deseja guardar antes de sair?</string>
 
+    <!-- HowTo Scan -->
+    <!-- HowTo Scan - Home -->
+    <string name="splashAc_HowTo_Scan_Home_Title">Digitalização de um Recibo</string>
+    <string name="splashAc_HowTo_Scan_Home_Text">Ao digitalizar/fotografar um recibo, por favor, fotografe apenas a parte do "Valor Total".</string>
+    <string name="splashAc_HowTo_Scan_Final_Title">Revendo a Foto</string>
+    <string name="splashAc_HowTo_Scan_Final_Text">Sua foto deve parecer algo assim, não precisa ser exatamente assim, mas precisa mostrar o Total.</string>
+    <string name="splashAc_HowTo_Scan_Final_TextViewExample_Text">------------------------------\nTotal:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Eur 15,80\n------------------------------</string>
+
     <!-- RegisterFrag -->
     <!-- RegisterFrag - Account Dialog -->
     <string name="register_dialog_account_text">Criar a sua Conta</string>
@@ -75,8 +82,8 @@
     <string name="alertDialog_Notify_EmailSend_Description">Um email foi enviado para o endereço fornecido para verificação. Por favor, insira o código fornecido no email no local correspondente.</string>
     <!-- Alert Dialog Fragments - LongPressMainViewObjects -->
     <string name="alertDialog_LongPressMainViewObjects_TextView_Styles_Text">Estilo do Widget</string>
-    <string name="alertDialog_LongPressMainViewObjects_TextView_SpendingsAccounts_Text">Conta de Gastos Conectada</string>
-    <string name="alertDialog_LongPressMainViewObjects_TextView_SpendingsSubAccounts_Text">Subconta de Gastos Conectada</string>
+    <string name="alertDialog_LongPressMainViewObjects_TextView_SpendingsAccounts_Text">Conta de Despesas Conectada</string>
+    <string name="alertDialog_LongPressMainViewObjects_TextView_SpendingsSubAccounts_Text">Subconta de Despesas Conectada</string>
     <string name="alertDialog_LongPressMainViewObjects_spinner_WidgetStyle_ItemText">Estilo</string>
     <string name="alertDialog_LongPressMainViewObjects_spinner_WidgetStyle_StarterText">Selecione um Estilo</string>
     <string name="alertDialog_LongPressMainViewObjects_spinner_SpendingsAccounts_StarterText">Selecione uma Conta</string>
@@ -142,7 +149,7 @@
     <string name="mainAc_FragMainViewEditLayoutHowTo_Save_PopUp_Title">Salvar</string>
     <string name="mainAc_FragMainViewEditLayoutHowTo_Save_PopUp_Description">Salvar Widgets?</string>
     <!-- Main AC - Overview View -->
-    <string name="mainAc_FragOverviewView_NoItemsToDisplay_Text">Hmm… Parece que você não tem nenhuma conta de gastos. Você pode criá-las pressionando o botão de adição acima!</string>
+    <string name="mainAc_FragOverviewView_NoItemsToDisplay_Text">Hmm… Parece que você não tem nenhuma conta de despesas. Você pode criá-las pressionando o botão de adição acima!</string>
     <string name="mainAc_FragOverviewView_Example_Percentage1_Text">Percentagem 1</string>
     <string name="mainAc_FragOverviewView_Example_Percentage2_Text">Percentagem 2</string>
     <string name="mainAc_FragOverviewView_Example_Percentage3_Text">Percentagem 3</string>
@@ -160,7 +167,7 @@
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_editTextAccountName_Hint">Nome da Conta</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_editTextPercentagesNames_Hint">Nome da Porcentagem</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_MissingInputs_Text">Parece que há alguns campos vazios</string>
-    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_MaxValue_Text">Desculpe, mas o valor gasto não pode exceder 9.999.999.999</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_MaxValue_Text">Desculpe, mas o valor despesa não pode exceder 9.999.999.999</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_SaveBeforeLeaving_Text">Você deseja salvar esta conta antes de sair?</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_Save_Text">Você deseja salvar esta conta?</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_RepeatedName_Text">Parece que já existe uma Porcentagem com esse nome</string>
@@ -171,12 +178,12 @@
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_AddSubAccount_Text">Você deseja adicionar uma Subconta?</string>
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_EditSubAccount_Title">Detalhes da Subconta</string>
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_EditSubAccount_Text">Você deseja ver os detalhes desta Subconta?</string>
-    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_Button_DeleteAccount_Text">Excluir Conta</string>
-    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_DeleteAccount_Text">Você deseja excluir esta conta?</string>
-    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_Button_DeleteSubAccount_Text">Excluir Subconta</string>
-    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_DeleteSubAccount_Text">Você deseja excluir esta Subconta?</string>
-    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_Button_DeleteCategory_Text">Excluir Categoria</string>
-    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_DeleteCategory_Text">Você deseja excluir esta Categoria?</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_Button_DeleteAccount_Text">Apagar Conta</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_DeleteAccount_Text">Você deseja apagar esta conta?</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_Button_DeleteSubAccount_Text">Apagar Subconta</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_DeleteSubAccount_Text">Você deseja apagar esta Subconta?</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_Button_DeleteCategory_Text">Apagar Categoria</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_DeleteCategory_Text">Você deseja apagar esta Categoria?</string>
     <!-- Main AC - Overview View - Account Details - Add SubAccount -->
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_textView_editTextHelper_1_Text">Nome da Subconta</string>
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_textView_changeParentColor_Text">Cor na Conta Principal</string>
@@ -194,15 +201,16 @@
     <string name="mainAc_FragSpendingsView_HowTo_Details_Text">Agora, para ver os detalhes de sua despesa, basta clicar nela!</string>
     <!-- Main AC - Spendings View - Add Spendings -->
     <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign1_Text">Data da Despesa</string>
-    <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign2_Text">Valor Gasto</string>
-    <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign3_Text">Onde Foi Gasto</string>
+    <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign2_Text">Valor da Despesa</string>
+    <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign3_Text">Onde foi a Despesa</string>
     <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign4_Text">Em Qual Conta</string>
     <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign5_Text">Qual Categoria</string>
     <string name="mainAc_FragSpendingsViewAddSpendings_spinnerHint_1_Text">Selecione uma Categoria</string>
     <string name="mainAc_FragSpendingsViewAddSpendings_AlertDialog_Question_Save_Text">Você deseja salvar esta Despesa?</string>
-    <string name="mainAc_FragSpendingsViewAddSpendings_FastRegister_Warning_Text">ATENÇÃO!! Porfavor confirme se o valor do gasto está correto o método de scan não é 100% correto!</string>
+    <string name="mainAc_FragSpendingsViewAddSpendings_FastRegister_Warning_Text">ATENÇÃO!! Porfavor confirme se o valor da despesa está correto o método de scan não é 100% correto!</string>
     <!-- Main AC - Spendings View - Details Spends -->
-    <string name="mainAc_FragSpendingsViewAddSpendings_AlertDialog_Question_Delete_Title">Você deseja excluir esta Despesa?</string>
+    <string name="mainAc_FragSpendingsViewAddSpendings_AlertDialog_Question_Delete_Title">Você deseja apagar esta Despesa?</string>
+    <string name="mainAc_FragSpendingsViewAddSpendings_Button_Delete_Text">Apagar Despesa</string>
     <!-- Main AC - Spendings View - Details Spends - How To -->
     <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_EditMode_Title">Modo de Edição</string>
     <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_EditMode_Text">O Modo de Edição é, como o nome sugere, um modo que permite editar sua conta. Para entrar nele, clique no botão no canto superior direito!</string>
@@ -244,6 +252,12 @@
     <string name="backupsFrag_AlertDialog_Question_UploadBackup_Text">Deseja carregar/criar uma cópia de segurança das informações atuais na aplicação?</string>
     <string name="backupsFrag_AlertDialog_Question_DeleteAndUploadBackup_Title">Máximo de Backups</string>
     <string name="backupsFrag_AlertDialog_Question_DeleteAndUploadBackup_Text">Atingiu o número máximo de backups, deseja substituir o mais antigo por um novo backup?</string>
+    <string name="backupsFrag_AlertDialog_Notify_AntiBackupSpam_Title">Atraso no Envio</string>
+    <string name="backupsFrag_AlertDialog_Notify_AntiBackupSpam_Text">Desculpe, mas você só pode enviar um backup a cada 5 minutos. Desculpe pela inconveniência.</string>
+    <string name="backupsFrag_AlertDialog_Notify_Backup_Load_Title">Backup Carregado</string>
+    <string name="backupsFrag_AlertDialog_Notify_Backup_Load_Text">O backup selecionado foi carregado com sucesso!</string>
+    <string name="backupsFrag_AlertDialog_Notify_Backup_Upload_Title">Backup Enviado</string>
+    <string name="backupsFrag_AlertDialog_Notify_Backup_Upload_Text">O backup selecionado foi enviado com sucesso!</string>
 
     <!-- Share Menu -->
     <string name="bottomSheetView_shareMenu_title">Onde deseja partilhar?</string>

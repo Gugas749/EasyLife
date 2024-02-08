@@ -210,6 +210,7 @@
     <string name="mainAc_FragSpendingsViewAddSpendings_FastRegister_Warning_Text">ATTENTION!! Please confirm if the amount is correct the scan method isn\'t 100% correct!</string>
     <!-- Main AC - Spendings View - Details Spends -->
     <string name="mainAc_FragSpendingsViewAddSpendings_AlertDialog_Question_Delete_Title">Do you wish to delete this Spend?</string>
+    <string name="mainAc_FragSpendingsViewAddSpendings_Button_Delete_Text">Delete Spend</string>
     <!-- Main AC - Spendings View - Details Spends - How To -->
     <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_EditMode_Title">Edit Mode</string>
     <string name="mainAc_FragSpendingsViewSpendingAccountDetails_HowTo_EditMode_Text">The Edit Mode is, as the name suggests, a mode that lets you edit your account. To enter it, click the button in the top right!</string>
@@ -251,6 +252,12 @@
     <string name="backupsFrag_AlertDialog_Question_UploadBackup_Text">Do you wish to upload/create a backup of the current information in the app?</string>
     <string name="backupsFrag_AlertDialog_Question_DeleteAndUploadBackup_Title">Max Backups</string>
     <string name="backupsFrag_AlertDialog_Question_DeleteAndUploadBackup_Text">You reached the maximum number of backups, do you wish to replace the oldest with a new backup?</string>
+    <string name="backupsFrag_AlertDialog_Notify_AntiBackupSpam_Title">Uploading Delay</string>
+    <string name="backupsFrag_AlertDialog_Notify_AntiBackupSpam_Text">Sorry but you can only upload a backup every 5 minutes. Sorry for the inconvenience.</string>
+    <string name="backupsFrag_AlertDialog_Notify_Backup_Load_Title">Backup Loaded</string>
+    <string name="backupsFrag_AlertDialog_Notify_Backup_Load_Text">The selected Backup was loaded with success!</string>
+    <string name="backupsFrag_AlertDialog_Notify_Backup_Upload_Title">Backup Uploaded</string>
+    <string name="backupsFrag_AlertDialog_Notify_Backup_Upload_Text">The selected Backup was uploaded with success!</string>
 
     <!-- Share Menu -->
     <string name="bottomSheetView_shareMenu_title">Where do you want to share?</string>
