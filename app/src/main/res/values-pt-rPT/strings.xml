@@ -20,6 +20,7 @@
     </string-array>
 
     <!-- General -->
+    <string name="general_Others">Outros</string>
     <string name="general_Delete">Apagar</string>
     <string name="general_Edit">Editar</string>
     <string name="general_Example">Exemplo</string>
@@ -101,6 +102,10 @@
     <string name="mainAc_sideBar_Backups">Cópias de Segurança</string>
     <string name="mainAc_sideBar_Configs">Configurações</string>
     <string name="mainAc_SideBar_Credits">Creditos</string>
+    <!-- Main AC - Montlhy Email Resume -->
+    <string name="mainAc_Monthly_ResumeEmail_Text_1">Quanto você gastou este mês</string>
+    <string name="mainAc_Monthly_ResumeEmail_Text_2">Em que conta gastou mais</string>
+    <string name="mainAc_Monthly_ResumeEmail_Text_3">Em que conta gastou menos</string>
     <!-- Main AC - Main View -->
     <string name="mainAc_FragMainView_Example_ChartName_Text">Nome do Seu Gráfico</string>
     <string name="mainAc_FragMainView_Example_Percentage1_Text">Percentagem 1</string>
@@ -284,6 +289,10 @@
     <string name="creditsFrag_TextView_Text_18">Rounded rectangle icons - Criado por Freepik - Flaticon</string>
     <string name="creditsFrag_TextView_Text_19">Done icons - Criado por Zaenul Yahya - Flaticon</string>
     <string name="creditsFrag_TextView_Text_20">About icons - Criado por Ilham Fitrotul Hayat - Flaticon</string>
+    <string name="creditsFrag_TextView_Text_21">Receipt icons - Criado por KP Arts - Flaticon</string>
+    <string name="creditsFrag_TextView_Text_22">Smartphone icons - Criado por Pixel perfect - Flaticon</string>
+    <string name="creditsFrag_TextView_Text_23">Color Picker - https://github.com/Mohammad3125/KavehColorPicker</string>
+    <string name="creditsFrag_TextView_Text_24">Pie Chart - https://github.com/PhilJay/MPAndroidChart</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Olá fragmento vazio</string>

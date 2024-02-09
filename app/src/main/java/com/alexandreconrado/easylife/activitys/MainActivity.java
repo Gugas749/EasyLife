@@ -15,7 +15,11 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -67,6 +71,13 @@ import com.alexandreconrado.easylife.fragments.tutorial.TutorialEndFragment;
 import com.alexandreconrado.easylife.fragments.tutorial.TutorialShowFragment;
 import com.alexandreconrado.easylife.fragments.tutorial.TutorialWelcomeFragment;
 import com.alexandreconrado.easylife.scripts.BackupsUpLoader;
+import com.alexandreconrado.easylife.scripts.UniqueRandomStringGenerator;
+import com.alexandreconrado.easylife.scripts.mailsending.SendMailTask;
+import com.alexandreconrado.easylife.scripts.mailsending.SendMonthlyResumeEmail;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -79,7 +90,13 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -87,6 +104,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements MainACMainViewEditLayoutFragment.OnFragMainACMainViewEditLayoutExitClick,
         MainACOverviewViewAddSpendingAccountFormFragment.ExitButtonClickFragMainACOverviewViewAddSpendingsForm,
@@ -107,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     private UserInfosEntity UserInfosEntity;
     private String TAG = "EasyLife_Logs_MainAc", fastRegisterData = "";
     private FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
+    private FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
     //-------------------SIDE MENU---------------
     private DrawerLayout drawerLayoutSideMenu;
     private NavigationView navigationViewSideMenu;
@@ -362,6 +381,234 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 return false;
             }
         });
+    }
+    private void setupPieChart(PieChart pieChart, List<Float> percentagesList) {
+        List<PieEntry> entries = new ArrayList<>();
+        for (int i = 0; i < percentagesList.size(); i++) {
+            entries.add(new PieEntry(percentagesList.get(i)));
+        }
+
+        PieDataSet dataSet = new PieDataSet(entries, "");
+        int color1 = getResources().getColor(R.color.textDark);
+        int color2 = getResources().getColor(R.color.extra1);
+        int color3 = getResources().getColor(R.color.extra2);
+        int color4 = getResources().getColor(R.color.extra3);
+        int color5 = getResources().getColor(R.color.extra4);
+        int[] colors = new int[0];
+
+        switch (percentagesList.size()){
+            case 1:
+                colors = new int[]{color1};
+                break;
+            case 2:
+                colors = new int[]{color1, color2};
+                break;
+            case 3:
+                colors = new int[]{color1, color2, color3};
+                break;
+            case 4:
+                colors = new int[]{color1, color2, color3, color4};
+                break;
+            case 5:
+                colors = new int[]{color1, color2, color3, color4, color5};
+                break;
+        }
+        dataSet.setColors(colors);
+        dataSet.setDrawValues(false);
+
+        PieData data = new PieData(dataSet);
+        pieChart.setData(data);
+        pieChart.getDescription().setEnabled(false);
+        pieChart.getLegend().setEnabled(false);
+        pieChart.setDrawHoleEnabled(false);
+        pieChart.setHoleRadius(20f);
+        pieChart.setTransparentCircleRadius(25f);
+        pieChart.invalidate(); // refresh
+    }
+    private String convertColorToHex(int color) {
+        return String.format("#%06X", (0xFFFFFF & color));
+    }
+    private void sendMonthlyResumeEmailHelper(){
+        double totalAmount = 0.0;
+        for (int i = 0; i < allSpendsList.size(); i++) {
+            totalAmount += allSpendsList.get(i).getAmount();
+        }
+        String totalAmountString = String.format("%.2f", totalAmount);
+
+        LocalDate currentDate = LocalDate.now();
+        Month month = currentDate.getMonth();
+        int year = currentDate.getYear();
+        String monthName = month.toString();
+        monthName = monthName.substring(0, 1).toUpperCase() + monthName.substring(1).toLowerCase();
+        String title = " "+monthName+" "+year+" Spends Resume";
+        String textValue1 = getString(R.string.mainAc_Monthly_ResumeEmail_Text_1);
+        String mostSpendText = getString(R.string.mainAc_Monthly_ResumeEmail_Text_2);
+        String lessSpendText = getString(R.string.mainAc_Monthly_ResumeEmail_Text_3);
+        String other = getString(R.string.general_Others);
+
+        double amountAux1 = 0.0;
+        double amountAux2 = 0.0;
+        String mostSpendAccountName = "";
+        boolean moreThanOneAccount = false;
+        if(spendingAccountsEntitiesList.size() > 1){
+            moreThanOneAccount = true;
+        }
+        for (int i = 0; i < spendingAccountsEntitiesList.size(); i++) {
+            SpendingAccountsEntity selected = spendingAccountsEntitiesList.get(i);
+            for (int k = 0; k < selected.getPercentagesNamesList().size(); k++) {
+                for (int j = 0; j < allSpendsList.size(); j++) {
+                    if(allSpendsList.get(j).getIsPartOf().equals(selected.getPercentagesNamesList().get(k))){
+                        amountAux1 += allSpendsList.get(j).getAmount();
+                    }else if(allSpendsList.get(j).getSubAccountID().equals(selected.getPercentagesNamesList().get(k))){
+                        amountAux1 += allSpendsList.get(j).getAmount();
+                    }
+                }
+            }
+
+            if(amountAux1 > amountAux2){
+                mostSpendAccountName = selected.getAccountTitle();
+                amountAux2 = amountAux1;
+                amountAux1 = 0.0;
+            }
+        }
+
+        List<String> accountsNames = new ArrayList<>();
+        List<SpendsEntity> spendsEntityList = new ArrayList<>();
+        List<SpendsEntity> spendsEntityListAUX = new ArrayList<>(allSpendsList);
+
+        if(moreThanOneAccount){
+            boolean moreThanFour = false;
+            for (int i = 0; i < spendingAccountsEntitiesList.size(); i++) {
+                List<SpendsEntity> auxList1 = new ArrayList<>();
+
+                auxList1.addAll(spendingAccountsEntitiesList.get(i).getSpendsList());
+
+                if(spendingAccountsEntitiesList.get(i).getSubAccountsList() != null){
+                    for (int j = 0; j < spendingAccountsEntitiesList.get(i).getSubAccountsList().size(); j++) {
+                        SubSpendingAccountsEntity subSelected = spendingAccountsEntitiesList.get(j).getSubAccountsList().get(j);
+
+                        auxList1.addAll(subSelected.getSpendsList());
+                    }
+                }
+                List<SpendsEntity> auxList2 = new ArrayList<>();
+                for (int j = 0; j < auxList1.size(); j++) {
+                    SpendsEntity spend = auxList1.get(j);
+                    spend.setIsPartOf(spendingAccountsEntitiesList.get(i).getAccountTitle());
+                    auxList2.add(spend);
+                }
+
+                if(accountsNames.size() >= 4){
+                    moreThanFour = true;
+                    double aux1Amount = 0.0;
+                    double maisPequeno = 0.0;
+                    String maisPequenoString = "";
+                    for (int j = 0; j < auxList2.size(); j++) {
+                        aux1Amount += auxList2.get(j).getAmount();
+                    }
+
+                    for (int j = 0; j < accountsNames.size(); j++) {
+                        double aux2Amount = 0.0;
+                        for (int k = 0; k < spendsEntityList.size(); k++) {
+                            if(spendsEntityList.get(k).getIsPartOf().equals(accountsNames.get(j))){
+                                aux2Amount += spendsEntityList.get(k).getAmount();
+                            }
+                        }
+                        if(aux2Amount < maisPequeno){
+                            maisPequeno = aux2Amount;
+                            maisPequenoString = accountsNames.get(j);
+                        }
+                    }
+
+                    if(aux1Amount > maisPequeno){
+                        accountsNames.remove(maisPequenoString);
+                        accountsNames.add(spendingAccountsEntitiesList.get(i).getAccountTitle());
+                        spendsEntityList.addAll(auxList2);
+                    }
+                }else{
+                    accountsNames.add(spendingAccountsEntitiesList.get(i).getAccountTitle());
+                    spendsEntityList.addAll(auxList2);
+                }
+            }
+
+            if(spendingAccountsEntitiesList.size() > 4){
+                accountsNames.add("Others");
+            }
+        }else{
+            for (int i = 0; i < spendingAccountsEntitiesList.size(); i++) {
+                accountsNames.addAll(spendingAccountsEntitiesList.get(i).getPercentagesNamesList());
+                spendsEntityList.addAll(spendingAccountsEntitiesList.get(i).getSpendsList());
+            }
+        }
+
+        for (int i = 0; i < accountsNames.size(); i++) {
+            for (int j = 0; j < spendsEntityList.size(); j++) {
+                if(spendsEntityList.get(j).getIsPartOf().equals(accountsNames.get(i))){
+                    spendsEntityListAUX.add(spendsEntityList.get(j));
+                }
+            }
+        }
+        spendsEntityList.removeAll(spendsEntityListAUX);
+        List<SpendsEntity> auxList2 = new ArrayList<>();
+        for (int i = 0; i < spendsEntityList.size(); i++) {
+            SpendsEntity spend = spendsEntityList.get(i);
+            spend.setIsPartOf(other);
+            auxList2.add(spend);
+        }
+        spendsEntityList.clear();
+        spendsEntityList.addAll(spendsEntityListAUX);
+        spendsEntityList.addAll(auxList2);
+
+        List<Float> percentagesList = calculateSpendPercentages(spendsEntityList, accountsNames);
+
+        String lessSpendAccountName = getString(R.string.mainAc_Monthly_ResumeEmail_Text_1);
+        for (int i = 0; i < spendingAccountsEntitiesList.size(); i++) {
+            SpendingAccountsEntity selected = spendingAccountsEntitiesList.get(i);
+            for (int k = 0; k < selected.getPercentagesNamesList().size(); k++) {
+                for (int j = 0; j < allSpendsList.size(); j++) {
+                    if(allSpendsList.get(j).getIsPartOf().equals(selected.getPercentagesNamesList().get(k))){
+                        amountAux1 += allSpendsList.get(j).getAmount();
+                    }else if(allSpendsList.get(j).getSubAccountID().equals(selected.getPercentagesNamesList().get(k))){
+                        amountAux1 += allSpendsList.get(j).getAmount();
+                    }
+                }
+            }
+
+            if(amountAux1 < amountAux2){
+                lessSpendAccountName = selected.getAccountTitle();
+                amountAux2 = amountAux1;
+                amountAux1 = 0.0;
+            }
+        }
+
+        PieChart pieChart = binding.piechartAuxMainAc;
+        setupPieChart(pieChart, percentagesList);
+
+        Bitmap chartBitmap = Bitmap.createBitmap(pieChart.getWidth(), pieChart.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(chartBitmap);
+        canvas.drawColor(Color.TRANSPARENT);
+        pieChart.draw(canvas);
+
+        List<String> colorsHexList = new ArrayList<>();
+        int color1 = getResources().getColor(R.color.textDark);
+        int color2 = getResources().getColor(R.color.extra1);
+        int color3 = getResources().getColor(R.color.extra2);
+        int color4 = getResources().getColor(R.color.extra3);
+        int color5 = getResources().getColor(R.color.extra4);
+        colorsHexList.add(convertColorToHex(color1));
+        colorsHexList.add(convertColorToHex(color2));
+        colorsHexList.add(convertColorToHex(color3));
+        colorsHexList.add(convertColorToHex(color4));
+        colorsHexList.add(convertColorToHex(color5));
+
+        List<String> percentagesListString = new ArrayList<>();
+        for (int i = 0; i < percentagesList.size(); i++) {
+            String aux = String.format("%.2f", percentagesList.get(i));
+            percentagesListString.add(aux);
+        }
+
+        SendMonthlyResumeEmail sendMonthlyResumeEmail = new SendMonthlyResumeEmail(UserInfosEntity, this);
+        sendMonthlyResumeEmail.prepareMonthlyResumeEmailInfo(chartBitmap, title, textValue1, mostSpendText, lessSpendText,
+                totalAmountString, mostSpendAccountName, lessSpendAccountName, percentagesListString, accountsNames, colorsHexList);
     }
     //-----------------------------------------------BACKUPS-----------------------------------------------
     private interface FirestoreDBCallback_getAllBackups{
@@ -928,7 +1175,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                     if (item.getItemId() == R.id.mainAc_SideBar_Share) {
                         showShareBottomSheet();
                     }else if(item.getItemId() == R.id.mainAc_SideBar_RateUs){
-
+                        sendMonthlyResumeEmailHelper();
                     }else if(item.getItemId() == R.id.mainAc_SideBar_Backups){
                         runSwipeRightAnimation("Backups");
                     }else if(item.getItemId() == R.id.mainAc_SideBar_Configs){
@@ -1320,7 +1567,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                             scaleDownAnimtion();
                             enableDisableAll(true);
 
-                            MainACSpendingsViewAddSpendingsFragment fragment = new MainACSpendingsViewAddSpendingsFragment(spendingAccountsEntitiesList, UserInfosEntity, fastRegisterData);
+                            MainACSpendingsViewAddSpendingsFragment fragment = new MainACSpendingsViewAddSpendingsFragment(spendingAccountsEntitiesList, UserInfosEntity, fastRegisterData, true);
                             fragment.setExitMainACSpendingsViewAddSpendingsFragListenner(THIS);
                             getSupportFragmentManager()
                                     .beginTransaction()

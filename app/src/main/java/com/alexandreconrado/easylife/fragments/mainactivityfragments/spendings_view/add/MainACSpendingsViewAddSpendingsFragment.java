@@ -57,6 +57,7 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
     private List<SubSpendingAccountsEntity> subAcountsList = new ArrayList<>();
     private SpendingAccountsEntity selectedAccount;
     private String selectedSubSpend = "", subAccountCategorySelected, fastRegisterData;
+    private boolean fastRegister = false;
     private Date spendDate;
     private UserInfosEntity userInfos;
     private MainACSpendingsViewAddSpendingsFragment THIS;
@@ -78,6 +79,11 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
         this.spendingAccountsEntityList = spendingAccountsEntityList;
         this.userInfos = userInfos;
         this.fastRegisterData = fastRegisterData;
+    }
+    public MainACSpendingsViewAddSpendingsFragment(List<SpendingAccountsEntity> spendingAccountsEntityList, UserInfosEntity userInfos, String fastRegisterData, boolean fastRegister) {
+        this.spendingAccountsEntityList = spendingAccountsEntityList;
+        this.userInfos = userInfos;
+        this.fastRegister = fastRegister;
     }
 
     @Override
@@ -104,7 +110,7 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
         setupOnItemSelectedSpinnerSubAccountsCategorys();
         disableBackPressed();
 
-        if(fastRegisterData != null){
+        if(fastRegisterData != null && fastRegister){
             binding.editTextAmountSpendFragMainACSpendingsViewAddSpendings.setText(fastRegisterData);
             insertDeleteToEditTextAmount(true);
 

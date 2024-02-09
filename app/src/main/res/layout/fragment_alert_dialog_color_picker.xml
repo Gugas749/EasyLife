@@ -58,37 +58,34 @@
             app:layout_constraintEnd_toStartOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="parent" />
-        <FrameLayout
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_Confirm_AlertDialogFragment_ColorPicker"
+            android:layout_below="@+id/colorAlphaSlider_FragAlertDialogColorPicker"
+            android:textAlignment="center"
+            android:textSize="@dimen/_12sdp"
+            android:paddingTop="@dimen/_11sdp"
+            android:paddingBottom="@dimen/_11sdp"
+            android:paddingLeft="@dimen/_15sdp"
+            android:paddingRight="@dimen/_15sdp"
+            android:text="@string/general_confirm"
+            android:textColor="?attr/textAppearanceBodySmall"
+            android:background="@drawable/round_button_secondary"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_Cancel_AlertDialogFragment_ColorPicker"
+            android:layout_below="@+id/button_Confirm_AlertDialogFragment_ColorPicker"
+            android:textSize="@dimen/_12sdp"
             android:layout_marginTop="@dimen/_11sdp"
-            android:layout_below="@+id/colorAlphaSlider_FragAlertDialogColorPicker">
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_Cancel_AlertDialogFragment_ColorPicker"
-                android:layout_gravity="left"
-                android:textSize="@dimen/_12sdp"
-                android:paddingTop="@dimen/_11sdp"
-                android:paddingBottom="@dimen/_11sdp"
-                android:paddingLeft="@dimen/_20sdp"
-                android:paddingRight="@dimen/_20sdp"
-                android:text="@string/general_cancel"
-                android:textColor="?attr/textAppearanceBodySmall"
-                android:background="@drawable/round_button_secondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_Confirm_AlertDialogFragment_ColorPicker"
-                android:layout_gravity="right"
-                android:textSize="@dimen/_12sdp"
-                android:paddingTop="@dimen/_11sdp"
-                android:paddingBottom="@dimen/_11sdp"
-                android:paddingLeft="@dimen/_20sdp"
-                android:paddingRight="@dimen/_20sdp"
-                android:text="@string/general_confirm"
-                android:textColor="?attr/textAppearanceBodySmall"
-                android:background="@drawable/round_button_secondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </FrameLayout>
+            android:paddingTop="@dimen/_11sdp"
+            android:paddingBottom="@dimen/_11sdp"
+            android:paddingLeft="@dimen/_15sdp"
+            android:paddingRight="@dimen/_15sdp"
+            android:text="@string/general_cancel"
+            android:textAlignment="center"
+            android:textColor="?attr/textAppearanceBodySmall"
+            android:background="@drawable/round_button_secondary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 </FrameLayout>

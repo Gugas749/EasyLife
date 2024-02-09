@@ -77,7 +77,6 @@
                 android:padding="@dimen/_4sdp"
                 android:src="@drawable/hamburguer_menu"
                 app:tint="?attr/textAppearanceBodySmall"/>
-
         </androidx.cardview.widget.CardView>
         <!--                -->
 
@@ -88,7 +87,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.10" />
-
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/piechart_aux_mainAc"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:elevation="@dimen/_minus16sdp"
+            android:visibility="invisible"
+            tools:ignore="MissingConstraints" />
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_bottom_MainAC"
             android:layout_width="match_parent"
