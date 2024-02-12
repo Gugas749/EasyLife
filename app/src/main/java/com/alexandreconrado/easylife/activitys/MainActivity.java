@@ -1065,9 +1065,9 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         binding.frameLayoutFullScreenFragmentContainerForHowTosMainAc.setBackground(null);
         binding.frameLayoutFullScreenFragmentContainerForHowTosMainAc.setVisibility(View.GONE);
 
-        AuthenticationFragment fragment = new AuthenticationFragment();
-        fragment.setAuthenticationCompletedFragAuthenticationListenner(this);
-        fragment.setParent(this);
+        AuthenticationFragment fragment = new AuthenticationFragment(THIS);
+        fragment.setAuthenticationCompletedFragAuthenticationListenner(THIS);
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.frameLayout_fullScreenFragmentContainer_MainAc, fragment)

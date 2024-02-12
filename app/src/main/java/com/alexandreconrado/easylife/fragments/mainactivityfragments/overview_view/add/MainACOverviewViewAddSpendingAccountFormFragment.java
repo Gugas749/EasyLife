@@ -49,6 +49,9 @@ public class MainACOverviewViewAddSpendingAccountFormFragment extends Fragment i
         void onExitButtonClickFragMainACOverviewViewAddSpendingsForm(boolean Changed, SpendingAccountsEntity returned);
     }
 
+    public MainACOverviewViewAddSpendingAccountFormFragment() {
+
+    }
     public MainACOverviewViewAddSpendingAccountFormFragment(UserInfosEntity userInfos) {
         this.userInfos = userInfos;
     }

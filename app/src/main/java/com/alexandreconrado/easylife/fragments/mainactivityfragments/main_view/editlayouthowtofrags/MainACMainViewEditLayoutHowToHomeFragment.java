@@ -27,6 +27,10 @@ public class MainACMainViewEditLayoutHowToHomeFragment extends Fragment {
     private MainACMainViewEditLayoutFragment parent;
     private Boolean fromNext;
 
+
+    public MainACMainViewEditLayoutHowToHomeFragment() {
+
+    }
     public MainACMainViewEditLayoutHowToHomeFragment(MainACMainViewEditLayoutFragment parent, Boolean fromNext) {
         this.parent = parent;
         this.fromNext = fromNext;

@@ -19,6 +19,9 @@ public class AlertDialogNotifyFragment extends Fragment {
     private FragmentAlertDialogNotifyBinding binding;
     private String title, description;
 
+    public AlertDialogNotifyFragment() {
+
+    }
     public AlertDialogNotifyFragment(String title, String description, ContinueButtonClick listenner) {
         this.title = title;
         this.description = description;

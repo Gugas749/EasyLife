@@ -29,6 +29,9 @@ public class MainACMainViewEditLayoutHowToDragNDropFragment extends Fragment {
     private String nextButtonState = "base";
     private Boolean fromNext;
 
+    public MainACMainViewEditLayoutHowToDragNDropFragment() {
+
+    }
     public MainACMainViewEditLayoutHowToDragNDropFragment(MainACMainViewEditLayoutFragment parent, Boolean fromNext) {
         this.parent = parent;
         this.fromNext = fromNext;

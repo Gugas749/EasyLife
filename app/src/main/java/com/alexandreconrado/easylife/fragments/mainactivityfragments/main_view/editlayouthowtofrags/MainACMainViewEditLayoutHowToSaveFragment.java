@@ -29,6 +29,10 @@ public class MainACMainViewEditLayoutHowToSaveFragment extends Fragment {
     private MainACMainViewEditLayoutFragment parent;
     private String nextButtonState = "base";
     private Boolean stopAnims = false, initialSaveAnimationIsFinished = false;
+
+    public MainACMainViewEditLayoutHowToSaveFragment() {
+
+    }
     public MainACMainViewEditLayoutHowToSaveFragment(MainACMainViewEditLayoutFragment parent) {
         this.parent = parent;
     }

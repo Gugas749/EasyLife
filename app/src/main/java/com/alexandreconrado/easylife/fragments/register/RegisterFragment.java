@@ -30,7 +30,7 @@ import com.alexandreconrado.easylife.scripts.BiometricChecker;
 
 public class RegisterFragment extends Fragment {
 
-    private final SplashActivity parent;
+    private SplashActivity parent;
     private FragmentRegisterBinding binding;
     private int currentDialogFragment = 0;
     private RegisterDialogAccountFragment registerDialogAccountFragment;
@@ -38,6 +38,9 @@ public class RegisterFragment extends Fragment {
     private RegisterDialogBiometricFragment registerDialogBiometricFragment;
     private RegisterDialogFaceIDFragment registerDialogFaceIDFragment;
 
+    public RegisterFragment() {
+
+    }
     public RegisterFragment(SplashActivity parent) {
         this.parent = parent;
     }

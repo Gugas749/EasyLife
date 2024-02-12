@@ -55,6 +55,9 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
         this.exitListenner = exitListenner;
     }
 
+    public MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetailsFragment() {
+
+    }
     public MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetailsFragment(SubSpendingAccountsEntity subAccount) {
         this.subAccount = subAccount;
         oldSubAccount = subAccount;

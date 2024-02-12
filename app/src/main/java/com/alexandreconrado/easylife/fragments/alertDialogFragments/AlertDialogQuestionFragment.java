@@ -24,6 +24,10 @@ public class AlertDialogQuestionFragment extends Fragment {
     private FragmentAlertDialogQuestionBinding binding;
     private String title, description, Style;
 
+
+    public AlertDialogQuestionFragment() {
+
+    }
     public AlertDialogQuestionFragment(String title, String description, ConfirmButtonClick listenner, CancelButtonClick cancelListenner, String Style) {
         this.title = title;
         this.description = description;

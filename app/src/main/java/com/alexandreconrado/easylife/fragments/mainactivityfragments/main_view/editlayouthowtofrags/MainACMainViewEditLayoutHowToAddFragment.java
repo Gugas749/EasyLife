@@ -29,6 +29,9 @@ public class MainACMainViewEditLayoutHowToAddFragment extends Fragment {
     private MainACMainViewEditLayoutFragment parent;
     private Boolean fromNext;
 
+    public MainACMainViewEditLayoutHowToAddFragment() {
+
+    }
     public MainACMainViewEditLayoutHowToAddFragment(MainACMainViewEditLayoutFragment parent, Boolean fromNext) {
         this.parent = parent;
         this.fromNext = fromNext;

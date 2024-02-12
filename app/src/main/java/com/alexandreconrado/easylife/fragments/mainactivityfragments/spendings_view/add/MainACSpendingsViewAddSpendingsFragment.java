@@ -71,6 +71,10 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
     public void setExitMainACSpendingsViewAddSpendingsFragListenner(ExitMainACSpendingsViewAddSpendingsFrag listenner){
         this.listenner = listenner;
     }
+
+    public MainACSpendingsViewAddSpendingsFragment() {
+
+    }
     public MainACSpendingsViewAddSpendingsFragment(List<SpendingAccountsEntity> spendingAccountsEntityList, UserInfosEntity userInfos) {
         this.spendingAccountsEntityList = spendingAccountsEntityList;
         this.userInfos = userInfos;

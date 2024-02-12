@@ -60,6 +60,9 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
         this.exitListenner = exitListenner;
     }
 
+    public MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFragment() {
+
+    }
     public MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFragment(String SubAccountName, int positionOnList, SpendingAccountsEntity account, List<String> percentagesNamesFromParent) {
         this.SubAccountName = SubAccountName;
         this.nameFromDB = SubAccountName;

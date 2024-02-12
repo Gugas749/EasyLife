@@ -59,11 +59,12 @@ public class AuthenticationFragment extends Fragment {
     public void setAuthenticationCompletedFragAuthenticationListenner(AuthenticationCompletedFragAuthentication listenner){
         this.listenner = listenner;
     }
-    public void setParent(MainActivity parent){
-        this.parent = parent;
-    }
+
     public AuthenticationFragment() {
         // Required empty public constructor
+    }
+    public AuthenticationFragment(MainActivity parent) {
+        this.parent = parent;
     }
 
     @Override
@@ -106,8 +107,10 @@ public class AuthenticationFragment extends Fragment {
         new LocalDatabaseGetUserInfosTask(callback).execute();
     }
     private void setupLocalDataBase(){
-        localDataBase = Room.databaseBuilder(parent, LocalDataBase.class, "EasyLifeLocalDB").build();
-        userInfosDao = localDataBase.userInfosDao();
+        if(getContext() != null){
+            localDataBase = Room.databaseBuilder(getContext(), LocalDataBase.class, "EasyLifeLocalDB").build();
+            userInfosDao = localDataBase.userInfosDao();
+        }
     }
     private void enableDisableEverything(boolean enable){
         if(enable){

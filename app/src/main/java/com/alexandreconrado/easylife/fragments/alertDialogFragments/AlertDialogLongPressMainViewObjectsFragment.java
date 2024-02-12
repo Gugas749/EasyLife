@@ -35,6 +35,9 @@ public class AlertDialogLongPressMainViewObjectsFragment extends Fragment {
     public interface ConfirmButtonClickAlertDialogLongPressMainViewObjectsFrag{
         void onConfirmButtonClickAlertDialogLongPressMainViewObjectsFrag(DraggableCardViewEntity object, boolean canHoldMainAccount, int selectedSubAccountIndex);
     }
+    public AlertDialogLongPressMainViewObjectsFragment() {
+
+    }
     public AlertDialogLongPressMainViewObjectsFragment(DraggableCardViewEntity object, List<SpendingAccountsEntity> spendingAccountsEntityList) {
         this.object = object;
         this.spendingAccountsEntityList = spendingAccountsEntityList;

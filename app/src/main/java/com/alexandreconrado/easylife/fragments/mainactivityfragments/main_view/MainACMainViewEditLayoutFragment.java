@@ -69,6 +69,9 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
         void OnFragMainACMainViewEditLayoutExitClick(boolean changed, List<DraggableCardViewEntity> draggableCardViewObjectList);
     }
 
+    public MainACMainViewEditLayoutFragment() {
+
+    }
     public MainACMainViewEditLayoutFragment(OnFragMainACMainViewEditLayoutExitClick onExitClickListenner, List<DraggableCardViewEntity> list) {
         this.onExitClickListenner = onExitClickListenner;
         this.draggableCardViewEntityListLoadedFormDB = list;

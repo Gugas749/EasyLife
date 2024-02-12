@@ -27,9 +27,12 @@ public class RegisterPasswordDialogFragment extends Fragment {
     private LocalDataBase databaseLocal;
     private UserInfosDao userInfosDao;
     private FragmentRegisterPasswordDialogBinding binding;
-    private final RegisterFragment parent;
+    private RegisterFragment parent;
     private String email;
 
+    public RegisterPasswordDialogFragment() {
+
+    }
     public RegisterPasswordDialogFragment(RegisterFragment parent) {
         this.parent = parent;
     }

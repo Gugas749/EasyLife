@@ -32,6 +32,9 @@ public class MainACMainViewEditLayoutHowToDeleteFragment extends Fragment {
     private Boolean fromNext;
     private Boolean stopAnims = false, initialSaveAnimationIsFinished = false;
 
+    public MainACMainViewEditLayoutHowToDeleteFragment() {
+
+    }
     public MainACMainViewEditLayoutHowToDeleteFragment(MainACMainViewEditLayoutFragment parent, Boolean fromNext) {
         this.parent = parent;
         this.fromNext = fromNext;

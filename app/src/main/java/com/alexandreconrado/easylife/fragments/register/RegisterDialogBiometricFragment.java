@@ -16,8 +16,11 @@ import com.alexandreconrado.easylife.databinding.FragmentRegisterDialogBiometric
 public class RegisterDialogBiometricFragment extends Fragment {
 
     private FragmentRegisterDialogBiometricBinding binding;
-    private final RegisterFragment parent;
+    private RegisterFragment parent;
 
+    public RegisterDialogBiometricFragment() {
+
+    }
     public RegisterDialogBiometricFragment(RegisterFragment parent) {
         this.parent = parent;
     }

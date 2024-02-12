@@ -82,6 +82,9 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
         this.listenner = listenner;
     }
     //-----------------------------------------------
+    public MainACOverviewViewSpendingAccountDetailsFormFragment() {
+
+    }
     public MainACOverviewViewSpendingAccountDetailsFormFragment(SpendingAccountsEntity account) {
         this.account = account;
     }

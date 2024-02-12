@@ -26,6 +26,10 @@ public class RectangleWithPieChartExampleAddSubAccountFragment extends Fragment 
     public void setConfirmAlertDialogFragRectangleWithPieChartExampleAddSubAccountListenner(ConfirmAlertDialogFragRectangleWithPieChartExampleAddSubAccount listenner){
         this.listenner = listenner;
     }
+
+    public RectangleWithPieChartExampleAddSubAccountFragment() {
+
+    }
     public RectangleWithPieChartExampleAddSubAccountFragment(int index) {
         this.index = index;
     }
