@@ -106,6 +106,7 @@
     <string name="mainAc_Monthly_ResumeEmail_Text_1">Quanto você gastou este mês</string>
     <string name="mainAc_Monthly_ResumeEmail_Text_2">Em que conta gastou mais</string>
     <string name="mainAc_Monthly_ResumeEmail_Text_3">Em que conta gastou menos</string>
+    <string name="mainAc_Monthly_ResumeEmail_Text_4">Resumo de Despesas</string>
     <!-- Main AC - Main View -->
     <string name="mainAc_FragMainView_Example_ChartName_Text">Nome do Seu Gráfico</string>
     <string name="mainAc_FragMainView_Example_Percentage1_Text">Percentagem 1</string>

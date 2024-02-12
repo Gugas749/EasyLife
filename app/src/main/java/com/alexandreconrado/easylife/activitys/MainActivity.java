@@ -95,14 +95,20 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.text.DateFormatSymbols;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -175,25 +181,6 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 }
             }
         }.start();
-
-        /*if(seenTutorial){
-            new CountDownTimer(500, 1000) {
-                public void onTick(long millisUntilFinished) {
-
-                }
-
-                public void onFinish() {
-                    init();
-                    startFragAnimations();
-                    showAuthenticationScreen();
-                }
-            }.start();
-        } else{
-            inFragment();
-            init();
-            binding.frameLayoutFullScreenFragmentContainerMainAc.setBackground(null);
-            tutorialChangeFragments(0, false, false, 0);
-        }*/
     }
 
     //-----------------SETUPS--------------------
@@ -349,12 +336,11 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     public void onResume() {
         super.onResume();
         disableBackPressed();
-        if(seenTutorial){
-            if(getSession()){ // SESSION STILL AVALIABLE
+        monthlyResumeEmailCheck();
+        if(getSession()){ // SESSION STILL AVALIABLE
 
-            }else{// SESSION NOT AVALIABLE
-                showAuthenticationScreen();
-            }
+        }else{// SESSION NOT AVALIABLE
+            showAuthenticationScreen();
         }
     }
     private boolean getSession(){
@@ -428,23 +414,65 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     private String convertColorToHex(int color) {
         return String.format("#%06X", (0xFFFFFF & color));
     }
-    private void sendMonthlyResumeEmailHelper(){
-        double totalAmount = 0.0;
-        for (int i = 0; i < allSpendsList.size(); i++) {
-            totalAmount += allSpendsList.get(i).getAmount();
-        }
-        String totalAmountString = String.format("%.2f", totalAmount);
+    private void monthlyResumeEmailCheck(){
+        SharedPreferences sharedPreferences = getSharedPreferences("Perf_User", MODE_PRIVATE);
+        String lastMonth = sharedPreferences.getString("lastSendMonthlyResumeEmailMonth", "");
+        String lastYear = sharedPreferences.getString("lastSendMonthlyResumeEmailYear", "");
+        if(!lastMonth.equals("") && !lastYear.equals("")){
+            LocalDate currentDate = LocalDate.now();
+            Month month = currentDate.getMonth();
+            String year = String.valueOf(currentDate.getYear());
+            String monthName = month.toString();
 
+            if(!year.equals(lastYear) && !monthName.equals(lastMonth)){
+                sendMonthlyResumeEmailHelper();
+            }
+        }
+
+    }
+    private void sendMonthlyResumeEmailHelper(){
         LocalDate currentDate = LocalDate.now();
         Month month = currentDate.getMonth();
         int year = currentDate.getYear();
-        String monthName = month.toString();
+        String monthNameEn = month.toString();
+
+        Locale locale = Locale.getDefault();
+        DateFormatSymbols symbols = new DateFormatSymbols(locale);
+        String monthName = symbols.getMonths()[month.getValue() - 1];
+
+        SharedPreferences sharedPreferences = getSharedPreferences("Perf_User", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("lastSendMonthlyResumeEmailMonth", monthNameEn);
+        editor.putString("lastSendMonthlyResumeEmailYear", String.valueOf(year));
+        editor.apply();
+
         monthName = monthName.substring(0, 1).toUpperCase() + monthName.substring(1).toLowerCase();
-        String title = " "+monthName+" "+year+" Spends Resume";
+        String title = " "+monthName+" "+year+" "+getString(R.string.mainAc_Monthly_ResumeEmail_Text_4);
+
         String textValue1 = getString(R.string.mainAc_Monthly_ResumeEmail_Text_1);
         String mostSpendText = getString(R.string.mainAc_Monthly_ResumeEmail_Text_2);
         String lessSpendText = getString(R.string.mainAc_Monthly_ResumeEmail_Text_3);
         String other = getString(R.string.general_Others);
+
+        List<SpendsEntity> allSpendThisMonth = new ArrayList<>();
+        for (int i = 0; i < allSpendsList.size(); i++) {
+            SpendsEntity spendSelected = allSpendsList.get(i);
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(spendSelected.getDate());
+            int monthFor = cal.get(Calendar.MONTH);
+            monthFor++;
+            if(monthFor == month.getValue()){
+                allSpendThisMonth.add(allSpendsList.get(i));
+            }
+        }
+
+        double totalAmount = 0.0;
+        for (int i = 0; i < allSpendThisMonth.size(); i++) {
+            totalAmount += allSpendThisMonth.get(i).getAmount();
+        }
+        String totalAmountString = String.format("%.2f", totalAmount);
+        totalAmountString += "€";
 
         double amountAux1 = 0.0;
         double amountAux2 = 0.0;
@@ -456,11 +484,11 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         for (int i = 0; i < spendingAccountsEntitiesList.size(); i++) {
             SpendingAccountsEntity selected = spendingAccountsEntitiesList.get(i);
             for (int k = 0; k < selected.getPercentagesNamesList().size(); k++) {
-                for (int j = 0; j < allSpendsList.size(); j++) {
-                    if(allSpendsList.get(j).getIsPartOf().equals(selected.getPercentagesNamesList().get(k))){
-                        amountAux1 += allSpendsList.get(j).getAmount();
-                    }else if(allSpendsList.get(j).getSubAccountID().equals(selected.getPercentagesNamesList().get(k))){
-                        amountAux1 += allSpendsList.get(j).getAmount();
+                for (int j = 0; j < allSpendThisMonth.size(); j++) {
+                    if(allSpendThisMonth.get(j).getIsPartOf().equals(selected.getPercentagesNamesList().get(k))){
+                        amountAux1 += allSpendThisMonth.get(j).getAmount();
+                    }else if(allSpendThisMonth.get(j).getSubAccountID().equals(selected.getPercentagesNamesList().get(k))){
+                        amountAux1 += allSpendThisMonth.get(j).getAmount();
                     }
                 }
             }
@@ -474,7 +502,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
 
         List<String> accountsNames = new ArrayList<>();
         List<SpendsEntity> spendsEntityList = new ArrayList<>();
-        List<SpendsEntity> spendsEntityListAUX = new ArrayList<>(allSpendsList);
+        List<SpendsEntity> spendsEntityListAUX = new ArrayList<>(allSpendThisMonth);
 
         if(moreThanOneAccount){
             boolean moreThanFour = false;
@@ -490,6 +518,8 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                         auxList1.addAll(subSelected.getSpendsList());
                     }
                 }
+
+
                 List<SpendsEntity> auxList2 = new ArrayList<>();
                 for (int j = 0; j < auxList1.size(); j++) {
                     SpendsEntity spend = auxList1.get(j);
@@ -539,6 +569,20 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 spendsEntityList.addAll(spendingAccountsEntitiesList.get(i).getSpendsList());
             }
         }
+        List<SpendsEntity> spendsEntityListAUXXXXX = new ArrayList<>();
+        for (int i = 0; i < spendsEntityList.size(); i++) {
+            SpendsEntity spendSelected = spendsEntityList.get(i);
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(spendSelected.getDate());
+            int monthFor = cal.get(Calendar.MONTH);
+            monthFor++;
+            if(monthFor == month.getValue()){
+                spendsEntityListAUXXXXX.add(spendsEntityList.get(i));
+            }
+        }
+        spendsEntityList.clear();
+        spendsEntityList.addAll(spendsEntityListAUXXXXX);
 
         for (int i = 0; i < accountsNames.size(); i++) {
             for (int j = 0; j < spendsEntityList.size(); j++) {
@@ -564,11 +608,11 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         for (int i = 0; i < spendingAccountsEntitiesList.size(); i++) {
             SpendingAccountsEntity selected = spendingAccountsEntitiesList.get(i);
             for (int k = 0; k < selected.getPercentagesNamesList().size(); k++) {
-                for (int j = 0; j < allSpendsList.size(); j++) {
-                    if(allSpendsList.get(j).getIsPartOf().equals(selected.getPercentagesNamesList().get(k))){
-                        amountAux1 += allSpendsList.get(j).getAmount();
-                    }else if(allSpendsList.get(j).getSubAccountID().equals(selected.getPercentagesNamesList().get(k))){
-                        amountAux1 += allSpendsList.get(j).getAmount();
+                for (int j = 0; j < allSpendThisMonth.size(); j++) {
+                    if(allSpendThisMonth.get(j).getIsPartOf().equals(selected.getPercentagesNamesList().get(k))){
+                        amountAux1 += allSpendThisMonth.get(j).getAmount();
+                    }else if(allSpendThisMonth.get(j).getSubAccountID().equals(selected.getPercentagesNamesList().get(k))){
+                        amountAux1 += allSpendThisMonth.get(j).getAmount();
                     }
                 }
             }
@@ -603,6 +647,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         List<String> percentagesListString = new ArrayList<>();
         for (int i = 0; i < percentagesList.size(); i++) {
             String aux = String.format("%.2f", percentagesList.get(i));
+            aux += "%";
             percentagesListString.add(aux);
         }
 

@@ -216,10 +216,15 @@ public class AuthenticationFragment extends Fragment {
 
     //--------------------BIOMETRICS---------------------
     private void showBiometricPrompt() {
+        if (getContext() == null) {
+            // Fragment not attached to a context, cannot proceed
+            return;
+        }
+
         BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
-                .setTitle(getResources().getString(R.string.alertDialog_RestartSession_BiometricID_Title))
-                .setSubtitle(getResources().getString(R.string.alertDialog_RestartSession_BiometricID_Subtitle))
-                .setNegativeButtonText(getResources().getString(R.string.general_cancel))
+                .setTitle(getContext().getString(R.string.alertDialog_RestartSession_BiometricID_Title))
+                .setSubtitle(getContext().getString(R.string.alertDialog_RestartSession_BiometricID_Subtitle))
+                .setNegativeButtonText(getContext().getString(R.string.general_cancel))
                 .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG)
                 .build();
 
