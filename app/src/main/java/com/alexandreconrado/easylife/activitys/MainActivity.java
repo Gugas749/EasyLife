@@ -1220,7 +1220,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                     if (item.getItemId() == R.id.mainAc_SideBar_Share) {
                         showShareBottomSheet();
                     }else if(item.getItemId() == R.id.mainAc_SideBar_RateUs){
-                        sendMonthlyResumeEmailHelper();
+
                     }else if(item.getItemId() == R.id.mainAc_SideBar_Backups){
                         runSwipeRightAnimation("Backups");
                     }else if(item.getItemId() == R.id.mainAc_SideBar_Configs){
