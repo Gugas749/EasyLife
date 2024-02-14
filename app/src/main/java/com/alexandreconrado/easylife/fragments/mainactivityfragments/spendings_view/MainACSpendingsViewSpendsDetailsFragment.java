@@ -110,6 +110,7 @@ public class MainACSpendingsViewSpendsDetailsFragment extends Fragment implement
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    binding.imageViewButtonExitFragMainACSpendingsViewSpendsDetails.performClick();
                     return true;
                 }
                 return false;
@@ -147,7 +148,7 @@ public class MainACSpendingsViewSpendsDetailsFragment extends Fragment implement
     private void loadInfosSpinners(){
         for (int i = 0; i < spendingAccountsEntityList.size(); i++) {
             SpendingAccountsEntity selectedObject = spendingAccountsEntityList.get(i);
-            if(spendSelected.getMainAccountID().equals(String.valueOf(selectedObject.getId()))){
+            if(spendSelected.getMainAccountID().equals(selectedObject.getAccountTitle())){
                 selectedAccount = selectedObject;
                 binding.spinnerSpendigsAccountsFragMainACSpendingsViewSpendsDetails.selectItemByIndex(i);
                 loadSpinnerSubAccounts(i);
@@ -534,7 +535,9 @@ public class MainACSpendingsViewSpendsDetailsFragment extends Fragment implement
     public void onConfirmButtonClicked(String Tag) {
         switch (Tag){
             case "FragMainACSpendingsViewSpendsDetails_Delete":
-                selectedAccount.getSpendsList().remove(spendSelected);
+                if(selectedAccount.getSpendsList() != null){
+                    selectedAccount.getSpendsList().remove(spendSelected);
+                }
                 new LocalDatabaseUpdateTask().execute();
                 break;
             case "FragMainACSpendingsViewSpendsDetails_Exit":

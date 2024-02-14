@@ -92,6 +92,7 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    binding.imageViewButtonExitFragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.performClick();
                     return true;
                 }
                 return false;
@@ -347,28 +348,28 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
                     colors[i] = Integer.parseInt(percentagesColorsList.get(0));
                     binding.linerLayoutPieChartPercentage1FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.VISIBLE);
                     binding.cardViewColorIndicatorPercentage1FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardBackgroundColor(Integer.parseInt(percentagesColorsList.get(0)));
-                    binding.textViewPercentageText11FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setText(percetagesValuesList.get(0) * 100+"%");
+                    binding.textViewPercentageText11FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setText(percetagesValuesList.get(0)+"%");
                     break;
                 case 1:
                     entries.add(new PieEntry(percetagesValuesList.get(1)));
                     colors[i] = Integer.parseInt(percentagesColorsList.get(1));
                     binding.linerLayoutPieChartPercentage2FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.VISIBLE);
                     binding.cardViewColorIndicatorPercentage2FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardBackgroundColor(Integer.parseInt(percentagesColorsList.get(1)));
-                    binding.textViewPercentageText21FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setText(percetagesValuesList.get(1) * 100+"%");
+                    binding.textViewPercentageText21FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setText(percetagesValuesList.get(1)+"%");
                     break;
                 case 2:
                     entries.add(new PieEntry(percetagesValuesList.get(2)));
                     colors[i] = Integer.parseInt(percentagesColorsList.get(2));
                     binding.linerLayoutPieChartPercentage3FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.VISIBLE);
                     binding.cardViewColorIndicatorPercentage3FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardBackgroundColor(Integer.parseInt(percentagesColorsList.get(2)));
-                    binding.textViewPercentageText31FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setText(percetagesValuesList.get(2) * 100+"%");
+                    binding.textViewPercentageText31FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setText(percetagesValuesList.get(2)+"%");
                     break;
                 case 3:
                     entries.add(new PieEntry(percetagesValuesList.get(3)));
                     colors[i] = Integer.parseInt(percentagesColorsList.get(3));
                     binding.linerLayoutPieChartPercentage4FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setVisibility(View.VISIBLE);
                     binding.cardViewColorIndicatorPercentage4FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setCardBackgroundColor(Integer.parseInt(percentagesColorsList.get(3)));
-                    binding.textViewPercentageText41FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setText(percetagesValuesList.get(3) * 100+"%");
+                    binding.textViewPercentageText41FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails.setText(percetagesValuesList.get(3)+"%");
                     break;
             }
         }

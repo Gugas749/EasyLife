@@ -132,7 +132,6 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
     private void init(){
         THIS = this;
         hideShowSubAccountSpendCategory(false);
-        loadSpinnerWheres();
         loadSpinnerMainAccounts();
     }
     private void disableBackPressed(){
@@ -142,6 +141,7 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    binding.imageViewButtonExitFragMainACSpendingsViewAddSpendings.performClick();
                     return true;
                 }
                 return false;
@@ -345,8 +345,6 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
             et.setText(text);
         }
     }
-    private void loadSpinnerWheres(){
-    }
     private void loadSpinnerMainAccounts(){
         List<String> items = new ArrayList<>();
         for (int i = 0; i < spendingAccountsEntityList.size(); i++) {
@@ -430,7 +428,7 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
                                     String stringNum = roundToTwoDecimalPlaces(num);
                                     stringNum = stringNum.replace(",", ".");
                                     double numFinal = Double.parseDouble(stringNum);
-                                    spend.setInfos(numFinal, spendDate, String.valueOf(selectedAccount.getId()), subAccountID, category, isSubAccount, category);
+                                    spend.setInfos(numFinal, spendDate, selectedAccount.getAccountTitle(), subAccountID, category, isSubAccount, category);
 
                                     if(isSubAccount){
                                         for (int i = 0; i < selectedAccount.getSubAccountsList().size(); i++) {

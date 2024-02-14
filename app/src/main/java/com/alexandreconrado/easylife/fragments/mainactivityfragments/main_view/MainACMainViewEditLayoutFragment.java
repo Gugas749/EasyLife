@@ -113,6 +113,7 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    binding.imageViewButtonExitFragMainACMainViewEditLayout.performClick();
                     return true;
                 }
                 return false;

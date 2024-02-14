@@ -98,6 +98,7 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    binding.imageViewButtonExitFragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm.performClick();
                     return true;
                 }
                 return false;

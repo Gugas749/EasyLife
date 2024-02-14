@@ -88,6 +88,7 @@ public class MainACOverviewViewSpendingsAccountDetailsHowToAddSubAccountFragment
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    binding.textViewPreviousFragMainACOverviewViewSpendingsAccountDetailsHowToAddSubAccount.performClick();
                     return true;
                 }
                 return false;

@@ -68,7 +68,7 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
     private SpendingAccountsEntity account;
     private MainACOverviewViewSpendingAccountDetailsFormFragment THIS;
     private boolean isInEditMode = false, isDisable = false, changed = false, showTutorials = true;
-    private String selectedPercentageOnLongClick = "";
+    private String selectedPercentageOnLongClick = "", oldAccountName = "";
     private LocalDataBase localDataBase;
     private SpendingsAccountsDao spendingsAccountsDao;
     private DraggableCardViewEntity objectSelectInLongPress;
@@ -76,7 +76,7 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
     private ExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm listenner;
 
     public interface ExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm{
-        void onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(SpendingAccountsEntity account, boolean deleted, boolean changed);
+        void onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(SpendingAccountsEntity account, boolean deleted, boolean changed, String oldAccountName);
     }
     public void setExitButtonClickFragMainACOverviewViewSpendingAccountDetailsFormListenner(ExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm listenner){
         this.listenner = listenner;
@@ -85,8 +85,9 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
     public MainACOverviewViewSpendingAccountDetailsFormFragment() {
 
     }
-    public MainACOverviewViewSpendingAccountDetailsFormFragment(SpendingAccountsEntity account) {
+    public MainACOverviewViewSpendingAccountDetailsFormFragment(SpendingAccountsEntity account, String oldAccountName) {
         this.account = account;
+        this.oldAccountName = oldAccountName;
     }
 
     @Override
@@ -117,6 +118,7 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    binding.imageViewButtonExitFragMainACOverviewViewSpendingAccountDetailsForm.performClick();
                     return true;
                 }
                 return false;
@@ -259,7 +261,7 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
                     customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
                 }else{
                     enableDisableEverything(false);
-                    listenner.onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(account, false, false);
+                    listenner.onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(account, false, false, oldAccountName);
                 }
             }
         });
@@ -856,12 +858,12 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
                 }
                 break;
             case "FragMainACOverviewViewSpendingAccountDetailsForm_DeleteAccount":
-                listenner.onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(account, true, true);
+                listenner.onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(account, true, true, oldAccountName);
                 break;
             case "FragMainACOverviewViewSpendingAccountDetailsForm_Exit":
                 String name = binding.editTextAccountNameFragMainACOverviewViewSpendingAccountDetailsForm.getText().toString().trim();
                 account.setAccountTitle(name);
-                new LocalDatabaseUpdateAccountTask(true).execute();
+                new LocalDatabaseUpdateAccountTask().execute();
                 break;
             case "FragMainACOverviewViewSpendingAccountDetailsForm_DeleteCategory":
                 for (int i = 0; i < account.getPercentagesNamesList().size(); i++) {
@@ -890,32 +892,59 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
         switch (Tag){
             case "FragMainACOverviewViewSpendingAccountDetailsForm_Exit":
                 enableDisableEverything(false);
-                listenner.onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(account, false, false);
+                listenner.onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(account, false, false, oldAccountName);
                 break;
         }
     }
     //---------------------------------------------------
 
     private class LocalDatabaseUpdateAccountTask extends AsyncTask<Void, Void, SpendingAccountsEntity> {
-        private boolean dontSaveHere = false;
-        public LocalDatabaseUpdateAccountTask(boolean dontSaveHere){
-            this.dontSaveHere = dontSaveHere;
+
+        public LocalDatabaseUpdateAccountTask(){
+
         }
         @Override
         protected SpendingAccountsEntity doInBackground(Void... voids) {
+            if(account.getSpendsList() != null){
+                List<SpendsEntity> listAux = new ArrayList<>();
+                for (int i = 0; i < account.getSpendsList().size(); i++) {
+                    SpendsEntity selected = account.getSpendsList().get(i);
+                    selected.setMainAccountID(account.getAccountTitle());
+                    listAux.add(selected);
+                }
+
+                account.setSpendsList(listAux);
+            }
+
+            if(account.getSubAccountsList() != null){
+                List<SubSpendingAccountsEntity> listAux2 = new ArrayList<>();
+                for (int j = 0; j < account.getSubAccountsList().size(); j++) {
+                    SubSpendingAccountsEntity subAccountSelected = account.getSubAccountsList().get(j);
+                    if(subAccountSelected.getSpendsList() != null){
+                        List<SpendsEntity> listAux = new ArrayList<>();
+                        for (int i = 0; i < account.getSpendsList().size(); i++) {
+                            SpendsEntity selected = account.getSpendsList().get(i);
+                            selected.setMainAccountID(account.getAccountTitle());
+                            listAux.add(selected);
+                        }
+
+                        subAccountSelected.setSpendsList(listAux);
+                    }
+
+                    listAux2.add(subAccountSelected);
+                }
+
+                account.setSubAccountsList(listAux2);
+            }
+
             spendingsAccountsDao.update(account);
             return account;
         }
 
         @Override
         protected void onPostExecute(SpendingAccountsEntity object) {
-            if(!dontSaveHere){
-                init(isInEditMode);
-                loadSubAccountsCardViews(isInEditMode);
-            }else{
-                enableDisableEverything(false);
-                listenner.onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(account, false, true);
-            }
+            enableDisableEverything(false);
+            listenner.onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(account, false, true, oldAccountName);
         }
     }
 

@@ -107,6 +107,7 @@ public class SettingsFragment extends Fragment implements
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    binding.imageViewButtonExitFragSettings.performClick();
                     return true;
                 }
                 return false;

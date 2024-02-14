@@ -1469,7 +1469,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                     binding.frameLayoutFullScreenFragmentContainerMainAc.setVisibility(View.VISIBLE);
                     binding.frameLayoutFullScreenFragmentContainerMainAc.setEnabled(true);
 
-                    MainACOverviewViewSpendingAccountDetailsFormFragment fragment = new MainACOverviewViewSpendingAccountDetailsFormFragment(account);
+                    MainACOverviewViewSpendingAccountDetailsFormFragment fragment = new MainACOverviewViewSpendingAccountDetailsFormFragment(account, account.getAccountTitle());
                     fragment.setExitButtonClickFragMainACOverviewViewSpendingAccountDetailsFormListenner(THIS);
                     getSupportFragmentManager()
                             .beginTransaction()
@@ -1483,7 +1483,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         }
     }
     @Override
-    public void onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(SpendingAccountsEntity accountFromExitDetailsAccounts, boolean deleted, boolean changed) {
+    public void onExitButtonClickFragMainACOverviewViewSpendingAccountDetailsForm(SpendingAccountsEntity accountFromExitDetailsAccounts, boolean deleted, boolean changed, String oldAccountName) {
         disableBackPressed();
         scaleUpAnimtion();
         new CountDownTimer(900, 1000) {
@@ -1529,10 +1529,9 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
 
                         for (int i = 0; i < draggableCardViewObjectsList.size(); i++) {
                             DraggableCardViewEntity selected = draggableCardViewObjectsList.get(i);
-                            if(selected.getAccountID() != null && !selected.getAccountID().equals("")){
+                            if(selected.getChartName() != null && !selected.getChartName().equals("")){
                                 DraggableCardViewEntity oldObject = selected;
-                                int id = Integer.parseInt(selected.getAccountID());
-                                if(id == accountFromExitDetailsAccounts.getId()){
+                                if(oldAccountName.equals(selected.getChartName())){
                                     boolean can = false;
                                     if(selected.getType().equals("3")){
                                         can = true;
@@ -1997,7 +1996,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 List<SpendsEntity> spendsList = getAllSpends();
                 for (int i = 0; i < spendsList.size(); i++) {
                     SpendsEntity selectedSpend = spendsList.get(i);
-                    if(selectedSpend.getMainAccountID().equals(String.valueOf(selectedAccount.getId()))){
+                    if(selectedSpend.getMainAccountID().equals(selectedAccount.getAccountTitle())){
                         spendsListFinal.add(selectedSpend);
                     }
                 }

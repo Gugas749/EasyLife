@@ -81,6 +81,7 @@ public class MainACOverviewViewSpendingsAccountDetailsHowToEditSubAccountFragmen
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    binding.textViewPreviousFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount.performClick();
                     return true;
                 }
                 return false;
@@ -131,97 +132,115 @@ public class MainACOverviewViewSpendingsAccountDetailsHowToEditSubAccountFragmen
                 }
 
                 public void onFinish() {
-                    binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
-                    new CountDownTimer(800, 1000) {
-                        public void onTick(long millisUntilFinished) {
+                    if(!stopAnims){
+                        binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
+                        new CountDownTimer(800, 1000) {
+                            public void onTick(long millisUntilFinished) {
 
-                        }
+                            }
 
-                        public void onFinish() {
-                            binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
-                            new CountDownTimer(250, 1000) {
-                                public void onTick(long millisUntilFinished) {
-
-                                }
-
-                                public void onFinish() {
+                            public void onFinish() {
+                                if(!stopAnims){
                                     binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
-                                    TypedValue typedValue = new TypedValue();
-                                    getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorControlNormal, typedValue, true);
-                                    int color = typedValue.data;
-                                    int initialColor = color;
-
-                                    typedValue = new TypedValue();
-                                    getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.textAppearanceBodySmall, typedValue, true);
-                                    color = typedValue.data;
-                                    int finalColor = color;
-
-                                    colorChangePointingAnimation(binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount, initialColor, finalColor);
-
-                                    fadeInAnimation(binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToSave);
-                                    forwardAnimation(binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount, getResources().getDimension(com.intuit.sdp.R.dimen._75sdp), 0);
-                                    new CountDownTimer(1000, 1000) {
+                                    new CountDownTimer(250, 1000) {
                                         public void onTick(long millisUntilFinished) {
 
                                         }
 
                                         public void onFinish() {
-                                            downwardsAnimation(binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount, getResources().getDimension(com.intuit.sdp.R.dimen._minus35sdp), (-value));
-                                            new CountDownTimer(1000, 1000) {
-                                                public void onTick(long millisUntilFinished) {
+                                            if(!stopAnims){
+                                                binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
+                                                TypedValue typedValue = new TypedValue();
+                                                getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorControlNormal, typedValue, true);
+                                                int color = typedValue.data;
+                                                int initialColor = color;
 
-                                                }
+                                                typedValue = new TypedValue();
+                                                getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.textAppearanceBodySmall, typedValue, true);
+                                                color = typedValue.data;
+                                                int finalColor = color;
 
-                                                public void onFinish() {
-                                                    binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
-                                                    new CountDownTimer(250, 1000) {
-                                                        public void onTick(long millisUntilFinished) {
+                                                colorChangePointingAnimation(binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount, initialColor, finalColor);
 
-                                                        }
+                                                fadeInAnimation(binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToSave);
+                                                forwardAnimation(binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount, getResources().getDimension(com.intuit.sdp.R.dimen._75sdp), 0);
+                                                new CountDownTimer(1000, 1000) {
+                                                    public void onTick(long millisUntilFinished) {
 
-                                                        public void onFinish() {
-                                                            binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
-                                                            new CountDownTimer(1500, 1000) {
+                                                    }
+
+                                                    public void onFinish() {
+                                                        if(!stopAnims){
+                                                            downwardsAnimation(binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount, getResources().getDimension(com.intuit.sdp.R.dimen._minus35sdp), (-value));
+                                                            new CountDownTimer(1000, 1000) {
                                                                 public void onTick(long millisUntilFinished) {
 
                                                                 }
 
                                                                 public void onFinish() {
-                                                                    fadeOutAnimation(binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount);
-                                                                    fadeOutAnimation(binding.viewContainerAnimFragMainACOverviewViewHowToDetails.getRoot());
-                                                                    fadeOutAnimation(binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToSave);
-                                                                    new CountDownTimer(500, 1000) {
-                                                                        public void onTick(long millisUntilFinished) {
+                                                                    if(!stopAnims){
+                                                                        binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
+                                                                        new CountDownTimer(250, 1000) {
+                                                                            public void onTick(long millisUntilFinished) {
 
-                                                                        }
+                                                                            }
 
-                                                                        public void onFinish() {
-                                                                            downwardsAnimation(binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount, 0, 0);
-                                                                            forwardAnimation(binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount, 0, 0);
-                                                                            colorChangePointingAnimation(binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount, initialColor, initialColor);
-                                                                            new CountDownTimer(500, 1000) {
-                                                                                public void onTick(long millisUntilFinished) {
+                                                                            public void onFinish() {
+                                                                                if(!stopAnims){
+                                                                                    binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
+                                                                                    new CountDownTimer(1500, 1000) {
+                                                                                        public void onTick(long millisUntilFinished) {
 
+                                                                                        }
+
+                                                                                        public void onFinish() {
+                                                                                            if(!stopAnims){
+                                                                                                fadeOutAnimation(binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount);
+                                                                                                fadeOutAnimation(binding.viewContainerAnimFragMainACOverviewViewHowToDetails.getRoot());
+                                                                                                fadeOutAnimation(binding.cardViewPopupExplanationFragMainACMainViewEditLayoutHowToSave);
+                                                                                                new CountDownTimer(500, 1000) {
+                                                                                                    public void onTick(long millisUntilFinished) {
+
+                                                                                                    }
+
+                                                                                                    public void onFinish() {
+                                                                                                        if(!stopAnims){
+                                                                                                            downwardsAnimation(binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount, 0, 0);
+                                                                                                            forwardAnimation(binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount, 0, 0);
+                                                                                                            colorChangePointingAnimation(binding.imageViewPointingToImageViewFragMainACOverviewViewSpendingsAccountDetailsHowToEditSubAccount, initialColor, initialColor);
+                                                                                                            new CountDownTimer(500, 1000) {
+                                                                                                                public void onTick(long millisUntilFinished) {
+
+                                                                                                                }
+
+                                                                                                                public void onFinish() {
+                                                                                                                    if(!stopAnims){
+                                                                                                                        longPressAnimation();
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }.start();
+                                                                                                        }
+                                                                                                    }
+                                                                                                }.start();
+                                                                                            }
+                                                                                        }
+                                                                                    }.start();
                                                                                 }
-
-                                                                                public void onFinish() {
-                                                                                    longPressAnimation();
-                                                                                }
-                                                                            }.start();
-                                                                        }
-                                                                    }.start();
+                                                                            }
+                                                                        }.start();
+                                                                    }
                                                                 }
                                                             }.start();
                                                         }
-                                                    }.start();
-                                                }
-                                            }.start();
+                                                    }
+                                                }.start();
+                                            }
                                         }
                                     }.start();
                                 }
-                            }.start();
-                        }
-                    }.start();
+                            }
+                        }.start();
+                    }
                 }
             }.start();
         }
