@@ -57,6 +57,7 @@ public class SplashActivity extends AppCompatActivity {
     private ActivitySplashBinding binding;
     private boolean isLogged, inScan, stopAnims = false;
     private String themePreference, inAnimationStep = "0";
+    private SplashActivity THIS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +81,7 @@ public class SplashActivity extends AppCompatActivity {
             binding.butScanSplashAc.setVisibility(View.GONE);
         }
         inScan = false;
+        THIS = this;
         setupScanButton();
         disableBackPressed();
         FirebaseApp.initializeApp(getApplicationContext());
@@ -126,7 +128,7 @@ public class SplashActivity extends AppCompatActivity {
     }
     private void initRegisterFragment(){
         binding.fragmentContainerViewSplashAc.setVisibility(View.VISIBLE);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_splashAc, new RegisterFragment(this)).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_splashAc, new RegisterFragment(THIS)).commit();
     }
     private void initAnimation(){
         inAnimationStep = "1";
