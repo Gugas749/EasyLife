@@ -300,12 +300,12 @@
                 app:spinner_arrow_gravity="end"
                 app:spinner_arrow_padding="@dimen/_6sdp"
                 app:spinner_divider_color="?attr/textAppearanceBodySmall"
-                app:spinner_divider_show="true"
+                app:spinner_divider_show="false"
                 app:spinner_divider_size="0.4dp"
                 app:spinner_item_height="@dimen/_35sdp"
                 app:spinner_popup_animation="dropdown"
                 app:spinner_popup_background="@drawable/round_corners_alert_dialog"
-                app:spinner_popup_elevation="@dimen/_11sdp" />
+                app:spinner_popup_elevation="@dimen/_11sdp"  />
         </androidx.cardview.widget.CardView>
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_deleteAccount_FragMainACSpendingsViewSpendsDetails"

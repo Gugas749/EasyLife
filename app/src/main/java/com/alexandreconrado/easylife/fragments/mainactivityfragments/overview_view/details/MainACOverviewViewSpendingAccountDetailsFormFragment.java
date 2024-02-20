@@ -101,6 +101,15 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
         binding = FragmentMainACOverviewViewSpendingAccountDetailsFormBinding.inflate(inflater);
 
         init(isInEditMode);
+
+        SharedPreferences prefs = getContext().getSharedPreferences("Perf_User", MODE_PRIVATE);
+        boolean showTutorials = prefs.getBoolean("hideTutorials", false);
+        if(showTutorials){
+            binding.imageViewButtonHowToUseFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.VISIBLE);
+        }else{
+            binding.imageViewButtonHowToUseFragMainACOverviewViewSpendingAccountDetailsForm.setVisibility(View.GONE);
+        }
+
         setupHowToButton();
         setupExitButton();
         setupEditModeButton();
@@ -922,8 +931,8 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
                     SubSpendingAccountsEntity subAccountSelected = account.getSubAccountsList().get(j);
                     if(subAccountSelected.getSpendsList() != null){
                         List<SpendsEntity> listAux = new ArrayList<>();
-                        for (int i = 0; i < account.getSpendsList().size(); i++) {
-                            SpendsEntity selected = account.getSpendsList().get(i);
+                        for (int i = 0; i < subAccountSelected.getSpendsList().size(); i++) {
+                            SpendsEntity selected = subAccountSelected.getSpendsList().get(i);
                             selected.setMainAccountID(account.getAccountTitle());
                             listAux.add(selected);
                         }

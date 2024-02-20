@@ -25,7 +25,8 @@
                 android:layout_marginBottom="@dimen/_8sdp"
                 android:layout_marginRight="@dimen/_8sdp"
                 android:padding="@dimen/_3sdp"
-                android:src="@drawable/backup_image"/>
+                android:src="@drawable/backup_image"
+                app:tint="?attr/textAppearanceBodySmall"/>
             <TextView
                 android:id="@+id/textView_date_rvRowBackup_AlertDialogBackupLoad"
                 android:layout_width="match_parent"

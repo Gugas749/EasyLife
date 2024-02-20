@@ -194,7 +194,6 @@ public class SplashActivity extends AppCompatActivity {
         int color = ta.getColor(0, 0);
         ta.recycle();
         binding.constraintLayoutSplashAc.setBackgroundColor(color);
-        binding.constraintLayoutSplashAc.setBackgroundColor(getColor(R.color.white));
 
         binding.textView1SplashAc.setVisibility(View.INVISIBLE);
         binding.imageView1SplashAc.setVisibility(View.INVISIBLE);

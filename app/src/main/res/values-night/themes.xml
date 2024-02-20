@@ -3,7 +3,7 @@
         <item name="colorPrimary">@color/primaryDark</item>
         <item name="colorSecondary">@color/secondaryDark</item>
         <item name="colorControlNormal">@color/extra5</item>
-        <item name="colorControlHighlight">@color/extra6</item>
+        <item name="colorControlHighlight">@color/extra7</item>
 
         <item name="textAppearanceBodySmall">@color/extra6</item>
         <item name="textAppearanceBodyMedium">@color/extra6</item>

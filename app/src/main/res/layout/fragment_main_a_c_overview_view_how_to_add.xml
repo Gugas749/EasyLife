@@ -106,14 +106,16 @@
                     android:layout_marginLeft="@dimen/_16sdp"
                     android:layout_marginBottom="@dimen/_16sdp"
                     android:padding="@dimen/_4sdp"
-                    android:src="@drawable/add" />
+                    android:src="@drawable/add"
+                    app:tint="?attr/textAppearanceBodySmall"/>
                 <ImageView
                     android:layout_width="@dimen/_35sdp"
                     android:layout_height="@dimen/_35sdp"
                     android:layout_marginTop="@dimen/_8sdp"
                     android:layout_gravity="center"
                     android:padding="@dimen/_5sdp"
-                    android:src="@drawable/questionpoint_icon" />
+                    android:src="@drawable/questionpoint_icon"
+                    app:tint="?attr/textAppearanceBodySmall"/>
                 <ImageView
                     android:layout_width="@dimen/_35sdp"
                     android:layout_height="@dimen/_35sdp"
@@ -122,7 +124,8 @@
                     android:layout_marginRight="@dimen/_16sdp"
                     android:layout_marginBottom="@dimen/_16sdp"
                     android:padding="@dimen/_4sdp"
-                    android:src="@drawable/hamburguer_menu" />
+                    android:src="@drawable/hamburguer_menu"
+                    app:tint="?attr/textAppearanceBodySmall"/>
             </androidx.cardview.widget.CardView>
         </FrameLayout>
         <ImageView

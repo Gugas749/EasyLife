@@ -40,7 +40,8 @@
         android:background="@drawable/rounded_image_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="?attr/textAppearanceBodySmall" />
     <TextView
         android:id="@+id/textView_2_SplashAc"
         android:layout_width="wrap_content"
@@ -73,6 +74,7 @@
         android:padding="@dimen/_11sdp"
         android:scaleType="centerCrop"
         android:src="@drawable/scan"
+        app:tint="?attr/textAppearanceBodySmall"
         android:visibility="gone"
         android:background="@drawable/round_button_secondary"
         app:layout_constraintBottom_toBottomOf="parent"

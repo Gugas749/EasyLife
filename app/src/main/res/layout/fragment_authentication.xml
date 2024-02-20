@@ -27,6 +27,7 @@
             android:scaleType="centerCrop"
             android:elevation="@dimen/_2sdp"
             android:src="@drawable/snap_black"
+            app:tint="?attr/textAppearanceBodySmall"
             android:background="@drawable/rounded_image_view"/>
         <RelativeLayout
             android:layout_width="wrap_content"

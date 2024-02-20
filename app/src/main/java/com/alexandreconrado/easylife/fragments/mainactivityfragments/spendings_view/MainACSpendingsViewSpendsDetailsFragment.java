@@ -171,9 +171,11 @@ public class MainACSpendingsViewSpendsDetailsFragment extends Fragment implement
                     if(selectedSub.getAccountTitle().equals(spendSelected.getSubAccountID())){
                         loadSpinnerSubAccountsSpends(selectedSub);
                         hideShowSubAccountSpendCategory(true);
-                        for (int j = 0; j < selectedSub.getPercentagesNamesList().size(); j++) {
-                            if(selectedSub.getPercentagesNamesList().get(i).equals(spendSelected.getCategory())){
-                                binding.spinnerSpendigsSubAccountsSpendsFragMainACSpendingsViewSpendsDetails.selectItemByIndex(i);
+                        List<String> listStringAux = selectedSub.getPercentagesNamesList();
+                        for (int j = 0; j < listStringAux.size(); j++) {
+                            String aux = spendSelected.getCategory();
+                            if(listStringAux.get(j).equals(aux)){
+                                binding.spinnerSpendigsSubAccountsSpendsFragMainACSpendingsViewSpendsDetails.selectItemByIndex(j);
                                 break;
                             }
                         }

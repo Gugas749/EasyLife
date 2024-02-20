@@ -30,7 +30,8 @@
                 android:layout_marginBottom="@dimen/_16sdp"
                 android:padding="@dimen/_8sdp"
                 android:rotation="180"
-                android:src="@drawable/arrow_icon" />
+                android:src="@drawable/arrow_icon"
+                app:tint="?attr/textAppearanceBodySmall"/>
         </androidx.cardview.widget.CardView>
         <!--                -->
         <TextView
@@ -329,15 +330,5 @@
                     app:switcher_icon_color="?attr/colorControlNormal" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-        <com.google.android.gms.ads.AdView
-            xmlns:ads="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/adView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            ads:adSize="BANNER"
-            ads:adUnitId="ca-app-pub-8366460748893561/4963505265">
-        </com.google.android.gms.ads.AdView>
     </RelativeLayout>
 </FrameLayout>

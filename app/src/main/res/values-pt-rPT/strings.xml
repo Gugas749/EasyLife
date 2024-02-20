@@ -169,16 +169,16 @@
     <string name="mainAc_FragOverviewView_HowTo_Details_Text">Agora, para ver os detalhes de sua conta, basta clicar nela!</string>
     <!-- Main AC - Overview View - Add Spending Account -->
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_1_Text">Nomeie Sua Conta</string>
-    <string name="mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_2_Text">Dê Nomes às Suas Porcentagens e Atribua Cores a Elas Clicando nelas</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_2_Text">Dê Nomes às Suas Percentagens e Atribua Cores a Elas Clicando nelas</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_editTextAccountName_Hint">Nome da Conta</string>
-    <string name="mainAc_FragOverviewViewAddSpendingsAccount_editTextPercentagesNames_Hint">Nome da Porcentagem</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_editTextPercentagesNames_Hint">Nome da Percentagem</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_MissingInputs_Text">Parece que há alguns campos vazios</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_MaxValue_Text">Desculpe, mas o valor despesa não pode exceder 9.999.999.999</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_SaveBeforeLeaving_Text">Você deseja salvar esta conta antes de sair?</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_Save_Text">Você deseja salvar esta conta?</string>
-    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_RepeatedName_Text">Parece que já existe uma Porcentagem com esse nome</string>
-    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_NamedPlus_Text">Desculpe, você não pode nomear sua porcentagem como "+" </string>
-    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_PercentageMaxCap_Text">Desculpe, você só pode ter 8 porcentagens. Se quiser ter mais, considere adicionar uma Subconta a esta conta posteriormente</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_RepeatedName_Text">Parece que já existe uma Percentagem com esse nome</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_NamedPlus_Text">Desculpe, você não pode nomear sua Percentagem como "+" </string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_PercentageMaxCap_Text">Desculpe, você só pode ter 8 Percentagens. Se quiser ter mais, considere adicionar uma Subconta a esta conta posteriormente</string>
     <!-- Main AC - Overview View - Account Details -->
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_AddSubAccount_Title">Adicionar Subconta</string>
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsForm_AlertDialog_Question_AddSubAccount_Text">Você deseja adicionar uma Subconta?</string>
@@ -193,8 +193,8 @@
     <!-- Main AC - Overview View - Account Details - Add SubAccount -->
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_textView_editTextHelper_1_Text">Nome da Subconta</string>
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_textView_changeParentColor_Text">Cor na Conta Principal</string>
-    <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_textView_editTextHelper_2_Text">Nome e cor das Porcentagens</string>
-    <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_Toast_PercentageCap_Text">Desculpe, você só pode ter 4 porcentagens em uma Subconta</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_textView_editTextHelper_2_Text">Nome e cor das Percentagens</string>
+    <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_Toast_PercentageCap_Text">Desculpe, você só pode ter 4 Percentagens em uma Subconta</string>
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_textView_ChangeParentColor_Text">Clique para mudar a cor!!</string>
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_AlertDialog_Question_Saving_Text">Você deseja salvar esta Subconta?</string>
     <!-- Main AC - Spendings View -->

@@ -24,7 +24,8 @@
                 android:layout_marginBottom="@dimen/_8sdp"
                 android:layout_marginRight="@dimen/_8sdp"
                 android:padding="@dimen/_5sdp"
-                android:src="@drawable/wallet_icon"/>
+                android:src="@drawable/wallet_icon"
+                app:tint="?attr/textAppearanceBodySmall"/>
             <TextView
                 android:id="@+id/textView_accountNameHolder_rvRowSpendingsAccounts_MainACOverview"
                 android:layout_width="match_parent"

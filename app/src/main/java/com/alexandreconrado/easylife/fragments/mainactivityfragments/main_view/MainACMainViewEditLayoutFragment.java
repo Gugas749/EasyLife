@@ -94,6 +94,8 @@ public class MainACMainViewEditLayoutFragment extends Fragment implements Dragga
         boolean showTutorials = prefs.getBoolean("hideTutorials", false);
         if(showTutorials){
             binding.imageViewButtonHowToUseFragMainACMainViewEditLayout.setVisibility(View.VISIBLE);
+        }else{
+            binding.imageViewButtonHowToUseFragMainACMainViewEditLayout.setVisibility(View.GONE);
         }
 
         setupConfirmButton();
