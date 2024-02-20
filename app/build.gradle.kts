@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("com.google.firebase.firebase-perf")
 }
 
 android {
@@ -13,7 +14,7 @@ android {
         minSdk = 26
         targetSdk = 34
         versionCode = 1
-        versionName = "0.5.7"
+        versionName = "0.5.8"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -43,13 +44,12 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.annotation:annotation:1.7.1")
     implementation("androidx.biometric:biometric:1.1.0")
-    implementation("androidx.compose.animation:animation-graphics-android:1.6.0")
+    implementation("androidx.compose.animation:animation-graphics-android:1.6.1")
     implementation("com.android.support:support-annotations:28.0.0")
-    implementation("com.google.firebase:firebase-storage:20.3.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    implementation("com.google.code.gson:gson:2.10")
+    implementation("com.google.code.gson:gson:2.10.1")
 
     //ROOM
     annotationProcessor("androidx.room:room-compiler:2.6.1")
@@ -77,5 +77,11 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-crashlytics")
-    implementation("com.google.firebase:firebase-firestore:24.10.1")
+    implementation("com.google.firebase:firebase-firestore:24.10.2")
+    implementation("com.google.firebase:firebase-storage:20.3.0")
+    implementation("com.google.firebase:firebase-perf:20.5.2")
+
+    //AD MOB
+    implementation("com.google.android.gms:play-services-ads:22.6.0")
+    implementation("com.google.android.gms:play-services-ads-lite:22.6.0")
 }

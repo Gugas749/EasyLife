@@ -295,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                                     .addToBackStack(null)
                                     .commit();
                         }else if (tag.equals("2")) {
-                            MainACSpendingsViewAddSpendingsFragment fragment = new MainACSpendingsViewAddSpendingsFragment(spendingAccountsEntitiesList, UserInfosEntity, fastRegisterData);
+                            MainACSpendingsViewAddSpendingsFragment fragment = new MainACSpendingsViewAddSpendingsFragment(spendingAccountsEntitiesList, UserInfosEntity, fastRegister, fastRegisterData);
                             fragment.setExitMainACSpendingsViewAddSpendingsFragListenner(THIS);
                             getSupportFragmentManager()
                                     .beginTransaction()
@@ -1611,7 +1611,9 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                             scaleDownAnimtion();
                             enableDisableAll(true);
 
-                            MainACSpendingsViewAddSpendingsFragment fragment = new MainACSpendingsViewAddSpendingsFragment(spendingAccountsEntitiesList, UserInfosEntity, fastRegisterData, true);
+                            fastRegister = false;
+
+                            MainACSpendingsViewAddSpendingsFragment fragment = new MainACSpendingsViewAddSpendingsFragment(spendingAccountsEntitiesList, UserInfosEntity, true, fastRegisterData);
                             fragment.setExitMainACSpendingsViewAddSpendingsFragListenner(THIS);
                             getSupportFragmentManager()
                                     .beginTransaction()

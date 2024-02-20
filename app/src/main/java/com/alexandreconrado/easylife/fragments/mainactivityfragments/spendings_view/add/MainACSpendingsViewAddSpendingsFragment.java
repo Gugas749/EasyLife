@@ -79,15 +79,16 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
         this.spendingAccountsEntityList = spendingAccountsEntityList;
         this.userInfos = userInfos;
     }
-    public MainACSpendingsViewAddSpendingsFragment(List<SpendingAccountsEntity> spendingAccountsEntityList, UserInfosEntity userInfos, String fastRegisterData) {
-        this.spendingAccountsEntityList = spendingAccountsEntityList;
-        this.userInfos = userInfos;
-        this.fastRegisterData = fastRegisterData;
-    }
-    public MainACSpendingsViewAddSpendingsFragment(List<SpendingAccountsEntity> spendingAccountsEntityList, UserInfosEntity userInfos, String fastRegisterData, boolean fastRegister) {
+    public MainACSpendingsViewAddSpendingsFragment(List<SpendingAccountsEntity> spendingAccountsEntityList, UserInfosEntity userInfos, boolean fastRegister) {
         this.spendingAccountsEntityList = spendingAccountsEntityList;
         this.userInfos = userInfos;
         this.fastRegister = fastRegister;
+    }
+    public MainACSpendingsViewAddSpendingsFragment(List<SpendingAccountsEntity> spendingAccountsEntityList, UserInfosEntity userInfos, boolean fastRegister, String fastRegisterData) {
+        this.spendingAccountsEntityList = spendingAccountsEntityList;
+        this.userInfos = userInfos;
+        this.fastRegister = fastRegister;
+        this.fastRegisterData = fastRegisterData;
     }
 
     @Override
