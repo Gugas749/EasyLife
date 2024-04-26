@@ -20,6 +20,7 @@
     </string-array>
 
     <!-- General -->
+    <string name="general_Search">Search</string>
     <string name="general_Others">Others</string>
     <string name="general_Delete">Delete</string>
     <string name="general_Edit">Edit</string>
@@ -84,14 +85,14 @@
     <!-- Alert Dialog Fragments - LongPressMainViewObjects -->
     <string name="alertDialog_LongPressMainViewObjects_TextView_Styles_Text">Widget Style</string>
     <string name="alertDialog_LongPressMainViewObjects_TextView_SpendingsAccounts_Text">Connected Spending Account</string>
-    <string name="alertDialog_LongPressMainViewObjects_TextView_SpendingsSubAccounts_Text">Connected Spending Sub Account</string>
+    <string name="alertDialog_LongPressMainViewObjects_TextView_SpendingsSubAccounts_Text">Connected Spending SubAccount</string>
     <string name="alertDialog_LongPressMainViewObjects_spinner_WidgetStyle_ItemText">Style</string>
     <string name="alertDialog_LongPressMainViewObjects_spinner_WidgetStyle_StarterText">Select a Style</string>
     <string name="alertDialog_LongPressMainViewObjects_spinner_SpendingsAccounts_StarterText">Select an Account</string>
-    <string name="alertDialog_LongPressMainViewObjects_spinner_SpendingsSubAccounts_StarterText">Select a Sub Account</string>
+    <string name="alertDialog_LongPressMainViewObjects_spinner_SpendingsSubAccounts_StarterText">Select a SubAccount</string>
     <string name="alertDialog_LongPressMainViewObjects_Toast_SelectStyle">Please select a Style</string>
     <string name="alertDialog_LongPressMainViewObjects_Toast_SelectAccount">Please select an Account</string>
-    <string name="alertDialog_LongPressMainViewObjects_Toast_SelectSubAccount">Please select a Sub Account</string>
+    <string name="alertDialog_LongPressMainViewObjects_Toast_SelectSubAccount">Please select a SubAccount</string>
 
     <!-- Main AC -->
     <string name="mainAc_bottomNavigationView_Home">Home</string>
@@ -250,6 +251,8 @@
     <string name="settingsFrag_AlertDialog_Notify_NeedRestart_Text">App Restart</string>
     <string name="settingsFrag_AlertDialog_Notify_NeedRestart_Title">To finalize the configuration the app will restart! Sorry for the inconvenience.</string>
     <string name="settingsFrag_TextView_spinnerAutoBackupsExplain_Text">Auto Backups</string>
+    <string name="settingsFrag_TextView_buttonBuyMeACoffeeExplain_Text">Want to support me? What do you think of buying me a coffee?</string>
+    <string name="settingsFrag_Button_BuyMeACoffee_Text">Donate</string>
 
     <!-- Backups Fragment -->
     <string name="backupsFrag_AlertDialog_Question_LoadBackup_Title">Load Backup</string>
@@ -294,6 +297,16 @@
     <string name="creditsFrag_TextView_Text_22">Smartphone icons - Created by Pixel perfect - Flaticon</string>
     <string name="creditsFrag_TextView_Text_23">Color Picker - https://github.com/Mohammad3125/KavehColorPicker</string>
     <string name="creditsFrag_TextView_Text_24">Pie Chart - https://github.com/PhilJay/MPAndroidChart</string>
+
+    <!-- MainViewSearch -->
+    <string name="mainAc_FragMainViewSearch_ExplainatoryTextView_1_Text">Select the desired Account</string>
+    <string name="mainAc_FragMainViewSearch_ExplainatoryTextView_2_Text">Select the desired SubAccount</string>
+    <string name="mainAc_FragMainViewSearch_ExplainatoryTextView_3_Text">Select the date</string>
+    <string name="mainAc_FragMainViewSearch_InformationCard_Name_Text">Category Name</string>
+    <string name="mainAc_FragMainViewSearch_InformationCard_Percentage_Text">Percentage:</string>
+    <string name="mainAc_FragMainViewSearch_InformationCard_TotalSpend_Text">Total Spent:</string>
+    <string name="mainAc_FragMainViewSearch_Toast_AccountNotSelected_Text">Please select a account first</string>
+    <string name="mainAc_FragMainViewSearch_Toast_SubAccountNotSelectedError_Text">Something is wrong!</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

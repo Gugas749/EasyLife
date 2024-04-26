@@ -127,8 +127,10 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
     private void initRegisterFragment(){
-        binding.fragmentContainerViewSplashAc.setVisibility(View.VISIBLE);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_splashAc, new RegisterFragment(THIS)).commit();
+        if (!isFinishing() && !isDestroyed()) {
+            binding.fragmentContainerViewSplashAc.setVisibility(View.VISIBLE);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_splashAc, new RegisterFragment(THIS)).commitAllowingStateLoss();
+        }
     }
     private void initAnimation(){
         inAnimationStep = "1";

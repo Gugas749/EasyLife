@@ -250,6 +250,8 @@
     <string name="settingsFrag_AlertDialog_Notify_NeedRestart_Text">App Restart</string>
     <string name="settingsFrag_AlertDialog_Notify_NeedRestart_Title">To finalize the configuration the app will restart! Sorry for the inconvenience.</string>
     <string name="settingsFrag_TextView_spinnerAutoBackupsExplain_Text">Auto Backups</string>
+    <string name="settingsFrag_TextView_buttonBuyMeACoffeeExplain_Text">Want to support me? What do you think of buying me a coffee?</string>
+    <string name="settingsFrag_Button_BuyMeACoffee_Text">Donate</string>
 
     <!-- Backups Fragment -->
     <string name="backupsFrag_AlertDialog_Question_LoadBackup_Title">Load Backup</string>

@@ -12,6 +12,21 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <FrameLayout
+            android:id="@+id/frameLayout_line0_FragMainACMainView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.35">
+            <ImageView
+                android:id="@+id/imageView_ChangeToSearch_FragMainACMainView"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="end"
+                android:padding="@dimen/_4sdp"
+                android:src="@drawable/arrow_icon"
+                app:tint="?attr/textAppearanceBodySmall"/>
+        </FrameLayout>
+
         <!-- FrameLayout 1 (20%) -->
         <FrameLayout
             android:id="@+id/frameLayout_line1_FragMainACMainView"

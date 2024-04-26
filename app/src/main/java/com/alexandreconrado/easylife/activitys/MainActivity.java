@@ -48,6 +48,7 @@ import com.alexandreconrado.easylife.database.entities.SubSpendingAccountsEntity
 import com.alexandreconrado.easylife.database.entities.UserInfosEntity;
 import com.alexandreconrado.easylife.databinding.ActivityMainBinding;
 import com.alexandreconrado.easylife.fragments.AuthenticationFragment;
+import com.alexandreconrado.easylife.fragments.mainactivityfragments.main_view.search.MainACMainViewSearchFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.sidemenu.BackupsFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.sidemenu.settings.CreditsFragment;
 import com.alexandreconrado.easylife.fragments.mainactivityfragments.sidemenu.settings.SettingsFragment;
@@ -123,11 +124,13 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         MainACSpendingsViewSpendsDetailsFragment.ExitFragMainACSpendingsViewSpendsDetails,
         MainACSpendingsViewFragment.ItemClickRVAdapeterSpendsFragMainACSpendingsView,
         BackupsFragment.ExitBackupsFrag,
-        CreditsFragment.ExitCreditsFrag {
+        CreditsFragment.ExitCreditsFrag,
+        MainACMainViewFragment.ChangeToSearchButtonClick,
+        MainACMainViewSearchFragment.ChangeToDefaultButtonClick {
     //-------------------OTHERS---------------
     private ActivityMainBinding binding;
     private long sessionTime;
-    public boolean seenTutorial, allDisable = false, updateMainViewInNextLoad = false, showTutorials = false, fastRegister = false;
+    public boolean seenTutorial, allDisable = false, updateMainViewInNextLoad = false, showTutorials = false, fastRegister = false, inMainViewSearch = false;
     private UserInfosEntity UserInfosEntity;
     private String TAG = "EasyLife_Logs_MainAc", fastRegisterData = "";
     private FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
@@ -150,7 +153,6 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     private DraggableCardViewDao draggableCardViewDao;
     private SpendingsAccountsDao spendingsAccountsDao;
     private UserInfosDao userInfosDao;
-
 
     public interface DatabaseCallback {
         void onTaskCompleted(List<SpendingAccountsEntity> result);
@@ -924,16 +926,27 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                         .commit();
                 break;
             case 1:
-                if(updateMainViewInNextLoad){
-                    mainACMainViewFragment = new MainACMainViewFragment(draggableCardViewObjectsList);
+                if(inMainViewSearch){
+                    MainACMainViewSearchFragment fragment = new MainACMainViewSearchFragment(THIS, spendingAccountsEntitiesList);
+                    fragment.setChangeToDefaultButtonClick(THIS);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frameLayout_fragmentContainer_MainAC, fragment)
+                            .addToBackStack(null)
+                            .commit();
+                }else{
+                    if(updateMainViewInNextLoad){
+                        mainACMainViewFragment = new MainACMainViewFragment(draggableCardViewObjectsList);
+                    }
+                    mainACMainViewFragment.setAccountsList(spendingAccountsEntitiesList);
+                    mainACMainViewFragment.setChangeToSearchButtonClick(THIS);
+                    mainACMainViewFragment.setConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainACListenner(THIS);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frameLayout_fragmentContainer_MainAC, mainACMainViewFragment)
+                            .addToBackStack(null)
+                            .commit();
                 }
-                mainACMainViewFragment.setAccountsList(spendingAccountsEntitiesList);
-                mainACMainViewFragment.setConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainACListenner(THIS);
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.frameLayout_fragmentContainer_MainAC, mainACMainViewFragment)
-                        .addToBackStack(null)
-                        .commit();
                 break;
             case 2:
                 allSpendsList = getAllSpends();
@@ -1836,6 +1849,18 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
             }
         }
     }
+    @Override
+    public void ChangeToSearchButtonClick() {
+        inMainViewSearch = true;
+        runSwipeLeftAnimationMainView();
+        //changeFragmentFromMainFragmentContainer(1);
+    }
+    @Override
+    public void ChangeToDefaultButtonClick() {
+        inMainViewSearch = false;
+        runSwipeRightAnimationMainView();
+        //changeFragmentFromMainFragmentContainer(1);
+    }
     //----------------------------------------------
 
     //----------------DATABASE OPERATIONS--------------------
@@ -2459,5 +2484,75 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
         });
 
         translateXAnimator.start();
+    }
+
+    private void runSwipeRightAnimationMainView() {
+        ViewGroup container1 = binding.frameLayoutFragmentContainer2MainAC;
+        container1.setVisibility(View.VISIBLE);
+
+        ViewGroup container2 = binding.frameLayoutFragmentContainerMainAC;
+        container2.setVisibility(View.VISIBLE);
+
+        ObjectAnimator translateXAnimator = ObjectAnimator.ofFloat(container1, "translationX", container1.getWidth());
+        translateXAnimator.setDuration(500);
+        ObjectAnimator translateXAnimator2 = ObjectAnimator.ofFloat(container2, "translationX", 0);
+        translateXAnimator.setDuration(500); // Set the duration of the animation in milliseconds
+
+        translateXAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                container1.setVisibility(View.GONE);
+
+                inMainViewSearch = false;
+                if(updateMainViewInNextLoad){
+                    mainACMainViewFragment = new MainACMainViewFragment(draggableCardViewObjectsList);
+                }
+                mainACMainViewFragment.setAccountsList(spendingAccountsEntitiesList);
+                mainACMainViewFragment.setChangeToSearchButtonClick(THIS);
+                mainACMainViewFragment.setConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainACListenner(THIS);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_fragmentContainer_MainAC, mainACMainViewFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        translateXAnimator.start();
+        translateXAnimator2.start();
+    }
+    private void runSwipeLeftAnimationMainView() {
+        ViewGroup container1 = binding.frameLayoutFragmentContainer2MainAC;
+        container1.setVisibility(View.VISIBLE);
+        container1.setTranslationX(container1.getWidth());
+
+        ViewGroup container2 = binding.frameLayoutFragmentContainerMainAC;
+        container2.setVisibility(View.VISIBLE);
+
+        ObjectAnimator translateXAnimator = ObjectAnimator.ofFloat(container1, "translationX", 0);
+        translateXAnimator.setDuration(500); // Set the duration of the animation in milliseconds
+        ObjectAnimator translateXAnimator2 = ObjectAnimator.ofFloat(container2, "translationX", -container2.getWidth());
+        translateXAnimator.setDuration(500); // Set the duration of the animation in milliseconds
+
+        translateXAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                container2.setVisibility(View.GONE);
+
+                inMainViewSearch = true;
+                MainACMainViewSearchFragment fragment = new MainACMainViewSearchFragment(THIS, spendingAccountsEntitiesList);
+                fragment.setChangeToDefaultButtonClick(THIS);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_fragmentContainer2_MainAC, fragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        translateXAnimator.start();
+        translateXAnimator2.start();
     }
 }

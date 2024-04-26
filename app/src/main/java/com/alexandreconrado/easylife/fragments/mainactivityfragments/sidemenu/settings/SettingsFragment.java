@@ -2,7 +2,9 @@ package com.alexandreconrado.easylife.fragments.mainactivityfragments.sidemenu.s
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -87,6 +89,7 @@ public class SettingsFragment extends Fragment implements
         setupExitButton();
         setupSwitchs();
         setupSpinners();
+        setupBuyMeACoffeeButton();
 
         return binding.getRoot();
     }
@@ -95,6 +98,18 @@ public class SettingsFragment extends Fragment implements
 
         loadSpinners();
         loadUserSettings();
+    }
+    private void setupBuyMeACoffeeButton(){
+        binding.buttonBuyMeACoffeeFragSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://www.buymeacoffee.com/gugas749";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+            }
+        });
     }
     private void setupLocalDataBase(){
         localDataBase = Room.databaseBuilder(getContext(), LocalDataBase.class, "EasyLifeLocalDB").build();

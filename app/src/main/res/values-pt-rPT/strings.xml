@@ -250,6 +250,8 @@
     <string name="settingsFrag_AlertDialog_Notify_NeedRestart_Text">Reiniciar Aplicação</string>
     <string name="settingsFrag_AlertDialog_Notify_NeedRestart_Title">Para finalizar a configuração, a aplicação será reiniciada! Pedimos desculpa pelo incómodo.</string>
     <string name="settingsFrag_TextView_spinnerAutoBackupsExplain_Text">Backups Automaticos</string>
+    <string name="settingsFrag_TextView_buttonBuyMeACoffeeExplain_Text">Queres me apoiar? O que achas de me comprares um café?</string>
+    <string name="settingsFrag_Button_BuyMeACoffee_Text">Doar</string>
 
     <!-- Backups Fragment -->
     <string name="backupsFrag_AlertDialog_Question_LoadBackup_Title">Carregar Cópia de Segurança</string>

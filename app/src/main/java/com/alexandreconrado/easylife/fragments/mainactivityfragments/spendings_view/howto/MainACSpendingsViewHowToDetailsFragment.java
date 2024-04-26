@@ -125,47 +125,51 @@ public class MainACSpendingsViewHowToDetailsFragment extends Fragment {
             fadeInAnimation(binding.imageViewPointingToImageViewFragMainACSpendingsViewHowToDetails);
             fadeInAnimation(binding.viewContainerAnimFragMainACSpendingsViewHowToDetails.getRoot());
             pointYAnimation(binding.imageViewPointingToImageViewFragMainACSpendingsViewHowToDetails, getResources().getDimension(com.intuit.sdp.R.dimen._minus30sdp));
-
             new CountDownTimer(1300, 1000) {
                 public void onTick(long millisUntilFinished) {
 
                 }
 
                 public void onFinish() {
-                    binding.imageViewPointingToImageViewFragMainACSpendingsViewHowToDetails.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
+                    if(!stopAnims){
+                        binding.imageViewPointingToImageViewFragMainACSpendingsViewHowToDetails.setImageDrawable(getResources().getDrawable(R.drawable.hand_tapping));
+                        new CountDownTimer(400, 1000) {
+                            public void onTick(long millisUntilFinished) {
 
-                    new CountDownTimer(400, 1000) {
-                        public void onTick(long millisUntilFinished) {
+                            }
 
-                        }
-
-                        public void onFinish() {
-                            binding.imageViewPointingToImageViewFragMainACSpendingsViewHowToDetails.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
-
-                            new CountDownTimer(1000, 1000) {
-                                public void onTick(long millisUntilFinished) {
-
-                                }
-
-                                public void onFinish() {
-                                    fadeOutAnimation(binding.imageViewPointingToImageViewFragMainACSpendingsViewHowToDetails);
-                                    fadeOutAnimation(binding.viewContainerAnimFragMainACSpendingsViewHowToDetails.getRoot());
-
-                                    new CountDownTimer(700, 1000) {
+                            public void onFinish() {
+                                if(!stopAnims){
+                                    binding.imageViewPointingToImageViewFragMainACSpendingsViewHowToDetails.setImageDrawable(getResources().getDrawable(R.drawable.hand_pointing));
+                                    new CountDownTimer(1000, 1000) {
                                         public void onTick(long millisUntilFinished) {
 
                                         }
 
                                         public void onFinish() {
-                                            pointYAnimation(binding.imageViewPointingToImageViewFragMainACSpendingsViewHowToDetails, 0);
-                                            pointBackToStartPosAnimation(binding.imageViewPointingToImageViewFragMainACSpendingsViewHowToDetails, 0, 0);
-                                            longPressAnimation();
+                                            if(!stopAnims){
+                                                fadeOutAnimation(binding.imageViewPointingToImageViewFragMainACSpendingsViewHowToDetails);
+                                                fadeOutAnimation(binding.viewContainerAnimFragMainACSpendingsViewHowToDetails.getRoot());
+                                                new CountDownTimer(700, 1000) {
+                                                    public void onTick(long millisUntilFinished) {
+
+                                                    }
+
+                                                    public void onFinish() {
+                                                        if(!stopAnims){
+                                                            pointYAnimation(binding.imageViewPointingToImageViewFragMainACSpendingsViewHowToDetails, 0);
+                                                            pointBackToStartPosAnimation(binding.imageViewPointingToImageViewFragMainACSpendingsViewHowToDetails, 0, 0);
+                                                            longPressAnimation();
+                                                        }
+                                                    }
+                                                }.start();
+                                            }
                                         }
                                     }.start();
                                 }
-                            }.start();
-                        }
-                    }.start();
+                            }
+                        }.start();
+                    }
                 }
             }.start();
         }

@@ -330,5 +330,36 @@
                     app:switcher_icon_color="?attr/colorControlNormal" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/textView_buttonBuyMeACoffeeExplain_FragSettings"
+            android:layout_below="@+id/cardView_protectionModeHolder_FragSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|start"
+            android:layout_marginLeft="@dimen/_16sdp"
+            android:layout_marginRight="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_11sdp"
+            android:text="@string/settingsFrag_TextView_buttonBuyMeACoffeeExplain_Text"
+            android:textStyle="bold"
+            android:textColor="?attr/textAppearanceBodyMedium"
+            android:textAlignment="center"
+            android:textSize="@dimen/_18sdp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_BuyMeACoffee_FragSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_buttonBuyMeACoffeeExplain_FragSettings"
+            android:layout_marginStart="@dimen/_11sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_11sdp"
+            android:layout_marginEnd="@dimen/_11sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_11sdp"
+            android:background="@drawable/round_button_secondary"
+            android:text="@string/settingsFrag_Button_BuyMeACoffee_Text"
+            android:textAlignment="center"
+            android:textColor="?attr/textAppearanceBodySmall"
+            android:textSize="@dimen/_12sdp" />
     </RelativeLayout>
 </FrameLayout>

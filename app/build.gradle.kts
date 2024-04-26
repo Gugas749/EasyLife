@@ -13,8 +13,8 @@ android {
         applicationId = "com.alexandreconrado.easylife"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "0.5.9"
+        versionCode = 3
+        versionName = "0.6.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -44,7 +44,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.annotation:annotation:1.7.1")
     implementation("androidx.biometric:biometric:1.1.0")
-    implementation("androidx.compose.animation:animation-graphics-android:1.6.1")
+    implementation("androidx.compose.animation:animation-graphics-android:1.6.6")
     implementation("com.android.support:support-annotations:28.0.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -74,14 +74,10 @@ dependencies {
     implementation("com.github.skydoves:powerspinner:1.2.7")
 
     //FIREBASE
-    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
+    implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-crashlytics")
-    implementation("com.google.firebase:firebase-firestore:24.10.2")
+    implementation("com.google.firebase:firebase-firestore:24.11.1")
     implementation("com.google.firebase:firebase-storage:20.3.0")
     implementation("com.google.firebase:firebase-perf:20.5.2")
-
-    //AD MOB
-    implementation("com.google.android.gms:play-services-ads:22.6.0")
-    implementation("com.google.android.gms:play-services-ads-lite:22.6.0")
 }

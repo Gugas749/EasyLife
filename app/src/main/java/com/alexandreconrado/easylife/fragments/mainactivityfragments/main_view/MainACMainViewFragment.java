@@ -42,12 +42,20 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
     }
     private List<SpendingAccountsEntity> spendingAccountsEntityList;
     private ConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC confirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC;
+    private ChangeToSearchButtonClick changeToSearchButtonClick;
     public interface ConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC {
         void onConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC(DraggableCardViewEntity object, boolean canHoldMainAccount, int selectedSubAccountIndex);
+    }
+    public interface ChangeToSearchButtonClick {
+        void ChangeToSearchButtonClick();
     }
     public void setConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainACListenner(ConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC confirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC){
         this.confirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC = confirmButtonClickAlertDialogLongPressMainViewObjectsToMainAC;
     }
+    public void setChangeToSearchButtonClick(ChangeToSearchButtonClick changeToSearchButtonClick){
+        this.changeToSearchButtonClick = changeToSearchButtonClick;
+    }
+
     public MainACMainViewFragment() {
         // Required empty public constructor
     }
@@ -80,8 +88,17 @@ public class MainACMainViewFragment extends Fragment implements CustomAlertDialo
         THIS = this;
         processData();
         disableBackPressed();
+        setChangeButtons();
 
         return binding.getRoot();
+    }
+    private void setChangeButtons(){
+        binding.imageViewChangeToSearchFragMainACMainView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeToSearchButtonClick.ChangeToSearchButtonClick();
+            }
+        });
     }
     private void disableBackPressed(){
         binding.getRoot().setFocusableInTouchMode(true);

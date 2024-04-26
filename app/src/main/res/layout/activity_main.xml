@@ -111,6 +111,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/guideline_top_MainAC"
             app:layout_constraintBottom_toTopOf="@+id/guideline_bottom_MainAC" />
+        <FrameLayout
+            android:id="@+id/frameLayout_fragmentContainer2_MainAC"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guideline_top_MainAC"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom_MainAC" />
         <!-- ... -->
 
         <!-- BOTTOM NAVIGATION -->
