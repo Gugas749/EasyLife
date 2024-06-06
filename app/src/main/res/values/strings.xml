@@ -109,6 +109,7 @@
     <string name="mainAc_Monthly_ResumeEmail_Text_3">What account was spent less</string>
     <string name="mainAc_Monthly_ResumeEmail_Text_4">Spends Resume</string>
     <!-- Main AC - Main View -->
+    <string name="mainAc_FragMainView_Page_Title_Text">Statistics</string>
     <string name="mainAc_FragMainView_Example_ChartName_Text">Your Chart Name</string>
     <string name="mainAc_FragMainView_Example_Percentage1_Text">Percentage 1</string>
     <string name="mainAc_FragMainView_Example_Percentage2_Text">Percentage 2</string>
@@ -299,6 +300,7 @@
     <string name="creditsFrag_TextView_Text_24">Pie Chart - https://github.com/PhilJay/MPAndroidChart</string>
 
     <!-- MainViewSearch -->
+    <string name="mainAc_FragMainViewSearch_Page_Title_Text">Search</string>
     <string name="mainAc_FragMainViewSearch_ExplainatoryTextView_1_Text">Select the desired Account</string>
     <string name="mainAc_FragMainViewSearch_ExplainatoryTextView_2_Text">Select the desired SubAccount</string>
     <string name="mainAc_FragMainViewSearch_ExplainatoryTextView_3_Text">Select the date</string>

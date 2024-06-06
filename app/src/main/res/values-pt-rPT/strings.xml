@@ -20,6 +20,7 @@
     </string-array>
 
     <!-- General -->
+    <string name="general_Search">Pesquisar</string>
     <string name="general_Others">Outros</string>
     <string name="general_Delete">Apagar</string>
     <string name="general_Edit">Editar</string>
@@ -108,6 +109,7 @@
     <string name="mainAc_Monthly_ResumeEmail_Text_3">Em que conta gastou menos</string>
     <string name="mainAc_Monthly_ResumeEmail_Text_4">Resumo de Despesas</string>
     <!-- Main AC - Main View -->
+    <string name="mainAc_FragMainView_Page_Title_Text">Estatisticas</string>
     <string name="mainAc_FragMainView_Example_ChartName_Text">Nome do Seu Gráfico</string>
     <string name="mainAc_FragMainView_Example_Percentage1_Text">Percentagem 1</string>
     <string name="mainAc_FragMainView_Example_Percentage2_Text">Percentagem 2</string>
@@ -296,6 +298,17 @@
     <string name="creditsFrag_TextView_Text_22">Smartphone icons - Criado por Pixel perfect - Flaticon</string>
     <string name="creditsFrag_TextView_Text_23">Color Picker - https://github.com/Mohammad3125/KavehColorPicker</string>
     <string name="creditsFrag_TextView_Text_24">Pie Chart - https://github.com/PhilJay/MPAndroidChart</string>
+
+    <!-- MainViewSearch -->
+    <string name="mainAc_FragMainViewSearch_Page_Title_Text">Pesquisar</string>
+    <string name="mainAc_FragMainViewSearch_ExplainatoryTextView_1_Text">Selecione a Conta desejada</string>
+    <string name="mainAc_FragMainViewSearch_ExplainatoryTextView_2_Text">Selecione a Subconta desejada</string>
+    <string name="mainAc_FragMainViewSearch_ExplainatoryTextView_3_Text">Selecione uma data</string>
+    <string name="mainAc_FragMainViewSearch_InformationCard_Name_Text">Nome da Categoria</string>
+    <string name="mainAc_FragMainViewSearch_InformationCard_Percentage_Text">Percentagem:</string>
+    <string name="mainAc_FragMainViewSearch_InformationCard_TotalSpend_Text">Total gasto:</string>
+    <string name="mainAc_FragMainViewSearch_Toast_AccountNotSelected_Text">Porfavor selecione a conta primeiro</string>
+    <string name="mainAc_FragMainViewSearch_Toast_SubAccountNotSelectedError_Text">Algo está errado!</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Olá fragmento vazio</string>

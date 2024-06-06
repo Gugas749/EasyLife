@@ -10,18 +10,32 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ImageView
-            android:id="@+id/imageView_ChangeToDefault_FragMainACMainView"
-            android:layout_width="@dimen/_35sdp"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_gravity="start"
-            android:rotation="180"
-            android:padding="@dimen/_4sdp"
-            android:src="@drawable/arrow_icon"
-            app:tint="?attr/textAppearanceBodySmall"/>
+        <FrameLayout
+            android:id="@+id/frameLayout_topNav_FragMainACMainViewSearch"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_36sdp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/mainAc_FragMainViewSearch_Page_Title_Text"
+                android:textStyle="bold"
+                android:textColor="?attr/textAppearanceBodyMedium"
+                android:textAlignment="center"
+                android:textSize="@dimen/_18sdp" />
+            <ImageView
+                android:id="@+id/imageView_ChangeToDefault_FragMainACMainViewSearch"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="start"
+                android:rotation="180"
+                android:padding="@dimen/_4sdp"
+                android:src="@drawable/arrow_icon"
+                app:tint="?attr/textAppearanceBodySmall"/>
+        </FrameLayout>
         <TextView
             android:id="@+id/textView_spinnerSpendigsAccountsExplain_FragMainACMainViewSearch"
-            android:layout_below="@+id/imageView_ChangeToDefault_FragMainACMainView"
+            android:layout_below="@+id/frameLayout_topNav_FragMainACMainViewSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center|start"

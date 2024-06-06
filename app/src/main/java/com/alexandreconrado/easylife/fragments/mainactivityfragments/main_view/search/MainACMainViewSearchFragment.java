@@ -107,7 +107,7 @@ public class MainACMainViewSearchFragment extends Fragment implements OnChartVal
         });
     }
     private void setupChangeButton(){
-        binding.imageViewChangeToDefaultFragMainACMainView.setOnClickListener(new View.OnClickListener() {
+        binding.imageViewChangeToDefaultFragMainACMainViewSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeToDefaultButtonClick.ChangeToDefaultButtonClick();
