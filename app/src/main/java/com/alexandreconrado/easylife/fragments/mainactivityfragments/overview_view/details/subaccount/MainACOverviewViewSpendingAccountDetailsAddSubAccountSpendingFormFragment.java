@@ -107,10 +107,11 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
     }
     private void init(){
         THIS = this;
-        if(SubAccountName.equals("+")){
-            SubAccountName = "";
+        String textViewText = "";
+        if(!SubAccountName.equals("+")){
+            textViewText = SubAccountName;
         }
-        binding.editTextAccountNameFragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm.setText(SubAccountName);
+        binding.editTextAccountNameFragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm.setText(textViewText);
         binding.cardViewChangeParentShowingColorFragMainACOverviewViewSpendingAccountDetailsFormAddSubAccountForm.setCardBackgroundColor(Integer.parseInt(account.getPercentagesColorList().get(positionOnList)));
         percentagesNamesList = new ArrayList<>();
         percentagesColorsList = new ArrayList<>();
@@ -340,6 +341,7 @@ public class MainACOverviewViewSpendingAccountDetailsAddSubAccountSpendingFormFr
             for (int i = 0; i < spendsEntitiesParentAccount.size(); i++) {
                 SpendsEntity selected = spendsEntitiesParentAccount.get(i);
                 if(selected.getSubAccountID().equals(SubAccountName)){
+                    selected.setSubAccountID(accountName);
                     spendsEntities.add(selected);
                     spendsEntitiesParentAccount.remove(selected);
                     i--;

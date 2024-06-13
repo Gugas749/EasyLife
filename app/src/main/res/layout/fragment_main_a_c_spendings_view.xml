@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.mainactivityfragments.spendings_view.MainACSpendingsViewFragment">
+
+    <FrameLayout
+        android:id="@+id/frameLayout_topNav_FragMainACSpendingsView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_36sdp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/mainAc_FragSpendingsView_Page_Title_Text"
+            android:textStyle="bold"
+            android:textColor="?attr/textAppearanceBodyMedium"
+            android:textAlignment="center"
+            android:textSize="@dimen/_18sdp" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/textView_noItemsToDisplay_FragMainACSpendingsView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/frameLayout_topNav_FragMainACSpendingsView"
         android:text="@string/mainAc_FragSpendingsView_NoItemsToDisplay_Text"
         android:textStyle="bold"
         android:textColor="?attr/textAppearanceBodyMedium"
@@ -19,7 +36,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_spendingsAccounts_FragMainACSpendingsView"
+        android:layout_below="@+id/frameLayout_topNav_FragMainACSpendingsView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</FrameLayout>
+</RelativeLayout>

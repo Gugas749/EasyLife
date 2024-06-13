@@ -7,6 +7,7 @@ import androidx.room.TypeConverters;
 
 import com.alexandreconrado.easylife.database.Converters;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(tableName = "SpendingAccounts")
@@ -32,6 +33,19 @@ public class SubSpendingAccountsEntity {
     private String colorInParent;
     public SubSpendingAccountsEntity() {
 
+    }
+
+    public SubSpendingAccountsEntity(SubSpendingAccountsEntity subSpendingAccountsEntity) {
+        this.parentID = subSpendingAccountsEntity.getParentID();
+        this.positionInTheList = subSpendingAccountsEntity.getPositionInTheList();
+        this.accountTitle = subSpendingAccountsEntity.getAccountTitle();
+        this.spendsList = new ArrayList<>();
+        for (SpendsEntity spend : subSpendingAccountsEntity.getSpendsList()) {
+            this.spendsList.add(new SpendsEntity(spend));
+        }
+        this.percentagesNamesList = new ArrayList<>(subSpendingAccountsEntity.getPercentagesNamesList());
+        this.percentagesColorList = new ArrayList<>(subSpendingAccountsEntity.getPercentagesColorList());
+        this.colorInParent = subSpendingAccountsEntity.getColorInParent();
     }
 
     public void setInfos(long parentID, long positionInTheList, String accountTitle, List<SpendsEntity> spendsList, List<String> percentagesNamesList, List<String> percentagesColorList, String colorInParent) {
@@ -106,5 +120,10 @@ public class SubSpendingAccountsEntity {
 
     public void setColorInParent(String colorInParent) {
         this.colorInParent = colorInParent;
+    }
+
+    public void setAddAllSpendsList(List<SpendsEntity> spendsList) {
+        this.spendsList = new ArrayList<>();
+        this.spendsList.addAll(spendsList);
     }
 }

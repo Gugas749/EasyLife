@@ -54,7 +54,7 @@ public class RVAdapterSpendings extends RecyclerView.Adapter<RVAdapterSpendings.
         final SpendsEntity SelectedAccount = spends.get(position);
         holder.inWhatTextView.setText(SelectedAccount.getCategory());
         String amountFinal = shortenNumber(SelectedAccount.getAmount());
-        holder.amountTextView.setText(amountFinal);
+        holder.amountTextView.setText(amountFinal+"€");
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy      HH:mm");
         String formattedDate = dateFormat.format(SelectedAccount.getDate());
         holder.whenTextView.setText(formattedDate);

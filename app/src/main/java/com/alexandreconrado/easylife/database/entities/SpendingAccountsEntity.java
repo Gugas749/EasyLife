@@ -7,6 +7,7 @@ import androidx.room.TypeConverters;
 
 import com.alexandreconrado.easylife.database.Converters;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(tableName = "SpendingAccounts")
@@ -33,12 +34,34 @@ public class SpendingAccountsEntity {
     public SpendingAccountsEntity() {
 
     }
+    public SpendingAccountsEntity(SpendingAccountsEntity spendingAccountsEntity) {
+        this.idUserFirebase = spendingAccountsEntity.getIdUserFirebase();
+        this.emailUser = spendingAccountsEntity.getEmailUser();
+        this.accountTitle = spendingAccountsEntity.getAccountTitle();
+        this.spendsList = new ArrayList<>();
+        for (SpendsEntity spend : spendingAccountsEntity.getSpendsList()) {
+            this.spendsList.add(new SpendsEntity(spend));
+        }
+        this.percentagesNamesList = new ArrayList<>(spendingAccountsEntity.getPercentagesNamesList());
+        this.percentagesColorList = new ArrayList<>(spendingAccountsEntity.getPercentagesColorList());
+        this.subAccountsList = new ArrayList<>();
+        for (SubSpendingAccountsEntity subAccount : spendingAccountsEntity.getSubAccountsList()) {
+            this.subAccountsList.add(new SubSpendingAccountsEntity(subAccount));
+        }
+    }
 
     public void setInfos(String idUserFirebase, String emailUser, String accountTitle, List<SpendsEntity> spendsList, List<String> percentagesNamesList, List<String> percentagesColorList) {
         this.idUserFirebase = idUserFirebase;
         this.emailUser = emailUser;
         this.accountTitle = accountTitle;
         this.spendsList = spendsList;
+        this.percentagesNamesList = percentagesNamesList;
+        this.percentagesColorList = percentagesColorList;
+    }
+    public void setInfos2(String idUserFirebase, String emailUser, String accountTitle, List<String> percentagesNamesList, List<String> percentagesColorList) {
+        this.idUserFirebase = idUserFirebase;
+        this.emailUser = emailUser;
+        this.accountTitle = accountTitle;
         this.percentagesNamesList = percentagesNamesList;
         this.percentagesColorList = percentagesColorList;
     }
@@ -105,5 +128,10 @@ public class SpendingAccountsEntity {
 
     public void setSubAccountsList(List<SubSpendingAccountsEntity> subAccountsList) {
         this.subAccountsList = subAccountsList;
+    }
+
+    public void setAddAllSubAccountsList(List<SubSpendingAccountsEntity> subAccountsList) {
+        this.subAccountsList = new ArrayList<>();
+        this.subAccountsList.addAll(subAccountsList);
     }
 }

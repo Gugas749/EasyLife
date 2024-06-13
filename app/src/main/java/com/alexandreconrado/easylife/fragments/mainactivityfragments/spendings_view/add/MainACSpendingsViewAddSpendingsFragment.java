@@ -563,7 +563,7 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
     }
 
     @Override
-    public void onExitAlertDialogDateHourPicker_CustomAlertDialogFrag(boolean save, Date date) {
+    public void onExitAlertDialogDateHourPicker_CustomAlertDialogFrag(boolean save, Date date, String aux) {
         if(save){
             spendDate = date;
             loadTextViewDate(date);

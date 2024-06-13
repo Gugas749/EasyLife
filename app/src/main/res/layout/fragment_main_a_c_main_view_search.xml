@@ -31,7 +31,7 @@
                 android:rotation="180"
                 android:padding="@dimen/_4sdp"
                 android:src="@drawable/arrow_icon"
-                app:tint="?attr/textAppearanceBodySmall"/>
+                app:tint="?attr/textAppearanceBodyMedium"/>
         </FrameLayout>
         <TextView
             android:id="@+id/textView_spinnerSpendigsAccountsExplain_FragMainACMainViewSearch"
@@ -161,19 +161,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView_design_1_FragMainACMainViewSearch">
-                <TextView
-                    android:id="@+id/textView_date_FragMainACMainViewSearch"
-                    android:layout_width="0dp"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:text="dd-MM-yyyy"
-                    android:textStyle="bold"
-                    android:textColor="?attr/textAppearanceBodyMedium"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/_16sdp"/>
+                    android:layout_gravity="center">
+                    <TextView
+                        android:id="@+id/textView_fromDate_FragMainACMainViewSearch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/mainAc_FragMainViewSearch_Dates_Container_1_Text"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textAppearanceBodyMedium"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_16sdp"/>
+                    <TextView
+                        android:id="@+id/textView_toDate_FragMainACMainViewSearch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textView_fromDate_FragMainACMainViewSearch"
+                        android:text="@string/mainAc_FragMainViewSearch_Dates_Container_2_Text"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textAppearanceBodyMedium"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_16sdp"/>
+                </RelativeLayout>
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button_ChangeHours_FragMainACMainViewSearch"
+                    android:id="@+id/button_DateToDate_FragMainACMainViewSearch"
                     android:layout_marginLeft="@dimen/_6sdp"
                     android:layout_marginRight="@dimen/_12sdp"
                     android:layout_marginTop="@dimen/_6sdp"

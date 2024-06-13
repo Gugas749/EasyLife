@@ -50,7 +50,7 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
     private ExitAlertDialogDateHourPicker_CustomAlertDialogFrag exitAlertDialogDateHourPicker_CustomAlertDialogFragListenner;
 
     public interface ExitAlertDialogDateHourPicker_CustomAlertDialogFrag{
-        void onExitAlertDialogDateHourPicker_CustomAlertDialogFrag(boolean save, Date date);
+        void onExitAlertDialogDateHourPicker_CustomAlertDialogFrag(boolean save, Date date, String aux);
     }
     public void setExitAlertDialogDateHourPickerListenner_CustomAlertDialogFrag(ExitAlertDialogDateHourPicker_CustomAlertDialogFrag listenner){
         this.exitAlertDialogDateHourPicker_CustomAlertDialogFragListenner = listenner;
@@ -207,8 +207,8 @@ public class CustomAlertDialogFragment extends DialogFragment implements AlertDi
     }
 
     @Override
-    public void onExitAlertDialogDateHourPicker(boolean save, Date date) {
-        exitAlertDialogDateHourPicker_CustomAlertDialogFragListenner.onExitAlertDialogDateHourPicker_CustomAlertDialogFrag(save, date);
+    public void onExitAlertDialogDateHourPicker(boolean save, Date date, String aux) {
+        exitAlertDialogDateHourPicker_CustomAlertDialogFragListenner.onExitAlertDialogDateHourPicker_CustomAlertDialogFrag(save, date, aux);
         this.dismiss();
     }
 

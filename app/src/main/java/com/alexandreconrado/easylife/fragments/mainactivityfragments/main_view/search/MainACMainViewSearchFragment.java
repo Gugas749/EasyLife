@@ -18,6 +18,8 @@ import com.alexandreconrado.easylife.database.entities.SpendingAccountsEntity;
 import com.alexandreconrado.easylife.database.entities.SpendsEntity;
 import com.alexandreconrado.easylife.database.entities.SubSpendingAccountsEntity;
 import com.alexandreconrado.easylife.databinding.FragmentMainACMainViewSearchBinding;
+import com.alexandreconrado.easylife.fragments.alertDialogFragments.AlertDialogDateHourPickerFragment;
+import com.alexandreconrado.easylife.scripts.CustomAlertDialogFragment;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -32,20 +34,25 @@ import com.skydoves.powerspinner.OnSpinnerItemSelectedListener;
 import com.skydoves.powerspinner.PowerSpinnerView;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class MainACMainViewSearchFragment extends Fragment implements OnChartValueSelectedListener {
+public class MainACMainViewSearchFragment extends Fragment implements OnChartValueSelectedListener, CustomAlertDialogFragment.ExitAlertDialogDateHourPicker_CustomAlertDialogFrag {
 
     private FragmentMainACMainViewSearchBinding binding;
     private List<SpendingAccountsEntity> spendingAccountsEntityList = new ArrayList<>();
     private List<SubSpendingAccountsEntity> subAcountsList = new ArrayList<>();
-    private SpendingAccountsEntity selectedAccount;
-    private String selectedSubSpend = "";
+    private List<SpendsEntity> filteredSpendsEntityList = new ArrayList<>(), notTimeStampedFilteredSpendsList = new ArrayList<>();
+    private String selectedSubSpendID = "", textViewText = "", auxString = "1", selectedAccountID = "";
+    private Date selectedDate1, selectedDate2;
     private boolean toShowSubAccount = false;
     private MainActivity parent;
-
+    private MainACMainViewSearchFragment THIS;
     private ChangeToDefaultButtonClick changeToDefaultButtonClick;
+
+
     public interface ChangeToDefaultButtonClick {
         void ChangeToDefaultButtonClick();
     }
@@ -73,11 +80,17 @@ public class MainACMainViewSearchFragment extends Fragment implements OnChartVal
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMainACMainViewSearchBinding.inflate(inflater);
+        THIS = this;
+        textViewText = getString(R.string.mainAc_FragMainViewSearch_DatePicker_Title_1_Text);
+
+        binding.textViewFromDateFragMainACMainViewSearch.setText(getString(R.string.mainAc_FragMainViewSearch_Dates_Container_1_Text) + " " + "dd-MM-yyyy");
+        binding.textViewToDateFragMainACMainViewSearch.setText(getString(R.string.mainAc_FragMainViewSearch_Dates_Container_2_Text) + " " + "dd-MM-yyyy");
 
         loadSpinnerMainAccounts();
 
         setupOnItemSelectedSpinnerAccounts();
         setupOnItemSelectedSpinnerSubAccounts();
+        setupButtonDateToDate();
         setupChangeButton();
         setupSearchButton();
 
@@ -88,15 +101,15 @@ public class MainACMainViewSearchFragment extends Fragment implements OnChartVal
         binding.buttonSearchFragMainACMainViewSearch .setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(selectedAccount != null){
+                if(!selectedAccountID.equals(" ") || !selectedAccountID.equals("") || selectedAccountID != null){
                     boolean goodToGo = true;
                     if(toShowSubAccount){
-                        if(selectedSubSpend.equals(" ") || selectedSubSpend.equals("") || selectedSubSpend == null){
+                        if(selectedSubSpendID.equals(" ") || selectedSubSpendID.equals("") || selectedSubSpendID == null){
                             goodToGo = false;
                         }
                     }
                     if(goodToGo){
-                        loadChart(selectedAccount, selectedSubSpend, toShowSubAccount);
+                        loadChart();
                     }else{
                         Toast.makeText(getContext(), getString(R.string.mainAc_FragMainViewSearch_Toast_SubAccountNotSelectedError_Text), Toast.LENGTH_SHORT).show();
                     }
@@ -114,24 +127,50 @@ public class MainACMainViewSearchFragment extends Fragment implements OnChartVal
             }
         });
     }
+    private void setupButtonDateToDate(){
+        binding.buttonDateToDateFragMainACMainViewSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomAlertDialogFragment customAlertDialogFragment = new CustomAlertDialogFragment();
+                AlertDialogDateHourPickerFragment fragment = new AlertDialogDateHourPickerFragment();
+                fragment.setExitAlertDialogDateHourPickerListenner(customAlertDialogFragment);
+                fragment.setMode2(textViewText, auxString);
+                customAlertDialogFragment.setCustomFragment(fragment);
+                TypedValue typedValue = new TypedValue();
+                getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true);
+                int color = typedValue.data;
+                customAlertDialogFragment.setBackgroundColor(color);
+                customAlertDialogFragment.setExitAlertDialogDateHourPickerListenner_CustomAlertDialogFrag(THIS);
+                customAlertDialogFragment.setTag("Exit");
+                customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
+            }
+        });
+    }
     private void changeInformationCardInfos(String categoryName, String percentage){
         binding.textViewNameFragMainACMainViewSearch.setText(categoryName);
         binding.textViewPercentageFragMainACMainViewSearch.setText(percentage+"%");
         double totalSpend = 0.0;
-        for (int i = 0; i < selectedAccount.getSpendsList().size(); i++) {
-            if(selectedAccount.getSpendsList().get(i).getCategory().equals(categoryName)){
-                totalSpend += selectedAccount.getSpendsList().get(i).getAmount();
+        if(selectedDate1 != null && selectedDate2 != null){
+            for (int i = 0; i < filteredSpendsEntityList.size(); i++) {
+                if(filteredSpendsEntityList.get(i).getCategory().equals(categoryName)){
+                    totalSpend += filteredSpendsEntityList.get(i).getAmount();
+                }
+            }
+        }else{
+            for (int i = 0; i < notTimeStampedFilteredSpendsList.size(); i++) {
+                if(notTimeStampedFilteredSpendsList.get(i).getCategory().equals(categoryName)){
+                    totalSpend += notTimeStampedFilteredSpendsList.get(i).getAmount();
+                }
             }
         }
         binding.textViewTotalSpentFragMainACMainViewSearch.setText(roundToTwoDecimalPlaces(totalSpend) +"€");
     }
-
     private void setupOnItemSelectedSpinnerAccounts(){
         binding.spinnerSpendigsAccountsFragMainACMainViewSearch.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener<Object>() {
             @Override
             public void onItemSelected(int i, @Nullable Object o, int i1, Object t1) {
                 toShowSubAccount = false;
-                selectedAccount = spendingAccountsEntityList.get(i1);
+                selectedAccountID = Integer.toString(i1);
                 loadSpinnerSubAccounts(i1);
             }
         });
@@ -140,18 +179,8 @@ public class MainACMainViewSearchFragment extends Fragment implements OnChartVal
         binding.spinnerSpendigsSubAccountsFragMainACMainViewSearch.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener<Object>() {
             @Override
             public void onItemSelected(int i, @Nullable Object o, int i1, Object t1) {
-                selectedSubSpend = selectedAccount.getPercentagesNamesList().get(i1);
-                List<SubSpendingAccountsEntity> auxList = selectedAccount.getSubAccountsList();
-
-                if(auxList != null && auxList.size() > 0){
-                    for (int j = 0; j < auxList.size(); j++) {
-                        SubSpendingAccountsEntity selected = auxList.get(j);
-                        if(selectedSubSpend.equals(selected.getAccountTitle())){
-                            toShowSubAccount = true;
-                            break;
-                        }
-                    }
-                }
+                toShowSubAccount = true;
+                selectedSubSpendID = Integer.toString(i1);
             }
         });
     }
@@ -182,23 +211,15 @@ public class MainACMainViewSearchFragment extends Fragment implements OnChartVal
         PowerSpinnerView powerSpinner = binding.spinnerSpendigsSubAccountsFragMainACMainViewSearch;
         powerSpinner.setItems(items);
     }
+    private void loadChart(){
+        notTimeStampedFilteredSpendsList = new ArrayList<>();
+        SpendingAccountsEntity account = new SpendingAccountsEntity(spendingAccountsEntityList.get(Integer.parseInt(selectedAccountID)));
 
-    private void loadChart(SpendingAccountsEntity selectedAccount, String selectedSubSpend, boolean toShowSubAccount){
-        SpendingAccountsEntity account = new SpendingAccountsEntity();
         if(toShowSubAccount){
-            List<SubSpendingAccountsEntity> auxList = selectedAccount.getSubAccountsList();
-
-            if(auxList != null && !auxList.isEmpty()){
-                for (int j = 0; j < auxList.size(); j++) {
-                    SubSpendingAccountsEntity selected = auxList.get(j);
-                    if(selectedSubSpend.equals(selected.getAccountTitle())){
-                        account.setInfos(selectedAccount.getIdUserFirebase(), selectedAccount.getEmailUser(), selected.getAccountTitle(), selected.getSpendsList(), selected.getPercentagesNamesList(), selected.getPercentagesColorList());
-                        break;
-                    }
-                }
-            }
-        }else{
-            account = selectedAccount;
+            SubSpendingAccountsEntity selected = new SubSpendingAccountsEntity(account.getSubAccountsList().get(Integer.parseInt(selectedSubSpendID)));
+            account.setInfos(account.getIdUserFirebase(), account.getEmailUser(), selected.getAccountTitle(),
+                    new ArrayList<>(selected.getSpendsList()), new ArrayList<>(selected.getPercentagesNamesList()),
+                    new ArrayList<>(selected.getPercentagesColorList()));
         }
 
         PieChart pieChart = binding.pieChartFragMainACMainViewSearch;
@@ -206,7 +227,7 @@ public class MainACMainViewSearchFragment extends Fragment implements OnChartVal
         getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true);
         int color = typedValue.data;
         List<PieEntry> entries = new ArrayList<>();
-        List<String> percentagesNamesList = account.getPercentagesNamesList();
+        List<String> percentagesNamesList = new ArrayList<>(account.getPercentagesNamesList());
 
         for (int i = 0; i < percentagesNamesList.size(); i++) {
             if(percentagesNamesList.get(i).equals("+")){
@@ -215,8 +236,45 @@ public class MainACMainViewSearchFragment extends Fragment implements OnChartVal
             }
         }
 
-        List<String> percentagesColorsList = account.getPercentagesColorList();
-        List<Float> percetagesValuesList = calculateSpendPercentages(account.getSpendsList(), percentagesNamesList);
+        List<String> percentagesColorsList = new ArrayList<>(account.getPercentagesColorList());
+
+        List<Float> percetagesValuesList = new ArrayList<>();
+        notTimeStampedFilteredSpendsList.addAll(account.getSpendsList());
+
+        if(!toShowSubAccount){
+            for (SubSpendingAccountsEntity subAccount : account.getSubAccountsList()) {
+                SubSpendingAccountsEntity selectedSubAccount = new SubSpendingAccountsEntity(subAccount);
+                for (SpendsEntity spendsEntity : selectedSubAccount.getSpendsList()) {
+                    SpendsEntity spendsCopy = new SpendsEntity(spendsEntity);
+                    spendsCopy.setIsPartOf(selectedSubAccount.getAccountTitle());
+                    spendsCopy.setCategory(selectedSubAccount.getAccountTitle());
+                    notTimeStampedFilteredSpendsList.add(spendsCopy);
+                }
+            }
+        }
+
+        if(selectedDate1 != null && selectedDate2 != null){
+            Date startDate = null;
+            Date endDate = null;
+            if(selectedDate1.before(selectedDate2)){
+                startDate = selectedDate1;
+                endDate = selectedDate2;
+            }else{
+                startDate = selectedDate2;
+                endDate = selectedDate1;
+            }
+
+            for (int i = 0; i < notTimeStampedFilteredSpendsList.size(); i++) {
+                if(!notTimeStampedFilteredSpendsList.get(i).getDate().before(startDate) && !notTimeStampedFilteredSpendsList.get(i).getDate().after(endDate)){
+                    filteredSpendsEntityList.add(notTimeStampedFilteredSpendsList.get(i));
+                }
+            }
+
+            percetagesValuesList = calculateSpendPercentages(filteredSpendsEntityList, percentagesNamesList);
+        }else{
+            percetagesValuesList = calculateSpendPercentages(notTimeStampedFilteredSpendsList, percentagesNamesList);
+        }
+
         int[] colors = new int[percentagesColorsList.size()];
         boolean everythingIs0 = true;
 
@@ -334,6 +392,34 @@ public class MainACMainViewSearchFragment extends Fragment implements OnChartVal
     private static String roundToTwoDecimalPlaces(double number) {
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
         return decimalFormat.format(number);
+    }
+    private void loadTextViewDate(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        if(selectedDate1 != null){
+            String formattedDate = dateFormat.format(selectedDate1);
+            binding.textViewFromDateFragMainACMainViewSearch.setText(getString(R.string.mainAc_FragMainViewSearch_Dates_Container_1_Text) + " " + formattedDate);
+        }
+        if(selectedDate2 != null){
+            String formattedDate = dateFormat.format(selectedDate2);
+            binding.textViewToDateFragMainACMainViewSearch.setText(getString(R.string.mainAc_FragMainViewSearch_Dates_Container_2_Text) + " " + formattedDate);
+        }
+    }
+    @Override
+    public void onExitAlertDialogDateHourPicker_CustomAlertDialogFrag(boolean save, Date date, String aux) {
+        if(save){
+            if(aux.equals("1")){
+                selectedDate1 = date;
+                loadTextViewDate();
+                auxString = "2";
+                textViewText = getString(R.string.mainAc_FragMainViewSearch_DatePicker_Title_2_Text);
+                binding.buttonDateToDateFragMainACMainViewSearch.performClick();
+            }else if(aux.equals("2")){
+                selectedDate2 = date;
+                loadTextViewDate();
+                auxString = "1";
+                textViewText = getString(R.string.mainAc_FragMainViewSearch_DatePicker_Title_1_Text);
+            }
+        }
     }
 
 

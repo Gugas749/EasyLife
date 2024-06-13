@@ -7,6 +7,7 @@ import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.room.Room;
 
 import android.animation.Animator;
@@ -916,8 +917,10 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
     private void changeFragmentFromMainFragmentContainer(int selected){
         changeMultiFunctionButtonFunction(selected);
         changeHowToButtonFunction(selected);
+
         switch (selected){
             case 0:
+                changeFragmentFromMainContainerAuxiliar();
                 mainACOverviewViewFragment.setSpendingsAccountItemClickFragMainACOverviewViewListenner(THIS);
                 getSupportFragmentManager()
                         .beginTransaction()
@@ -927,28 +930,23 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 break;
             case 1:
                 if(inMainViewSearch){
-                    MainACMainViewSearchFragment fragment = new MainACMainViewSearchFragment(THIS, spendingAccountsEntitiesList);
-                    fragment.setChangeToDefaultButtonClick(THIS);
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.frameLayout_fragmentContainer_MainAC, fragment)
-                            .addToBackStack(null)
-                            .commit();
-                }else{
-                    if(updateMainViewInNextLoad){
-                        mainACMainViewFragment = new MainACMainViewFragment(draggableCardViewObjectsList);
-                    }
-                    mainACMainViewFragment.setAccountsList(spendingAccountsEntitiesList);
-                    mainACMainViewFragment.setChangeToSearchButtonClick(THIS);
-                    mainACMainViewFragment.setConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainACListenner(THIS);
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.frameLayout_fragmentContainer_MainAC, mainACMainViewFragment)
-                            .addToBackStack(null)
-                            .commit();
+                    putMainViewSearchContainer2();
                 }
+
+                if(updateMainViewInNextLoad){
+                    mainACMainViewFragment = new MainACMainViewFragment(draggableCardViewObjectsList);
+                }
+                mainACMainViewFragment.setAccountsList(spendingAccountsEntitiesList);
+                mainACMainViewFragment.setChangeToSearchButtonClick(THIS);
+                mainACMainViewFragment.setConfirmButtonClickAlertDialogLongPressMainViewObjectsToMainACListenner(THIS);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_fragmentContainer_MainAC, mainACMainViewFragment)
+                        .addToBackStack(null)
+                        .commit();
                 break;
             case 2:
+                changeFragmentFromMainContainerAuxiliar();
                 allSpendsList = getAllSpends();
                 mainACSpendingsViewFragment.updateData(allSpendsList);
                 mainACSpendingsViewFragment.setItemClickListenner(THIS);
@@ -958,6 +956,19 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                         .addToBackStack(null)
                         .commit();
                 break;
+        }
+    }
+    private void changeFragmentFromMainContainerAuxiliar(){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        int frameLayoutId = binding.frameLayoutFragmentContainer2MainAC.getId();
+        Fragment fragmentContainer2 = fragmentManager.findFragmentById(frameLayoutId);
+
+        if(fragmentContainer2 != null){
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.remove(fragmentContainer2);
+            transaction.commit();
+
+            clearMainViewSearchContainer2();
         }
     }
     private void showShareBottomSheet() {
@@ -2542,6 +2553,60 @@ public class MainActivity extends AppCompatActivity implements MainACMainViewEdi
                 container2.setVisibility(View.GONE);
 
                 inMainViewSearch = true;
+                MainACMainViewSearchFragment fragment = new MainACMainViewSearchFragment(THIS, spendingAccountsEntitiesList);
+                fragment.setChangeToDefaultButtonClick(THIS);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout_fragmentContainer2_MainAC, fragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        translateXAnimator.start();
+        translateXAnimator2.start();
+    }
+    private void clearMainViewSearchContainer2(){
+        ViewGroup container1 = binding.frameLayoutFragmentContainer2MainAC;
+        container1.setVisibility(View.VISIBLE);
+
+        ViewGroup container2 = binding.frameLayoutFragmentContainerMainAC;
+        container2.setVisibility(View.VISIBLE);
+
+        ObjectAnimator translateXAnimator = ObjectAnimator.ofFloat(container1, "translationX", container1.getWidth());
+        translateXAnimator.setDuration(1);
+        ObjectAnimator translateXAnimator2 = ObjectAnimator.ofFloat(container2, "translationX", 0);
+        translateXAnimator.setDuration(1); // Set the duration of the animation in milliseconds
+
+        translateXAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                container1.setVisibility(View.GONE);
+            }
+        });
+
+        translateXAnimator.start();
+        translateXAnimator2.start();
+    }
+    private void putMainViewSearchContainer2() {
+        ViewGroup container1 = binding.frameLayoutFragmentContainer2MainAC;
+        container1.setVisibility(View.VISIBLE);
+
+        ViewGroup container2 = binding.frameLayoutFragmentContainerMainAC;
+        container2.setVisibility(View.VISIBLE);
+
+        ObjectAnimator translateXAnimator = ObjectAnimator.ofFloat(container1, "translationX", 0);
+        translateXAnimator.setDuration(1); // Set the duration of the animation in milliseconds
+        ObjectAnimator translateXAnimator2 = ObjectAnimator.ofFloat(container2, "translationX", -container2.getWidth());
+        translateXAnimator.setDuration(1); // Set the duration of the animation in milliseconds
+
+        translateXAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                container2.setVisibility(View.GONE);
+
                 MainACMainViewSearchFragment fragment = new MainACMainViewSearchFragment(THIS, spendingAccountsEntitiesList);
                 fragment.setChangeToDefaultButtonClick(THIS);
                 getSupportFragmentManager()

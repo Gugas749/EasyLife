@@ -22,8 +22,9 @@ import java.util.Calendar;
 public class AlertDialogDateHourPickerFragment extends Fragment {
     private FragmentAlertDialogDateHourPickerBinding binding;
     private ExitAlertDialogDateHourPicker listenner;
+    private String auxString = "", textViewText = "";
     public interface ExitAlertDialogDateHourPicker{
-        void onExitAlertDialogDateHourPicker(boolean save, Date date);
+        void onExitAlertDialogDateHourPicker(boolean save, Date date, String aux);
     }
     public void setExitAlertDialogDateHourPickerListenner(ExitAlertDialogDateHourPicker listenner){
         this.listenner = listenner;
@@ -38,9 +39,18 @@ public class AlertDialogDateHourPickerFragment extends Fragment {
 
     }
 
+    public void setMode2(String text, String aux){
+        this.textViewText = text;
+        this.auxString = aux;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentAlertDialogDateHourPickerBinding.inflate(inflater);
+
+        if(!textViewText.equals("")){
+            binding.textViewAuxAlertDialogDateHourPicker.setVisibility(View.VISIBLE);
+            binding.textViewAuxAlertDialogDateHourPicker.setText(textViewText);
+        }
 
         DatePicker datePicker = binding.datePickerAlertDialogDateHourPicker;
         Calendar currentDate = Calendar.getInstance();
@@ -65,7 +75,7 @@ public class AlertDialogDateHourPickerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Date selectedDate = getSelectedDate();
-                listenner.onExitAlertDialogDateHourPicker(true, selectedDate);
+                listenner.onExitAlertDialogDateHourPicker(true, selectedDate, auxString);
             }
         });
     }
@@ -74,7 +84,7 @@ public class AlertDialogDateHourPickerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Date date = null;
-                listenner.onExitAlertDialogDateHourPicker(false, date);
+                listenner.onExitAlertDialogDateHourPicker(false, date, auxString);
             }
         });
     }

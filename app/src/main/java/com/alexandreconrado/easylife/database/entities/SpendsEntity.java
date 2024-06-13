@@ -31,6 +31,16 @@ public class SpendsEntity {
 
     }
 
+    public SpendsEntity(SpendsEntity spend) {
+        this.amount = spend.getAmount();
+        this.date = spend.getDate();
+        this.mainAccountID = spend.getMainAccountID();
+        this.subAccountID = spend.getSubAccountID();
+        this.category = spend.getCategory();
+        this.isPartOfSubAccount = spend.isPartOfSubAccount();
+        this.isPartOf = spend.getIsPartOf();
+    }
+
     public void setInfos(double amount, Date date, String mainAccountID, String subAccountID, String category, boolean isPartOfSubAccount, String isPartOf){
         this.amount = amount;
         this.date = date;

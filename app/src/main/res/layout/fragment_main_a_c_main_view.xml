@@ -33,7 +33,7 @@
                 android:layout_gravity="end"
                 android:padding="@dimen/_4sdp"
                 android:src="@drawable/arrow_icon"
-                app:tint="?attr/textAppearanceBodySmall"/>
+                app:tint="?attr/textAppearanceBodyMedium"/>
         </FrameLayout>
 
         <!-- FrameLayout 1 (20%) -->

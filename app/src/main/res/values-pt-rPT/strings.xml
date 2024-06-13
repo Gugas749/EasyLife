@@ -38,18 +38,18 @@
     <string name="general_ok">Ok</string>
     <string name="general_yes">Sim</string>
     <string name="general_no">Não</string>
-    <string name="general_AlertDialog_Question_ExitWithoutSaving_Title">Sair Sem Guardar</string>
+    <string name="general_AlertDialog_Question_ExitWithoutSaving_Title">Sair sem Guardar</string>
     <string name="general_AlertDialog_Question_ExitWithoutSaving_Text">Deseja sair sem guardar?</string>
     <string name="general_AlertDialog_Question_Saving_Text">Deseja guardar?</string>
-    <string name="general_AlertDialog_Question_SaveBeforeLeaving_Title">Guardar Antes de Sair</string>
+    <string name="general_AlertDialog_Question_SaveBeforeLeaving_Title">Guardar antes de Sair</string>
     <string name="general_AlertDialog_Question_SaveBeforeLeaving_Text">Deseja guardar antes de sair?</string>
 
     <!-- HowTo Scan -->
     <!-- HowTo Scan - Home -->
     <string name="splashAc_HowTo_Scan_Home_Title">Digitalização de um Recibo</string>
     <string name="splashAc_HowTo_Scan_Home_Text">Ao digitalizar/fotografar um recibo, por favor, fotografe apenas a parte do "Valor Total".</string>
-    <string name="splashAc_HowTo_Scan_Final_Title">Revendo a Foto</string>
-    <string name="splashAc_HowTo_Scan_Final_Text">Sua foto deve parecer algo assim, não precisa ser exatamente assim, mas precisa mostrar o Total.</string>
+    <string name="splashAc_HowTo_Scan_Final_Title">A analisar a a Foto</string>
+    <string name="splashAc_HowTo_Scan_Final_Text">A sua foto deve parecer algo assim, não precisa ser exatamente assim, mas precisa mostrar o Total.</string>
     <string name="splashAc_HowTo_Scan_Final_TextViewExample_Text">------------------------------\nTotal:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Eur 15,80\n------------------------------</string>
 
     <!-- RegisterFrag -->
@@ -64,11 +64,11 @@
     <string name="register_dialog_AlertDialog_BackupLoad_NoItemsToDisplay_Text">Hmm… Parece que não tem nenhuma cópia de segurança para mostrar.</string>
     <string name="register_dialog_textView_ResendEmail_Text">Renviar Email</string>
     <!-- RegisterFrag - Password Dialog -->
-    <string name="register_dialog_password_prompt_password_1">PIN Code</string>
-    <string name="register_dialog_password_prompt_password_2">Confirm the PIN Code</string>
-    <string name="register_dialog_password_action_register">Set Up a PIN Code</string>
-    <string name="register_dialog_password_invalid_password_no_equal">Your PIN Codes don\'t match</string>
-    <string name="register_dialog_password_invalid_password_to_short">PIN Code must have 4 characters</string>
+    <string name="register_dialog_password_prompt_password_1">Codigo PIN</string>
+    <string name="register_dialog_password_prompt_password_2">Confirm o codigo PIN</string>
+    <string name="register_dialog_password_action_register">Configure um codigo PIN</string>
+    <string name="register_dialog_password_invalid_password_no_equal">Os seus codigos PIN não correspodem</string>
+    <string name="register_dialog_password_invalid_password_to_short">O codigo PIN deve ter 4 caracters</string>
     <!-- RegisterFrag - Biometrics Dialog -->
     <string name="register_dialog_biometric_action_register">Do you want to activate biometric login?</string>
     <string name="register_dialog_faceId_action_register">Do you want to activate Face ID login?</string>
@@ -121,8 +121,8 @@
     <string name="mainAc_FragMainView_Example_Percentage8_Text">Percentagem 8</string>
     <!-- Main AC - Main View How To-->
     <!-- Main AC - Main View How To -  Home -->
-    <string name="mainAc_FragMainView_HowTo_BindingAccounts_Title">Vinculando Contas</string>
-    <string name="mainAc_FragMainView_HowTo_BindingAccounts_Home_Text">Para vincular uma conta ao seu gráfico de pizza, basta fazer uma pressão longa nela. E aparecerá uma janela pop-up!!</string>
+    <string name="mainAc_FragMainView_HowTo_BindingAccounts_Title">A vinvular Contas</string>
+    <string name="mainAc_FragMainView_HowTo_BindingAccounts_Home_Text">Para vincular uma conta ao seu gráfico de pizza, basta fazer uma pressionar a mesma por um período de tempo. E aparecerá uma janela pop-up!!</string>
     <!-- Main AC - Main View - How To -  Home -->
     <string name="mainAc_FragMainView_HowTo_BindingAccounts_PopUpForm_Text">Agora você só precisa selecionar a conta desejada para vincular!!</string>
     <!-- Main AC - Main View - EditLayout -->
@@ -139,24 +139,25 @@
     <string name="mainAc_FragMainViewEditLayoutHowTo_Add_Text_1">Ao adicionar Widgets, você tem 3 tamanhos de Widgets</string>
     <string name="mainAc_FragMainViewEditLayoutHowTo_Add_Text_2">O Pequeno</string>
     <string name="mainAc_FragMainViewEditLayoutHowTo_Add_Text_3">O Médio</string>
-    <string name="mainAc_FragMainViewEditLayoutHowTo_Add_Text_4">E O GRANDE</string>
-    <string name="mainAc_FragMainViewEditLayoutHowTo_Add_Text_5">Para adicionar seus Widgets, basta clicar em um dos botões!</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Add_Text_4">E O Grande</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Add_Text_5">Para adicionar os seus Widgets, basta clicar em um dos botões!</string>
     <!-- Main AC - Main View - EditLayout - How To - Drag N Drop -->
     <string name="mainAc_FragMainViewEditLayoutHowTo_DnD_Title">Movendo os Widgets</string>
     <string name="mainAc_FragMainViewEditLayoutHowTo_DnD_Text_1">Depois de adicionar seus Widgets, você pode movê-los como quiser!!</string>
     <string name="mainAc_FragMainViewEditLayoutHowTo_DnD_Text_2">Mova para um lugar e ele ficará lá!!</string>
     <!-- Main AC - Main View - EditLayout - How To - Delete -->
-    <string name="mainAc_FragMainViewEditLayoutHowTo_Delete_Title">Removendo Widgets</string>
-    <string name="mainAc_FragMainViewEditLayoutHowTo_Delete_Text_1">Para remover um de seus Widgets, basta dar um clique duplo nele!! Depois, uma janela pop-up aparecerá para confirmar se você deseja remover o Widget</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Delete_Title">A remover Widgets</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Delete_Text_1">Para remover um de seus Widgets, basta dar um duplo clique no mesmo!! Depois, uma janela pop-up aparecerá para confirmar se você deseja remover o Widget</string>
     <string name="mainAc_FragMainViewEditLayoutHowTo_Delete_PopUp_Title">Remover</string>
     <string name="mainAc_FragMainViewEditLayoutHowTo_Delete_PopUp_Description">Remover Widget?</string>
     <!-- Main AC - Main View - EditLayout - How To - Save -->
-    <string name="mainAc_FragMainViewEditLayoutHowTo_Save_Title">Salvando os Widgets</string>
-    <string name="mainAc_FragMainViewEditLayoutHowTo_Save_Text_1">Para salvar seus Widgets, basta clicar no botão de marca de seleção e confirmar que deseja salvar na janela pop-up</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Save_Title">A guardar os Widgets</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Save_Text_1">Para guardar seus Widgets, basta clicar no botão de marca de seleção e confirmar que deseja guardar na janela pop-up</string>
     <string name="mainAc_FragMainViewEditLayoutHowTo_Save_Text_2">Parabéns!! Agora você sabe como personalizar seus Widgets!!</string>
-    <string name="mainAc_FragMainViewEditLayoutHowTo_Save_PopUp_Title">Salvar</string>
-    <string name="mainAc_FragMainViewEditLayoutHowTo_Save_PopUp_Description">Salvar Widgets?</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Save_PopUp_Title">Guardar</string>
+    <string name="mainAc_FragMainViewEditLayoutHowTo_Save_PopUp_Description">Guardar Widgets?</string>
     <!-- Main AC - Overview View -->
+    <string name="mainAc_FragOverviewView_Page_Title_Text">Contas</string>
     <string name="mainAc_FragOverviewView_NoItemsToDisplay_Text">Hmm… Parece que você não tem nenhuma conta de despesas. Você pode criá-las pressionando o botão de adição acima!</string>
     <string name="mainAc_FragOverviewView_Example_Percentage1_Text">Percentagem 1</string>
     <string name="mainAc_FragOverviewView_Example_Percentage2_Text">Percentagem 2</string>
@@ -168,14 +169,14 @@
     <string name="mainAc_FragOverviewView_HowTo_Add_Text">Para adicionar uma conta, basta clicar no botão de adição no topo!</string>
     <!-- Main AC - Overview - How To -  Home -->
     <string name="mainAc_FragOverviewView_HowTo_Details_Title">Vendo os Detalhes</string>
-    <string name="mainAc_FragOverviewView_HowTo_Details_Text">Agora, para ver os detalhes de sua conta, basta clicar nela!</string>
+    <string name="mainAc_FragOverviewView_HowTo_Details_Text">Agora, para ver os detalhes de sua conta, basta clicar na mesma!</string>
     <!-- Main AC - Overview View - Add Spending Account -->
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_1_Text">Nomeie Sua Conta</string>
-    <string name="mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_2_Text">Dê Nomes às Suas Percentagens e Atribua Cores a Elas Clicando nelas</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_textView_editTextHelper_2_Text">Dê nomes às suas percentagens e atribua-lhes cores a clicando nelas</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_editTextAccountName_Hint">Nome da Conta</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_editTextPercentagesNames_Hint">Nome da Percentagem</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_MissingInputs_Text">Parece que há alguns campos vazios</string>
-    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_MaxValue_Text">Desculpe, mas o valor despesa não pode exceder 9.999.999.999</string>
+    <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_MaxValue_Text">Desculpe, mas o valor da despesa não pode exceder 9.999.999.999</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_SaveBeforeLeaving_Text">Você deseja salvar esta conta antes de sair?</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_AlertDialog_Question_Save_Text">Você deseja salvar esta conta?</string>
     <string name="mainAc_FragOverviewViewAddSpendingsAccount_Toast_RepeatedName_Text">Parece que já existe uma Percentagem com esse nome</string>
@@ -200,12 +201,13 @@
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_textView_ChangeParentColor_Text">Clique para mudar a cor!!</string>
     <string name="mainAc_FragOverviewViewSpendingAccountDetailsAddSubAccountSpendingForm_AlertDialog_Question_Saving_Text">Você deseja salvar esta Subconta?</string>
     <!-- Main AC - Spendings View -->
+    <string name="mainAc_FragSpendingsView_Page_Title_Text">Gastos</string>
     <string name="mainAc_FragSpendingsView_NoItemsToDisplay_Text">Hmm… Parece que você não tem nenhuma despesa para exibir. Você pode criá-las pressionando o botão de adição acima!</string>
     <!-- Main AC - Overview - How To -  Add -->
-    <string name="mainAc_FragSpendingsView_HowTo_Add_Title">Adicionando Despesas</string>
+    <string name="mainAc_FragSpendingsView_HowTo_Add_Title">Adicionar Despesas</string>
     <string name="mainAc_FragSpendingsView_HowTo_Add_Text">Para adicionar uma despesa, basta clicar no botão de adição no topo!</string>
     <!-- Main AC - Overview - How To -  Details -->
-    <string name="mainAc_FragSpendingsView_HowTo_Details_Title">Vendo os Detalhes</string>
+    <string name="mainAc_FragSpendingsView_HowTo_Details_Title">A visualizar os Detalhes</string>
     <string name="mainAc_FragSpendingsView_HowTo_Details_Text">Agora, para ver os detalhes de sua despesa, basta clicar nela!</string>
     <!-- Main AC - Spendings View - Add Spendings -->
     <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign1_Text">Data da Despesa</string>
@@ -215,7 +217,7 @@
     <string name="mainAc_FragSpendingsViewAddSpendings_TextViewDesign5_Text">Qual Categoria</string>
     <string name="mainAc_FragSpendingsViewAddSpendings_spinnerHint_1_Text">Selecione uma Categoria</string>
     <string name="mainAc_FragSpendingsViewAddSpendings_AlertDialog_Question_Save_Text">Você deseja salvar esta Despesa?</string>
-    <string name="mainAc_FragSpendingsViewAddSpendings_FastRegister_Warning_Text">ATENÇÃO!! Porfavor confirme se o valor da despesa está correto o método de scan não é 100% correto!</string>
+    <string name="mainAc_FragSpendingsViewAddSpendings_FastRegister_Warning_Text">ATENÇÃO!! Porfavor confirme se o valor da despesa está correto, o método de scan não é 100% seguro!</string>
     <!-- Main AC - Spendings View - Details Spends -->
     <string name="mainAc_FragSpendingsViewAddSpendings_AlertDialog_Question_Delete_Title">Você deseja apagar esta Despesa?</string>
     <string name="mainAc_FragSpendingsViewAddSpendings_Button_Delete_Text">Apagar Despesa</string>
@@ -309,6 +311,10 @@
     <string name="mainAc_FragMainViewSearch_InformationCard_TotalSpend_Text">Total gasto:</string>
     <string name="mainAc_FragMainViewSearch_Toast_AccountNotSelected_Text">Porfavor selecione a conta primeiro</string>
     <string name="mainAc_FragMainViewSearch_Toast_SubAccountNotSelectedError_Text">Algo está errado!</string>
+    <string name="mainAc_FragMainViewSearch_Dates_Container_1_Text">De: </string>
+    <string name="mainAc_FragMainViewSearch_Dates_Container_2_Text">Até: </string>
+    <string name="mainAc_FragMainViewSearch_DatePicker_Title_1_Text">Selecione a primeira data</string>
+    <string name="mainAc_FragMainViewSearch_DatePicker_Title_2_Text">Selecione a segunda data</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Olá fragmento vazio</string>
