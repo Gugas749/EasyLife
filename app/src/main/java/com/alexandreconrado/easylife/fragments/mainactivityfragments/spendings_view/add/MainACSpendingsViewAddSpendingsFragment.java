@@ -573,6 +573,9 @@ public class MainACSpendingsViewAddSpendingsFragment extends Fragment implements
     public void onConfirmButtonClicked(String Tag) {
         switch (Tag){
             case "FragMainACSpendingsViewAddSpendings_Exit":
+                binding.spinnerSpendigsAccountsFragMainACSpendingsViewAddSpendings.dismiss();
+                binding.spinnerSpendigsSubAccountsFragMainACSpendingsViewAddSpendings.dismiss();
+                binding.spinnerSpendigsSubAccountsSpendsFragMainACSpendingsViewAddSpendings.dismiss();
                 SpendingAccountsEntity object = null;
                 listenner.onExitMainACSpendingsViewAddSpendingsFrag(false, object);
                 break;

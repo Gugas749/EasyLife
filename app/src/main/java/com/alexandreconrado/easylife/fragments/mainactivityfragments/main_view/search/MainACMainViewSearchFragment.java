@@ -123,6 +123,8 @@ public class MainACMainViewSearchFragment extends Fragment implements OnChartVal
         binding.imageViewChangeToDefaultFragMainACMainViewSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                binding.spinnerSpendigsAccountsFragMainACMainViewSearch.dismiss();
+                binding.spinnerSpendigsSubAccountsFragMainACMainViewSearch.dismiss();
                 changeToDefaultButtonClick.ChangeToDefaultButtonClick();
             }
         });

@@ -201,6 +201,9 @@ public class MainACSpendingsViewSpendsDetailsFragment extends Fragment implement
                     }else{
                         disableAll = true;
                         disableEnableAll(false);
+                        binding.spinnerSpendigsAccountsFragMainACSpendingsViewSpendsDetails.dismiss();
+                        binding.spinnerSpendigsSubAccountsFragMainACSpendingsViewSpendsDetails.dismiss();
+                        binding.spinnerSpendigsSubAccountsSpendsFragMainACSpendingsViewSpendsDetails.dismiss();
                         exitListenner.onExitFragMainACSpendingsViewSpendsDetails(false, selectedAccount);
                     }
                 }
@@ -571,6 +574,9 @@ public class MainACSpendingsViewSpendsDetailsFragment extends Fragment implement
         protected void onPostExecute(SpendingAccountsEntity object) {
             disableAll = true;
             disableEnableAll(false);
+            binding.spinnerSpendigsAccountsFragMainACSpendingsViewSpendsDetails.dismiss();
+            binding.spinnerSpendigsSubAccountsFragMainACSpendingsViewSpendsDetails.dismiss();
+            binding.spinnerSpendigsSubAccountsSpendsFragMainACSpendingsViewSpendsDetails.dismiss();
             exitListenner.onExitFragMainACSpendingsViewSpendsDetails(true, selectedAccount);
         }
     }

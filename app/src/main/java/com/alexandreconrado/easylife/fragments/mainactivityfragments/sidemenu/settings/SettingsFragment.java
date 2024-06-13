@@ -238,6 +238,9 @@ public class SettingsFragment extends Fragment implements
                     customAlertDialogFragment.setTag("FragSettings_Exit");
                     customAlertDialogFragment.show(getParentFragmentManager(), "CustomAlertDialogFragment");
                 }else{
+                    binding.spinnerAutoBackupsFragSettings.dismiss();
+                    binding.spinnerLanguageFragSettings.dismiss();
+                    binding.spinnerThemeFragSettings.dismiss();
                     exitListenner.onExitSettingsFrag(false);
                 }
             }
@@ -335,6 +338,9 @@ public class SettingsFragment extends Fragment implements
                 if(needRestart){
                     new LocalDatabaseUpdateInfosTask().execute();
                 }else{
+                    binding.spinnerAutoBackupsFragSettings.dismiss();
+                    binding.spinnerLanguageFragSettings.dismiss();
+                    binding.spinnerThemeFragSettings.dismiss();
                     exitListenner.onExitSettingsFrag(true);
                 }
                 break;
@@ -344,6 +350,9 @@ public class SettingsFragment extends Fragment implements
     public void onCancelButtonClicked(String Tag) {
         switch (Tag){
             case "FragSettings_Exit":
+                binding.spinnerAutoBackupsFragSettings.dismiss();
+                binding.spinnerLanguageFragSettings.dismiss();
+                binding.spinnerThemeFragSettings.dismiss();
                 exitListenner.onExitSettingsFrag(false);
                 break;
         }
