@@ -171,6 +171,7 @@ public class MainACMainViewSearchFragment extends Fragment implements OnChartVal
             public void onItemSelected(int i, @Nullable Object o, int i1, Object t1) {
                 toShowSubAccount = false;
                 selectedAccountID = Integer.toString(i1);
+                binding.spinnerSpendigsSubAccountsFragMainACMainViewSearch.clearSelectedItem();
                 loadSpinnerSubAccounts(i1);
             }
         });
@@ -211,7 +212,15 @@ public class MainACMainViewSearchFragment extends Fragment implements OnChartVal
         PowerSpinnerView powerSpinner = binding.spinnerSpendigsSubAccountsFragMainACMainViewSearch;
         powerSpinner.setItems(items);
     }
+    private void loadDefaultInfoCard(){
+        binding.textViewNameFragMainACMainViewSearch.setText(getString(R.string.mainAc_FragMainViewSearch_InformationCard_Name_Text));
+        binding.textViewPercentageFragMainACMainViewSearch.setText("00%");
+        binding.textViewTotalSpentFragMainACMainViewSearch.setText("000,00€");
+    }
     private void loadChart(){
+        binding.pieChartFragMainACMainViewSearch.highlightValues(null);
+        loadDefaultInfoCard();
+
         notTimeStampedFilteredSpendsList = new ArrayList<>();
         SpendingAccountsEntity account = new SpendingAccountsEntity(spendingAccountsEntityList.get(Integer.parseInt(selectedAccountID)));
 

@@ -44,7 +44,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.annotation:annotation:1.8.0")
     implementation("androidx.biometric:biometric:1.1.0")
-    implementation("androidx.compose.animation:animation-graphics-android:1.6.7")
+    implementation("androidx.compose.animation:animation-graphics-android:1.6.8")
     implementation("com.android.support:support-annotations:28.0.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
