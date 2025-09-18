@@ -273,7 +273,7 @@
 
     <!-- Share Menu -->
     <string name="bottomSheetView_shareMenu_title">Where do you want to share?</string>
-    <string name="bottomSheetView_shareMenu_sharingText">Check out this app!!!!</string>
+    <string name="bottomSheetView_shareMenu_sharingText">Check out this app!!!! https://www.amazon.com/gp/product/B0CVXSJSCY</string>
 
     <!-- Credits Fragment -->
     <string name="creditsFrag_TextView_Text_1">Developer: Alexandre Conrado</string>

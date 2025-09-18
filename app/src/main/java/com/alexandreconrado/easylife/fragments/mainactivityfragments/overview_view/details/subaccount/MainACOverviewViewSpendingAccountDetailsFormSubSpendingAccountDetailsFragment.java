@@ -31,6 +31,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -237,7 +238,7 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
             }
         }
     }
-    private void setupClickListennerTextViewsAux(){
+     private void setupClickListennerTextViewsAux(){
         View root = binding.getRoot();
         for (int i = 1; i <= 4; i++) {
             int textViewId = getResources().getIdentifier("textView_subAccount_" + i + "_Title_FragMainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetails", "id", requireActivity().getPackageName());
@@ -335,7 +336,7 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
 
         if(everythingIs0){
             float size = percetagesValuesList.size();
-            float percentagesAmount = 1.0f / size;
+            float percentagesAmount = 100.0f / size;
             for (int i = 0; i < size; i++) {
                 percetagesValuesList.add(i, percentagesAmount);
             }
@@ -422,7 +423,7 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
     }
     private static float calculatePercentage(float part, float whole) {
         if (whole != 0) {
-            return (part / whole) * 100.0f;
+            return (part / whole) *100.0f;
         } else {
             return 0.0f;
         }
@@ -447,6 +448,10 @@ public class MainACOverviewViewSpendingAccountDetailsFormSubSpendingAccountDetai
             }
 
             float percentageAmount = calculatePercentage(amount, totalAmount);
+            DecimalFormat decimalFormat = new DecimalFormat("0.00");
+            String percentageFormated = decimalFormat.format(percentageAmount);
+            percentageFormated = percentageFormated.replace(",", ".");
+            percentageAmount = Float.parseFloat(percentageFormated);
             percentagesList.add(percentageAmount);
         }
 

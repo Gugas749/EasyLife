@@ -45,8 +45,10 @@ public class SpendingAccountsEntity {
         this.percentagesNamesList = new ArrayList<>(spendingAccountsEntity.getPercentagesNamesList());
         this.percentagesColorList = new ArrayList<>(spendingAccountsEntity.getPercentagesColorList());
         this.subAccountsList = new ArrayList<>();
-        for (SubSpendingAccountsEntity subAccount : spendingAccountsEntity.getSubAccountsList()) {
-            this.subAccountsList.add(new SubSpendingAccountsEntity(subAccount));
+        if(spendingAccountsEntity.getSubAccountsList() != null){
+            for (SubSpendingAccountsEntity subAccount : spendingAccountsEntity.getSubAccountsList()) {
+                this.subAccountsList.add(new SubSpendingAccountsEntity(subAccount));
+            }
         }
     }
 

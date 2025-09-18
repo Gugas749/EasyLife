@@ -200,19 +200,23 @@ public class MainACMainViewSearchFragment extends Fragment implements OnChartVal
     }
     private void loadSpinnerSubAccounts(int SelectedAccount){
         subAcountsList = spendingAccountsEntityList.get(SelectedAccount).getSubAccountsList();
-        List<String> namesPercentages = new ArrayList<>();
-        for (int i = 0; i < subAcountsList.size(); i++) {
-            namesPercentages.add(subAcountsList.get(i).getAccountTitle());
-        }
-        List<String> items = new ArrayList<>(namesPercentages);
-        for (int i = 0; i < items.size(); i++) {
-            if(items.get(i).equals("+")){
-                items.remove(i);
-                i--;
+        if(subAcountsList != null){
+            if(!subAcountsList.isEmpty()){
+                List<String> namesPercentages = new ArrayList<>();
+                for (int i = 0; i < subAcountsList.size(); i++) {
+                    namesPercentages.add(subAcountsList.get(i).getAccountTitle());
+                }
+                List<String> items = new ArrayList<>(namesPercentages);
+                for (int i = 0; i < items.size(); i++) {
+                    if(items.get(i).equals("+")){
+                        items.remove(i);
+                        i--;
+                    }
+                }
+                PowerSpinnerView powerSpinner = binding.spinnerSpendigsSubAccountsFragMainACMainViewSearch;
+                powerSpinner.setItems(items);
             }
         }
-        PowerSpinnerView powerSpinner = binding.spinnerSpendigsSubAccountsFragMainACMainViewSearch;
-        powerSpinner.setItems(items);
     }
     private void loadDefaultInfoCard(){
         binding.textViewNameFragMainACMainViewSearch.setText(getString(R.string.mainAc_FragMainViewSearch_InformationCard_Name_Text));

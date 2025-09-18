@@ -641,6 +641,7 @@ public class MainACOverviewViewSpendingAccountDetailsFormFragment extends Fragme
 
         return percentagesList;
     }
+
     private void enableDisableEverything(boolean enable){
         if(enable){
             isDisable = false;
